@@ -15,6 +15,7 @@
 		AF513BE228CA159800580240 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF513BE028CA159800580240 /* LaunchScreen.storyboard */; };
 		AF513BEE28CA161D00580240 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF513BED28CA161D00580240 /* Post.swift */; };
 		AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4028D1E6C800817FE1 /* UserInfoController.swift */; };
+		AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4228D1E70900817FE1 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		AF513BE328CA159800580240 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF513BED28CA161D00580240 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		AF827B4028D1E6C800817FE1 /* UserInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoController.swift; sourceTree = "<group>"; };
+		AF827B4228D1E70900817FE1 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				AF513BD928CA159600580240 /* HomeController.swift */,
+				AF827B4228D1E70900817FE1 /* TabBarController.swift */,
 				AF827B4028D1E6C800817FE1 /* UserInfoController.swift */,
 			);
 			path = Controller;
@@ -179,6 +182,7 @@
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,
 				AF513BDA28CA159600580240 /* HomeController.swift in Sources */,
 				AF513BD628CA159600580240 /* AppDelegate.swift in Sources */,
+				AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */,
 				AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */,
 				AF513BEE28CA161D00580240 /* Post.swift in Sources */,
 			);

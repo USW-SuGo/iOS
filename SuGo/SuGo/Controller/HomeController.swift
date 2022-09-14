@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class HomeController: UIViewController {
 
     //MARK: IBOutlet
     
@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         addNavigationBar()
+        
     }
     
     //MARK: Button Action
@@ -40,19 +41,7 @@ class ViewController: UIViewController {
         naviBar.items = [naviItem]
 
         view.addSubview(naviBar)
-        // NavigationBar
-//        let customNavigationBar = UINavigationBar(frame: .init(x: 0,
-//                                                         y: statusBarHeight,
-//                                                         width: view.frame.width,
-//                                                         height: statusBarHeight))
-//        customNavigationBar.isTranslucent = false
-//        customNavigationBar.backgroundColor = .systemBackground
-//
-//        let customNavigationItem = UINavigationItem(title: "title")
-//        customNavigationItem.rightBarButtonItem = UIBarButtonItem(
-//            barButtonSystemItem: .add,
-//            target: self,
-//            action: nil)
+ 
         
         
         

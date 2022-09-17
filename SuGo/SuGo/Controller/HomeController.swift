@@ -101,6 +101,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        <#code#>
+    }
+    
 }
 
 extension HomeController: UICollectionViewDelegateFlowLayout{
@@ -121,6 +125,7 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
         return size
         
     }
+    
     
 }
 class HomeCollectionViewCell: UICollectionViewCell {

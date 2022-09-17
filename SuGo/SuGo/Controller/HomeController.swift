@@ -27,6 +27,7 @@ class HomeController: UIViewController {
     
     }
     
+    // 이 후 페이지 생성 시 함수 생성 진행 예정
     @objc func testButtonAction() {
         print("button clicked")
     }
@@ -36,22 +37,22 @@ class HomeController: UIViewController {
     //MARK: Design
     
     private func customRightBarButtons() {
-        let writeButton = self.navigationItem.makeSFSymbolButton(self,
+        let messageButton = self.navigationItem.makeSFSymbolButton(self,
                                                action: #selector(testButtonAction),
-                                               symbolName: "pencil")
+                                               symbolName: "message")
         
         let postButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(testButtonAction),
-                                                                symbolName: "pencil")
+                                                                symbolName: "plus")
         
         let findButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(testButtonAction),
-                                                                symbolName: "pencil")
+                                                                symbolName: "magnifyingglass")
         
 //        let test = self.navi
         
         
-        self.navigationItem.rightBarButtonItems = [writeButton, postButton, findButton]
+        self.navigationItem.rightBarButtonItems = [messageButton, postButton, findButton]
     }
     
     private func customNaviagtionBar() {
@@ -76,7 +77,6 @@ class HomeController: UIViewController {
                                                       target: self,
                                                       action: nil)
         naviBar.items = [naviItem]
-//        customRightBarButtons()
         
         view.addSubview(naviBar)
          

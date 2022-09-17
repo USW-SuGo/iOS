@@ -18,6 +18,7 @@
 		AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4028D1E6C800817FE1 /* UserInfoController.swift */; };
 		AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4228D1E70900817FE1 /* TabBarController.swift */; };
 		AF827B4528D1ED9500817FE1 /* TabBarView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */; };
+		AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		AF827B4028D1E6C800817FE1 /* UserInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoController.swift; sourceTree = "<group>"; };
 		AF827B4228D1E70900817FE1 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarView.storyboard; sourceTree = "<group>"; };
+		AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 		AF513BD428CA159600580240 /* SuGo */ = {
 			isa = PBXGroup;
 			children = (
+				AFD7BF1B28D5BF3D00F42908 /* Extension */,
 				AF513BEB28CA15BB00580240 /* Model */,
 				AF513BE928CA15AE00580240 /* View */,
 				AF513BEA28CA15B500580240 /* Controller */,
@@ -112,6 +115,14 @@
 				AF513BE328CA159800580240 /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		AFD7BF1B28D5BF3D00F42908 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */,
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,
 				AF513BDA28CA159600580240 /* HomeController.swift in Sources */,
 				AF513BD628CA159600580240 /* AppDelegate.swift in Sources */,

@@ -12,6 +12,8 @@ class HomeController: UIViewController {
     //MARK: IBOutlet
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    @IBOutlet weak var navigationItemTitle: UINavigationItem!
     
     //MARK: Properties
     
@@ -22,6 +24,7 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        customNaviagtionBar()
         // addNavigationBar()
         
     }
@@ -29,6 +32,10 @@ class HomeController: UIViewController {
     //MARK: Button Action
     
     //MARK: Design
+    
+    private func customNaviagtionBar() {
+        self.navigationItemTitle.title = "SuGO"
+    }
     
     private func addNavigationBar() {
         
@@ -89,7 +96,6 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
         
         let width = collectionView.frame.width / 2 - 2
         
-        print(width)
         let size = CGSize(width: width, height: width + 100)
         return size
         

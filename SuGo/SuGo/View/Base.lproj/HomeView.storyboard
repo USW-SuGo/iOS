@@ -22,7 +22,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <items>
-                                    <navigationItem title="Title" id="kLx-Bp-xgW"/>
+                                    <navigationItem title="Title" id="3cx-G7-XGv"/>
                                 </items>
                             </navigationBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9w5-hy-RxZ">
@@ -80,7 +80,7 @@
                             </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="86" id="9cf-40-nmf"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Urk-3X-F2B"/>
@@ -93,6 +93,8 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="9w5-hy-RxZ" id="Bkk-It-7GX"/>
+                        <outlet property="navigationBar" destination="9Na-px-zGK" id="KeM-uE-7mc"/>
+                        <outlet property="navigationItemTitle" destination="3cx-G7-XGv" id="1nm-mo-3IP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

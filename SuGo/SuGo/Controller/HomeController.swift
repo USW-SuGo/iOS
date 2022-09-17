@@ -102,7 +102,10 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        <#code#>
+        let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
+        let nextViewController =
+        postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
+        self.navigationController?.pushViewController(nextViewController, animated: true)
     }
     
 }

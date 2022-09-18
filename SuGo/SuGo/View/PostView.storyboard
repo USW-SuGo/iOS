@@ -16,15 +16,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ksg-Pb-097">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ksg-Pb-097" customClass="ImageSlideshow" customModule="ImageSlideshow">
                                 <rect key="frame" x="0.0" y="44" width="414" height="389"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="389" id="jzD-Cm-MJf"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Ksg-Pb-097" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="WAQ-xw-RIR"/>
+                            <constraint firstItem="Ksg-Pb-097" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="c4j-zi-oqE"/>
+                            <constraint firstItem="Ksg-Pb-097" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="jvR-9p-gkj"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="slideshow" destination="Ksg-Pb-097" id="gpX-bn-eaq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

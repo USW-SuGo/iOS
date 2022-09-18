@@ -17,7 +17,7 @@ class HomeController: UIViewController {
     
     var testList = ["미래", "종강", "IT", "글경", "체대", "인문"]
     
-    //MARK: Function
+    //MARK: Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,9 +32,9 @@ class HomeController: UIViewController {
         print("button clicked")
     }
     
-    //MARK: Button Action
+    //MARK: Button Actions
     
-    //MARK: Design
+    //MARK: Design Functions
     
     private func customRightBarButtons() {
         let messageButton = self.navigationItem.makeSFSymbolButton(self,

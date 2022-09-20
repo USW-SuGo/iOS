@@ -32,6 +32,13 @@ class HomeController: UIViewController {
         print("button clicked")
     }
     
+    // 네비게이션 바 함수 1. 메세지 2. 게시물 3. 검색
+
+    @objc func postingButtonclicked() {
+        
+    }
+    
+    
     //MARK: Button Actions
     
     //MARK: Design Functions

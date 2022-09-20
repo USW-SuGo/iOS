@@ -46,7 +46,10 @@ class PostController: UIViewController {
     
     private func setSlideShow() {
         
+        // 자동 슬라이드
         // slideshow.slideshowInterval = 5.0
+        
+        // 이미지 포지션
         slideshow.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
         slideshow.contentScaleMode = UIViewContentMode.scaleAspectFill
 
@@ -59,9 +62,10 @@ class PostController: UIViewController {
         slideshow.activityIndicator = DefaultActivityIndicator()
         slideshow.delegate = self
 
-        // can be used with other sample sources as `afNetworkingSource`, `alamofireSource` or `sdWebImageSource` or `kingfisherSource`
+        // image input
         slideshow.setImageInputs(alamofireSource)
 
+        // page 넘기기 이벤트
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
         slideshow.addGestureRecognizer(recognizer)
         

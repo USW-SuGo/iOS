@@ -9,7 +9,7 @@ import UIKit
 
 class HomeController: UIViewController {
 
-    //MARK: IBOutlet
+    //MARK: IBOutlets
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -33,8 +33,21 @@ class HomeController: UIViewController {
     }
     
     // 네비게이션 바 함수 1. 메세지 2. 게시물 3. 검색
+    
+    @objc func messageButtonClicked() {
+        
+        
+    }
 
     @objc func postingButtonclicked() {
+        let postingViewStoryboard = UIStoryboard(name: "PostingView", bundle: nil)
+        let nextViewController =
+        postingViewStoryboard.instantiateViewController(withIdentifier: "postingVC") as! PostingController
+        nextViewController.modalPresentationStyle = .fullScreen
+        self.present(nextViewController, animated: true, completion: nil)
+    }
+    
+    @objc func findButtonClicked() {
         
     }
     
@@ -44,22 +57,24 @@ class HomeController: UIViewController {
     //MARK: Design Functions
     
     private func customRightBarButtons() {
-        let messageButton = self.navigationItem.makeSFSymbolButton(self,
-                                               action: #selector(testButtonAction),
-                                               symbolName: "message")
         
-        let postButton = self.navigationItem.makeSFSymbolButton(self,
-                                                                action: #selector(testButtonAction),
-                                                                symbolName: "plus")
         
         let findButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(testButtonAction),
                                                                 symbolName: "magnifyingglass")
         
+        let postingButton = self.navigationItem.makeSFSymbolButton(self,
+                                                                action: #selector(postingButtonclicked),
+                                                                symbolName: "plus")
+        
+        let messageButton = self.navigationItem.makeSFSymbolButton(self,
+                                               action: #selector(testButtonAction),
+                                               symbolName: "message")
+        
 //        let test = self.navi
         
         
-        self.navigationItem.rightBarButtonItems = [messageButton, postButton, findButton]
+        self.navigationItem.rightBarButtonItems = [findButton, postingButton, messageButton]
     }
     
     private func customNaviagtionBar() {

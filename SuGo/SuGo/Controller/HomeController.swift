@@ -69,15 +69,15 @@ class HomeController: UIViewController {
         
         let findButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(testButtonAction),
-                                                                symbolName: "magnifyingglass")
+                                                                symbolName: "customGlass")
         
         let postingButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(postingButtonclicked),
-                                                                symbolName: "plus")
+                                                                symbolName: "viewMore")
         
         let messageButton = self.navigationItem.makeSFSymbolButton(self,
                                                action: #selector(testButtonAction),
-                                               symbolName: "message")
+                                               symbolName: "customChat")
         
 //        let test = self.navi
         
@@ -154,7 +154,7 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
         
         let width = collectionView.frame.width / 2 - 2
         
-        let size = CGSize(width: width, height: width + 100)
+        let size = CGSize(width: width, height: 270)
         return size
         
     }

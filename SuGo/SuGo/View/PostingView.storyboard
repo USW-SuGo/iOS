@@ -70,6 +70,16 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpL-aY-ojp">
+                                <rect key="frame" x="20" y="202" width="72.5" height="31"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="사진선택"/>
+                                <connections>
+                                    <action selector="selectPhotoButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="SEO-K4-M15"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -78,6 +88,8 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="dSn-9e-IBp" secondAttribute="trailing" constant="20" id="FxV-2P-Kz3"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="iAF-WR-qdV" secondAttribute="trailing" constant="70" id="Gfp-ha-fbX"/>
                             <constraint firstItem="dSn-9e-IBp" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="158" id="PFz-j6-lYl"/>
+                            <constraint firstItem="FpL-aY-ojp" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="158" id="TnM-7k-s1a"/>
+                            <constraint firstItem="FpL-aY-ojp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="UNz-ao-bMx"/>
                             <constraint firstItem="GhU-Fr-z1m" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="WeA-3m-x4M"/>
                             <constraint firstItem="JES-nT-Hdg" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="X9p-lG-IZa"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fLS-1I-axb" secondAttribute="trailing" constant="10" id="glT-9A-MOI"/>

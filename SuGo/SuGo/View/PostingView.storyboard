@@ -16,9 +16,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="POSTINGVC" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GhU-Fr-z1m">
-                                <rect key="frame" x="160" y="302" width="95" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수고 올리기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JES-nT-Hdg">
+                                <rect key="frame" x="168" y="59" width="78" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="tdw-ra-bPm"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -62,11 +64,8 @@
                                     <action selector="placeButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="s0f-2i-VLK"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수고 올리기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JES-nT-Hdg">
-                                <rect key="frame" x="168" y="59" width="78" height="21"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="tdw-ra-bPm"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POSTINGVC" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GhU-Fr-z1m">
+                                <rect key="frame" x="159.5" y="437.5" width="95" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -75,15 +74,17 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="JES-nT-Hdg" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="168" id="4ep-Zp-z9R"/>
+                            <constraint firstItem="GhU-Fr-z1m" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="6th-CJ-7C5"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="dSn-9e-IBp" secondAttribute="trailing" constant="20" id="FxV-2P-Kz3"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="iAF-WR-qdV" secondAttribute="trailing" constant="70" id="Gfp-ha-fbX"/>
                             <constraint firstItem="dSn-9e-IBp" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="158" id="PFz-j6-lYl"/>
+                            <constraint firstItem="GhU-Fr-z1m" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="WeA-3m-x4M"/>
+                            <constraint firstItem="JES-nT-Hdg" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="X9p-lG-IZa"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fLS-1I-axb" secondAttribute="trailing" constant="10" id="glT-9A-MOI"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="iAF-WR-qdV" secondAttribute="bottom" constant="8" id="hzm-GZ-PBQ"/>
-                            <constraint firstItem="JES-nT-Hdg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="iWi-HT-5Ci"/>
                             <constraint firstItem="iAF-WR-qdV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="70" id="nOI-CK-ZEb"/>
                             <constraint firstItem="fLS-1I-axb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="sSi-vt-VXF"/>
+                            <constraint firstItem="JES-nT-Hdg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="v2x-LE-VVo"/>
                         </constraints>
                     </view>
                     <connections>

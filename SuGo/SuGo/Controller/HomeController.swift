@@ -36,15 +36,21 @@ class HomeController: UIViewController {
     
     @objc func messageButtonClicked() {
         
+        let chatingListViewStoryboard = UIStoryboard(name: "ChatingListView", bundle: nil)
+        let nextViewController =
+        chatingListViewStoryboard.instantiateViewController(withIdentifier: "chatinglistVC") as! ChatingListController
+        self.navigationController?.pushViewController(nextViewController, animated: true)
         
     }
 
     @objc func postingButtonclicked() {
+        
         let postingViewStoryboard = UIStoryboard(name: "PostingView", bundle: nil)
         let nextViewController =
         postingViewStoryboard.instantiateViewController(withIdentifier: "postingVC") as! PostingController
         nextViewController.modalPresentationStyle = .fullScreen
         self.present(nextViewController, animated: true, completion: nil)
+        
     }
     
     @objc func findButtonClicked() {

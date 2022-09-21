@@ -15,6 +15,8 @@
 		AF513BE228CA159800580240 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF513BE028CA159800580240 /* LaunchScreen.storyboard */; };
 		AF513BEE28CA161D00580240 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF513BED28CA161D00580240 /* Post.swift */; };
 		AF6E917128D1F24F005480A6 /* UserInfoView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF6E917028D1F24F005480A6 /* UserInfoView.storyboard */; };
+		AF79B91628DB14DA0047E8C1 /* PostingView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */; };
+		AF79B91828DB14E70047E8C1 /* PostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF79B91728DB14E70047E8C1 /* PostingController.swift */; };
 		AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4028D1E6C800817FE1 /* UserInfoController.swift */; };
 		AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4228D1E70900817FE1 /* TabBarController.swift */; };
 		AF827B4528D1ED9500817FE1 /* TabBarView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */; };
@@ -37,6 +39,8 @@
 		AF513BE328CA159800580240 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF513BED28CA161D00580240 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		AF6E917028D1F24F005480A6 /* UserInfoView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserInfoView.storyboard; sourceTree = "<group>"; };
+		AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostingView.storyboard; sourceTree = "<group>"; };
+		AF79B91728DB14E70047E8C1 /* PostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingController.swift; sourceTree = "<group>"; };
 		AF827B4028D1E6C800817FE1 /* UserInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoController.swift; sourceTree = "<group>"; };
 		AF827B4228D1E70900817FE1 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarView.storyboard; sourceTree = "<group>"; };
@@ -64,7 +68,6 @@
 				3DB648DA6A2F310C9EC3E62F /* Pods-SuGo.debug.xcconfig */,
 				085E25C41FC74F2DA148EB24 /* Pods-SuGo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -111,6 +114,7 @@
 			children = (
 				AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */,
 				AF513BDB28CA159600580240 /* HomeView.storyboard */,
+				AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */,
 				AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */,
 				AF6E917028D1F24F005480A6 /* UserInfoView.storyboard */,
 				AF513BE028CA159800580240 /* LaunchScreen.storyboard */,
@@ -123,6 +127,7 @@
 			children = (
 				AF827B4228D1E70900817FE1 /* TabBarController.swift */,
 				AF513BD928CA159600580240 /* HomeController.swift */,
+				AF79B91728DB14E70047E8C1 /* PostingController.swift */,
 				AFD7BF2028D5D1F500F42908 /* PostController.swift */,
 				AF827B4028D1E6C800817FE1 /* UserInfoController.swift */,
 			);
@@ -219,6 +224,7 @@
 				AF513BE228CA159800580240 /* LaunchScreen.storyboard in Resources */,
 				AF827B4528D1ED9500817FE1 /* TabBarView.storyboard in Resources */,
 				AF513BDF28CA159800580240 /* Assets.xcassets in Resources */,
+				AF79B91628DB14DA0047E8C1 /* PostingView.storyboard in Resources */,
 				AF6E917128D1F24F005480A6 /* UserInfoView.storyboard in Resources */,
 				AF513BDD28CA159600580240 /* HomeView.storyboard in Resources */,
 				AFD7BF1F28D5D1E400F42908 /* PostView.storyboard in Resources */,
@@ -281,6 +287,7 @@
 				AF513BD628CA159600580240 /* AppDelegate.swift in Sources */,
 				AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */,
 				AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */,
+				AF79B91828DB14E70047E8C1 /* PostingController.swift in Sources */,
 				AF513BEE28CA161D00580240 /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

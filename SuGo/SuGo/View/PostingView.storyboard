@@ -8,23 +8,96 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Posting Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController id="Y6W-OH-hqX" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="postingVC" id="Y6W-OH-hqX" customClass="PostingController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="POSTINGVC" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GhU-Fr-z1m">
+                                <rect key="frame" x="160" y="302" width="95" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fLS-1I-axb">
+                                <rect key="frame" x="362" y="54" width="42" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="X1u-nu-7UF"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system"/>
+                                <connections>
+                                    <action selector="closeButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="43w-dU-i4k"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAF-WR-qdV">
+                                <rect key="frame" x="70" y="811" width="274" height="43"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="zVo-97-yZu"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="수고 올리기"/>
+                                <connections>
+                                    <action selector="sugoButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Je6-qF-PRs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dSn-9e-IBp">
+                                <rect key="frame" x="283" y="202" width="111" height="31"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="31" id="3aS-lj-Vf6"/>
+                                    <constraint firstAttribute="width" constant="111" id="UQI-Xc-D2O"/>
+                                </constraints>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="수고 할 장소"/>
+                                <connections>
+                                    <action selector="placeButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="s0f-2i-VLK"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수고 올리기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JES-nT-Hdg">
+                                <rect key="frame" x="168" y="59" width="78" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="tdw-ra-bPm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="JES-nT-Hdg" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="168" id="4ep-Zp-z9R"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="dSn-9e-IBp" secondAttribute="trailing" constant="20" id="FxV-2P-Kz3"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="iAF-WR-qdV" secondAttribute="trailing" constant="70" id="Gfp-ha-fbX"/>
+                            <constraint firstItem="dSn-9e-IBp" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="158" id="PFz-j6-lYl"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fLS-1I-axb" secondAttribute="trailing" constant="10" id="glT-9A-MOI"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="iAF-WR-qdV" secondAttribute="bottom" constant="8" id="hzm-GZ-PBQ"/>
+                            <constraint firstItem="JES-nT-Hdg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="iWi-HT-5Ci"/>
+                            <constraint firstItem="iAF-WR-qdV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="70" id="nOI-CK-ZEb"/>
+                            <constraint firstItem="fLS-1I-axb" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="sSi-vt-VXF"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="placeButton" destination="dSn-9e-IBp" id="5JR-Xa-rBp"/>
+                        <outlet property="sugoButton" destination="iAF-WR-qdV" id="dys-mq-9Om"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="133" y="75"/>
+            <point key="canvasLocation" x="131.8840579710145" y="75"/>
         </scene>
     </scenes>
     <resources>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

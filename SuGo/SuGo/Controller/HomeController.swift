@@ -161,6 +161,7 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
     
     
 }
+
 class HomeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var placeLabel: UILabel!

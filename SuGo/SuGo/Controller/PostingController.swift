@@ -14,12 +14,14 @@ class PostingController: UIViewController {
 
     //MARK: IBOutlets
     
+    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sugoButton: UIButton!
     @IBOutlet weak var placeButton: UIButton!
     
     //MARK: Properties
     
     var testList = [PHAsset]()
+    var testImage = [UIImage]()
     
     //MARK: Functions
     
@@ -59,16 +61,43 @@ class PostingController: UIViewController {
             print(assets)
             
             self.testList.removeAll()
+            self.testImage.removeAll()
             
             for i in 0..<assets.count {
                 self.testList.append(assets[i])
             }
             
+            self.convertAssetToImage()
+            self.collectionView.reloadData()
+            
         })
     }
     
+    // PHAsset -> UIImage로 형변환
     private func convertAssetToImage() {
-        if testList.count != 
+        
+        if testList.count != 0 {
+            
+            for i in 0..<testList.count {
+                let imageManager = PHImageManager.default()
+                let option = PHImageRequestOptions()
+                option.isSynchronous = true
+                var thumbnail = UIImage()
+                
+                imageManager.requestImage(for: testList[i],
+                                          targetSize: CGSize(width: 30, height: 30),
+                                          contentMode: .aspectFit,
+                                          options: option) { (result, info) in
+                    thumbnail = result!
+                }
+                
+                let data = thumbnail.jpegData(compressionQuality: 0.7)
+                let newImage = UIImage(data: data!)
+                
+                self.testImage.append(newImage! as UIImage)
+            }
+        }
+        print(testImage)
     }
     
     
@@ -99,5 +128,28 @@ class PostingController: UIViewController {
         placeButton.layer.borderColor = UIColor.white.cgColor
 
     }
+    
+}
+
+extension PostingController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return testImage.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostingCell",
+                                                      for: indexPath) as! PostingCollectionViewCell
+
+        cell.itemImage.image = testImage[indexPath.row]
+
+        return cell
+    }
+}
+
+class PostingCollectionViewCell: UICollectionViewCell {
+
+    @IBOutlet weak var itemImage: UIImageView!
     
 }

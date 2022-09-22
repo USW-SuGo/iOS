@@ -116,7 +116,7 @@
                                                     </constraints>
                                                     <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="plain" image="xmark.circle.fill" catalog="system"/>
+                                                    <buttonConfiguration key="configuration" style="plain" image="xmark.circle" catalog="system"/>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -128,6 +128,7 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="50" height="50"/>
                                         <connections>
+                                            <outlet property="deleteButton" destination="H4U-6Y-fh8" id="7vN-hq-4Ux"/>
                                             <outlet property="itemImage" destination="pqv-BL-w9Y" id="Tpf-ge-uC5"/>
                                         </connections>
                                     </collectionViewCell>
@@ -172,7 +173,7 @@
     </scenes>
     <resources>
         <image name="xmark" catalog="system" width="128" height="113"/>
-        <image name="xmark.circle.fill" catalog="system" width="128" height="121"/>
+        <image name="xmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

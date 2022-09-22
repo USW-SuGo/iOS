@@ -105,6 +105,7 @@ class PostingController: UIViewController {
         }
     }
     
+
     
     //MARK: Button Actions
     
@@ -120,6 +121,14 @@ class PostingController: UIViewController {
     }
     
     @IBAction func placeButtonClicked(_ sender: Any) {
+    }
+    
+    @objc func imageDeleteButtonClicked(sender: UIButton) {
+        
+        let indexPath = IndexPath(row: sender.tag, section: 0)
+        testImage.remove(at: indexPath.row)
+        self.collectionView.reloadData()
+    
     }
     
     //MARK: Design Functions
@@ -152,7 +161,11 @@ extension PostingController: UICollectionViewDelegate, UICollectionViewDataSourc
         cell.itemImage.layer.borderWidth = 2
         cell.itemImage.layer.borderColor = UIColor.lightGray.cgColor
 
+        cell.deleteButton.tag = indexPath.row
+        cell.deleteButton.addTarget(self, action: #selector(imageDeleteButtonClicked), for: .touchUpInside)
+
         return cell
+        
     }
 }
 
@@ -164,7 +177,7 @@ extension PostingController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let size = CGSize(width: 40, height: 40)
+        let size = CGSize(width: 50, height: 50)
 
         return size
         
@@ -176,5 +189,6 @@ extension PostingController: UICollectionViewDelegateFlowLayout{
 class PostingCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var itemImage: UIImageView!
+    @IBOutlet weak var deleteButton: UIButton!
     
 }

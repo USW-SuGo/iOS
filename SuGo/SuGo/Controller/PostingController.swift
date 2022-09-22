@@ -58,7 +58,6 @@ class PostingController: UIViewController {
         }, finish: { assets in
             
             print("finish")
-            print(assets)
             
             self.testList.removeAll()
             self.testImage.removeAll()
@@ -81,23 +80,29 @@ class PostingController: UIViewController {
             for i in 0..<testList.count {
                 let imageManager = PHImageManager.default()
                 let option = PHImageRequestOptions()
+                option.deliveryMode = .opportunistic
                 option.isSynchronous = true
+                
+                // UIImage Resize
+                option.resizeMode = .exact
                 var thumbnail = UIImage()
+
+//                let widthRatio = testList[i].pixelWidth / 30
+//                let heightRatio = testList[i].pixelHeight / 30
                 
                 imageManager.requestImage(for: testList[i],
-                                          targetSize: CGSize(width: 30, height: 30),
-                                          contentMode: .aspectFit,
+                                          targetSize: CGSize(width: 40, height: 40),
+                                          contentMode: .aspectFill,
                                           options: option) { (result, info) in
                     thumbnail = result!
                 }
                 
                 let data = thumbnail.jpegData(compressionQuality: 0.7)
                 let newImage = UIImage(data: data!)
-                
+                print(newImage)
                 self.testImage.append(newImage! as UIImage)
             }
         }
-        print(testImage)
     }
     
     
@@ -143,9 +148,29 @@ extension PostingController: UICollectionViewDelegate, UICollectionViewDataSourc
                                                       for: indexPath) as! PostingCollectionViewCell
 
         cell.itemImage.image = testImage[indexPath.row]
+        cell.itemImage.layer.cornerRadius = 6
+        cell.itemImage.layer.borderWidth = 2
+        cell.itemImage.layer.borderColor = UIColor.lightGray.cgColor
 
         return cell
     }
+}
+
+extension PostingController: UICollectionViewDelegateFlowLayout{
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let size = CGSize(width: 40, height: 40)
+
+        return size
+        
+    }
+    
+    
 }
 
 class PostingCollectionViewCell: UICollectionViewCell {

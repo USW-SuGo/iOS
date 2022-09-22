@@ -70,17 +70,22 @@ class HomeController: UIViewController {
         let findButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(testButtonAction),
                                                                 symbolName: "customGlass")
+        //customGlass
         
         let postingButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(postingButtonclicked),
                                                                 symbolName: "viewMore")
+        //viewMore
         
         let messageButton = self.navigationItem.makeSFSymbolButton(self,
                                                action: #selector(messageButtonClicked),
                                                symbolName: "customChat")
+        //customChat
         
-//        let test = self.navi
-        
+        let itemSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                        target: nil,
+                                        action: nil)
+        itemSpace.width = 20
         
         self.navigationItem.rightBarButtonItems = [findButton, postingButton, messageButton]
     }

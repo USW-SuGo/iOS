@@ -126,7 +126,7 @@
         <scene sceneID="6ia-BR-SXT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yle-6Z-8iY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="거래" image="pencil" catalog="system" id="WE4-FY-xaX"/>
+                    <tabBarItem key="tabBarItem" title="거래" image="cart" catalog="system" id="WE4-FY-xaX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KmT-QF-lXJ">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -143,7 +143,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="cart" catalog="system" width="128" height="102"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

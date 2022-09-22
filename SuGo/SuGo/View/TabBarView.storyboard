@@ -17,7 +17,8 @@
                     </tabBar>
                     <connections>
                         <segue destination="1xF-Vs-BVu" kind="relationship" relationship="viewControllers" id="w3h-Gp-jAj"/>
-                        <segue destination="xtW-pO-yqo" kind="relationship" relationship="viewControllers" id="JoV-l1-X6v"/>
+                        <segue destination="izL-wl-9h4" kind="relationship" relationship="viewControllers" id="Yeh-bc-9x6"/>
+                        <segue destination="Rog-nJ-zKP" kind="relationship" relationship="viewControllers" id="iQu-nc-vs0"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="83n-Fo-ocH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -34,15 +35,25 @@
             </objects>
             <point key="canvasLocation" x="715" y="-675"/>
         </scene>
-        <!--UserInfoView-->
-        <scene sceneID="Dy5-ex-0ql">
+        <!--MapView-->
+        <scene sceneID="YPo-M9-VZ7">
             <objects>
-                <viewControllerPlaceholder storyboardName="UserInfoView" id="xtW-pO-yqo" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="mk9-16-wgk"/>
+                <viewControllerPlaceholder storyboardName="MapView" id="izL-wl-9h4" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="3F0-DQ-EWw"/>
                 </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="UMN-ms-obE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="p5v-er-prA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="715" y="-362"/>
+            <point key="canvasLocation" x="638" y="-467"/>
+        </scene>
+        <!--UserInfoView-->
+        <scene sceneID="jTP-wb-cMP">
+            <objects>
+                <viewControllerPlaceholder storyboardName="UserInfoView" id="Rog-nJ-zKP" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="OSL-F3-bEJ"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HTa-t7-9Kc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="640" y="-338"/>
         </scene>
     </scenes>
 </document>

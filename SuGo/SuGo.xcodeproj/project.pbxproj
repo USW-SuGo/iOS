@@ -34,6 +34,7 @@
 		AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */; };
 		AFD7BF1F28D5D1E400F42908 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */; };
 		AFD7BF2128D5D1F500F42908 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF2028D5D1F500F42908 /* PostController.swift */; };
+		AFF345B928DC652A000DB114 /* MapView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFF345B828DC652A000DB114 /* MapView.storyboard */; };
 		D41456969C86041FBC77F7EC /* Pods_SuGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D470B62586794582C8169F7C /* Pods_SuGo.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extensions.swift"; sourceTree = "<group>"; };
 		AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		AFD7BF2028D5D1F500F42908 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		AFF345B828DC652A000DB114 /* MapView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapView.storyboard; sourceTree = "<group>"; };
 		D470B62586794582C8169F7C /* Pods_SuGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -140,6 +142,7 @@
 				AF9BB5E028DB1A870059E609 /* ChatingListView.storyboard */,
 				AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */,
 				AF6E917028D1F24F005480A6 /* UserInfoView.storyboard */,
+				AFF345B828DC652A000DB114 /* MapView.storyboard */,
 				AF513BE028CA159800580240 /* LaunchScreen.storyboard */,
 			);
 			path = View;
@@ -276,6 +279,7 @@
 				AF513BDD28CA159600580240 /* HomeView.storyboard in Resources */,
 				AF9BB5EE28DB36840059E609 /* Pretendard-SemiBold.otf in Resources */,
 				AF9BB5E128DB1A870059E609 /* ChatingListView.storyboard in Resources */,
+				AFF345B928DC652A000DB114 /* MapView.storyboard in Resources */,
 				AF9BB5F028DB36840059E609 /* Pretendard-Thin.otf in Resources */,
 				AF9BB5F528DB36840059E609 /* Pretendard-Black.otf in Resources */,
 				AFD7BF1F28D5D1E400F42908 /* PostView.storyboard in Resources */,

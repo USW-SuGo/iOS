@@ -71,7 +71,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpL-aY-ojp">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FpL-aY-ojp">
                                 <rect key="frame" x="14" y="202" width="72.5" height="31"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -149,7 +149,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="CEE-LT-tfP" secondAttribute="trailing" constant="20" id="KDa-7k-89d"/>
                             <constraint firstItem="dSn-9e-IBp" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="158" id="PFz-j6-lYl"/>
                             <constraint firstItem="FpL-aY-ojp" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="158" id="TnM-7k-s1a"/>
-                            <constraint firstItem="FpL-aY-ojp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="UNz-ao-bMx"/>
+                            <constraint firstItem="FpL-aY-ojp" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="14" id="UNz-ao-bMx"/>
                             <constraint firstItem="GhU-Fr-z1m" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="WeA-3m-x4M"/>
                             <constraint firstItem="JES-nT-Hdg" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="X9p-lG-IZa"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fLS-1I-axb" secondAttribute="trailing" constant="10" id="glT-9A-MOI"/>
@@ -162,6 +162,7 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="CEE-LT-tfP" id="SWw-g0-m1w"/>
+                        <outlet property="imageButton" destination="FpL-aY-ojp" id="UaC-sf-R1s"/>
                         <outlet property="placeButton" destination="dSn-9e-IBp" id="5JR-Xa-rBp"/>
                         <outlet property="sugoButton" destination="iAF-WR-qdV" id="dys-mq-9Om"/>
                     </connections>

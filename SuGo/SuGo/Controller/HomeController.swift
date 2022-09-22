@@ -76,7 +76,7 @@ class HomeController: UIViewController {
                                                                 symbolName: "viewMore")
         
         let messageButton = self.navigationItem.makeSFSymbolButton(self,
-                                               action: #selector(testButtonAction),
+                                               action: #selector(messageButtonClicked),
                                                symbolName: "customChat")
         
 //        let test = self.navi

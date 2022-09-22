@@ -17,6 +17,7 @@ class PostingController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sugoButton: UIButton!
     @IBOutlet weak var placeButton: UIButton!
+    @IBOutlet weak var imageButton: UIButton!
     
     //MARK: Properties
     
@@ -69,6 +70,8 @@ class PostingController: UIViewController {
             self.convertAssetToImage()
             self.collectionView.reloadData()
             
+            
+            
         })
     }
     
@@ -99,9 +102,11 @@ class PostingController: UIViewController {
                 
                 let data = thumbnail.jpegData(compressionQuality: 0.7)
                 let newImage = UIImage(data: data!)
-                print(newImage)
                 self.testImage.append(newImage! as UIImage)
+                print(thumbnail.pngData())
+                print(thumbnail.jpegData(compressionQuality: 0.9))
             }
+            print(testImage)
         }
     }
     
@@ -141,6 +146,9 @@ class PostingController: UIViewController {
         placeButton.layer.cornerRadius = 12.0
         placeButton.layer.borderColor = UIColor.white.cgColor
 
+        imageButton.layer.cornerRadius = 12.0
+        imageButton.layer.borderColor = UIColor.white.cgColor
+        
     }
     
 }

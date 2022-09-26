@@ -23,6 +23,7 @@ class PostingController: UIViewController {
     
     var testList = [PHAsset]()
     var testImage = [UIImage]()
+    let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
     //MARK: Functions
     
@@ -42,7 +43,8 @@ class PostingController: UIViewController {
         imagePicker.settings.fetch.assets.supportedMediaTypes = [.image]
         imagePicker.settings.theme.selectionFillColor = .white
         imagePicker.doneButtonTitle = "선택완료"
-        imagePicker.cancelButton.tintColor = .white
+        imagePicker.cancelButton.tintColor = .black
+        imagePicker.cancelButton.title = "취소" 
         
         presentImagePicker(imagePicker, select: {
             asset in
@@ -140,14 +142,16 @@ class PostingController: UIViewController {
     
     private func designButtons() {
         
-        sugoButton.layer.cornerRadius = 12.0
+        sugoButton.layer.cornerRadius = 20.0
         sugoButton.layer.borderColor = UIColor.white.cgColor
         
-        placeButton.layer.cornerRadius = 12.0
-        placeButton.layer.borderColor = UIColor.white.cgColor
+        placeButton.layer.cornerRadius = 6.0
+        placeButton.layer.borderColor = colorLiteralGreen.cgColor
+        placeButton.layer.borderWidth = 1.0
 
-        imageButton.layer.cornerRadius = 12.0
-        imageButton.layer.borderColor = UIColor.white.cgColor
+        imageButton.layer.cornerRadius = 5.0
+        imageButton.layer.borderColor = UIColor.darkGray.cgColor
+        imageButton.layer.borderWidth = 1.0
         
     }
     
@@ -165,9 +169,9 @@ extension PostingController: UICollectionViewDelegate, UICollectionViewDataSourc
                                                       for: indexPath) as! PostingCollectionViewCell
 
         cell.itemImage.image = testImage[indexPath.row]
-        cell.itemImage.layer.cornerRadius = 6
+        cell.itemImage.layer.cornerRadius = 5
         cell.itemImage.layer.borderWidth = 2
-        cell.itemImage.layer.borderColor = UIColor.lightGray.cgColor
+        cell.itemImage.layer.borderColor = UIColor.darkGray.cgColor
 
         cell.deleteButton.tag = indexPath.row
         cell.deleteButton.addTarget(self, action: #selector(imageDeleteButtonClicked), for: .touchUpInside)

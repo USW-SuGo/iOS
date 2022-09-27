@@ -115,6 +115,7 @@
                     </view>
                     <connections>
                         <outlet property="slideshow" destination="Ksg-Pb-097" id="gpX-bn-eaq"/>
+                        <outlet property="sugoButton" destination="zLj-sD-NEZ" id="Mg2-en-FIR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

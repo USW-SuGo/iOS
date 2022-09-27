@@ -27,7 +27,13 @@ class SocketIOManager: NSObject {
         socket.connect()
     }
     
-    func closeConnection
+    func closeConnection() {
+        socket.disconnect()
+    }
+    
+    func sendMessage(message: String, id: Int) {
+        // send contents
+    }
     
     
 }

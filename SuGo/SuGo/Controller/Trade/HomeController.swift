@@ -33,6 +33,14 @@ class HomeController: UIViewController {
         print("button clicked")
     }
     
+    @objc func hamburgerButtonClicked() {
+        let sideMenuViewStoryboard = UIStoryboard(name: "SideMenuView", bundle: nil)
+        let nextViewController =
+        sideMenuViewStoryboard.instantiateViewController(withIdentifier: "testVC") as! testViewController
+        let sideMenu = SideMenuController(rootViewController: nextViewController)
+        self.present(sideMenu, animated: true, completion: nil)
+    }
+    
     // 네비게이션 바 함수 1. 메세지 2. 게시물 3. 검색
     
     @objc func messageButtonClicked() {
@@ -68,7 +76,7 @@ class HomeController: UIViewController {
     private func customLeftBarButton(){
         
         let sideMenuButton = self.navigationItem.makeSFSymbolButton(self,
-                                                                    action: #selector(testButtonAction),
+                                                                    action: #selector(hamburgerButtonClicked),
                                                                     symbolName: "hambuger")
         self.navigationItem.leftBarButtonItem = sideMenuButton
         

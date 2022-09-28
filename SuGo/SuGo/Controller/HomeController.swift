@@ -16,6 +16,7 @@ class HomeController: UIViewController {
     //MARK: Properties
     
     var testList = ["미래", "종강", "IT", "글경", "체대", "인문"]
+    let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
     //MARK: Functions
     
@@ -88,9 +89,11 @@ class HomeController: UIViewController {
         itemSpace.width = 20
         
         self.navigationItem.rightBarButtonItems = [findButton, postingButton, messageButton]
+    
     }
     
     private func customNaviagtionBar() {
+        
     }
     
     private func addNavigationBar() {

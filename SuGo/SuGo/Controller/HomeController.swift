@@ -66,8 +66,7 @@ class HomeController: UIViewController {
     //MARK: Design Functions
     
     private func customRightBarButtons() {
-        
-        
+            
         let findButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(testButtonAction),
                                                                 symbolName: "customGlass")
@@ -83,14 +82,17 @@ class HomeController: UIViewController {
                                                symbolName: "customChat")
         //customChat
         
-        let itemSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                        target: nil,
-                                        action: nil)
-        itemSpace.width = 20
-        
+//        let itemSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+//                                        target: nil,
+//                                        action: nil)
+//        itemSpace.width = 20
         self.navigationItem.rightBarButtonItems = [findButton, postingButton, messageButton]
-    
+        
+//        self.navigationItem.titleView = attributeTitleView()
+        
     }
+    
+  
     
     private func customNaviagtionBar() {
         

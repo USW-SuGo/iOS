@@ -23,7 +23,6 @@ extension UINavigationItem {
         barButtonItem.customView?.translatesAutoresizingMaskIntoConstraints = false
         barButtonItem.customView?.heightAnchor.constraint(equalToConstant: 24).isActive = true
         barButtonItem.customView?.widthAnchor.constraint(equalToConstant: 24).isActive = true
-
             
         return barButtonItem
     }

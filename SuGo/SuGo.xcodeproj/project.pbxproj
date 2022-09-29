@@ -38,6 +38,9 @@
 		AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */; };
 		AFD7BF1F28D5D1E400F42908 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */; };
 		AFD7BF2128D5D1F500F42908 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF2028D5D1F500F42908 /* PostController.swift */; };
+		AFE6C03B28E5BB3F006C6AAC /* PlaceView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */; };
+		AFE6C03D28E5BB52006C6AAC /* PlaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */; };
+		AFE6C04028E5BBB0006C6AAC /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6C03F28E5BBB0006C6AAC /* Home.swift */; };
 		AFF345B928DC652A000DB114 /* MapView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFF345B828DC652A000DB114 /* MapView.storyboard */; };
 		D41456969C86041FBC77F7EC /* Pods_SuGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D470B62586794582C8169F7C /* Pods_SuGo.framework */; };
 /* End PBXBuildFile section */
@@ -78,6 +81,9 @@
 		AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extensions.swift"; sourceTree = "<group>"; };
 		AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		AFD7BF2028D5D1F500F42908 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PlaceView.storyboard; sourceTree = "<group>"; };
+		AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceController.swift; sourceTree = "<group>"; };
+		AFE6C03F28E5BBB0006C6AAC /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		AFF345B828DC652A000DB114 /* MapView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapView.storyboard; sourceTree = "<group>"; };
 		D470B62586794582C8169F7C /* Pods_SuGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -170,6 +176,7 @@
 		AF513BEB28CA15BB00580240 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AFE6C03E28E5BB97006C6AAC /* Trade */,
 				AF513BED28CA161D00580240 /* Post.swift */,
 			);
 			path = Model;
@@ -193,6 +200,7 @@
 				AF6C2B1628E47F620070B3A2 /* SideMenuView.storyboard */,
 				AF513BDB28CA159600580240 /* HomeView.storyboard */,
 				AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */,
+				AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */,
 				AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */,
 			);
 			path = Trade;
@@ -228,6 +236,7 @@
 				AF6C2B1428E47BB30070B3A2 /* SideMenuNavController.swift */,
 				AF513BD928CA159600580240 /* HomeController.swift */,
 				AF79B91728DB14E70047E8C1 /* PostingController.swift */,
+				AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */,
 				AFD7BF2028D5D1F500F42908 /* PostController.swift */,
 			);
 			path = Trade;
@@ -287,6 +296,14 @@
 				AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		AFE6C03E28E5BB97006C6AAC /* Trade */ = {
+			isa = PBXGroup;
+			children = (
+				AFE6C03F28E5BBB0006C6AAC /* Home.swift */,
+			);
+			path = Trade;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -356,6 +373,7 @@
 				AF9BB5EF28DB36840059E609 /* Pretendard-Bold.otf in Resources */,
 				AF827B4528D1ED9500817FE1 /* TabBarView.storyboard in Resources */,
 				AF513BDF28CA159800580240 /* Assets.xcassets in Resources */,
+				AFE6C03B28E5BB3F006C6AAC /* PlaceView.storyboard in Resources */,
 				AF6C2B1728E47F620070B3A2 /* SideMenuView.storyboard in Resources */,
 				AF79B91628DB14DA0047E8C1 /* PostingView.storyboard in Resources */,
 				AF6E917128D1F24F005480A6 /* UserInfoView.storyboard in Resources */,
@@ -427,9 +445,11 @@
 				AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */,
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,
 				AF513BDA28CA159600580240 /* HomeController.swift in Sources */,
+				AFE6C04028E5BBB0006C6AAC /* Home.swift in Sources */,
 				AF513BD628CA159600580240 /* AppDelegate.swift in Sources */,
 				AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */,
 				AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */,
+				AFE6C03D28E5BB52006C6AAC /* PlaceController.swift in Sources */,
 				AF79B91828DB14E70047E8C1 /* PostingController.swift in Sources */,
 				AF7CF68B28E31886000EE85E /* SocketManager.swift in Sources */,
 				AF513BEE28CA161D00580240 /* Post.swift in Sources */,

@@ -25,6 +25,7 @@ class HomeController: UIViewController {
         // Do any additional setup after loading the view.
         customLeftBarButton()
         customRightBarButtons()
+        customBackButton()
     
     }
     
@@ -82,33 +83,33 @@ class HomeController: UIViewController {
         
     }
     
+    // 네비게이션 바 우측 버튼 커스텀
     private func customRightBarButtons() {
             
         let findButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(testButtonAction),
                                                                 symbolName: "customGlass")
-        //customGlass
         
         let postingButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(postingButtonclicked),
                                                                 symbolName: "viewMore")
-        //viewMore
+      
         
         let messageButton = self.navigationItem.makeSFSymbolButton(self,
                                                action: #selector(messageButtonClicked),
                                                symbolName: "customChat")
-        //customChat
-        
-//        let itemSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-//                                        target: nil,
-//                                        action: nil)
-//        itemSpace.width = 20
         
         self.navigationItem.rightBarButtonItems = [findButton, postingButton, messageButton]
                 
     }
     
-  
+    private func customBackButton() {
+        
+        let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backButtonItem.tintColor = .darkGray
+        self.navigationItem.backBarButtonItem = backButtonItem
+        
+    }
     
     private func customNaviagtionBar() {
         

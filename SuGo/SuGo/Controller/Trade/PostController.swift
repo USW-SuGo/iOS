@@ -77,6 +77,8 @@ class PostController: UIViewController {
         sugoButton.layer.borderWidth = 1.0
         sugoButton.layer.borderColor = UIColor.white.cgColor
     }
+    
+    
 
 }
 

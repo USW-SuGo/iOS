@@ -35,9 +35,9 @@ class HomeController: UIViewController {
     
     @objc func hamburgerButtonClicked() {
         let sideMenuViewStoryboard = UIStoryboard(name: "SideMenuView", bundle: nil)
-        let nextViewController =
-        sideMenuViewStoryboard.instantiateViewController(withIdentifier: "testVC") as! testViewController
-        let sideMenu = SideMenuController(rootViewController: nextViewController)
+        let sideMenuViewController =
+        sideMenuViewStoryboard.instantiateViewController(withIdentifier: "sideVC") as! SideMenuController
+        let sideMenu = SideMenuNavController(rootViewController: sideMenuViewController)
         self.present(sideMenu, animated: true, completion: nil)
     }
     

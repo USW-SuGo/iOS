@@ -23,7 +23,6 @@
 		AF79B91628DB14DA0047E8C1 /* PostingView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */; };
 		AF79B91828DB14E70047E8C1 /* PostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF79B91728DB14E70047E8C1 /* PostingController.swift */; };
 		AF7CF68828E3176E000EE85E /* ChatingRoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7CF68728E3176E000EE85E /* ChatingRoomController.swift */; };
-		AF7CF68B28E31886000EE85E /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF7CF68A28E31886000EE85E /* SocketManager.swift */; };
 		AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4028D1E6C800817FE1 /* UserInfoController.swift */; };
 		AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4228D1E70900817FE1 /* TabBarController.swift */; };
 		AF827B4528D1ED9500817FE1 /* TabBarView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */; };
@@ -72,7 +71,6 @@
 		AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostingView.storyboard; sourceTree = "<group>"; };
 		AF79B91728DB14E70047E8C1 /* PostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingController.swift; sourceTree = "<group>"; };
 		AF7CF68728E3176E000EE85E /* ChatingRoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatingRoomController.swift; sourceTree = "<group>"; };
-		AF7CF68A28E31886000EE85E /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
 		AF827B4028D1E6C800817FE1 /* UserInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoController.swift; sourceTree = "<group>"; };
 		AF827B4228D1E70900817FE1 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarView.storyboard; sourceTree = "<group>"; };
@@ -151,7 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				AFE6C04128E5C21D006C6AAC /* Network */,
-				AF7CF68928E317E0000EE85E /* Socket */,
+				AF7CF68928E317E0000EE85E /* STOMP */,
 				AFD7BF1B28D5BF3D00F42908 /* Extension */,
 				AF513BEB28CA15BB00580240 /* Model */,
 				AF513BE928CA15AE00580240 /* View */,
@@ -279,12 +277,11 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
-		AF7CF68928E317E0000EE85E /* Socket */ = {
+		AF7CF68928E317E0000EE85E /* STOMP */ = {
 			isa = PBXGroup;
 			children = (
-				AF7CF68A28E31886000EE85E /* SocketManager.swift */,
 			);
-			path = Socket;
+			path = STOMP;
 			sourceTree = "<group>";
 		};
 		AF9BB5E428DB362B0059E609 /* Fonts */ = {
@@ -483,7 +480,6 @@
 				AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */,
 				AFE6C03D28E5BB52006C6AAC /* PlaceController.swift in Sources */,
 				AF79B91828DB14E70047E8C1 /* PostingController.swift in Sources */,
-				AF7CF68B28E31886000EE85E /* SocketManager.swift in Sources */,
 				AF513BEE28CA161D00580240 /* Post.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

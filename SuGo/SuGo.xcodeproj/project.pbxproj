@@ -35,12 +35,15 @@
 		AF9BB5F428DB36840059E609 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5EB28DB36840059E609 /* Pretendard-ExtraBold.otf */; };
 		AF9BB5F528DB36840059E609 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5EC28DB36840059E609 /* Pretendard-Black.otf */; };
 		AF9BB5F628DB36840059E609 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5ED28DB36840059E609 /* Pretendard-Light.otf */; };
+		AFC6BC4928EADC71009A6C5B /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC6BC4828EADC71009A6C5B /* BaseInterceptor.swift */; };
+		AFC6BC4B28EADD1E009A6C5B /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC6BC4A28EADD1E009A6C5B /* AlamofireManager.swift */; };
 		AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */; };
 		AFD7BF1F28D5D1E400F42908 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */; };
 		AFD7BF2128D5D1F500F42908 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF2028D5D1F500F42908 /* PostController.swift */; };
 		AFE6C03B28E5BB3F006C6AAC /* PlaceView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */; };
 		AFE6C03D28E5BB52006C6AAC /* PlaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */; };
 		AFE6C04028E5BBB0006C6AAC /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6C03F28E5BBB0006C6AAC /* Home.swift */; };
+		AFE6C04328E5C225006C6AAC /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6C04228E5C225006C6AAC /* Network.swift */; };
 		AFF345B928DC652A000DB114 /* MapView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFF345B828DC652A000DB114 /* MapView.storyboard */; };
 		D41456969C86041FBC77F7EC /* Pods_SuGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D470B62586794582C8169F7C /* Pods_SuGo.framework */; };
 /* End PBXBuildFile section */
@@ -78,12 +81,15 @@
 		AF9BB5EB28DB36840059E609 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		AF9BB5EC28DB36840059E609 /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
 		AF9BB5ED28DB36840059E609 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
+		AFC6BC4828EADC71009A6C5B /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
+		AFC6BC4A28EADD1E009A6C5B /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extensions.swift"; sourceTree = "<group>"; };
 		AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		AFD7BF2028D5D1F500F42908 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
 		AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PlaceView.storyboard; sourceTree = "<group>"; };
 		AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceController.swift; sourceTree = "<group>"; };
 		AFE6C03F28E5BBB0006C6AAC /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		AFE6C04228E5C225006C6AAC /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		AFF345B828DC652A000DB114 /* MapView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapView.storyboard; sourceTree = "<group>"; };
 		D470B62586794582C8169F7C /* Pods_SuGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -138,6 +144,7 @@
 		AF513BD428CA159600580240 /* SuGo */ = {
 			isa = PBXGroup;
 			children = (
+				AFE6C04128E5C21D006C6AAC /* Network */,
 				AF7CF68928E317E0000EE85E /* Socket */,
 				AFD7BF1B28D5BF3D00F42908 /* Extension */,
 				AF513BEB28CA15BB00580240 /* Model */,
@@ -306,6 +313,16 @@
 			path = Trade;
 			sourceTree = "<group>";
 		};
+		AFE6C04128E5C21D006C6AAC /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AFE6C04228E5C225006C6AAC /* Network.swift */,
+				AFC6BC4828EADC71009A6C5B /* BaseInterceptor.swift */,
+				AFC6BC4A28EADD1E009A6C5B /* AlamofireManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -439,13 +456,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */,
+				AFC6BC4928EADC71009A6C5B /* BaseInterceptor.swift in Sources */,
 				AFD7BF2128D5D1F500F42908 /* PostController.swift in Sources */,
+				AFE6C04328E5C225006C6AAC /* Network.swift in Sources */,
 				AF7CF68828E3176E000EE85E /* ChatingRoomController.swift in Sources */,
 				AF6C2B1528E47BB30070B3A2 /* SideMenuNavController.swift in Sources */,
 				AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */,
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,
 				AF513BDA28CA159600580240 /* HomeController.swift in Sources */,
 				AFE6C04028E5BBB0006C6AAC /* Home.swift in Sources */,
+				AFC6BC4B28EADD1E009A6C5B /* AlamofireManager.swift in Sources */,
 				AF513BD628CA159600580240 /* AppDelegate.swift in Sources */,
 				AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */,
 				AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */,

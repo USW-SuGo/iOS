@@ -21,8 +21,12 @@ class PostingController: UIViewController {
     
     //MARK: Properties
     
-    var testList = [PHAsset]()
-    var testImage = [UIImage]()
+    var phAssetImages = [PHAsset]()
+    // priview images
+    var priviewImages = [UIImage]()
+    // real images
+    var realImages = [UIImage]()
+
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
     //MARK: Functions
@@ -48,41 +52,32 @@ class PostingController: UIViewController {
         
         presentImagePicker(imagePicker, select: {
             asset in
-        
-            print("select")
-                
         }, deselect: { asset in
-            print("deselect")
-            
         }, cancel: { asset in
-            
-            print("cancel")
-            
         }, finish: { assets in
             
-            print("finish")
             
-            self.testList.removeAll()
-            self.testImage.removeAll()
+            self.phAssetImages.removeAll()
+            self.priviewImages.removeAll()
+            self.realImages.removeAll()
             
             for i in 0..<assets.count {
-                self.testList.append(assets[i])
+                self.phAssetImages.append(assets[i])
             }
             
-            self.convertAssetToImage()
+            self.convertAssetToPriviewImage()
+            self.convertAssetToRealImage()
+            
             self.collectionView.reloadData()
-            
-            
-            
-        })
+            })
     }
     
     // PHAsset -> UIImage로 형변환
-    private func convertAssetToImage() {
+    private func convertAssetToPriviewImage() {
         
-        if testList.count != 0 {
+        if phAssetImages.count != 0 {
             
-            for i in 0..<testList.count {
+            for i in 0..<phAssetImages.count {
                 let imageManager = PHImageManager.default()
                 let option = PHImageRequestOptions()
                 option.deliveryMode = .opportunistic
@@ -95,24 +90,59 @@ class PostingController: UIViewController {
 //                let widthRatio = testList[i].pixelWidth / 30
 //                let heightRatio = testList[i].pixelHeight / 30
                 
-                imageManager.requestImage(for: testList[i],
+                imageManager.requestImage(for: phAssetImages[i],
                                           targetSize: CGSize(width: 40, height: 40),
                                           contentMode: .aspectFill,
                                           options: option) { (result, info) in
                     thumbnail = result!
                 }
                 
-                let data = thumbnail.jpegData(compressionQuality: 0.7)
+                let data = thumbnail.jpegData(compressionQuality: 0.9)
                 let newImage = UIImage(data: data!)
-                self.testImage.append(newImage! as UIImage)
-                print(thumbnail.pngData())
-                print(thumbnail.jpegData(compressionQuality: 0.9))
+                self.priviewImages.append(newImage! as UIImage)
+                print("image size - \(thumbnail.pngData())")
+                print("resize image size - \(thumbnail.jpegData(compressionQuality: 0.9))")
             }
-            print(testImage)
+            print(priviewImages)
         }
     }
     
+    private func convertAssetToRealImage() {
+        
+        if phAssetImages.count != 0 {
+            
+            for i in 0..<phAssetImages.count {
+                let imageManager = PHImageManager.default()
+                let option = PHImageRequestOptions()
+                option.deliveryMode = .opportunistic
+                option.isSynchronous = true
+                
+                // UIImage Resize
+                option.resizeMode = .exact
+                var realImage = UIImage()
 
+//                let widthRatio = testList[i].pixelWidth / 30
+//                let heightRatio = testList[i].pixelHeight / 30
+                
+                imageManager.requestImage(for: phAssetImages[i],
+                                          targetSize: CGSize(width: phAssetImages[i].pixelWidth,
+                                                             height: phAssetImages[i].pixelHeight),
+                                          contentMode: .aspectFill,
+                                          options: option) { (result, info) in
+                    realImage = result!
+                }
+                
+                let data = realImage.jpegData(compressionQuality: 0.9)
+                print("real images size - \(data)")
+                let newImage = UIImage(data: data!)
+                self.realImages.append(newImage! as UIImage)
+//                print("image size - \(thumbnail.pngData())")
+//                print("resize image size - \(thumbnail.jpegData(compressionQuality: 0.9))")
+            }
+            print(realImages)
+        }
+        
+    }
     
     //MARK: Button Actions
     
@@ -125,6 +155,10 @@ class PostingController: UIViewController {
     }
     
     @IBAction func sugoButtonClicked(_ sender: Any) {
+//        for i in 0..<testImage.count {
+//            let image = testImage[i]
+//            UIImage.resize(image)
+//        }
     }
     
     @IBAction func placeButtonClicked(_ sender: Any) {
@@ -133,7 +167,8 @@ class PostingController: UIViewController {
     @objc func imageDeleteButtonClicked(sender: UIButton) {
         
         let indexPath = IndexPath(row: sender.tag, section: 0)
-        testImage.remove(at: indexPath.row)
+        priviewImages.remove(at: indexPath.row)
+        realImages.remove(at: indexPath.row)
         self.collectionView.reloadData()
     
     }
@@ -160,7 +195,7 @@ class PostingController: UIViewController {
 extension PostingController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return testImage.count
+        return priviewImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -168,7 +203,7 @@ extension PostingController: UICollectionViewDelegate, UICollectionViewDataSourc
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostingCell",
                                                       for: indexPath) as! PostingCollectionViewCell
 
-        cell.itemImage.image = testImage[indexPath.row]
+        cell.itemImage.image = priviewImages[indexPath.row]
         cell.itemImage.layer.cornerRadius = 5
         cell.itemImage.layer.borderWidth = 2
         cell.itemImage.layer.borderColor = UIColor.darkGray.cgColor

@@ -15,7 +15,7 @@ class BaseInterceptor: RequestInterceptor {
     func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         print("BaseInterceptor - adapt() called")
         
-        var request = urlRequest
+//        var request = urlRequest
         
         completion(.success(urlRequest))
         

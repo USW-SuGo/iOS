@@ -39,6 +39,8 @@
 		AF9BB5F628DB36840059E609 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5ED28DB36840059E609 /* Pretendard-Light.otf */; };
 		AFC6BC4928EADC71009A6C5B /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC6BC4828EADC71009A6C5B /* BaseInterceptor.swift */; };
 		AFC6BC4B28EADD1E009A6C5B /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC6BC4A28EADD1E009A6C5B /* AlamofireManager.swift */; };
+		AFD4B96028EB023B00CFF369 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD4B95F28EB023B00CFF369 /* UIImage+Extensions.swift */; };
+		AFD6F33C28EAF33900E88D86 /* StompManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD6F33B28EAF33900E88D86 /* StompManager.swift */; };
 		AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */; };
 		AFD7BF1F28D5D1E400F42908 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */; };
 		AFD7BF2128D5D1F500F42908 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF2028D5D1F500F42908 /* PostController.swift */; };
@@ -87,6 +89,8 @@
 		AF9BB5ED28DB36840059E609 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
 		AFC6BC4828EADC71009A6C5B /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
 		AFC6BC4A28EADD1E009A6C5B /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
+		AFD4B95F28EB023B00CFF369 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		AFD6F33B28EAF33900E88D86 /* StompManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StompManager.swift; sourceTree = "<group>"; };
 		AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extensions.swift"; sourceTree = "<group>"; };
 		AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		AFD7BF2028D5D1F500F42908 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
@@ -280,6 +284,7 @@
 		AF7CF68928E317E0000EE85E /* STOMP */ = {
 			isa = PBXGroup;
 			children = (
+				AFD6F33B28EAF33900E88D86 /* StompManager.swift */,
 			);
 			path = STOMP;
 			sourceTree = "<group>";
@@ -304,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */,
+				AFD4B95F28EB023B00CFF369 /* UIImage+Extensions.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -471,10 +477,12 @@
 				AF4A2B7728EAEE1E008F8AC7 /* ApiStatusLogger.swift in Sources */,
 				AF4A2B7928EAEEA9008F8AC7 /* MyLogger.swift in Sources */,
 				AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */,
+				AFD6F33C28EAF33900E88D86 /* StompManager.swift in Sources */,
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,
 				AF513BDA28CA159600580240 /* HomeController.swift in Sources */,
 				AFE6C04028E5BBB0006C6AAC /* Home.swift in Sources */,
 				AFC6BC4B28EADD1E009A6C5B /* AlamofireManager.swift in Sources */,
+				AFD4B96028EB023B00CFF369 /* UIImage+Extensions.swift in Sources */,
 				AF513BD628CA159600580240 /* AppDelegate.swift in Sources */,
 				AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */,
 				AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */,

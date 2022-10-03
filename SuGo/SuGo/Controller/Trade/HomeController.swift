@@ -15,6 +15,7 @@ class HomeController: UIViewController {
     
     //MARK: Properties
     
+    var homeData: [Home] = []
     var testList = ["미래", "종강", "IT", "글경", "체대", "인문"]
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
@@ -26,7 +27,7 @@ class HomeController: UIViewController {
         customLeftBarButton()
         customRightBarButtons()
         customBackButton()
-    
+        print(homeData)
     }
     
     // 이 후 페이지 생성 시 함수 생성 진행 예정

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF4A2B7728EAEE1E008F8AC7 /* ApiStatusLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4A2B7628EAEE1E008F8AC7 /* ApiStatusLogger.swift */; };
+		AF4A2B7928EAEEA9008F8AC7 /* MyLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4A2B7828EAEEA9008F8AC7 /* MyLogger.swift */; };
+		AF4A2B7B28EAEF57008F8AC7 /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4A2B7A28EAEF57008F8AC7 /* SearchRouter.swift */; };
 		AF513BD628CA159600580240 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF513BD528CA159600580240 /* AppDelegate.swift */; };
 		AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF513BD728CA159600580240 /* SceneDelegate.swift */; };
 		AF513BDA28CA159600580240 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF513BD928CA159600580240 /* HomeController.swift */; };
@@ -51,6 +54,9 @@
 /* Begin PBXFileReference section */
 		085E25C41FC74F2DA148EB24 /* Pods-SuGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuGo.release.xcconfig"; path = "Target Support Files/Pods-SuGo/Pods-SuGo.release.xcconfig"; sourceTree = "<group>"; };
 		3DB648DA6A2F310C9EC3E62F /* Pods-SuGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuGo.debug.xcconfig"; path = "Target Support Files/Pods-SuGo/Pods-SuGo.debug.xcconfig"; sourceTree = "<group>"; };
+		AF4A2B7628EAEE1E008F8AC7 /* ApiStatusLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiStatusLogger.swift; sourceTree = "<group>"; };
+		AF4A2B7828EAEEA9008F8AC7 /* MyLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogger.swift; sourceTree = "<group>"; };
+		AF4A2B7A28EAEF57008F8AC7 /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
 		AF513BD228CA159600580240 /* SuGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SuGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF513BD528CA159600580240 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AF513BD728CA159600580240 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -319,6 +325,9 @@
 				AFE6C04228E5C225006C6AAC /* Network.swift */,
 				AFC6BC4828EADC71009A6C5B /* BaseInterceptor.swift */,
 				AFC6BC4A28EADD1E009A6C5B /* AlamofireManager.swift */,
+				AF4A2B7628EAEE1E008F8AC7 /* ApiStatusLogger.swift */,
+				AF4A2B7828EAEEA9008F8AC7 /* MyLogger.swift */,
+				AF4A2B7A28EAEF57008F8AC7 /* SearchRouter.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -458,9 +467,12 @@
 				AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */,
 				AFC6BC4928EADC71009A6C5B /* BaseInterceptor.swift in Sources */,
 				AFD7BF2128D5D1F500F42908 /* PostController.swift in Sources */,
+				AF4A2B7B28EAEF57008F8AC7 /* SearchRouter.swift in Sources */,
 				AFE6C04328E5C225006C6AAC /* Network.swift in Sources */,
 				AF7CF68828E3176E000EE85E /* ChatingRoomController.swift in Sources */,
 				AF6C2B1528E47BB30070B3A2 /* SideMenuNavController.swift in Sources */,
+				AF4A2B7728EAEE1E008F8AC7 /* ApiStatusLogger.swift in Sources */,
+				AF4A2B7928EAEEA9008F8AC7 /* MyLogger.swift in Sources */,
 				AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */,
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,
 				AF513BDA28CA159600580240 /* HomeController.swift in Sources */,

@@ -14,6 +14,9 @@ class PostingController: UIViewController {
 
     //MARK: IBOutlets
     
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var priceTextField: UITextField!
+    @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var sugoButton: UIButton!
     @IBOutlet weak var placeButton: UIButton!
@@ -124,6 +127,7 @@ class PostingController: UIViewController {
 //                let widthRatio = testList[i].pixelWidth / 30
 //                let heightRatio = testList[i].pixelHeight / 30
                 
+                // 원본 사이즈 그대로 유지
                 imageManager.requestImage(for: phAssetImages[i],
                                           targetSize: CGSize(width: phAssetImages[i].pixelWidth,
                                                              height: phAssetImages[i].pixelHeight),
@@ -134,14 +138,12 @@ class PostingController: UIViewController {
                 
                 let data = realImage.jpegData(compressionQuality: 0.9)
                 print("real images size - \(data)")
+                
                 let newImage = UIImage(data: data!)
                 self.realImages.append(newImage! as UIImage)
-//                print("image size - \(thumbnail.pngData())")
-//                print("resize image size - \(thumbnail.jpegData(compressionQuality: 0.9))")
+
             }
-            print(realImages)
         }
-        
     }
     
     //MARK: Button Actions

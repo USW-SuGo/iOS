@@ -37,6 +37,7 @@
 		AF9BB5F428DB36840059E609 /* Pretendard-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5EB28DB36840059E609 /* Pretendard-ExtraBold.otf */; };
 		AF9BB5F528DB36840059E609 /* Pretendard-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5EC28DB36840059E609 /* Pretendard-Black.otf */; };
 		AF9BB5F628DB36840059E609 /* Pretendard-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5ED28DB36840059E609 /* Pretendard-Light.otf */; };
+		AFC2DB6928ED8ED100085A9B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC2DB6828ED8ED100085A9B /* MapViewController.swift */; };
 		AFC6BC4928EADC71009A6C5B /* BaseInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC6BC4828EADC71009A6C5B /* BaseInterceptor.swift */; };
 		AFC6BC4B28EADD1E009A6C5B /* AlamofireManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC6BC4A28EADD1E009A6C5B /* AlamofireManager.swift */; };
 		AFD4B96028EB023B00CFF369 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD4B95F28EB023B00CFF369 /* UIImage+Extensions.swift */; };
@@ -87,6 +88,7 @@
 		AF9BB5EB28DB36840059E609 /* Pretendard-ExtraBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-ExtraBold.otf"; sourceTree = "<group>"; };
 		AF9BB5EC28DB36840059E609 /* Pretendard-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Black.otf"; sourceTree = "<group>"; };
 		AF9BB5ED28DB36840059E609 /* Pretendard-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Light.otf"; sourceTree = "<group>"; };
+		AFC2DB6828ED8ED100085A9B /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		AFC6BC4828EADC71009A6C5B /* BaseInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInterceptor.swift; sourceTree = "<group>"; };
 		AFC6BC4A28EADD1E009A6C5B /* AlamofireManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireManager.swift; sourceTree = "<group>"; };
 		AFD4B95F28EB023B00CFF369 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 		AF6C2B1128E47B490070B3A2 /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				AFC2DB6828ED8ED100085A9B /* MapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				AF6C2B1528E47BB30070B3A2 /* SideMenuNavController.swift in Sources */,
 				AF4A2B7728EAEE1E008F8AC7 /* ApiStatusLogger.swift in Sources */,
 				AF4A2B7928EAEEA9008F8AC7 /* MyLogger.swift in Sources */,
+				AFC2DB6928ED8ED100085A9B /* MapViewController.swift in Sources */,
 				AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */,
 				AFD6F33C28EAF33900E88D86 /* StompManager.swift in Sources */,
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,

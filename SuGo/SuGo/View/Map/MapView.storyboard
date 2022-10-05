@@ -17,15 +17,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="campusmap_img" translatesAutoresizingMaskIntoConstraints="NO" id="Jag-sD-Wo1">
-                                <rect key="frame" x="0.0" y="-2" width="414" height="900"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Jag-sD-Wo1" secondAttribute="trailing" id="hyY-wN-jXV"/>
-                            <constraint firstItem="Jag-sD-Wo1" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="qps-cs-zfn"/>
-                            <constraint firstItem="Jag-sD-Wo1" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="uuv-Lk-GHQ"/>
+                            <constraint firstItem="Jag-sD-Wo1" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="3kE-oL-YfN"/>
+                            <constraint firstItem="Jag-sD-Wo1" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Bar-dj-MA3"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Jag-sD-Wo1" secondAttribute="bottom" id="PWy-Lu-KZl"/>
+                            <constraint firstItem="Jag-sD-Wo1" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="h0I-iC-Y0h"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="지도" image="map" catalog="system" id="QCj-ck-BBu"/>

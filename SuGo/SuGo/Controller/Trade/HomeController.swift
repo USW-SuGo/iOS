@@ -170,17 +170,19 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension HomeController: UICollectionViewDelegateFlowLayout{
     
+    // 위아래 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 0
     }
     
+    // 좌우 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width / 2 - 2
+        let width = collectionView.frame.width / 2
         
         let size = CGSize(width: width, height: 270)
         return size
@@ -193,6 +195,11 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
 class HomeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var placeLabel: UILabel!
+    
+    override func layoutSubviews() {
+        contentView.layer.borderColor = UIColor.systemGray6.cgColor
+        contentView.layer.borderWidth = 0.7
+    }
     
 }
 

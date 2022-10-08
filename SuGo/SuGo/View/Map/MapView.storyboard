@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Map View Controller-->
+        <!--지도-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController id="Y6W-OH-hqX" customClass="MapViewController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,47 +16,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qw0-CA-aPm">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DFt-Aa-iao" customClass="ImageScrollView" customModule="ImageScrollView">
                                 <rect key="frame" x="0.0" y="44" width="414" height="769"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="campusmap_img" translatesAutoresizingMaskIntoConstraints="NO" id="E8N-Ae-zil">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="900"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </imageView>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="E8N-Ae-zil" firstAttribute="trailing" secondItem="cZ9-vg-RKW" secondAttribute="trailing" id="8gJ-Rq-IqX"/>
-                                    <constraint firstItem="E8N-Ae-zil" firstAttribute="leading" secondItem="cZ9-vg-RKW" secondAttribute="leading" id="cDl-9R-zGj"/>
-                                    <constraint firstItem="E8N-Ae-zil" firstAttribute="width" secondItem="qw0-CA-aPm" secondAttribute="width" id="f3j-Rz-nlA"/>
-                                    <constraint firstItem="E8N-Ae-zil" firstAttribute="bottom" secondItem="cZ9-vg-RKW" secondAttribute="bottom" id="nJx-D8-ENz"/>
-                                    <constraint firstItem="E8N-Ae-zil" firstAttribute="top" secondItem="cZ9-vg-RKW" secondAttribute="top" id="vyR-Cb-Q4C"/>
-                                </constraints>
-                                <viewLayoutGuide key="contentLayoutGuide" id="cZ9-vg-RKW"/>
-                                <viewLayoutGuide key="frameLayoutGuide" id="gvb-dP-F8P"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <viewLayoutGuide key="contentLayoutGuide" id="D8B-WQ-HSB"/>
+                                <viewLayoutGuide key="frameLayoutGuide" id="LbW-gc-hv4"/>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="qw0-CA-aPm" secondAttribute="bottom" id="TiD-bZ-Qyk"/>
-                            <constraint firstItem="qw0-CA-aPm" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="uHG-F4-vfb"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="qw0-CA-aPm" secondAttribute="trailing" id="uXx-Ba-BYf"/>
-                            <constraint firstItem="qw0-CA-aPm" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="yCP-bc-eCu"/>
-                        </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="지도" image="map" catalog="system" id="wtW-xa-dVo"/>
                     <navigationItem key="navigationItem" id="3hQ-Q9-DJ7"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="mapImageView" destination="E8N-Ae-zil" id="sNC-Bo-SOu"/>
+                        <outlet property="imageScrollView" destination="DFt-Aa-iao" id="Vlc-A9-xH8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="211.59420289855075" y="39.508928571428569"/>
+            <point key="canvasLocation" x="1121.7391304347827" y="39.508928571428569"/>
         </scene>
     </scenes>
     <resources>
-        <image name="campusmap_img" width="1200" height="900"/>
+        <image name="map" catalog="system" width="128" height="110"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

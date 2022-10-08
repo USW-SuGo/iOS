@@ -7,11 +7,13 @@
 
 import UIKit
 
+import ImageScrollView
+
 class MapViewController: UIViewController {
 
     //MARK: IBOutlets
     
-    @IBOutlet weak var mapSuperView: UIView!
+    @IBOutlet weak var imageScrollView: ImageScrollView!
     @IBOutlet weak var mapImageView: UIImageView!
     
     //MARK: Properties
@@ -27,7 +29,8 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initialCenter = CGPoint(x: mapImageView.center.x, y: mapImageView.center.y)
+//        initialCenter = CGPoint(x: mapImageView.center.x, y: mapImageView.center.y)
+        imageScrollViewSetUp()
 //        print(initialCenter)
 //        pinchAction()
 //        dragAction()
@@ -35,6 +38,14 @@ class MapViewController: UIViewController {
 //        print("UIScreen Width & Height : \(UIScreen.main.bounds.width), \(UIScreen.main.bounds.height)")
 //        print("center X , Y : \(mapImageView.center.x), \(mapImageView.center.y)")
         // Do any additional setup after loading the view.
+    }
+    
+    private func imageScrollViewSetUp() {
+        //campusmap_img
+        imageScrollView.setup()
+        let campusImage = UIImage(named: "campusmap_img.jpeg")!
+        imageScrollView.display(image: campusImage)
+        
     }
     
     private func pinchAction() {
@@ -84,76 +95,76 @@ class MapViewController: UIViewController {
         
     }
     
-    private func dragAction() {
-        let drag = UIPanGestureRecognizer(target: self, action: #selector(doDrag))
-        drag.maximumNumberOfTouches = 2
-        self.view.addGestureRecognizer(drag)
-    }
-    
-    @objc func doDrag(_ sender: UIPanGestureRecognizer) {
-        
-        let transition = sender.translation(in: mapImageView)
-//        print("transition : \(transition)")
-        
-//        print("UIScreen Width & Height : \(UIScreen.main.bounds.width), \(UIScreen.main.bounds.height)")
-//        print("center X , Y : \(mapImageView.center.x), \(mapImageView.center.y)")
-    
-        if sender.state == .began {
-            initialCenter = mapImageView.center
-        }
-        
-        if sender.state != .cancelled {
-            
-            var changedX = mapImageView.center.x + transition.x
-            var changedY = mapImageView.center.y + transition.y
-//            print("changedX & Y : \(changedX), \(changedY)")
-            
-            let maxX = mapImageView.frame.width * 0.5
-            let minX = mapSuperView.bounds.width - mapImageView.frame.width * 0.5
-            
-            changedX = max(min(changedX, maxX), minX)
-            
-//            let maxY = mapImageView.frame.height * 0.4
-//            let minY = mapSuperView.bounds.height - mapImageView.frame.height * 0.4
+//    private func dragAction() {
+//        let drag = UIPanGestureRecognizer(target: self, action: #selector(doDrag))
+//        drag.maximumNumberOfTouches = 2
+//        self.view.addGestureRecognizer(drag)
+//    }
 //
-//            changedY = max(min(changedY, maxY), minY)
-            
-            mapImageView.center = CGPoint(x: changedX, y: mapImageView.center.y)
-            sender.setTranslation(CGPoint.zero, in: mapImageView)
-            
-        } else {
-            mapImageView.center = initialCenter
-        }
-         
-//        if enlargementCheck { // 유저가 지도 확대시
+//    @objc func doDrag(_ sender: UIPanGestureRecognizer) {
 //
-//            print("enlargement : true")
+//        let transition = sender.translation(in: mapImageView)
+////        print("transition : \(transition)")
 //
-//            if (UIScreen.main.bounds.width / 2) - 100 > changedX  {
-//                changedX = mapImageView.center.x
-//            }
+////        print("UIScreen Width & Height : \(UIScreen.main.bounds.width), \(UIScreen.main.bounds.height)")
+////        print("center X , Y : \(mapImageView.center.x), \(mapImageView.center.y)")
 //
-//            if (UIScreen.main.bounds.width / 2) + 100 < changedX {
-//                changedX = mapImageView.center.x
-//            }
-//
-//        } else { // 확대되지 않았을 경우 X축 제한
-//
-//            print("enlargement : false")
-//
-//            if (UIScreen.main.bounds.width / 2) - 100 > changedX  {
-//                changedX = mapImageView.center.x
-//            }
-//
-//            if (UIScreen.main.bounds.width / 2) + 100 < changedX {
-//                changedX = mapImageView.center.x
-//            }
-//
+//        if sender.state == .began {
+//            initialCenter = mapImageView.center
 //        }
-
-        
-        
-    }
+//
+//        if sender.state != .cancelled {
+//
+//            var changedX = mapImageView.center.x + transition.x
+//            var changedY = mapImageView.center.y + transition.y
+////            print("changedX & Y : \(changedX), \(changedY)")
+//
+//            let maxX = mapImageView.frame.width * 0.5
+////            let minX = mapSuperView.bounds.width - mapImageView.frame.width * 0.5
+//
+//            changedX = max(min(changedX, maxX), minX)
+//
+////            let maxY = mapImageView.frame.height * 0.4
+////            let minY = mapSuperView.bounds.height - mapImageView.frame.height * 0.4
+////
+////            changedY = max(min(changedY, maxY), minY)
+//
+//            mapImageView.center = CGPoint(x: changedX, y: mapImageView.center.y)
+//            sender.setTranslation(CGPoint.zero, in: mapImageView)
+//
+//        } else {
+//            mapImageView.center = initialCenter
+//        }
+//
+////        if enlargementCheck { // 유저가 지도 확대시
+////
+////            print("enlargement : true")
+////
+////            if (UIScreen.main.bounds.width / 2) - 100 > changedX  {
+////                changedX = mapImageView.center.x
+////            }
+////
+////            if (UIScreen.main.bounds.width / 2) + 100 < changedX {
+////                changedX = mapImageView.center.x
+////            }
+////
+////        } else { // 확대되지 않았을 경우 X축 제한
+////
+////            print("enlargement : false")
+////
+////            if (UIScreen.main.bounds.width / 2) - 100 > changedX  {
+////                changedX = mapImageView.center.x
+////            }
+////
+////            if (UIScreen.main.bounds.width / 2) + 100 < changedX {
+////                changedX = mapImageView.center.x
+////            }
+////
+////        }
+//
+//
+//
+//    }
     
     //MARK: Button Actions
     
@@ -161,3 +172,23 @@ class MapViewController: UIViewController {
 
 
 }
+
+extension MapViewController: ImageScrollViewDelegate {
+    
+    func imageScrollViewDidChangeOrientation(imageScrollView: ImageScrollView) {
+
+        print("Did Change Oritentation")
+
+    }
+    
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
+        print("Did End Zooming")
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print("Did Scroll")
+    }
+    
+    
+}
+

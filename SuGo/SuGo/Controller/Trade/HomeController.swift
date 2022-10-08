@@ -182,9 +182,14 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width / 2
+        let width = collectionView.frame.width / 2 - 0.2
+        
+        print("UIScreenWidth - \(UIScreen.main.bounds.width)")
+        print("collectionViewWidth - \(collectionView.frame.width)")
+        print("UICell - \(width)")
         
         let size = CGSize(width: width, height: 270)
+        
         return size
         
     }
@@ -198,7 +203,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         contentView.layer.borderColor = UIColor.systemGray6.cgColor
-        contentView.layer.borderWidth = 0.7
+        contentView.layer.borderWidth = 0.5
     }
     
 }

@@ -29,7 +29,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9w5-hy-RxZ">
-                                <rect key="frame" x="0.0" y="123" width="414" height="696"/>
+                                <rect key="frame" x="0.0" y="138" width="414" height="681"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oQN-0f-0EC">
                                     <size key="itemSize" width="213" height="197"/>
@@ -102,14 +102,23 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="UXU-yD-PCY"/>
                                 </connections>
                             </collectionView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="수고 할 물품 검색" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M0L-P7-Zje">
+                                <rect key="frame" x="81" y="95" width="252" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="35" id="9cf-40-nmf"/>
+                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="9cf-40-nmf"/>
+                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="M0L-P7-Zje" secondAttribute="bottom" constant="7" id="QBS-Qu-UfO"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Urk-3X-F2B"/>
                             <constraint firstAttribute="bottom" secondItem="9w5-hy-RxZ" secondAttribute="bottom" constant="77" id="ct6-fs-qtb"/>
+                            <constraint firstItem="M0L-P7-Zje" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="81" id="df7-BI-rLh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="M0L-P7-Zje" secondAttribute="trailing" constant="81" id="ovp-XA-Zqd"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pRH-5q-RcY"/>
+                            <constraint firstItem="M0L-P7-Zje" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="7" id="w2o-VJ-5Zq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="SUGO" largeTitleDisplayMode="always" id="sdd-1x-XTa"/>
@@ -120,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1916" y="96"/>
+            <point key="canvasLocation" x="1915.9420289855075" y="95.758928571428569"/>
         </scene>
         <!--거래-->
         <scene sceneID="6ia-BR-SXT">

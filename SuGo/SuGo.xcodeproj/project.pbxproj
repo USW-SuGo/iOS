@@ -170,7 +170,6 @@
 			children = (
 				AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */,
 				AF6C2B0C28E47AF50070B3A2 /* Trade */,
-				AF6C2B0D28E47AFD0070B3A2 /* Map */,
 				AF6C2B0E28E47B060070B3A2 /* UserInfo */,
 				AF6C2B0F28E47B310070B3A2 /* Chat */,
 				AF513BE028CA159800580240 /* LaunchScreen.storyboard */,
@@ -216,19 +215,12 @@
 			children = (
 				AF6C2B1628E47F620070B3A2 /* SideMenuView.storyboard */,
 				AF513BDB28CA159600580240 /* HomeView.storyboard */,
+				AFF345B828DC652A000DB114 /* MapView.storyboard */,
 				AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */,
 				AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */,
 				AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */,
 			);
 			path = Trade;
-			sourceTree = "<group>";
-		};
-		AF6C2B0D28E47AFD0070B3A2 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				AFF345B828DC652A000DB114 /* MapView.storyboard */,
-			);
-			path = Map;
 			sourceTree = "<group>";
 		};
 		AF6C2B0E28E47B060070B3A2 /* UserInfo */ = {

@@ -8,6 +8,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="Pretendard-Black.otf">
+            <string>Pretendard-Black</string>
+        </array>
+        <array key="Pretendard-Light.otf">
+            <string>Pretendard-Light</string>
+        </array>
         <array key="Pretendard-Medium.otf">
             <string>Pretendard-Medium</string>
         </array>
@@ -64,8 +70,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미술대학" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9Y-3V-s5M">
-                                <rect key="frame" x="20" y="434" width="48.5" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미술대학 | 방금 전 | 학용품" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9Y-3V-s5M">
+                                <rect key="frame" x="20" y="434" width="147.5" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="PXh-vc-mlK"/>
                                 </constraints>
@@ -90,6 +96,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20,000원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXU-WL-97H">
+                                <rect key="frame" x="316.5" y="450" width="77.5" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="1Xg-yd-sRN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Black" family="Pretendard" pointSize="17"/>
+                                <color key="textColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45490196350000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닉네임" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZjE-6S-ImD">
+                                <rect key="frame" x="362.5" y="410" width="31.5" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="fjk-vJ-JcY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Light" family="Pretendard" pointSize="12"/>
+                                <color key="textColor" red="0.43921568989999998" green="0.43921568989999998" blue="0.43921568989999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -99,6 +123,9 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="FjV-2j-bzM" secondAttribute="trailing" constant="20" id="2F9-LI-J9E"/>
                             <constraint firstItem="E9Y-3V-s5M" firstAttribute="top" secondItem="MUK-LU-Kpg" secondAttribute="bottom" constant="4" id="4sQ-Xg-uek"/>
                             <constraint firstAttribute="trailing" secondItem="XWW-c5-Yy6" secondAttribute="trailing" id="5vi-yO-omS"/>
+                            <constraint firstItem="ZjE-6S-ImD" firstAttribute="top" secondItem="Ksg-Pb-097" secondAttribute="bottom" constant="30" id="Czb-Zo-CDh"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="vXU-WL-97H" secondAttribute="trailing" constant="20" id="EI3-xa-DPn"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ZjE-6S-ImD" secondAttribute="trailing" constant="20" id="F9N-gL-NhN"/>
                             <constraint firstItem="E9Y-3V-s5M" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Keg-4b-XU5"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="zLj-sD-NEZ" secondAttribute="bottom" constant="21" id="KuT-au-JdL"/>
                             <constraint firstItem="zLj-sD-NEZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="UEf-XQ-1kF"/>
@@ -110,6 +137,7 @@
                             <constraint firstItem="Ksg-Pb-097" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="jvR-9p-gkj"/>
                             <constraint firstItem="6Wu-xK-g0c" firstAttribute="top" secondItem="XWW-c5-Yy6" secondAttribute="bottom" constant="50" id="q13-Os-BFc"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="FjV-2j-bzM" secondAttribute="bottom" constant="20" id="rB8-li-bId"/>
+                            <constraint firstItem="vXU-WL-97H" firstAttribute="top" secondItem="Ksg-Pb-097" secondAttribute="bottom" constant="70" id="rHM-7R-JBM"/>
                             <constraint firstItem="XWW-c5-Yy6" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="zkw-fF-CvD"/>
                         </constraints>
                     </view>

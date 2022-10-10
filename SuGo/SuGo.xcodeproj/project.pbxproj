@@ -26,6 +26,9 @@
 		AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4028D1E6C800817FE1 /* UserInfoController.swift */; };
 		AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF827B4228D1E70900817FE1 /* TabBarController.swift */; };
 		AF827B4528D1ED9500817FE1 /* TabBarView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */; };
+		AF8A007E28F426A4008F8B7A /* LoginView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8A007D28F426A4008F8B7A /* LoginView.storyboard */; };
+		AF8A008328F42743008F8B7A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A008228F42743008F8B7A /* UserModel.swift */; };
+		AF8A008828F42799008F8B7A /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A008728F42799008F8B7A /* LoginController.swift */; };
 		AF9BB5E128DB1A870059E609 /* ChatingListView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5E028DB1A870059E609 /* ChatingListView.storyboard */; };
 		AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9BB5E228DB1B110059E609 /* ChatingListController.swift */; };
 		AF9BB5EE28DB36840059E609 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5E528DB36840059E609 /* Pretendard-SemiBold.otf */; };
@@ -77,6 +80,9 @@
 		AF827B4028D1E6C800817FE1 /* UserInfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoController.swift; sourceTree = "<group>"; };
 		AF827B4228D1E70900817FE1 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TabBarView.storyboard; sourceTree = "<group>"; };
+		AF8A007D28F426A4008F8B7A /* LoginView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LoginView.storyboard; sourceTree = "<group>"; };
+		AF8A008228F42743008F8B7A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		AF8A008728F42799008F8B7A /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		AF9BB5E028DB1A870059E609 /* ChatingListView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChatingListView.storyboard; sourceTree = "<group>"; };
 		AF9BB5E228DB1B110059E609 /* ChatingListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatingListController.swift; sourceTree = "<group>"; };
 		AF9BB5E528DB36840059E609 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -169,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				AF827B4428D1ED9500817FE1 /* TabBarView.storyboard */,
+				AF8A007C28F42683008F8B7A /* Login */,
 				AF6C2B0C28E47AF50070B3A2 /* Trade */,
 				AF6C2B0E28E47B060070B3A2 /* UserInfo */,
 				AF6C2B0F28E47B310070B3A2 /* Chat */,
@@ -181,8 +188,8 @@
 			isa = PBXGroup;
 			children = (
 				AF827B4228D1E70900817FE1 /* TabBarController.swift */,
+				AF8A008428F4275A008F8B7A /* Login */,
 				AF6C2B1028E47B390070B3A2 /* Trade */,
-				AF6C2B1128E47B490070B3A2 /* Map */,
 				AF6C2B1228E47B4C0070B3A2 /* UserInfo */,
 				AF6C2B1328E47B510070B3A2 /* Chat */,
 			);
@@ -192,6 +199,7 @@
 		AF513BEB28CA15BB00580240 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AF8A008128F42737008F8B7A /* Login */,
 				AFE6C03E28E5BB97006C6AAC /* Trade */,
 				AF513BED28CA161D00580240 /* Post.swift */,
 			);
@@ -244,19 +252,12 @@
 			children = (
 				AF6C2B1428E47BB30070B3A2 /* SideMenuNavController.swift */,
 				AF513BD928CA159600580240 /* HomeController.swift */,
+				AFC2DB6828ED8ED100085A9B /* MapViewController.swift */,
 				AF79B91728DB14E70047E8C1 /* PostingController.swift */,
 				AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */,
 				AFD7BF2028D5D1F500F42908 /* PostController.swift */,
 			);
 			path = Trade;
-			sourceTree = "<group>";
-		};
-		AF6C2B1128E47B490070B3A2 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				AFC2DB6828ED8ED100085A9B /* MapViewController.swift */,
-			);
-			path = Map;
 			sourceTree = "<group>";
 		};
 		AF6C2B1228E47B4C0070B3A2 /* UserInfo */ = {
@@ -282,6 +283,30 @@
 				AFD6F33B28EAF33900E88D86 /* StompManager.swift */,
 			);
 			path = STOMP;
+			sourceTree = "<group>";
+		};
+		AF8A007C28F42683008F8B7A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				AF8A007D28F426A4008F8B7A /* LoginView.storyboard */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		AF8A008128F42737008F8B7A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				AF8A008228F42743008F8B7A /* UserModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		AF8A008428F4275A008F8B7A /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				AF8A008728F42799008F8B7A /* LoginController.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		AF9BB5E428DB362B0059E609 /* Fonts */ = {
@@ -401,6 +426,7 @@
 				AF6C2B1728E47F620070B3A2 /* SideMenuView.storyboard in Resources */,
 				AF79B91628DB14DA0047E8C1 /* PostingView.storyboard in Resources */,
 				AF6E917128D1F24F005480A6 /* UserInfoView.storyboard in Resources */,
+				AF8A007E28F426A4008F8B7A /* LoginView.storyboard in Resources */,
 				AF9BB5F328DB36840059E609 /* Pretendard-Medium.otf in Resources */,
 				AF9BB5F228DB36840059E609 /* Pretendard-ExtraLight.otf in Resources */,
 				AF513BDD28CA159600580240 /* HomeView.storyboard in Resources */,
@@ -475,11 +501,13 @@
 				AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */,
 				AFD6F33C28EAF33900E88D86 /* StompManager.swift in Sources */,
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,
+				AF8A008328F42743008F8B7A /* UserModel.swift in Sources */,
 				AF513BDA28CA159600580240 /* HomeController.swift in Sources */,
 				AFE6C04028E5BBB0006C6AAC /* Home.swift in Sources */,
 				AFC6BC4B28EADD1E009A6C5B /* AlamofireManager.swift in Sources */,
 				AFD4B96028EB023B00CFF369 /* UIImage+Extensions.swift in Sources */,
 				AF513BD628CA159600580240 /* AppDelegate.swift in Sources */,
+				AF8A008828F42799008F8B7A /* LoginController.swift in Sources */,
 				AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */,
 				AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */,
 				AFE6C03D28E5BB52006C6AAC /* PlaceController.swift in Sources */,

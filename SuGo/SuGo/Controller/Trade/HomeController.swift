@@ -64,13 +64,15 @@ class HomeController: UIViewController {
         
     }
     
-    @objc func findButtonClicked() {
+    @objc func mapButtonClicked() {
         
-        let findViewStoryboard = UIStoryboard(name: "findView", bundle: nil)
+        let mapViewStoryboard = UIStoryboard(name: "MapView", bundle: nil)
+        let nextViewController =
+        mapViewStoryboard.instantiateViewController(withIdentifier: "mapVC") as! MapViewController
+        self.present(nextViewController, animated: true, completion: nil)
         
     }
-    
-    
+
     //MARK: Button Actions
     
     //MARK: Design Functions
@@ -87,9 +89,9 @@ class HomeController: UIViewController {
     // 네비게이션 바 우측 버튼 커스텀
     private func customRightBarButtons() {
             
-        let findButton = self.navigationItem.makeSFSymbolButton(self,
-                                                                action: #selector(testButtonAction),
-                                                                symbolName: "customGlass")
+        let mapButton = self.navigationItem.makeSFSymbolButton(self,
+                                                                action: #selector(mapButtonClicked),
+                                                                symbolName: "place")
         
         let postingButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(postingButtonclicked),
@@ -100,7 +102,7 @@ class HomeController: UIViewController {
                                                action: #selector(messageButtonClicked),
                                                symbolName: "customChat")
         
-        self.navigationItem.rightBarButtonItems = [findButton, postingButton, messageButton]
+        self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
                 
     }
     

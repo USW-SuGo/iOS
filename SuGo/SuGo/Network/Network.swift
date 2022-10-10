@@ -9,7 +9,7 @@ import Foundation
 
 enum API {
     
-    static let BASE_URL: String = ""
+    static let BASE_URL: String = "https://api.sugo-diger.com"
     
 }
 

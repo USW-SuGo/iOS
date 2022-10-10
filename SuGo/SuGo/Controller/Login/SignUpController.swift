@@ -40,8 +40,16 @@ class SignUpController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        idTextField.addTarget(self, action: #selector(idTextFieldisValid), for: .editingChanged)
-        passwordTextField.addTarget(self, action: #selector(passwordTextFieldisValid), for: .editingChanged)
+        idTextField.addTarget(self,
+                              action: #selector(idTextFieldisValid),
+                              for: .editingChanged)
+        passwordTextField.addTarget(self,
+                                    action: #selector(passwordTextFieldisValid),
+                                    for: .editingChanged)
+        confirmPasswordTextField.addTarget(self,
+                                           action: #selector(confirmPasswordTextFieldisValid),
+                                           for: .editingChanged)
+        
         
         // Do any additional setup after loading the view.
     }
@@ -89,12 +97,79 @@ class SignUpController: UIViewController {
             } else {
                 print("print : 8글자 이상, 정규표현식 불일치")
             }
+        
+        }
+        
+        if confirmPasswordTextField.text?.count ?? 0 > 0 && password != confirmPasswordTextField.text {
+            // 2차 비밀번호 불일치 출력
+            
+            print("print : 2차 비밀번호까지 입력 후 1차 비밀번호 변경 시 불일치")
             
         }
+        
+    }
+    
+    @objc func confirmPasswordTextFieldisValid(_ sender: UITextField) {
+        
+        guard let password = confirmPasswordTextField.text, !password.isEmpty else { return }
+        
+        if password == passwordTextField.text { // 비밀번호 일치
+            
+            print("비밀번호 일치")
+            
+        } else { // 비밀번호 불일치
+            
+            print("print : 정규표현식 불일치, 비밀번호 불일치")
+            
+        }
+        
+    }
+    
+    @objc func emailTextFieldisValid(_ sender: UITextField) {
+        
+        guard let email = emailTextField.text, !email.isEmpty else { return }
+        
+        if loginModel.isValidEmail(email: email) {
+            
+            print("print : 이메일 정규표현식 일치")
+            
+        } else {
+            
+            print("print : 이메일 정규표현식 불일치")
+        }
+        
+        
     }
     
     //MARK: Button Actions
      
+    @IBAction func idOverlapButonClicked(_ sender: Any) {
+        
+        let id = idTextField.text ?? ""
+        
+        AlamofireManager
+            .shared
+            .session
+            .request(LoginRouter.checkLoginId(id: id))
+            .responseJSON { response in
+                print(response)
+            }
+        
+    }
+    @IBAction func emailOverlapButtonClicked(_ sender: Any) {
+        
+        let email = emailTextField.text ?? ""
+        
+        AlamofireManager
+            .shared
+            .session
+            .request(LoginRouter.checkEmail(email: email))
+            .responseJSON { response in
+                
+            }
+        
+    }
+    
     
     //MARK: Design Funtions
 

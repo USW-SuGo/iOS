@@ -16,6 +16,10 @@ class BaseInterceptor: RequestInterceptor {
         print("BaseInterceptor - adapt() called")
         
 //        var request = urlRequest
+        var request = urlRequest
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         completion(.success(urlRequest))
         

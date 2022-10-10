@@ -15,21 +15,32 @@ class HomeController: UIViewController {
     
     //MARK: Properties
     
+    var homeData: [Home] = []
     var testList = ["미래", "종강", "IT", "글경", "체대", "인문"]
+    let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
     //MARK: Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-//        addNavigationBar()
+        customLeftBarButton()
         customRightBarButtons()
-    
+        customBackButton()
+        print(homeData)
     }
     
     // 이 후 페이지 생성 시 함수 생성 진행 예정
     @objc func testButtonAction() {
         print("button clicked")
+    }
+    
+    @objc func hamburgerButtonClicked() {
+        let sideMenuViewStoryboard = UIStoryboard(name: "SideMenuView", bundle: nil)
+        let sideMenuViewController =
+        sideMenuViewStoryboard.instantiateViewController(withIdentifier: "sideVC") as! SideMenuController
+        let sideMenu = SideMenuNavController(rootViewController: sideMenuViewController)
+        self.present(sideMenu, animated: true, completion: nil)
     }
     
     // 네비게이션 바 함수 1. 메세지 2. 게시물 3. 검색
@@ -53,39 +64,58 @@ class HomeController: UIViewController {
         
     }
     
-    @objc func findButtonClicked() {
+    @objc func mapButtonClicked() {
         
-        let findViewStoryboard = UIStoryboard(name: "findView", bundle: nil)
+        let mapViewStoryboard = UIStoryboard(name: "MapView", bundle: nil)
+        let nextViewController =
+        mapViewStoryboard.instantiateViewController(withIdentifier: "mapVC") as! MapViewController
+        self.present(nextViewController, animated: true, completion: nil)
         
     }
-    
-    
+
     //MARK: Button Actions
     
     //MARK: Design Functions
     
+    private func customLeftBarButton(){
+        
+        let sideMenuButton = self.navigationItem.makeSFSymbolButton(self,
+                                                                    action: #selector(hamburgerButtonClicked),
+                                                                    symbolName: "hambuger")
+        self.navigationItem.leftBarButtonItem = sideMenuButton
+        
+    }
+    
+    // 네비게이션 바 우측 버튼 커스텀
     private func customRightBarButtons() {
-        
-        
-        let findButton = self.navigationItem.makeSFSymbolButton(self,
-                                                                action: #selector(testButtonAction),
-                                                                symbolName: "customGlass")
+            
+        let mapButton = self.navigationItem.makeSFSymbolButton(self,
+                                                                action: #selector(mapButtonClicked),
+                                                                symbolName: "place")
         
         let postingButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(postingButtonclicked),
                                                                 symbolName: "viewMore")
+      
         
         let messageButton = self.navigationItem.makeSFSymbolButton(self,
-                                               action: #selector(testButtonAction),
+                                               action: #selector(messageButtonClicked),
                                                symbolName: "customChat")
         
-//        let test = self.navi
+        self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
+                
+    }
+    
+    private func customBackButton() {
         
+        let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        backButtonItem.tintColor = .darkGray
+        self.navigationItem.backBarButtonItem = backButtonItem
         
-        self.navigationItem.rightBarButtonItems = [findButton, postingButton, messageButton]
     }
     
     private func customNaviagtionBar() {
+        
     }
     
     private func addNavigationBar() {
@@ -142,19 +172,26 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
 
 extension HomeController: UICollectionViewDelegateFlowLayout{
     
+    // 위아래 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 0
     }
     
+    // 좌우 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 2
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width / 2 - 2
+        let width = collectionView.frame.width / 2 - 0.2
+        
+        print("UIScreenWidth - \(UIScreen.main.bounds.width)")
+        print("collectionViewWidth - \(collectionView.frame.width)")
+        print("UICell - \(width)")
         
         let size = CGSize(width: width, height: 270)
+        
         return size
         
     }
@@ -165,6 +202,11 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
 class HomeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var placeLabel: UILabel!
+    
+    override func layoutSubviews() {
+        contentView.layer.borderColor = UIColor.systemGray6.cgColor
+        contentView.layer.borderWidth = 0.5
+    }
     
 }
 

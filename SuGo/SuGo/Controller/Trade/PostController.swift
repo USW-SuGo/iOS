@@ -18,6 +18,7 @@ class PostController: UIViewController {
     //MARK: IBOutlets
     
     @IBOutlet weak var slideshow: ImageSlideshow!
+    @IBOutlet weak var sugoButton: UIButton!
     
     //MARK: Properties
     
@@ -28,7 +29,7 @@ class PostController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        designButtons()
         setSlideShow()
     
         // Do any additional setup after loading the view.
@@ -70,6 +71,14 @@ class PostController: UIViewController {
         slideshow.addGestureRecognizer(recognizer)
         
     }
+    
+    private func designButtons() {
+        sugoButton.layer.cornerRadius = 6.0
+        sugoButton.layer.borderWidth = 1.0
+        sugoButton.layer.borderColor = UIColor.white.cgColor
+    }
+    
+    
 
 }
 

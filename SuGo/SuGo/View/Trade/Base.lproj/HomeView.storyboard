@@ -12,6 +12,9 @@
         <array key="Pretendard-Black.otf">
             <string>Pretendard-Black</string>
         </array>
+        <array key="Pretendard-Light.otf">
+            <string>Pretendard-Light</string>
+        </array>
         <array key="Pretendard-Medium.otf">
             <string>Pretendard-Medium</string>
         </array>
@@ -29,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9w5-hy-RxZ">
-                                <rect key="frame" x="0.0" y="174" width="414" height="645"/>
+                                <rect key="frame" x="0.0" y="138" width="414" height="681"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oQN-0f-0EC">
                                     <size key="itemSize" width="213" height="197"/>
@@ -45,21 +48,21 @@
                                             <rect key="frame" x="0.0" y="0.0" width="193" height="270"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미술 대학" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Wd-15-t2M">
-                                                    <rect key="frame" x="20" y="182" width="52" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미술 대학 | 방금 전 | 학용품" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Wd-15-t2M">
+                                                    <rect key="frame" x="20" y="182" width="129.5" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="zVy-uH-EhP"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="12"/>
                                                     <color key="textColor" red="0.4352940917" green="0.43921568989999998" blue="0.43921568989999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20,000원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wFV-9A-nKK">
-                                                    <rect key="frame" x="20" y="230" width="77.5" height="20"/>
+                                                    <rect key="frame" x="101.5" y="230" width="68.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="MvI-Ad-aUH"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="Pretendard-Black" family="Pretendard" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" name="Pretendard-Black" family="Pretendard" pointSize="15"/>
                                                     <color key="textColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45490196350000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -69,7 +72,7 @@
                                                     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="남은 붓 팔아요" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B5a-NQ-UbL">
-                                                    <rect key="frame" x="20" y="204" width="96.5" height="20"/>
+                                                    <rect key="frame" x="20" y="200" width="96.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="mey-XA-aW7"/>
                                                     </constraints>
@@ -77,17 +80,28 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닉네임" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcI-n9-gpB">
+                                                    <rect key="frame" x="20" y="235" width="31.5" height="16"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="16" id="VMp-ft-OPf"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Pretendard-Light" family="Pretendard" pointSize="12"/>
+                                                    <color key="textColor" red="0.4352940917" green="0.43921568989999998" blue="0.43921568989999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="wFV-9A-nKK" firstAttribute="top" secondItem="e62-4r-BTV" secondAttribute="top" constant="230" id="3fz-aB-haL"/>
                                                 <constraint firstAttribute="trailing" secondItem="hg6-gY-DVT" secondAttribute="trailing" constant="20" id="83e-sx-E6P"/>
+                                                <constraint firstItem="bcI-n9-gpB" firstAttribute="top" secondItem="e62-4r-BTV" secondAttribute="top" constant="235" id="ACN-Hy-Bvb"/>
                                                 <constraint firstItem="B5a-NQ-UbL" firstAttribute="leading" secondItem="e62-4r-BTV" secondAttribute="leading" constant="20" id="BWN-gu-AW0"/>
                                                 <constraint firstItem="0Wd-15-t2M" firstAttribute="leading" secondItem="e62-4r-BTV" secondAttribute="leading" constant="20" id="ErR-Zi-wu2"/>
                                                 <constraint firstAttribute="bottom" secondItem="hg6-gY-DVT" secondAttribute="bottom" constant="96" id="Jd2-hi-5Yd"/>
                                                 <constraint firstItem="hg6-gY-DVT" firstAttribute="leading" secondItem="e62-4r-BTV" secondAttribute="leading" constant="20" id="K7I-Lx-9vj"/>
-                                                <constraint firstItem="B5a-NQ-UbL" firstAttribute="top" secondItem="e62-4r-BTV" secondAttribute="top" constant="204" id="aLx-06-k0A"/>
+                                                <constraint firstItem="bcI-n9-gpB" firstAttribute="leading" secondItem="e62-4r-BTV" secondAttribute="leading" constant="20" id="QdZ-T8-SUq"/>
+                                                <constraint firstAttribute="trailing" secondItem="wFV-9A-nKK" secondAttribute="trailing" constant="23" id="Z7c-Dw-xWc"/>
+                                                <constraint firstItem="B5a-NQ-UbL" firstAttribute="top" secondItem="e62-4r-BTV" secondAttribute="top" constant="200" id="aLx-06-k0A"/>
                                                 <constraint firstItem="hg6-gY-DVT" firstAttribute="top" secondItem="e62-4r-BTV" secondAttribute="top" constant="20" id="hae-1i-auJ"/>
-                                                <constraint firstItem="wFV-9A-nKK" firstAttribute="leading" secondItem="e62-4r-BTV" secondAttribute="leading" constant="20" id="ioF-Z8-y9I"/>
                                                 <constraint firstItem="0Wd-15-t2M" firstAttribute="top" secondItem="e62-4r-BTV" secondAttribute="top" constant="182" id="y7f-MX-wzg"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -102,17 +116,38 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="UXU-yD-PCY"/>
                                 </connections>
                             </collectionView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="수고 할 물품 검색" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M0L-P7-Zje">
+                                <rect key="frame" x="95" y="95" width="224" height="36"/>
+                                <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="12"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oe-Jn-Ioa">
+                                <rect key="frame" x="72" y="106" width="15" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="15" id="3Gk-DY-Ptg"/>
+                                    <constraint firstAttribute="height" constant="15" id="3mz-bf-l5l"/>
+                                </constraints>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="86" id="9cf-40-nmf"/>
+                            <constraint firstItem="0oe-Jn-Ioa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="72" id="1gn-yp-AbD"/>
+                            <constraint firstItem="0oe-Jn-Ioa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="18" id="9Wh-Vq-HlQ"/>
+                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="9cf-40-nmf"/>
+                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="M0L-P7-Zje" secondAttribute="bottom" constant="7" id="QBS-Qu-UfO"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Urk-3X-F2B"/>
                             <constraint firstAttribute="bottom" secondItem="9w5-hy-RxZ" secondAttribute="bottom" constant="77" id="ct6-fs-qtb"/>
+                            <constraint firstItem="M0L-P7-Zje" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="95" id="df7-BI-rLh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="M0L-P7-Zje" secondAttribute="trailing" constant="95" id="ovp-XA-Zqd"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pRH-5q-RcY"/>
+                            <constraint firstItem="M0L-P7-Zje" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="7" id="w2o-VJ-5Zq"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="SUGO" id="sdd-1x-XTa"/>
+                    <navigationItem key="navigationItem" title="SUGO" largeTitleDisplayMode="always" id="sdd-1x-XTa"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="9w5-hy-RxZ" id="Bkk-It-7GX"/>
@@ -120,17 +155,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1916" y="96"/>
+            <point key="canvasLocation" x="1915.9420289855075" y="95.758928571428569"/>
         </scene>
         <!--거래-->
         <scene sceneID="6ia-BR-SXT">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yle-6Z-8iY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="거래" image="pencil" catalog="system" id="WE4-FY-xaX"/>
+                    <tabBarItem key="tabBarItem" title="거래" image="cart" catalog="system" id="WE4-FY-xaX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KmT-QF-lXJ">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <color key="textColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <color key="textShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="25"/>
+                            <color key="textColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </textAttributes>
+                        <navigationBarAppearance key="standardAppearance" backgroundImageContentMode="center">
+                            <textAttributes key="titleTextAttributes">
+                                <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="29"/>
+                                <color key="textColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </textAttributes>
+                            <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="5"/>
+                            <textAttributes key="largeTitleTextAttributes"/>
+                        </navigationBarAppearance>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -139,11 +193,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nhj-TO-6QE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1048" y="96"/>
+            <point key="canvasLocation" x="1043" y="109"/>
         </scene>
     </scenes>
     <resources>
-        <image name="pencil" catalog="system" width="128" height="113"/>
+        <image name="cart" catalog="system" width="128" height="102"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

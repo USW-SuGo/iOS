@@ -7,6 +7,9 @@
 
 import UIKit
 
+import Alamofire
+import SwiftyJSON
+
 // 회원가입 로직
 // 1. 아이디 형식 확인 및 중복확인
 // 2. 비밀번호 형식 확인
@@ -23,6 +26,7 @@ class SignUpController: UIViewController {
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var idBottomLine: UIView!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordBottomLine: UIView!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
     
@@ -37,11 +41,13 @@ class SignUpController: UIViewController {
         super.viewDidLoad()
         
         idTextField.addTarget(self, action: #selector(idTextFieldisValid), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(passwordTextFieldisValid), for: .editingChanged)
+        
         // Do any additional setup after loading the view.
     }
     
-    // id 정규표현식 확인
-    @objc func idTextFieldisValid(_ sender: UITextField) {
+    
+    @objc func idTextFieldisValid(_ sender: UITextField) { // id 정규표현식 확인
         
         guard let id = idTextField.text, !id.isEmpty else { return }
         
@@ -52,13 +58,38 @@ class SignUpController: UIViewController {
             idBottomLine.layer.backgroundColor = UIColor.black.cgColor
             
         } else {
-            // 최초 1회 띄우기
-            idBottomLine.layer.backgroundColor = UIColor.purple.cgColor
             
+            idBottomLine.layer.backgroundColor = UIColor.red.cgColor
+            
+            // 최초 1회 띄우기, 장치 걸지 않을 시 중복으로 뷰가 쌓임
             if loginIsValid == false {
                 loginIsValid = true
                 
             }
+        }
+    }
+    
+    @objc func passwordTextFieldisValid(_ sender: UITextField) { // password 정규표현식
+        
+        guard let password = passwordTextField.text, !password.isEmpty else { return }
+        
+        // 정규표현식
+        
+        if loginModel.isValidPassword(pwd: password) {
+            
+            print("print : 정규표현식 부합")
+            passwordBottomLine.layer.backgroundColor = UIColor.black.cgColor
+            
+        } else {
+            
+            passwordBottomLine.layer.backgroundColor = UIColor.red.cgColor
+            
+            if passwordTextField.text?.count ?? 0 < 8 {
+                print("print: 8글자 이하, 정규표현식 불일치")
+            } else {
+                print("print : 8글자 이상, 정규표현식 불일치")
+            }
+            
         }
     }
     

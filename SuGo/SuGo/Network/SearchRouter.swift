@@ -12,6 +12,10 @@ enum SearchRouter: URLRequestConvertible {
         
     case get(term: String)
     case post(term: String)
+    case checkEmail(term: String)
+    case checkLoginId(term: String)
+    case sendAuthorizationEmail(term: String)
+    case join(term: String)
 
     var baseURL: URL {
         return URL(string: API.BASE_URL)!
@@ -21,7 +25,7 @@ enum SearchRouter: URLRequestConvertible {
         switch self {
         case .get:
             return .get
-        case .post:
+        case .post, .checkEmail, .checkLoginId, .sendAuthorizationEmail, .join:
             return .post
         }
     }
@@ -30,7 +34,7 @@ enum SearchRouter: URLRequestConvertible {
         switch self {
         case .get:
             return "get"
-        case .post:
+        case .post, .checkEmail, .checkLoginId, .sendAuthorizationEmail, .join:
             return "post"
         }
     }

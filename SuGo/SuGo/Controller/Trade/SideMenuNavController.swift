@@ -7,6 +7,7 @@
 
 import UIKit
 import SideMenu
+import Alamofire
 
 class SideMenuNavController: SideMenuNavigationController {
 
@@ -22,6 +23,14 @@ class SideMenuNavController: SideMenuNavigationController {
 class SideMenuController: UIViewController{
     
     override func viewDidLoad() {
+    }
+    
+    @IBAction func loginButtonClicked(_ sender: Any) {
+
+        let loginViewStoryboard  = UIStoryboard(name: "LoginView", bundle: nil)
+        let nextViewController = loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+        
     }
     
 }

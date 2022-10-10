@@ -52,6 +52,9 @@
                                 <state key="normal" title="로그인 / 로그아웃">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="loginButtonClicked:" destination="8ln-EA-g5J" eventType="touchUpInside" id="KkU-xo-Zxn"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAr-3R-qlj">
                                 <rect key="frame" x="132" y="215" width="150" height="40"/>

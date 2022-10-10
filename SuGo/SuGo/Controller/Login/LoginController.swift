@@ -9,21 +9,24 @@ import UIKit
 
 class LoginController: UIViewController {
 
+    
+    //MARK: Fucntions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
-    
 
-    /*
-    // MARK: - Navigation
+    //MARK: Button Actions
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func signUpButtonClicked(_ sender: Any) {
+        
+        let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
+        let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signupVC") as! SignUpController
+        self.present(nextViewController, animated: true, completion: nil)
+        
     }
-    */
-
+    
+    
 }

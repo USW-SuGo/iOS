@@ -29,6 +29,8 @@
 		AF8A007E28F426A4008F8B7A /* LoginView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8A007D28F426A4008F8B7A /* LoginView.storyboard */; };
 		AF8A008328F42743008F8B7A /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A008228F42743008F8B7A /* UserModel.swift */; };
 		AF8A008828F42799008F8B7A /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A008728F42799008F8B7A /* LoginController.swift */; };
+		AF8A008A28F4286F008F8B7A /* SignUpView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8A008928F4286F008F8B7A /* SignUpView.storyboard */; };
+		AF8A008C28F429C8008F8B7A /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A008B28F429C8008F8B7A /* SignUpController.swift */; };
 		AF9BB5E128DB1A870059E609 /* ChatingListView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5E028DB1A870059E609 /* ChatingListView.storyboard */; };
 		AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9BB5E228DB1B110059E609 /* ChatingListController.swift */; };
 		AF9BB5EE28DB36840059E609 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5E528DB36840059E609 /* Pretendard-SemiBold.otf */; };
@@ -83,6 +85,8 @@
 		AF8A007D28F426A4008F8B7A /* LoginView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LoginView.storyboard; sourceTree = "<group>"; };
 		AF8A008228F42743008F8B7A /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		AF8A008728F42799008F8B7A /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		AF8A008928F4286F008F8B7A /* SignUpView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUpView.storyboard; sourceTree = "<group>"; };
+		AF8A008B28F429C8008F8B7A /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
 		AF9BB5E028DB1A870059E609 /* ChatingListView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChatingListView.storyboard; sourceTree = "<group>"; };
 		AF9BB5E228DB1B110059E609 /* ChatingListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatingListController.swift; sourceTree = "<group>"; };
 		AF9BB5E528DB36840059E609 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -289,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				AF8A007D28F426A4008F8B7A /* LoginView.storyboard */,
+				AF8A008928F4286F008F8B7A /* SignUpView.storyboard */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				AF8A008728F42799008F8B7A /* LoginController.swift */,
+				AF8A008B28F429C8008F8B7A /* SignUpController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -432,6 +438,7 @@
 				AF513BDD28CA159600580240 /* HomeView.storyboard in Resources */,
 				AF9BB5EE28DB36840059E609 /* Pretendard-SemiBold.otf in Resources */,
 				AF9BB5E128DB1A870059E609 /* ChatingListView.storyboard in Resources */,
+				AF8A008A28F4286F008F8B7A /* SignUpView.storyboard in Resources */,
 				AFF345B928DC652A000DB114 /* MapView.storyboard in Resources */,
 				AF9BB5F028DB36840059E609 /* Pretendard-Thin.otf in Resources */,
 				AF9BB5F528DB36840059E609 /* Pretendard-Black.otf in Resources */,
@@ -501,6 +508,7 @@
 				AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */,
 				AFD6F33C28EAF33900E88D86 /* StompManager.swift in Sources */,
 				AF827B4128D1E6C800817FE1 /* UserInfoController.swift in Sources */,
+				AF8A008C28F429C8008F8B7A /* SignUpController.swift in Sources */,
 				AF8A008328F42743008F8B7A /* UserModel.swift in Sources */,
 				AF513BDA28CA159600580240 /* HomeController.swift in Sources */,
 				AFE6C04028E5BBB0006C6AAC /* Home.swift in Sources */,

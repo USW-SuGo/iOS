@@ -7,8 +7,11 @@
 
 import UIKit
 
+import Alamofire
 import BSImagePicker
+import SwiftyJSON
 import Photos
+import KeychainSwift
 
 class PostingController: UIViewController {
 
@@ -29,6 +32,8 @@ class PostingController: UIViewController {
     var priviewImages = [UIImage]()
     // real images
     var realImages = [UIImage]()
+    
+    let imgData = UIImage(named: "home")
 
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
@@ -157,6 +162,63 @@ class PostingController: UIViewController {
     }
     
     @IBAction func sugoButtonClicked(_ sender: Any) {
+        
+        let url = API.BASE_URL + "/post"
+        
+        let header: HTTPHeaders = [
+    
+            "Authorization" : String(KeychainSwift().get("AccessToken") ?? "")
+    
+        ]
+        
+        let parameters: Parameters = [
+            "title" : "한지석",
+            "content" : "한지석",
+            "price" : 30000,
+            "contactPlace" : "미래혁신관",
+            "category" : "서적"
+        ]
+  
+        AF.upload(multipartFormData: { multipartFormData in
+            for (key, value) in parameters {
+                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+            }
+            for i in 0..<self.realImages.count {
+                multipartFormData.append(self.realImages[i].pngData()!,
+                                        withName: "multipartFileList",
+                                        fileName: "\(self.titleTextField.text ?? "")+\(i)",
+                                        mimeType: "image/png")
+            }
+        },
+                  to: url,
+                  usingThreshold: UInt64.init(),
+                  method: .post,
+                  headers: header).responseJSON { response in
+            
+            print("statusCode - \(response.response?.statusCode)")
+            print("JSONdata - \(JSON(response.data))")
+            print("response - \(response)")
+            print("response.data - \(response.data)")
+            
+        }
+//        AlamofireManager
+//            .shared
+//            .session
+//            .upload(multipartFormData: { multipartFormData in
+//                for (key, value) in parameters {
+//                    multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+//                }
+//                multipartFormData.append((self.imgData?.pngData())!,
+//                                         withName: "multipartFileList",
+//                                         fileName: "test.png",
+//                                         mimeType: "image/png")
+//
+//            }, to: url)
+//            .responseJSON { response in
+//                print(response.value)
+//                print(response.response?.statusCode)
+//            }
+        
 //        for i in 0..<testImage.count {
 //            let image = testImage[i]
 //            UIImage.resize(image)

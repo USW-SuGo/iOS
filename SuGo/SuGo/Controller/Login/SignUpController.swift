@@ -152,7 +152,7 @@ class SignUpController: UIViewController {
             .session
             .request(LoginRouter.checkLoginId(id: id))
             .responseJSON { response in
-                print(response)
+                print(response.response?.statusCode)
             }
         
     }
@@ -165,11 +165,38 @@ class SignUpController: UIViewController {
             .session
             .request(LoginRouter.checkEmail(email: email))
             .responseJSON { response in
-                
+                print(response.response?.statusCode)
             }
         
     }
     
+    @IBAction func testEmail(_ sender: Any) {
+        let email = emailTextField.text ?? ""
+        
+        AlamofireManager
+            .shared
+            .session
+            .request(LoginRouter.sendAuthorizationEmail(email: email))
+            .responseJSON { response in
+                print(JSON(response.data))
+            }
+    }
+    
+    @IBAction func testJoin(_ sender: Any) {
+        let id = idTextField.text ?? ""
+        let email = emailTextField.text ?? ""
+        let password = passwordTextField.text ?? ""
+        let department = "정보보호학과"
+        
+        AlamofireManager
+            .shared
+            .session
+            .request(LoginRouter.join(loginId: id, email: email, password: password, department: department))
+            .responseJSON { response in
+                print(JSON(response.data))
+
+            }
+    }
     
     //MARK: Design Funtions
 

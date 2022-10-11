@@ -68,6 +68,24 @@
                                     <action selector="emailOverlapButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Yg3-bU-4zU"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPR-tn-qsd">
+                                <rect key="frame" x="180" y="430" width="89" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="이메일 인증"/>
+                                <connections>
+                                    <action selector="testEmail:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Lz7-va-6P7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AgW-9n-t0h">
+                                <rect key="frame" x="104" y="491" width="101" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="회원가입 버튼"/>
+                                <connections>
+                                    <action selector="testJoin:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="VRb-TK-bIU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

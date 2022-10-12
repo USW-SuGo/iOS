@@ -12,13 +12,17 @@ import KeychainSwift
 
 enum PostRouter: URLRequestConvertible {
     
-    
-    
     case postContent(title: String,
                      content: String,
                      price: Int,
                      contactPlace: String,
                      category: String)
+    
+    case mainPage(page: Int,
+                  size: Int,
+                  category: String)
+    
+    
     
     var baseURL: URL {
         return URL(string: API.BASE_URL + "/post")!
@@ -28,6 +32,8 @@ enum PostRouter: URLRequestConvertible {
         switch self {
         case .postContent:
             return .post
+        case .mainPage:
+            return .get
         }
     }
     
@@ -35,7 +41,10 @@ enum PostRouter: URLRequestConvertible {
         switch self {
         case .postContent:
             return "/content"
+        case .mainPage:
+            return "/all"
         }
+    
     }
     
     var parameters: Parameters {
@@ -48,6 +57,13 @@ enum PostRouter: URLRequestConvertible {
                 "contactPlace" : contactPlace,
                 "category" : category
             ]
+            
+        case .mainPage(let page, let size, let category):
+            return [
+                "page" : page,
+                "size" : size,
+                "category" : category
+            ]
         }
     }
     
@@ -57,6 +73,8 @@ enum PostRouter: URLRequestConvertible {
             return [
                 .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
             ]
+        case .mainPage:
+            return .default
         }
     }
     
@@ -68,7 +86,12 @@ enum PostRouter: URLRequestConvertible {
         
         request.method = method
         request.headers = headers
-        request = try JSONEncoding.default.encode(request, with: parameters)
+        
+        if request.method == .post {
+            request = try JSONEncoding.default.encode(request, with: parameters)
+        } else if request.method == .get {
+            request = try URLEncoding.default.encode(request, with: parameters)
+        }
         
         return request
     }

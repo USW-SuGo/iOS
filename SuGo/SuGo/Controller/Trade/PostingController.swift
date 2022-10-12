@@ -151,6 +151,58 @@ class PostingController: UIViewController {
         }
     }
     
+    private func postContent(title: String,
+                             content: String,
+                             priceText: String,
+                             contactPlace: String,
+                             category: String) {
+        
+        let url = API.BASE_URL + "/post"
+        
+        let header: HTTPHeaders = [
+    
+            "Authorization" : String(KeychainSwift().get("AccessToken") ?? "")
+    
+        ]
+        
+        let price = Int(priceText)
+        
+        let parameters: Parameters = [
+            "title" : title,
+            "content" : content,
+            "price" : price,
+            "contactPlace" : contactPlace,
+            "category" : category
+        ]
+        
+        // MultipartFormData - 이미지 파일 & 글 전송 logic
+        // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            
+            for (key, value) in parameters {
+                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+            }
+            
+            for i in 0..<self.realImages.count {
+                multipartFormData.append(self.realImages[i].jpegData(compressionQuality: 1)!,
+                                        withName: "multipartFileList",
+                                        fileName: "\(self.titleTextField.text ?? "")+\(i)",
+                                        mimeType: "image/jpeg")
+            }
+            
+        },
+                  to: url,
+                  usingThreshold: UInt64.init(),
+                  method: .post,
+                  headers: header).responseJSON { response in
+            
+            print(JSON(response.data))
+            
+        }
+        
+    }
+    
     //MARK: Button Actions
     
     @IBAction func selectPhotoButtonClicked(_ sender: Any) {
@@ -162,49 +214,13 @@ class PostingController: UIViewController {
     }
     
     @IBAction func sugoButtonClicked(_ sender: Any) {
-        
-        let url = API.BASE_URL + "/post"
-        
-        let header: HTTPHeaders = [
-    
-            "Authorization" : String(KeychainSwift().get("AccessToken") ?? "")
-    
-        ]
-        
-        let parameters: Parameters = [
-            "title" : "한지석",
-            "content" : "한지석",
-            "price" : 30000,
-            "contactPlace" : "미래혁신관",
-            "category" : "서적"
-        ]
   
-        // MultipartFormData - 이미지 파일 & 글 전송 logic
-        // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
-        
-        AF.upload(multipartFormData: { multipartFormData in
-            for (key, value) in parameters {
-                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
-            }
-            for i in 0..<self.realImages.count {
-                multipartFormData.append(self.realImages[i].jpegData(compressionQuality: 1)!,
-                                        withName: "multipartFileList",
-                                        fileName: "\(self.titleTextField.text ?? "")+\(i)",
-                                        mimeType: "image/jpeg")
-            }
-            print(multipartFormData.boundary)
-        },
-                  to: url,
-                  usingThreshold: UInt64.init(),
-                  method: .post,
-                  headers: header).responseJSON { response in
-            
-            print("statusCode - \(response.response?.statusCode)")
-            print("JSONdata - \(JSON(response.data))")
-            print("response - \(response)")
-            print("response.data - \(response.data)")
-            
-        }
+        // text or place 모두 선택 되었을 시 함수 실행
+        postContent(title: titleTextField.text ?? "",
+                    content: contentTextView.text ?? "",
+                    priceText: priceTextField.text ?? "",
+                    contactPlace: "종합강의동",
+                    category: "서적")
 
     }
     

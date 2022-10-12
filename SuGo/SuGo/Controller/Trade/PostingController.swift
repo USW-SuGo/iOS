@@ -146,7 +146,7 @@ class PostingController: UIViewController {
                 
                 let newImage = UIImage(data: data!)
                 self.realImages.append(newImage! as UIImage)
-
+                
             }
         }
     }
@@ -179,16 +179,20 @@ class PostingController: UIViewController {
             "category" : "서적"
         ]
   
+        // MultipartFormData - 이미지 파일 & 글 전송 logic
+        // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
+        
         AF.upload(multipartFormData: { multipartFormData in
             for (key, value) in parameters {
                 multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
             }
             for i in 0..<self.realImages.count {
-                multipartFormData.append(self.realImages[i].pngData()!,
+                multipartFormData.append(self.realImages[i].jpegData(compressionQuality: 1)!,
                                         withName: "multipartFileList",
                                         fileName: "\(self.titleTextField.text ?? "")+\(i)",
-                                        mimeType: "image/png")
+                                        mimeType: "image/jpeg")
             }
+            print(multipartFormData.boundary)
         },
                   to: url,
                   usingThreshold: UInt64.init(),
@@ -201,28 +205,7 @@ class PostingController: UIViewController {
             print("response.data - \(response.data)")
             
         }
-//        AlamofireManager
-//            .shared
-//            .session
-//            .upload(multipartFormData: { multipartFormData in
-//                for (key, value) in parameters {
-//                    multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
-//                }
-//                multipartFormData.append((self.imgData?.pngData())!,
-//                                         withName: "multipartFileList",
-//                                         fileName: "test.png",
-//                                         mimeType: "image/png")
-//
-//            }, to: url)
-//            .responseJSON { response in
-//                print(response.value)
-//                print(response.response?.statusCode)
-//            }
-        
-//        for i in 0..<testImage.count {
-//            let image = testImage[i]
-//            UIImage.resize(image)
-//        }
+
     }
     
     @IBAction func placeButtonClicked(_ sender: Any) {

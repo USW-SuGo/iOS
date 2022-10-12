@@ -7,6 +7,9 @@
 
 import UIKit
 
+import Alamofire
+import SwiftyJSON
+
 class HomeController: UIViewController {
 
     //MARK: IBOutlets
@@ -15,7 +18,7 @@ class HomeController: UIViewController {
     
     //MARK: Properties
     
-    var homeData: [Home] = []
+    var homeData = [Home]()
     var testList = ["미래", "종강", "IT", "글경", "체대", "인문"]
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
@@ -27,7 +30,7 @@ class HomeController: UIViewController {
         customLeftBarButton()
         customRightBarButtons()
         customBackButton()
-        print(homeData)
+        getMainPage(page: 0, size: 10, category: "")
     }
     
     // 이 후 페이지 생성 시 함수 생성 진행 예정
@@ -36,11 +39,13 @@ class HomeController: UIViewController {
     }
     
     @objc func hamburgerButtonClicked() {
+        
         let sideMenuViewStoryboard = UIStoryboard(name: "SideMenuView", bundle: nil)
         let sideMenuViewController =
         sideMenuViewStoryboard.instantiateViewController(withIdentifier: "sideVC") as! SideMenuController
         let sideMenu = SideMenuNavController(rootViewController: sideMenuViewController)
         self.present(sideMenu, animated: true, completion: nil)
+        
     }
     
     // 네비게이션 바 함수 1. 메세지 2. 게시물 3. 검색
@@ -65,11 +70,71 @@ class HomeController: UIViewController {
     }
     
     @objc func mapButtonClicked() {
+          
+        print(homeData)
+//        let mapViewStoryboard = UIStoryboard(name: "MapView", bundle: nil)
+//        let nextViewController =
+//        mapViewStoryboard.instantiateViewController(withIdentifier: "mapVC") as! MapViewController
+//        self.present(nextViewController, animated: true, completion: nil)
         
-        let mapViewStoryboard = UIStoryboard(name: "MapView", bundle: nil)
-        let nextViewController =
-        mapViewStoryboard.instantiateViewController(withIdentifier: "mapVC") as! MapViewController
-        self.present(nextViewController, animated: true, completion: nil)
+    }
+    
+    //MARK: API Functions
+    
+    private func getMainPage(page: Int, size: Int, category: String) {
+        
+        AlamofireManager
+            .shared
+            .session
+            .request(PostRouter.mainPage(page: page, size: size, category: category))
+            .responseData { response in
+                
+                self.updateMainPage(json: JSON(response.data))
+                
+            }
+        
+    }
+    
+    private func updateMainPage(json: JSON) {
+        
+        for i in 0..<json.count {
+            
+            
+            let jsonImages = json[i]["imageLink"].stringValue
+            var images = jsonImages.components(separatedBy: ", ").map({String($0)})
+            
+            // JSON으로 내려받을 때 stringValue로 떨어지기에, 콤마로 스플릿 후 데이터 일부 수정
+            if images.count == 1 {
+                
+                images[0] = String(images[0].dropFirst())
+                images[0] = String(images[0].dropLast())
+                
+            } else {
+                
+                images[0] = String(images[0].dropFirst())
+                images[images.count - 1] = String(images[images.count - 1].dropLast())
+                
+            }
+            
+            let rawData = Home(id: json[i]["id"].intValue,
+                               imageLink: images,
+                               contactPlace: json[i]["contactPlace"].stringValue,
+                               updatedAt: json[i]["updatedAt"].stringValue,
+                               title: json[i]["title"].stringValue,
+                               price: json[i]["price"].intValue,
+                               nickname: json[i]["nickname"].stringValue,
+                               category: json[i]["category"].stringValue)
+            
+            homeData.append(rawData)
+            
+            // need to reload - collectionView.reload()
+            
+        }
+        
+        self.collectionView.reloadData()
+        
+        print(homeData)
+        
         
     }
 
@@ -147,13 +212,29 @@ class HomeController: UIViewController {
 extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return testList.count
+        return homeData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCell",
                                                       for: indexPath) as! HomeCollectionViewCell
         
+//        
+//        if let url = URL(string: homeData[indexPath.row].imageLink[0]) {
+//            
+//            let imageData = try? Data(contentsOf: url)
+//            let image = UIImage(data: imageData!)
+//            let data = image?.jpegData(compressionQuality: 0.2)
+//            let putImage = UIImage(data: data!)
+//            putImage?.size.width = CGFloat(collectionView.frame.width / 2 - 0.2)
+//            putImage?.size.height = 270
+//            cell.image.image = UIImage(data: putImage!)
+//            
+//            
+//        }
+//        
+        
+       
         cell.backgroundColor = .white
         cell.placeLabel.text = "장소 : \(testList[indexPath.row])"
         
@@ -202,6 +283,7 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
 class HomeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var placeLabel: UILabel!
+    @IBOutlet weak var image: UIImageView!
     
     override func layoutSubviews() {
         contentView.layer.borderColor = UIColor.systemGray6.cgColor

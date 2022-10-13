@@ -229,8 +229,8 @@
 			children = (
 				AF6C2B1628E47F620070B3A2 /* SideMenuView.storyboard */,
 				AF513BDB28CA159600580240 /* HomeView.storyboard */,
-				AFF345B828DC652A000DB114 /* MapView.storyboard */,
 				AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */,
+				AFF345B828DC652A000DB114 /* MapView.storyboard */,
 				AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */,
 				AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */,
 			);

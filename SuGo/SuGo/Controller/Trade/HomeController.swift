@@ -9,6 +9,7 @@ import UIKit
 
 import Alamofire
 import SwiftyJSON
+import Kingfisher
 
 class HomeController: UIViewController {
 
@@ -219,24 +220,30 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCell",
                                                       for: indexPath) as! HomeCollectionViewCell
         
-//        
-//        if let url = URL(string: homeData[indexPath.row].imageLink[0]) {
-//            
-//            let imageData = try? Data(contentsOf: url)
-//            let image = UIImage(data: imageData!)
-//            let data = image?.jpegData(compressionQuality: 0.2)
-//            let putImage = UIImage(data: data!)
-//            putImage?.size.width = CGFloat(collectionView.frame.width / 2 - 0.2)
-//            putImage?.size.height = 270
-//            cell.image.image = UIImage(data: putImage!)
-//            
-//            
-//        }
-//        
         
-       
+        if let url = URL(string: homeData[indexPath.row].imageLink[0]) {
+            
+            let processor = DownsamplingImageProcessor(size: CGSize(width: cell.image.frame.width,
+                                                                    height: cell.image.frame.width * 1.33))
+            
+            print(processor)
+            cell.image.kf.indicatorType = .activity
+            cell.image.kf.setImage(with: url,
+                                   placeholder: nil,
+                                   options: [
+                                    .transition(.fade(0.1)),
+                                    .processor(processor),
+                                    .cacheOriginalImage
+                                        ],
+                                   progressBlock: nil)
+    
+            }
+        
+        
+        print(cell.image.bounds.size)
         cell.backgroundColor = .white
-        cell.placeLabel.text = "장소 : \(testList[indexPath.row])"
+
+        cell.placeUpdateCategoryLabel.text = "미술대학 | 방금 전 | 학용품"
         
         
         return cell
@@ -267,11 +274,10 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
         
         let width = collectionView.frame.width / 2 - 0.2
         
-        print("UIScreenWidth - \(UIScreen.main.bounds.width)")
-        print("collectionViewWidth - \(collectionView.frame.width)")
-        print("UICell - \(width)")
-        
-        let size = CGSize(width: width, height: 270)
+//        print("UIScreenWidth - \(UIScreen.main.bounds.width)")
+//        print("collectionViewWidth - \(collectionView.frame.width)")
+//        print("UICell - \(width)")
+        let size = CGSize(width: width, height: width * 1.67)
         
         return size
         
@@ -282,12 +288,95 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
 
 class HomeCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var placeLabel: UILabel!
+    
+    
     @IBOutlet weak var image: UIImageView!
+
+    
+    let placeUpdateCategoryLabel: UILabel = {
+        let placeUpdateCategoryLabel = UILabel()
+        placeUpdateCategoryLabel.text = "temp"
+        placeUpdateCategoryLabel.translatesAutoresizingMaskIntoConstraints = false
+        placeUpdateCategoryLabel.font = UIFont(name: "Pretendard-Regular", size: 12)
+        return placeUpdateCategoryLabel
+    }()
+    
+    let titleLabel: UILabel = {
+        let titleLabel = UILabel()
+        titleLabel.text = "temp"
+        titleLabel.font = UIFont(name: "Pretendard-Medium", size: 16)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        return titleLabel
+    }()
+    
+    let priceLabel: UILabel = {
+        let priceLabel = UILabel()
+        priceLabel.text = "temp"
+        priceLabel.font = UIFont(name: "Pretendard-Black", size: 15)
+        priceLabel.translatesAutoresizingMaskIntoConstraints = false
+        return priceLabel
+    }()
+    
+    let nicknameLabel: UILabel = {
+        let nicknameLabel = UILabel()
+        nicknameLabel.text = "font"
+        nicknameLabel.font = UIFont(name: "Pretendard-Light", size: 12)
+        nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
+        return nicknameLabel
+    }()
     
     override func layoutSubviews() {
-        contentView.layer.borderColor = UIColor.systemGray6.cgColor
-        contentView.layer.borderWidth = 0.5
+        contentView.layer.borderColor = UIColor.systemGray2.cgColor
+        contentView.layer.borderWidth = 0.2
+    
+        addContentView()
+        autoLayoutCells()
+        
+    }
+    
+    func addContentView() {
+        
+        contentView.addSubview(placeUpdateCategoryLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(nicknameLabel)
+        
+        
+    }
+    
+    func autoLayoutCells() {
+        
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        image.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
+        image.heightAnchor.constraint(equalToConstant: image.frame.width * 1.33).isActive = true
+        print("width, height - \(image.frame.width), \(image.frame.width * 1.77)")
+        image.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
+        
+        
+        
+        
+        placeUpdateCategoryLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10).isActive = true
+        placeUpdateCategoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        placeUpdateCategoryLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+
+        
+        titleLabel.topAnchor.constraint(equalTo: placeUpdateCategoryLabel.bottomAnchor, constant: 3).isActive = true
+        titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        titleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        
+        nicknameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 18).isActive = true
+        nicknameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        nicknameLabel.heightAnchor.constraint(equalToConstant: 14).isActive = true
+        
+        
+        priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
+        priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -14).isActive = true
+        priceLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        
+        
+        
     }
     
 }

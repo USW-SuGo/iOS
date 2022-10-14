@@ -19,7 +19,7 @@ class HomeController: UIViewController {
     
     //MARK: Properties
     
-    var homeData = [Home]()
+    var homeProductContents = [ProductContents]()
     var testList = ["미래", "종강", "IT", "글경", "체대", "인문"]
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
@@ -72,11 +72,10 @@ class HomeController: UIViewController {
     
     @objc func mapButtonClicked() {
           
-        print(homeData)
-//        let mapViewStoryboard = UIStoryboard(name: "MapView", bundle: nil)
-//        let nextViewController =
-//        mapViewStoryboard.instantiateViewController(withIdentifier: "mapVC") as! MapViewController
-//        self.present(nextViewController, animated: true, completion: nil)
+        let mapViewStoryboard = UIStoryboard(name: "MapView", bundle: nil)
+        let nextViewController =
+        mapViewStoryboard.instantiateViewController(withIdentifier: "mapVC") as! MapViewController
+        self.present(nextViewController, animated: true, completion: nil)
         
     }
     
@@ -90,16 +89,15 @@ class HomeController: UIViewController {
             .request(PostRouter.mainPage(page: page, size: size, category: category))
             .responseData { response in
                 
-                self.updateMainPage(json: JSON(response.data))
+                self.updateHome(json: JSON(response.data ?? ""))
                 
             }
         
     }
     
-    private func updateMainPage(json: JSON) {
+    private func updateHome(json: JSON) {
         
         for i in 0..<json.count {
-            
             
             let jsonImages = json[i]["imageLink"].stringValue
             var images = jsonImages.components(separatedBy: ", ").map({String($0)})
@@ -117,16 +115,48 @@ class HomeController: UIViewController {
                 
             }
             
-            let rawData = Home(id: json[i]["id"].intValue,
+            let postDate = json[i]["updatedAt"].stringValue.components(separatedBy: "T")[0]
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            let startDate = dateFormatter.date(from: postDate) ?? nil
+            let interval = Date().timeIntervalSince(startDate ?? Date())
+            let intervalDays = Int((interval) / 86400)
+
+            
+            var updatedAt = ""
+            
+            if intervalDays < 1 {
+                
+                updatedAt = "오늘"
+                
+            } else if intervalDays == 1 {
+                
+                updatedAt = "어제"
+                
+            } else if intervalDays < 30 {
+                
+                updatedAt = "\(intervalDays)일 전"
+                
+            } else { // 주 단위 추가 필요
+                
+                let intervalMonth = intervalDays / 30
+                updatedAt = "\(intervalMonth)달 전"
+                
+            }
+            
+            print(json[i]["price"].intValue)
+            
+            let rawData = ProductContents(id: json[i]["id"].intValue,
                                imageLink: images,
                                contactPlace: json[i]["contactPlace"].stringValue,
-                               updatedAt: json[i]["updatedAt"].stringValue,
+                               updatedAt: updatedAt,
                                title: json[i]["title"].stringValue,
-                               price: json[i]["price"].intValue,
+                               price: decimalWon(price: json[i]["price"].intValue),
                                nickname: json[i]["nickname"].stringValue,
                                category: json[i]["category"].stringValue)
             
-            homeData.append(rawData)
+            homeProductContents.append(rawData)
             
             // need to reload - collectionView.reload()
             
@@ -134,9 +164,14 @@ class HomeController: UIViewController {
         
         self.collectionView.reloadData()
         
-        print(homeData)
+    }
+    
+    func decimalWon(price: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
         
-        
+        return result
     }
 
     //MARK: Button Actions
@@ -184,49 +219,47 @@ class HomeController: UIViewController {
         
     }
     
-    private func addNavigationBar() {
-        
-        // Get Safe Area
-        var statusBarHeight: CGFloat = 0
-        statusBarHeight = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
-
-        // navigationBar
-        let naviBar = UINavigationBar(frame: .init(x: 0,
-                                                   y: statusBarHeight,
-                                                   width: view.frame.width,
-                                                   height: statusBarHeight))
-        naviBar.isTranslucent = false
-        naviBar.backgroundColor = .systemBackground
-
-        let naviItem = UINavigationItem(title: "SUGO")
-        naviItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                      target: self,
-                                                      action: nil)
-        naviBar.items = [naviItem]
-        
-        view.addSubview(naviBar)
-         
-    }
+//    private func addNavigationBar() {
+//
+//        // Get Safe Area
+//        var statusBarHeight: CGFloat = 0
+//        statusBarHeight = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
+//
+//        // navigationBar
+//        let naviBar = UINavigationBar(frame: .init(x: 0,
+//                                                   y: statusBarHeight,
+//                                                   width: view.frame.width,
+//                                                   height: statusBarHeight))
+//        naviBar.isTranslucent = false
+//        naviBar.backgroundColor = .systemBackground
+//
+//        let naviItem = UINavigationItem(title: "SUGO")
+//        naviItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+//                                                      target: self,
+//                                                      action: nil)
+//        naviBar.items = [naviItem]
+//
+//        view.addSubview(naviBar)
+//
+//    }
 
 }
 
 extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return homeData.count
+        return homeProductContents.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCell",
                                                       for: indexPath) as! HomeCollectionViewCell
         
-        
-        if let url = URL(string: homeData[indexPath.row].imageLink[0]) {
+        if let url = URL(string: homeProductContents[indexPath.row].imageLink[0]) {
             
             let processor = DownsamplingImageProcessor(size: CGSize(width: cell.image.frame.width,
                                                                     height: cell.image.frame.width * 1.33))
             
-            print(processor)
             cell.image.kf.indicatorType = .activity
             cell.image.kf.setImage(with: url,
                                    placeholder: nil,
@@ -236,24 +269,27 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
                                     .cacheOriginalImage
                                         ],
                                    progressBlock: nil)
-    
             }
         
-        
-        print(cell.image.bounds.size)
         cell.backgroundColor = .white
-
-        cell.placeUpdateCategoryLabel.text = "미술대학 | 방금 전 | 학용품"
-        
+        cell.placeUpdateCategoryLabel.text =
+        "\(homeProductContents[indexPath.row].contactPlace) | \(homeProductContents[indexPath.row].updatedAt) | \(homeProductContents[indexPath.row].category)"
+        cell.nicknameLabel.text = "\(homeProductContents[indexPath.row].nickname)"
+        cell.priceLabel.text = "\(homeProductContents[indexPath.row].price)"
+        cell.priceLabel.textColor = colorLiteralGreen
+        cell.titleLabel.text = "\(homeProductContents[indexPath.row].title)"
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
         let nextViewController =
         postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
+        nextViewController.productPostId = homeProductContents[indexPath.row].id
         self.navigationController?.pushViewController(nextViewController, animated: true)
+        
     }
     
 }
@@ -320,7 +356,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     let nicknameLabel: UILabel = {
         let nicknameLabel = UILabel()
         nicknameLabel.text = "font"
-        nicknameLabel.font = UIFont(name: "Pretendard-Light", size: 12)
+        nicknameLabel.font = UIFont(name: "Pretendard-Light", size: 10)
         nicknameLabel.translatesAutoresizingMaskIntoConstraints = false
         return nicknameLabel
     }()
@@ -350,7 +386,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
         image.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         image.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         image.heightAnchor.constraint(equalToConstant: image.frame.width * 1.33).isActive = true
-        print("width, height - \(image.frame.width), \(image.frame.width * 1.77)")
+//        print("width, height - \(image.frame.width), \(image.frame.width * 1.77)")
         image.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         
         
@@ -363,10 +399,11 @@ class HomeCollectionViewCell: UICollectionViewCell {
         
         titleLabel.topAnchor.constraint(equalTo: placeUpdateCategoryLabel.bottomAnchor, constant: 3).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+        titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
         titleLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         
-        nicknameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 18).isActive = true
+        nicknameLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4).isActive = true
         nicknameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         nicknameLabel.heightAnchor.constraint(equalToConstant: 14).isActive = true
         

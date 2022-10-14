@@ -165,7 +165,7 @@ class PostingController: UIViewController {
     
         ]
         
-        let price = Int(priceText)
+        let price: Int = Int(priceText) ?? 0
         
         let parameters: Parameters = [
             "title" : title,
@@ -198,6 +198,7 @@ class PostingController: UIViewController {
                   headers: header).responseJSON { response in
             
             print(JSON(response.data))
+            print(response.response?.statusCode)
             
         }
         

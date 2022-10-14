@@ -7,7 +7,9 @@
 
 import UIKit
 
+import Alamofire
 import ImageSlideshow
+import SwiftyJSON
 
 class PostController: UIViewController {
 
@@ -22,28 +24,23 @@ class PostController: UIViewController {
     
     //MARK: Properties
     
+    var productPostId = 0
+    var postProductContents = ProductContents()
+    
     // imageFile test
     let alamofireSource = [AlamofireSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!, AlamofireSource(urlString: "https://images.unsplash.com/photo-1447746249824-4be4e1b76d66?w=1080")!, AlamofireSource(urlString: "https://images.unsplash.com/photo-1463595373836-6e0b0a8ee322?w=1080")!]
     
     //MARK: Functions
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        getPostProduct()
         designButtons()
         setSlideShow()
-    
         // Do any additional setup after loading the view.
+
     }
-    
-    @objc func didTap() {
-           let fullScreenController = slideshow.presentFullScreenController(from: self)
-           // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
-           fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .white, color: nil)
-       }
-    
-    //MARK: Button Actions
-    
-    //MARK: Design Functions
     
     private func setSlideShow() {
         
@@ -71,6 +68,39 @@ class PostController: UIViewController {
         slideshow.addGestureRecognizer(recognizer)
         
     }
+    
+    @objc func didTap() {
+           let fullScreenController = slideshow.presentFullScreenController(from: self)
+           // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
+           fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .white, color: nil)
+       }
+    
+    //MARK: API Functions
+    
+    private func getPostProduct() {
+        AlamofireManager
+            .shared
+            .session
+            .request(PostRouter.getDetailPost(productPostId: productPostId))
+            .responseJSON { response in
+
+                
+                print(JSON(response.data))
+                self.updatePost(json: JSON(response.data ?? "") )
+                
+            }
+    }
+    
+    private func updatePost(json: JSON) {
+        
+    }
+    
+    
+    
+    //MARK: Button Actions
+    
+    //MARK: Design Functions
+    
     
     private func designButtons() {
         sugoButton.layer.cornerRadius = 6.0

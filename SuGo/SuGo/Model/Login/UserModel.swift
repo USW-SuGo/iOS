@@ -21,7 +21,7 @@ struct LoginModel{
         
         
     func isValidPassword(pwd: String) -> Bool {
-        let passwordRegEx = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,50}"
+        let passwordRegEx = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
         
         return passwordTest.evaluate(with: pwd) // 비밀번호 형식 검사

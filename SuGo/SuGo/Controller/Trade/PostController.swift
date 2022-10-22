@@ -28,7 +28,7 @@ class PostController: UIViewController {
     var postProductContents = ProductContents()
     
     // imageFile test
-    let alamofireSource = [AlamofireSource(urlString: "https://images.unsplash.com/photo-1432679963831-2dab49187847?w=1080")!, AlamofireSource(urlString: "https://images.unsplash.com/photo-1447746249824-4be4e1b76d66?w=1080")!, AlamofireSource(urlString: "https://images.unsplash.com/photo-1463595373836-6e0b0a8ee322?w=1080")!]
+    var alamofireSource: [AlamofireSource] = []
     
     //MARK: Functions
     
@@ -37,7 +37,6 @@ class PostController: UIViewController {
         super.viewDidLoad()
         getPostProduct()
         designButtons()
-        setSlideShow()
         // Do any additional setup after loading the view.
 
     }
@@ -75,6 +74,14 @@ class PostController: UIViewController {
            fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .white, color: nil)
        }
     
+    func decimalWon(price: Int) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
+        
+        return result
+    }
+    
     //MARK: API Functions
     
     private func getPostProduct() {
@@ -84,7 +91,7 @@ class PostController: UIViewController {
             .request(PostRouter.getDetailPost(productPostId: productPostId))
             .responseJSON { response in
 
-                
+                print(response.data)
                 print(JSON(response.data))
                 self.updatePost(json: JSON(response.data ?? "") )
                 
@@ -93,7 +100,43 @@ class PostController: UIViewController {
     
     private func updatePost(json: JSON) {
         
+        postProductContents.id = json["id"].intValue
+        postProductContents.contactPlace = json["contactPlace"].stringValue
+        postProductContents.updatedAt = json["updatedAt"].stringValue
+        postProductContents.title = json["title"].stringValue
+        postProductContents.price = decimalWon(price: json["price"].intValue)
+        postProductContents.nickname = json["nickname"].stringValue
+        postProductContents.category = json["category"].stringValue
+        
+        let jsonImages = json["imageLink"].stringValue
+        var images = jsonImages.components(separatedBy: ", ").map({String($0)})
+        
+        // JSON으로 내려받을 때 stringValue로 떨어지기에, 콤마로 스플릿 후 데이터 일부 수정
+        if images.count == 1 {
+            
+            images[0] = String(images[0].dropFirst())
+            images[0] = String(images[0].dropLast())
+            
+        } else {
+            
+            images[0] = String(images[0].dropFirst())
+            images[images.count - 1] = String(images[images.count - 1].dropLast())
+            
+        }
+        
+        postProductContents.imageLink = images
+        
+        
+        for i in 0..<postProductContents.imageLink.count {
+            alamofireSource.append(AlamofireSource(urlString: postProductContents.imageLink[i])!)
+        }
+        
+        print(postProductContents)
+        setSlideShow()
+        
     }
+
+
     
     
     

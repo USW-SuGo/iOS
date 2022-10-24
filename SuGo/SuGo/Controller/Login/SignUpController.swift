@@ -37,6 +37,8 @@ class SignUpController: UIViewController {
     
     let loginModel = LoginModel()
     var loginIsValid = false
+    var keyboardTouchCheck = false
+    var emailTouch = false
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
     //MARK: Functions
@@ -47,27 +49,118 @@ class SignUpController: UIViewController {
         
         super.viewDidLoad()
         
-        idTextField.addTarget(self,
-                              action: #selector(idTextFieldisValid),
-                              for: .editingChanged)
-        passwordTextField.addTarget(self,
-                                    action: #selector(passwordTextFieldisValid),
-                                    for: .editingChanged)
-        confirmPasswordTextField.addTarget(self,
-                                           action: #selector(confirmPasswordTextFieldisValid),
-                                           for: .editingChanged)
+        textFieldAddTargets()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillAppear),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
         
         
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
+        
+    }
     
-    @objc func idTextFieldisValid(_ sender: UITextField) { // id 정규표현식 확인
+    private func textFieldAddTargets() {
+        
+        // email add targets
+        emailTextField.addTarget(self,
+                                 action: #selector(emailTextFieldEditingChanged),
+                                 for: .touchDown)
+        emailTextField.addTarget(self,
+                                 action: #selector(emailTextFieldEditingChanged),
+                                 for: .editingChanged)
+        emailTextField.addTarget(self,
+                                 action: #selector(emailTextFieldisValid),
+                                 for: .editingDidEnd)
+        
+        // id add targets
+        idTextField.addTarget(self,
+                              action: #selector(idTextFieldEditingChanged),
+                              for: .touchDown)
+        idTextField.addTarget(self,
+                              action: #selector(idTextFieldEditingChanged),
+                              for: .editingChanged)
+        idTextField.addTarget(self,
+                              action: #selector(idTextFieldisValid),
+                              for: .editingDidEnd)
+        
+        // password add targets
+        passwordTextField.addTarget(self,
+                                    action: #selector(passwordTextFieldEditingChanged),
+                                    for: .touchDown)
+        passwordTextField.addTarget(self,
+                                    action: #selector(passwordTextFieldEditingChanged),
+                                    for: .editingChanged)
+        passwordTextField.addTarget(self,
+                                    action: #selector(passwordTextFieldisValid),
+                                    for: .editingDidEnd)
+        
+        // confirm add targets
+        confirmPasswordTextField.addTarget(self,
+                                           action: #selector(confirmPasswordTextFieldEditingChanged),
+                                           for: .touchDown)
+        confirmPasswordTextField.addTarget(self,
+                                           action: #selector(confirmPasswordTextFieldEditingChanged),
+                                           for: .editingChanged)
+        confirmPasswordTextField.addTarget(self,
+                                           action: #selector(confirmPasswordTextFieldisValid),
+                                           for: .editingDidEnd)
+    }
+    
+    // 기존 입력마다 형식 알려주던 방식 대신, endEditing 이후 유효성 검사하는 방식으로 전환
+    
+    @objc func emailTextFieldEditingChanged(_ sender: UITextField) {
+        
+        emailTouch = true
+        
+        emailBox.layer.borderColor = colorLiteralGreen.cgColor
+        idBox.layer.borderColor = UIColor.lightGray.cgColor
+        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        confirmPasswordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
+    }
+    
+
+    @objc func emailTextFieldisValid(_ sender: UITextField) {
+        
+        emailTouch = false
+        
+        guard let email = emailTextField.text, !email.isEmpty else { return }
+        
+        if loginModel.isValidEmail(email: email) {
+            
+            print("print : 이메일 정규표현식 일치")
+            
+        } else {
+            
+            print("print : 이메일 정규표현식 불일치")
+        }
+        
+        #imageLiteral(resourceName: "simulator_screenshot_70A30D2B-D7F5-4F0B-BCA9-0F4DA072CA15.png")
+    }
+    
+    @objc func idTextFieldEditingChanged(_ sender: UITextField) {
         
         emailBox.layer.borderColor = UIColor.lightGray.cgColor
         idBox.layer.borderColor = colorLiteralGreen.cgColor
         passwordBox.layer.borderColor = UIColor.lightGray.cgColor
         confirmPasswordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
+    }
+    
+    @objc func idTextFieldisValid(_ sender: UITextField) { // id 정규표현식 확인
         
         guard let id = idTextField.text, !id.isEmpty else { return }
         
@@ -75,24 +168,33 @@ class SignUpController: UIViewController {
         if loginModel.isValidId(id: id) {
             // view를 중복으로 띄워주지 않기 위함.(경고문)
             loginIsValid = false
-            idBox.layer.borderColor = colorLiteralGreen.cgColor
+            print("형식에 올바른 아이디")
             
         } else {
                         
             // 최초 1회 띄우기, 장치 걸지 않을 시 중복으로 뷰가 쌓임
             if loginIsValid == false {
                 loginIsValid = true
+                print("올바르지 않은 아이디")
                 
             }
         }
     }
     
-    @objc func passwordTextFieldisValid(_ sender: UITextField) { // password 정규표현식
+    @objc func test(_ sender: UITextField) {
+        print("입력 완료")
+    }
+    
+    @objc func passwordTextFieldEditingChanged(_ sender: UITextField) {
         
         emailBox.layer.borderColor = UIColor.lightGray.cgColor
         idBox.layer.borderColor = UIColor.lightGray.cgColor
         passwordBox.layer.borderColor = colorLiteralGreen.cgColor
         confirmPasswordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
+    }
+    
+    @objc func passwordTextFieldisValid(_ sender: UITextField) { // password 정규표현식
         
         guard let password = passwordTextField.text, !password.isEmpty else { return }
         
@@ -123,6 +225,15 @@ class SignUpController: UIViewController {
         
     }
     
+    @objc func confirmPasswordTextFieldEditingChanged(_ sender: UITextField) {
+        
+        emailBox.layer.borderColor = UIColor.lightGray.cgColor
+        idBox.layer.borderColor = UIColor.lightGray.cgColor
+        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        confirmPasswordBox.layer.borderColor = colorLiteralGreen.cgColor
+        
+    }
+    
     @objc func confirmPasswordTextFieldisValid(_ sender: UITextField) {
         
         emailBox.layer.borderColor = UIColor.lightGray.cgColor
@@ -145,23 +256,39 @@ class SignUpController: UIViewController {
         
     }
     
-    @objc func emailTextFieldisValid(_ sender: UITextField) {
+   
+    
+    @objc func keyboardWillAppear(_ notification: NSNotification){
         
-        guard let email = emailTextField.text, !email.isEmpty else { return }
-        
-        if loginModel.isValidEmail(email: email) {
+        if keyboardTouchCheck == false && emailTouch == false{
             
-            print("print : 이메일 정규표현식 일치")
+            keyboardTouchCheck = true
+            if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                UIView.animate(withDuration: 0.7){
+                    self.view.frame.origin.y -= 180
+                    print(keyboardFrame.height)
+                }
+            }
             
-        } else {
-            
-            print("print : 이메일 정규표현식 불일치")
         }
-        
-        
     }
     
-    @objc
+    @objc func keyboardWillDisappear(_ notification: Notification){
+        
+        if keyboardTouchCheck == true{
+            
+            keyboardTouchCheck = false
+            UIView.animate(withDuration: 0.8){
+                self.view.frame.origin.y = 0
+            }
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+
+          self.view.endEditing(true)
+
+    }
     
     //MARK: Button Actions
      

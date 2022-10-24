@@ -134,14 +134,17 @@ class HomeController: UIViewController {
                 
                 updatedAt = "어제"
                 
-            } else if intervalDays < 30 {
+            } else if intervalDays < 7 {
                 
                 updatedAt = "\(intervalDays)일 전"
                 
+            } else if intervalDays < 30 {
+                
+                updatedAt = "\(intervalDays / 7)주 전"
+                
             } else { // 주 단위 추가 필요
                 
-                let intervalMonth = intervalDays / 30
-                updatedAt = "\(intervalMonth)달 전"
+                updatedAt = "\(intervalDays / 30)달 전"
                 
             }
             

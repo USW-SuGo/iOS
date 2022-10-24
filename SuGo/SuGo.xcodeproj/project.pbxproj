@@ -30,7 +30,7 @@
 		AF8A008828F42799008F8B7A /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A008728F42799008F8B7A /* LoginController.swift */; };
 		AF8A008A28F4286F008F8B7A /* SignUpView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF8A008928F4286F008F8B7A /* SignUpView.storyboard */; };
 		AF8A008C28F429C8008F8B7A /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8A008B28F429C8008F8B7A /* SignUpController.swift */; };
-		AF98B64328F95A4A0081D807 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF98B64228F95A4A0081D807 /* Post.swift */; };
+		AF98B64328F95A4A0081D807 /* ProductContentsDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF98B64228F95A4A0081D807 /* ProductContentsDetail.swift */; };
 		AF9BB5E128DB1A870059E609 /* ChatingListView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5E028DB1A870059E609 /* ChatingListView.storyboard */; };
 		AF9BB5E328DB1B110059E609 /* ChatingListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF9BB5E228DB1B110059E609 /* ChatingListController.swift */; };
 		AF9BB5EE28DB36840059E609 /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = AF9BB5E528DB36840059E609 /* Pretendard-SemiBold.otf */; };
@@ -87,7 +87,7 @@
 		AF8A008728F42799008F8B7A /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		AF8A008928F4286F008F8B7A /* SignUpView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignUpView.storyboard; sourceTree = "<group>"; };
 		AF8A008B28F429C8008F8B7A /* SignUpController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
-		AF98B64228F95A4A0081D807 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		AF98B64228F95A4A0081D807 /* ProductContentsDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductContentsDetail.swift; sourceTree = "<group>"; };
 		AF9BB5E028DB1A870059E609 /* ChatingListView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChatingListView.storyboard; sourceTree = "<group>"; };
 		AF9BB5E228DB1B110059E609 /* ChatingListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatingListController.swift; sourceTree = "<group>"; };
 		AF9BB5E528DB36840059E609 /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -345,7 +345,7 @@
 			isa = PBXGroup;
 			children = (
 				AFE6C03F28E5BBB0006C6AAC /* ProductContents.swift */,
-				AF98B64228F95A4A0081D807 /* Post.swift */,
+				AF98B64228F95A4A0081D807 /* ProductContentsDetail.swift */,
 			);
 			path = Trade;
 			sourceTree = "<group>";
@@ -517,7 +517,7 @@
 				AFE6C04028E5BBB0006C6AAC /* ProductContents.swift in Sources */,
 				AFC6BC4B28EADD1E009A6C5B /* AlamofireManager.swift in Sources */,
 				AFD4B96028EB023B00CFF369 /* UIImage+Extensions.swift in Sources */,
-				AF98B64328F95A4A0081D807 /* Post.swift in Sources */,
+				AF98B64328F95A4A0081D807 /* ProductContentsDetail.swift in Sources */,
 				AF513BD628CA159600580240 /* AppDelegate.swift in Sources */,
 				AF8A008828F42799008F8B7A /* LoginController.swift in Sources */,
 				AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */,

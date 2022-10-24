@@ -21,13 +21,18 @@ class PostController: UIViewController {
     
     @IBOutlet weak var slideshow: ImageSlideshow!
     @IBOutlet weak var sugoButton: UIButton!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var placeUpdateCategoryLabel: UILabel!
+    @IBOutlet weak var nicknameLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var contentLabel: UILabel!
     
     //MARK: Properties
     
     var productPostId = 0
-    var postProductContents = ProductContents()
-    
-    // imageFile test
+    var productContentsDetail = ProductContentsDetail()
+
+    // imageFiles
     var alamofireSource: [AlamofireSource] = []
     
     //MARK: Functions
@@ -91,8 +96,6 @@ class PostController: UIViewController {
             .request(PostRouter.getDetailPost(productPostId: productPostId))
             .responseJSON { response in
 
-                print(response.data)
-                print(JSON(response.data))
                 self.updatePost(json: JSON(response.data ?? "") )
                 
             }
@@ -100,13 +103,13 @@ class PostController: UIViewController {
     
     private func updatePost(json: JSON) {
         
-        postProductContents.id = json["id"].intValue
-        postProductContents.contactPlace = json["contactPlace"].stringValue
-        postProductContents.updatedAt = json["updatedAt"].stringValue
-        postProductContents.title = json["title"].stringValue
-        postProductContents.price = decimalWon(price: json["price"].intValue)
-        postProductContents.nickname = json["nickname"].stringValue
-        postProductContents.category = json["category"].stringValue
+        productContentsDetail.id = json["id"].intValue
+        productContentsDetail.contactPlace = json["contactPlace"].stringValue
+        productContentsDetail.title = json["title"].stringValue
+        productContentsDetail.price = decimalWon(price: json["price"].intValue)
+        productContentsDetail.nickname = json["nickname"].stringValue
+        productContentsDetail.category = json["category"].stringValue
+        productContentsDetail.content = json["content"].stringValue
         
         let jsonImages = json["imageLink"].stringValue
         var images = jsonImages.components(separatedBy: ", ").map({String($0)})
@@ -124,27 +127,65 @@ class PostController: UIViewController {
             
         }
         
-        postProductContents.imageLink = images
+        productContentsDetail.imageLink = images
         
+        let postDate = json["updatedAt"].stringValue.components(separatedBy: "T")[0]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        for i in 0..<postProductContents.imageLink.count {
-            alamofireSource.append(AlamofireSource(urlString: postProductContents.imageLink[i])!)
+        let startDate = dateFormatter.date(from: postDate) ?? nil
+        let interval = Date().timeIntervalSince(startDate ?? Date())
+        let intervalDays = Int((interval) / 86400)
+        
+        var updatedAt = ""
+        
+        if intervalDays < 1 {
+            
+            updatedAt = "오늘"
+            
+        } else if intervalDays == 1 {
+            
+            updatedAt = "어제"
+            
+        } else if intervalDays < 7 {
+            
+            updatedAt = "\(intervalDays)일 전"
+            
+        } else if intervalDays < 30 {
+            
+            updatedAt = "\(intervalDays / 7)주 전"
+            
+        } else {
+            
+            updatedAt = "\(intervalDays / 30)달 전"
+            
         }
         
-        print(postProductContents)
+        productContentsDetail.updatedAt = updatedAt
+        
+        for i in 0..<productContentsDetail.imageLink.count {
+            alamofireSource.append(AlamofireSource(urlString: productContentsDetail.imageLink[i])!)
+        }
+        
         setSlideShow()
+        updateDesign()
         
     }
-
-
-    
-    
     
     //MARK: Button Actions
     
     //MARK: Design Functions
     
-    
+    private func updateDesign() {
+        
+        titleLabel.text = productContentsDetail.title
+        placeUpdateCategoryLabel.text = "\(productContentsDetail.contactPlace) | \(productContentsDetail.updatedAt) | \(productContentsDetail.category)"
+        nicknameLabel.text = productContentsDetail.nickname
+        priceLabel.text = productContentsDetail.price
+        contentLabel.text = productContentsDetail.content
+        
+    }
+
     private func designButtons() {
         sugoButton.layer.cornerRadius = 6.0
         sugoButton.layer.borderWidth = 1.0

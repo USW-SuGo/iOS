@@ -142,8 +142,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="contentLabel" destination="6Wu-xK-g0c" id="3tj-Qc-hUT"/>
+                        <outlet property="nicknameLabel" destination="ZjE-6S-ImD" id="JgV-tP-yXZ"/>
+                        <outlet property="placeUpdateCategoryLabel" destination="E9Y-3V-s5M" id="vrn-LA-K0J"/>
+                        <outlet property="priceLabel" destination="vXU-WL-97H" id="Hl5-kA-5iw"/>
                         <outlet property="slideshow" destination="Ksg-Pb-097" id="gpX-bn-eaq"/>
                         <outlet property="sugoButton" destination="zLj-sD-NEZ" id="Mg2-en-FIR"/>
+                        <outlet property="titleLabel" destination="MUK-LU-Kpg" id="vhb-8e-kbb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

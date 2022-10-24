@@ -29,7 +29,8 @@ class SideMenuController: UIViewController{
 
         let loginViewStoryboard  = UIStoryboard(name: "LoginView", bundle: nil)
         let nextViewController = loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
-        self.navigationController?.pushViewController(nextViewController, animated: true)
+        nextViewController.modalPresentationStyle = .fullScreen
+        self.present(nextViewController, animated: true, completion: nil)
         
     }
     

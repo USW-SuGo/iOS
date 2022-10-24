@@ -11,27 +11,65 @@ import Alamofire
 import SwiftyJSON
 import KeychainSwift
 
-class LoginController: UIViewController {
+class LoginController: UIViewController, UITextFieldDelegate {
 
     //MARK: IBOutlets
     
     @IBOutlet weak var idTextField: UITextField!
+    @IBOutlet weak var idBox: UIView!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var passwordBox: UIView!
     
     //MARK: Properties
     
     let keychain = KeychainSwift()
+    let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
     //MARK: Fucntions
     
     override func viewDidLoad() {
+        self.idTextField.delegate = self
+        self.passwordTextField.delegate = self
+        
         super.viewDidLoad()
+        designBox()
+        idTextField.addTarget(self,
+                              action: #selector(idBoxClicked),
+                              for: .touchDown)
+        idTextField.addTarget(self,
+                              action: #selector(idBoxClicked),
+                              for: .editingChanged)
+        passwordTextField.addTarget(self,
+                                    action: #selector(passwordBoxClicked),
+                                    for: .touchDown)
+        passwordTextField.addTarget(self,
+                                    action: #selector(passwordBoxClicked),
+                                    for: .editingChanged)
 
         // Do any additional setup after loading the view.
     }
+    
+    @objc func idBoxClicked(_ sender: UITextField) {
+        
+        idBox.layer.borderColor = colorLiteralGreen.cgColor
+        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
+    }
 
+    @objc func passwordBoxClicked(_ sender: UITextField) {
+        
+        idBox.layer.borderColor = UIColor.lightGray.cgColor
+        passwordBox.layer.borderColor = colorLiteralGreen.cgColor
+        
+    }
+    
     //MARK: Button Actions
 
+    
+    @IBAction func closeButtonClicked(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
     @IBAction func signUpButtonClicked(_ sender: Any) {
         
         let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
@@ -72,9 +110,13 @@ class LoginController: UIViewController {
                     self.keychain.set(accessToken, forKey: "AccessToken")
                     self.keychain.set(refreshToken, forKey: "RefreshToken")
                     
+                    self.dismiss(animated: true)
+                // 로그인 실패한 경우 에러 메세지 출력
+                } else {
                     
                     
-                    
+                    idBox.layer.borderColor = UIColor.red.cgColor
+                    passwordBox.layer.borderColor = UIColor.red.cgColor
                 }
                 
                 
@@ -85,5 +127,17 @@ class LoginController: UIViewController {
     }
     
     //MARK: Design Functions
+    
+    func designBox() {
+        
+        idBox.layer.borderWidth = 0.5
+        idBox.layer.cornerRadius = 6.0
+        idBox.layer.borderColor = UIColor.lightGray.cgColor
+        
+        passwordBox.layer.borderWidth = 0.5
+        passwordBox.layer.cornerRadius = 6.0
+        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
+    }
     
 }

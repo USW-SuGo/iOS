@@ -24,20 +24,27 @@ class SignUpController: UIViewController {
     //MARK: IBOutlets
     
     @IBOutlet weak var idTextField: UITextField!
-    @IBOutlet weak var idBottomLine: UIView!
+    @IBOutlet weak var idBox: UIView!
+    @IBOutlet weak var idButton: UIButton!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var passwordBottomLine: UIView!
+    @IBOutlet weak var passwordBox: UIView!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
+    @IBOutlet weak var confirmPasswordBox: UIView!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var emailBox: UIView!
     
     //MARK: Properties
     
     let loginModel = LoginModel()
     var loginIsValid = false
+    let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
     //MARK: Functions
     
     override func viewDidLoad() {
+        
+        designBox()
+        
         super.viewDidLoad()
         
         idTextField.addTarget(self,
@@ -57,18 +64,21 @@ class SignUpController: UIViewController {
     
     @objc func idTextFieldisValid(_ sender: UITextField) { // id 정규표현식 확인
         
+        emailBox.layer.borderColor = UIColor.lightGray.cgColor
+        idBox.layer.borderColor = colorLiteralGreen.cgColor
+        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        confirmPasswordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
         guard let id = idTextField.text, !id.isEmpty else { return }
         
         //1. 아이디 형식 체크 후 일치하지 않을 경우 경고문 ON
         if loginModel.isValidId(id: id) {
             // view를 중복으로 띄워주지 않기 위함.(경고문)
             loginIsValid = false
-            idBottomLine.layer.backgroundColor = UIColor.black.cgColor
+            idBox.layer.borderColor = colorLiteralGreen.cgColor
             
         } else {
-            
-            idBottomLine.layer.backgroundColor = UIColor.red.cgColor
-            
+                        
             // 최초 1회 띄우기, 장치 걸지 않을 시 중복으로 뷰가 쌓임
             if loginIsValid == false {
                 loginIsValid = true
@@ -79,6 +89,11 @@ class SignUpController: UIViewController {
     
     @objc func passwordTextFieldisValid(_ sender: UITextField) { // password 정규표현식
         
+        emailBox.layer.borderColor = UIColor.lightGray.cgColor
+        idBox.layer.borderColor = UIColor.lightGray.cgColor
+        passwordBox.layer.borderColor = colorLiteralGreen.cgColor
+        confirmPasswordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
         guard let password = passwordTextField.text, !password.isEmpty else { return }
         
         // 정규표현식
@@ -86,11 +101,10 @@ class SignUpController: UIViewController {
         if loginModel.isValidPassword(pwd: password) {
             
             print("print : 정규표현식 부합")
-            passwordBottomLine.layer.backgroundColor = UIColor.black.cgColor
             
         } else {
             
-            passwordBottomLine.layer.backgroundColor = UIColor.red.cgColor
+//            passwordBox.layer.borderColor = UIColor.red.cgColor
             
             if passwordTextField.text?.count ?? 0 < 8 {
                 print("print: 8글자 이하, 정규표현식 불일치")
@@ -111,14 +125,20 @@ class SignUpController: UIViewController {
     
     @objc func confirmPasswordTextFieldisValid(_ sender: UITextField) {
         
-        guard let password = confirmPasswordTextField.text, !password.isEmpty else { return }
+        emailBox.layer.borderColor = UIColor.lightGray.cgColor
+        idBox.layer.borderColor = UIColor.lightGray.cgColor
+        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        confirmPasswordBox.layer.borderColor = colorLiteralGreen.cgColor
         
+        guard let password = confirmPasswordTextField.text, !password.isEmpty else { return }
+
         if password == passwordTextField.text { // 비밀번호 일치
             
             print("비밀번호 일치")
             
         } else { // 비밀번호 불일치
             
+//            confirmPasswordBox.layer.borderColor = UIColor.red.cgColor
             print("print : 정규표현식 불일치, 비밀번호 불일치")
             
         }
@@ -141,6 +161,8 @@ class SignUpController: UIViewController {
         
     }
     
+    @objc
+    
     //MARK: Button Actions
      
     @IBAction func idOverlapButonClicked(_ sender: Any) {
@@ -156,6 +178,8 @@ class SignUpController: UIViewController {
             }
         
     }
+    
+    // 이메일 중복 확인 로직을 다음 버튼에서 진행
     @IBAction func emailOverlapButtonClicked(_ sender: Any) {
         
         let email = emailTextField.text ?? ""
@@ -199,5 +223,37 @@ class SignUpController: UIViewController {
     }
     
     //MARK: Design Funtions
+    
+    @objc func emailBoxClicked(_ sender: UITextField) {
+        
+    }
 
+    func designBox() {
+        
+        emailBox.layer.borderWidth = 0.7
+        emailBox.layer.borderColor = UIColor.lightGray.cgColor
+        emailBox.layer.cornerRadius = 3.0
+        
+        idBox.layer.borderWidth = 0.7
+        idBox.layer.borderColor = UIColor.lightGray.cgColor
+        idBox.layer.cornerRadius = 3.0
+        
+        passwordBox.layer.borderWidth = 0.7
+        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        passwordBox.layer.cornerRadius = 3.0
+        
+        confirmPasswordBox.layer.borderWidth = 0.7
+        confirmPasswordBox.layer.borderColor = UIColor.lightGray.cgColor
+        confirmPasswordBox.layer.cornerRadius = 3.0
+        
+        
+        idButton.layer.borderWidth = 0.7
+        idButton.layer.borderColor = UIColor.lightGray.cgColor
+        idButton.layer.cornerRadius = 3.0
+        
+        
+        
+    }
+    
+    
 }

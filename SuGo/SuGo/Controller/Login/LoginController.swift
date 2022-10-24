@@ -19,6 +19,8 @@ class LoginController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var idBox: UIView!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordBox: UIView!
+    @IBOutlet weak var wrongAccountBox: UIView!
+    @IBOutlet weak var loginButton: UIButton!
     
     //MARK: Properties
     
@@ -32,6 +34,7 @@ class LoginController: UIViewController, UITextFieldDelegate {
         self.passwordTextField.delegate = self
         
         super.viewDidLoad()
+        wrongAccountBox.isHidden = true
         designBox()
         idTextField.addTarget(self,
                               action: #selector(idBoxClicked),
@@ -49,19 +52,7 @@ class LoginController: UIViewController, UITextFieldDelegate {
         // Do any additional setup after loading the view.
     }
     
-    @objc func idBoxClicked(_ sender: UITextField) {
-        
-        idBox.layer.borderColor = colorLiteralGreen.cgColor
-        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
-        
-    }
 
-    @objc func passwordBoxClicked(_ sender: UITextField) {
-        
-        idBox.layer.borderColor = UIColor.lightGray.cgColor
-        passwordBox.layer.borderColor = colorLiteralGreen.cgColor
-        
-    }
     
     //MARK: Button Actions
 
@@ -114,9 +105,8 @@ class LoginController: UIViewController, UITextFieldDelegate {
                 // 로그인 실패한 경우 에러 메세지 출력
                 } else {
                     
+                    self.failToLogin()
                     
-                    idBox.layer.borderColor = UIColor.red.cgColor
-                    passwordBox.layer.borderColor = UIColor.red.cgColor
                 }
                 
                 
@@ -128,6 +118,26 @@ class LoginController: UIViewController, UITextFieldDelegate {
     
     //MARK: Design Functions
     
+    @objc func idBoxClicked(_ sender: UITextField) {
+        wrongAccountBox.isHidden = true
+        idBox.layer.borderColor = colorLiteralGreen.cgColor
+        passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
+    }
+
+    @objc func passwordBoxClicked(_ sender: UITextField) {
+        wrongAccountBox.isHidden = true
+        idBox.layer.borderColor = UIColor.lightGray.cgColor
+        passwordBox.layer.borderColor = colorLiteralGreen.cgColor
+        
+    }
+    
+    func failToLogin() {
+        idBox.layer.borderColor = UIColor.red.cgColor
+        passwordBox.layer.borderColor = UIColor.red.cgColor
+        wrongAccountBox.isHidden = false
+    }
+    
     func designBox() {
         
         idBox.layer.borderWidth = 0.5
@@ -137,6 +147,10 @@ class LoginController: UIViewController, UITextFieldDelegate {
         passwordBox.layer.borderWidth = 0.5
         passwordBox.layer.cornerRadius = 6.0
         passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+        
+        loginButton.layer.borderColor = colorLiteralGreen.cgColor
+        loginButton.layer.borderWidth = 1.0
+        loginButton.layer.cornerRadius = 6.0
         
     }
     

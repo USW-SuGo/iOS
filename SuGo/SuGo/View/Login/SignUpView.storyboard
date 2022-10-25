@@ -165,7 +165,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iaj-Pk-6C5">
-                                <rect key="frame" x="40" y="503" width="334" height="43"/>
+                                <rect key="frame" x="40" y="508" width="334" height="43"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="비밀번호 확인" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Wg-2l-CPi">
                                         <rect key="frame" x="5" y="0.0" width="324" height="43"/>
@@ -182,21 +182,45 @@
                                     <constraint firstItem="6Wg-2l-CPi" firstAttribute="leading" secondItem="iaj-Pk-6C5" secondAttribute="leading" constant="5" id="qIS-ZO-vjV"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QLF-FM-Ngs">
+                                <rect key="frame" x="40" y="376" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="12"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="영문/숫자/특수문자를 조합한 8~20자 비밀번호를 사용해주세요." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7tr-8A-2FP">
+                                <rect key="frame" x="40" y="490" width="301" height="15"/>
+                                <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="12"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비밀번호가 일치하지 않습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEq-Ou-Mir">
+                                <rect key="frame" x="40" y="553" width="144" height="15"/>
+                                <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="12"/>
+                                <color key="textColor" systemColor="systemRedColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="C5e-nH-Ibh" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="2pn-GO-Eyc"/>
+                            <constraint firstItem="QLF-FM-Ngs" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="3Tn-1v-Wwc"/>
                             <constraint firstItem="b1T-x6-CXJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="4tt-J8-RuZ"/>
                             <constraint firstItem="iaj-Pk-6C5" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="Bqe-jI-xGu"/>
+                            <constraint firstItem="bEq-Ou-Mir" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="C4L-B5-Xez"/>
                             <constraint firstItem="C5e-nH-Ibh" firstAttribute="top" secondItem="G0y-Mk-0IA" secondAttribute="bottom" constant="20" id="EUx-lV-5gU"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="b1T-x6-CXJ" secondAttribute="trailing" constant="40" id="G35-HH-9dk"/>
                             <constraint firstItem="G0y-Mk-0IA" firstAttribute="top" secondItem="RFT-PQ-zfS" secondAttribute="bottom" constant="15" id="Iel-TE-otF"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ZCz-wc-3rT" secondAttribute="trailing" constant="40" id="IwB-W9-AIe"/>
                             <constraint firstItem="b1T-x6-CXJ" firstAttribute="top" secondItem="C5e-nH-Ibh" secondAttribute="bottom" constant="15" id="Jdg-c3-NAp"/>
+                            <constraint firstItem="bEq-Ou-Mir" firstAttribute="top" secondItem="iaj-Pk-6C5" secondAttribute="bottom" constant="2" id="Nm8-wn-6OE"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="G0y-Mk-0IA" secondAttribute="trailing" constant="40" id="TD9-XL-mvm"/>
                             <constraint firstItem="RFT-PQ-zfS" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="TeM-sX-Rzj"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="iaj-Pk-6C5" secondAttribute="trailing" constant="40" id="V9i-Xp-2bf"/>
+                            <constraint firstItem="7tr-8A-2FP" firstAttribute="top" secondItem="ZCz-wc-3rT" secondAttribute="bottom" constant="2" id="VBO-rr-le2"/>
+                            <constraint firstItem="7tr-8A-2FP" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="XFr-ZG-Cog"/>
+                            <constraint firstItem="QLF-FM-Ngs" firstAttribute="top" secondItem="b1T-x6-CXJ" secondAttribute="bottom" constant="2" id="YKY-87-pkG"/>
                             <constraint firstItem="fme-cX-MhC" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="c1e-Zg-z62"/>
                             <constraint firstItem="G0y-Mk-0IA" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="cGz-jX-krv"/>
                             <constraint firstItem="OVE-CK-6Op" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="cXh-AG-jFk"/>
@@ -205,19 +229,22 @@
                             <constraint firstItem="ZCz-wc-3rT" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="kId-cd-8jj"/>
                             <constraint firstItem="OVE-CK-6Op" firstAttribute="top" secondItem="b1T-x6-CXJ" secondAttribute="bottom" constant="20" id="nRi-3c-rEq"/>
                             <constraint firstItem="fme-cX-MhC" firstAttribute="top" secondItem="OVE-CK-6Op" secondAttribute="bottom" constant="9" id="r8s-Da-S55"/>
-                            <constraint firstItem="iaj-Pk-6C5" firstAttribute="top" secondItem="ZCz-wc-3rT" secondAttribute="bottom" constant="15" id="wyH-ka-Au3"/>
+                            <constraint firstItem="iaj-Pk-6C5" firstAttribute="top" secondItem="ZCz-wc-3rT" secondAttribute="bottom" constant="20" id="wyH-ka-Au3"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="confirmPasswordBox" destination="iaj-Pk-6C5" id="EdR-DE-fBj"/>
                         <outlet property="confirmPasswordTextField" destination="6Wg-2l-CPi" id="MaB-dX-cj1"/>
+                        <outlet property="confirmPasswordWarningLabel" destination="bEq-Ou-Mir" id="ezl-wy-U7f"/>
                         <outlet property="emailBox" destination="G0y-Mk-0IA" id="OGU-Rw-ehX"/>
                         <outlet property="emailTextField" destination="CYo-uk-BVE" id="szW-gA-87z"/>
                         <outlet property="idBox" destination="b1T-x6-CXJ" id="L4Q-sp-FL5"/>
                         <outlet property="idButton" destination="wnG-EQ-Fl3" id="1o5-Mg-xVU"/>
                         <outlet property="idTextField" destination="xIx-xN-iqn" id="WfW-O1-h0M"/>
+                        <outlet property="idWarningLabel" destination="QLF-FM-Ngs" id="dKO-49-TWR"/>
                         <outlet property="passwordBox" destination="ZCz-wc-3rT" id="1p2-Wd-ZVk"/>
                         <outlet property="passwordTextField" destination="Nsa-lk-syd" id="wEL-JP-NDv"/>
+                        <outlet property="passwordWarningLabel" destination="7tr-8A-2FP" id="8Ag-lV-66w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -228,6 +255,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

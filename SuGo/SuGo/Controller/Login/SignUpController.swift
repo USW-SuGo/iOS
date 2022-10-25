@@ -32,6 +32,10 @@ class SignUpController: UIViewController {
     @IBOutlet weak var confirmPasswordBox: UIView!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var emailBox: UIView!
+    @IBOutlet weak var idWarningLabel: UILabel!
+    @IBOutlet weak var passwordWarningLabel: UILabel!
+    @IBOutlet weak var confirmPasswordWarningLabel: UILabel!
+    
     
     //MARK: Properties
     
@@ -46,6 +50,7 @@ class SignUpController: UIViewController {
     override func viewDidLoad() {
         
         designBox()
+        designLabel()
         
         super.viewDidLoad()
         
@@ -148,8 +153,7 @@ class SignUpController: UIViewController {
             print("print : 이메일 정규표현식 불일치")
         }
         
-        #imageLiteral(resourceName: "simulator_screenshot_70A30D2B-D7F5-4F0B-BCA9-0F4DA072CA15.png")
-    }
+}
     
     @objc func idTextFieldEditingChanged(_ sender: UITextField) {
         
@@ -162,22 +166,21 @@ class SignUpController: UIViewController {
     
     @objc func idTextFieldisValid(_ sender: UITextField) { // id 정규표현식 확인
         
+        idWarningLabel.isHidden = false
+        
         guard let id = idTextField.text, !id.isEmpty else { return }
         
         //1. 아이디 형식 체크 후 일치하지 않을 경우 경고문 ON
         if loginModel.isValidId(id: id) {
             // view를 중복으로 띄워주지 않기 위함.(경고문)
-            loginIsValid = false
-            print("형식에 올바른 아이디")
+            idOverlapCheck(id: id)
             
         } else {
-                        
-            // 최초 1회 띄우기, 장치 걸지 않을 시 중복으로 뷰가 쌓임
-            if loginIsValid == false {
-                loginIsValid = true
-                print("올바르지 않은 아이디")
-                
-            }
+            
+            idBox.layer.borderColor = UIColor.red.cgColor
+            idWarningLabel.textColor = UIColor.red
+            idWarningLabel.text = "영문/숫자를 사용한 5~20자 아이디를 사용해주세요."
+            
         }
     }
     
@@ -290,19 +293,34 @@ class SignUpController: UIViewController {
 
     }
     
-    //MARK: Button Actions
-     
-    @IBAction func idOverlapButonClicked(_ sender: Any) {
-        
-        let id = idTextField.text ?? ""
-        
+    //MARK: API Functions
+    
+    func idOverlapCheck(id: String) {
         AlamofireManager
             .shared
             .session
             .request(LoginRouter.checkLoginId(id: id))
             .responseJSON { response in
-                print(response.response?.statusCode)
+                
+                if response.response?.statusCode == 200 {
+                    self.idBox.layer.borderColor = self.colorLiteralGreen.cgColor
+                    self.idWarningLabel.textColor = self.colorLiteralGreen
+                    self.idWarningLabel.text = "사용 가능한 아이디에요!"
+                } else {
+                    self.idBox.layer.borderColor = UIColor.red.cgColor
+                    self.idWarningLabel.textColor = UIColor.red
+                    self.idWarningLabel.text = "이미 사용중인 아이디에요!"
+                }
+                
             }
+    }
+    
+    
+    //MARK: Button Actions
+     
+    @IBAction func idOverlapButonClicked(_ sender: Any) {
+        
+        let id = idTextField.text ?? ""
         
     }
     
@@ -379,6 +397,14 @@ class SignUpController: UIViewController {
         idButton.layer.cornerRadius = 3.0
         
         
+        
+    }
+    
+    func designLabel() {
+        
+        idWarningLabel.isHidden = true
+        passwordWarningLabel.isHidden = true
+        confirmPasswordWarningLabel.isHidden = true
         
     }
     

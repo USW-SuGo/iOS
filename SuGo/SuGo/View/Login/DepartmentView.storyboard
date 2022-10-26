@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Pretendard-Medium.otf">
+            <string>Pretendard-Medium</string>
+        </array>
+        <array key="Pretendard-SemiBold.otf">
+            <string>Pretendard-SemiBold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Department Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="departmentVC" id="Y6W-OH-hqX" customClass="DepartmentController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="학과 고르기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zhk-2o-t58">
+                                <rect key="frame" x="40" y="159" width="83" height="22"/>
+                                <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9d9-Qc-MzJ">
+                                <rect key="frame" x="40" y="191" width="334" height="511"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="departmentCell" rowHeight="60" id="tfh-ft-0KD" customClass="DepartmentCell" customModule="SuGo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="334" height="60"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tfh-ft-0KD" id="hoC-Ud-2cz">
+                                            <rect key="frame" x="0.0" y="0.0" width="334" height="60"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yLb-cd-3DC">
+                                                    <rect key="frame" x="20" y="11" width="294" height="38"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="정보보호학과" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PuQ-eC-YdX">
+                                                            <rect key="frame" x="40" y="8.5" width="89" height="21"/>
+                                                            <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstItem="PuQ-eC-YdX" firstAttribute="centerY" secondItem="yLb-cd-3DC" secondAttribute="centerY" id="CzX-7q-TCV"/>
+                                                        <constraint firstItem="PuQ-eC-YdX" firstAttribute="leading" secondItem="yLb-cd-3DC" secondAttribute="leading" constant="40" id="OoR-kY-MTQ"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="yLb-cd-3DC" firstAttribute="leading" secondItem="hoC-Ud-2cz" secondAttribute="leadingMargin" id="D2i-EQ-Ojf"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="yLb-cd-3DC" secondAttribute="trailing" id="WVq-GM-CJe"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="yLb-cd-3DC" secondAttribute="bottom" id="X7N-Ss-zd5"/>
+                                                <constraint firstItem="yLb-cd-3DC" firstAttribute="top" secondItem="hoC-Ud-2cz" secondAttribute="topMargin" id="Xf3-6V-fPh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="departmentLabel" destination="PuQ-eC-YdX" id="1qu-cS-GhW"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="F14-ae-Nbc"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="8On-yq-Qhh"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Zhk-2o-t58" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="115" id="0OU-jZ-o7F"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9d9-Qc-MzJ" secondAttribute="bottom" constant="160" id="3hY-o2-Jaq"/>
+                            <constraint firstItem="9d9-Qc-MzJ" firstAttribute="top" secondItem="Zhk-2o-t58" secondAttribute="bottom" constant="10" id="FOB-mP-6d9"/>
+                            <constraint firstItem="9d9-Qc-MzJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="MiM-61-uce"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9d9-Qc-MzJ" secondAttribute="trailing" constant="40" id="QC0-b0-mPH"/>
+                            <constraint firstItem="Zhk-2o-t58" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="rbD-Xl-Mwd"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="9d9-Qc-MzJ" id="VS1-9u-nbm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="53.571428571428569"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

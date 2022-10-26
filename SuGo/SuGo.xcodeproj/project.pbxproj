@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF279B5D2907FB530096D526 /* DepartmentView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF279B5C2907FB530096D526 /* DepartmentView.storyboard */; };
+		AF279B5F2907FB700096D526 /* DepartmentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF279B5E2907FB700096D526 /* DepartmentController.swift */; };
+		AF279B61290806980096D526 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF279B60290806980096D526 /* UserInfo.swift */; };
 		AF4A2B7728EAEE1E008F8AC7 /* ApiStatusLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4A2B7628EAEE1E008F8AC7 /* ApiStatusLogger.swift */; };
 		AF4A2B7928EAEEA9008F8AC7 /* MyLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4A2B7828EAEEA9008F8AC7 /* MyLogger.swift */; };
 		AF4A2B7B28EAEF57008F8AC7 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4A2B7A28EAEF57008F8AC7 /* LoginRouter.swift */; };
@@ -62,6 +65,9 @@
 /* Begin PBXFileReference section */
 		085E25C41FC74F2DA148EB24 /* Pods-SuGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuGo.release.xcconfig"; path = "Target Support Files/Pods-SuGo/Pods-SuGo.release.xcconfig"; sourceTree = "<group>"; };
 		3DB648DA6A2F310C9EC3E62F /* Pods-SuGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SuGo.debug.xcconfig"; path = "Target Support Files/Pods-SuGo/Pods-SuGo.debug.xcconfig"; sourceTree = "<group>"; };
+		AF279B5C2907FB530096D526 /* DepartmentView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DepartmentView.storyboard; sourceTree = "<group>"; };
+		AF279B5E2907FB700096D526 /* DepartmentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepartmentController.swift; sourceTree = "<group>"; };
+		AF279B60290806980096D526 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		AF4A2B7628EAEE1E008F8AC7 /* ApiStatusLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiStatusLogger.swift; sourceTree = "<group>"; };
 		AF4A2B7828EAEEA9008F8AC7 /* MyLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLogger.swift; sourceTree = "<group>"; };
 		AF4A2B7A28EAEF57008F8AC7 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
@@ -295,6 +301,7 @@
 			children = (
 				AF8A007D28F426A4008F8B7A /* LoginView.storyboard */,
 				AF8A008928F4286F008F8B7A /* SignUpView.storyboard */,
+				AF279B5C2907FB530096D526 /* DepartmentView.storyboard */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -303,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				AF8A008228F42743008F8B7A /* UserModel.swift */,
+				AF279B60290806980096D526 /* UserInfo.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -312,6 +320,7 @@
 			children = (
 				AF8A008728F42799008F8B7A /* LoginController.swift */,
 				AF8A008B28F429C8008F8B7A /* SignUpController.swift */,
+				AF279B5E2907FB700096D526 /* DepartmentController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -443,6 +452,7 @@
 				AF9BB5E128DB1A870059E609 /* ChatingListView.storyboard in Resources */,
 				AF8A008A28F4286F008F8B7A /* SignUpView.storyboard in Resources */,
 				AFF345B928DC652A000DB114 /* MapView.storyboard in Resources */,
+				AF279B5D2907FB530096D526 /* DepartmentView.storyboard in Resources */,
 				AF9BB5F028DB36840059E609 /* Pretendard-Thin.otf in Resources */,
 				AF9BB5F528DB36840059E609 /* Pretendard-Black.otf in Resources */,
 				AFD7BF1F28D5D1E400F42908 /* PostView.storyboard in Resources */,
@@ -505,6 +515,7 @@
 				AFE6C04328E5C225006C6AAC /* Network.swift in Sources */,
 				AF7CF68828E3176E000EE85E /* ChatingRoomController.swift in Sources */,
 				AF6C2B1528E47BB30070B3A2 /* SideMenuNavController.swift in Sources */,
+				AF279B61290806980096D526 /* UserInfo.swift in Sources */,
 				AF4A2B7728EAEE1E008F8AC7 /* ApiStatusLogger.swift in Sources */,
 				AF4A2B7928EAEEA9008F8AC7 /* MyLogger.swift in Sources */,
 				AFC2DB6928ED8ED100085A9B /* MapViewController.swift in Sources */,
@@ -523,6 +534,7 @@
 				AF827B4328D1E70900817FE1 /* TabBarController.swift in Sources */,
 				AF513BD828CA159600580240 /* SceneDelegate.swift in Sources */,
 				AFE6C03D28E5BB52006C6AAC /* PlaceController.swift in Sources */,
+				AF279B5F2907FB700096D526 /* DepartmentController.swift in Sources */,
 				AF79B91828DB14E70047E8C1 /* PostingController.swift in Sources */,
 				AFEE466A28F5876E00DA1043 /* PostRouter.swift in Sources */,
 			);

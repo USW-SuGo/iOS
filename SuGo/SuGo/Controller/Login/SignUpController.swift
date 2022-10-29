@@ -18,6 +18,8 @@ import SwiftyJSON
 // 5. 완료와 동시에 인증메일 전송
 // 텍스트 변경을 실시간으로 확인해주어야 함. 예를 들어 이메일 중복확인 이후 텍스트가 변경되는 경우를 캐치 해야 함.
 
+// 이후 signUpView 하단에 약관 동의 체크박스 추가
+
 
 class SignUpController: UIViewController {
 
@@ -40,7 +42,15 @@ class SignUpController: UIViewController {
     //MARK: Properties
     
     let loginModel = LoginModel()
-    var loginIsValid = false
+    
+    var emailIsValid = false
+    var idIsValid = false
+    var passwordIsValid = false
+    var confirmPasswordIsValid = false
+    var signUpIsValid: Bool {
+        return emailIsValid && idIsValid && passwordIsValid && confirmPasswordIsValid
+    }
+    
     var keyboardTouchCheck = false
     var emailTouch = false
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
@@ -122,6 +132,9 @@ class SignUpController: UIViewController {
                                            for: .editingChanged)
         confirmPasswordTextField.addTarget(self,
                                            action: #selector(confirmPasswordTextFieldisValid),
+                                           for: .editingChanged)
+        confirmPasswordTextField.addTarget(self,
+                                           action: #selector(confirmPasswordTextFieldisValid),
                                            for: .editingDidEnd)
     }
     
@@ -152,6 +165,7 @@ class SignUpController: UIViewController {
             
         } else {
             
+            emailIsValid = false
             warningText(label: emailWarningLabel,
                         box: emailBox,
                         text: "이메일 형식이 올바르지 않아요.",
@@ -189,12 +203,9 @@ class SignUpController: UIViewController {
                         text: "영문/숫자를 사용한 5~20자 아이디를 사용해주세요.",
                         textColor: UIColor.red,
                         borderColor: UIColor.red.cgColor)
+            idIsValid = false
             
         }
-    }
-    
-    @objc func test(_ sender: UITextField) {
-        print("입력 완료")
     }
     
     @objc func passwordTextFieldEditingChanged(_ sender: UITextField) {
@@ -221,6 +232,7 @@ class SignUpController: UIViewController {
                         text: "사용 가능한 비밀번호에요!",
                         textColor: colorLiteralGreen,
                         borderColor: colorLiteralGreen.cgColor)
+            passwordIsValid = true
             
         } else {
             
@@ -230,6 +242,7 @@ class SignUpController: UIViewController {
                         text: "영문/숫자/특수문자를 조합한 8~20자 비밀번호를 사용해주세요.",
                         textColor: UIColor.red,
                         borderColor: UIColor.red.cgColor)
+            passwordIsValid = false
         
         }
         
@@ -240,6 +253,7 @@ class SignUpController: UIViewController {
                         text: "비밀번호가 일치하지 않아요.",
                         textColor: UIColor.red,
                         borderColor: UIColor.red.cgColor)
+            confirmPasswordIsValid = false
             print("print : 2차 비밀번호까지 입력 후 1차 비밀번호 변경 시 불일치")
             
         }
@@ -268,7 +282,8 @@ class SignUpController: UIViewController {
                         text: "비밀번호가 일치해요!",
                         textColor: colorLiteralGreen,
                         borderColor: colorLiteralGreen.cgColor)
-            print("비밀번호 일치")
+            confirmPasswordIsValid = true
+            
             
         } else { // 비밀번호 불일치
             
@@ -277,7 +292,8 @@ class SignUpController: UIViewController {
                         text: "비밀번호가 일치하지 않아요.",
                         textColor: UIColor.red,
                         borderColor: UIColor.red.cgColor)
-            print("print : 정규표현식 불일치, 비밀번호 불일치")
+            confirmPasswordIsValid = false
+            
             
         }
         
@@ -333,6 +349,7 @@ class SignUpController: UIViewController {
                                 text: "사용 가능한 이메일이에요!",
                                 textColor: self.colorLiteralGreen,
                                 borderColor: self.colorLiteralGreen.cgColor)
+                    self.emailIsValid = true
                     
                 } else {
                     
@@ -341,6 +358,7 @@ class SignUpController: UIViewController {
                                 text: "이미 사용중이거나, 사용할 수 없는 이메일이에요.",
                                 textColor: UIColor.red,
                                 borderColor: UIColor.red.cgColor)
+                    self.emailIsValid = false
                     
                 }
             }
@@ -361,6 +379,7 @@ class SignUpController: UIViewController {
                                 text: "사용 가능한 아이디에요!",
                                 textColor: self.colorLiteralGreen,
                                 borderColor: self.colorLiteralGreen.cgColor)
+                    self.idIsValid = true
                   
                 } else {
                     
@@ -369,6 +388,7 @@ class SignUpController: UIViewController {
                                      text: "이미 사용중인 아이디에요!",
                                      textColor: UIColor.red,
                                      borderColor: UIColor.red.cgColor)
+                    self.idIsValid = false
                     
                 }
                 
@@ -380,24 +400,28 @@ class SignUpController: UIViewController {
      
     @IBAction func nextButtonClicked(_ sender: Any) {
         
-        userInfo.loginId = idTextField.text
-        userInfo.password = passwordTextField.text
-        userInfo.email = emailTextField.text
-        
-        let departmentViewStoryboard = UIStoryboard(name: "DepartmentView", bundle: nil)
-        let nextViewController =
-        departmentViewStoryboard.instantiateViewController(withIdentifier: "departmentVC") as! DepartmentController
-        self.navigationController?.pushViewController(nextViewController, animated: true)
+        if signUpIsValid {
+            
+            userInfo.loginId = idTextField.text
+            userInfo.password = passwordTextField.text
+            userInfo.email = emailTextField.text
+            let departmentViewStoryboard = UIStoryboard(name: "DepartmentView", bundle: nil)
+            let nextViewController =
+            departmentViewStoryboard.instantiateViewController(withIdentifier: "departmentVC") as! DepartmentController
+            self.present(nextViewController, animated: true)
+            
+        } else {
+            
+            customAlert(title: "계정 정보를 확인해주세요 !", message: "입력되지 않았거나, 올바르지 않은 정보가 있어요 !")
+            
+        }
+
 
     }
-    
-    @IBAction func idOverlapButonClicked(_ sender: Any) {
-        
-        let id = idTextField.text ?? ""
-        
+
+    @IBAction func closeButtonClicked(_ sender: Any) {
+        self.dismiss(animated: true)
     }
-    
-    // 이메일 중복 확인 로직을 다음 버튼에서 진행
     
     @IBAction func testJoin(_ sender: Any) {
         let id = idTextField.text ?? ""
@@ -417,11 +441,19 @@ class SignUpController: UIViewController {
     
     //MARK: Design Funtions
     
+    private func customAlert(title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
     @objc func emailBoxClicked(_ sender: UITextField) {
         
     }
     
-    func warningText(label: UILabel,
+    private func warningText(label: UILabel,
                      box: UIView,
                      text: String,
                      textColor: UIColor,

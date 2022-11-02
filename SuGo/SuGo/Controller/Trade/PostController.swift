@@ -94,9 +94,13 @@ class PostController: UIViewController {
             .shared
             .session
             .request(PostRouter.getDetailPost(productPostId: productPostId))
+            .validate()
             .responseJSON { response in
 
-                self.updatePost(json: JSON(response.data ?? "") )
+                if response.response?.statusCode == 200 {
+                    self.updatePost(json: JSON(response.data ?? "") )
+                }
+                
                 
             }
     }

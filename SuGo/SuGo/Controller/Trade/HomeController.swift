@@ -9,6 +9,7 @@ import UIKit
 
 import Alamofire
 import SwiftyJSON
+import KeychainSwift
 import Kingfisher
 
 class HomeController: UIViewController {
@@ -19,6 +20,7 @@ class HomeController: UIViewController {
     
     //MARK: Properties
     
+    let keychain = KeychainSwift()
     var homeProductContents = [ProductContents]()
     var testList = ["미래", "종강", "IT", "글경", "체대", "인문"]
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
@@ -31,6 +33,10 @@ class HomeController: UIViewController {
         customLeftBarButton()
         customRightBarButtons()
         customBackButton()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getMainPage(page: 0, size: 10, category: "")
     }
     
@@ -82,7 +88,6 @@ class HomeController: UIViewController {
     //MARK: API Functions
     
     private func getMainPage(page: Int, size: Int, category: String) {
-        
         AlamofireManager
             .shared
             .session
@@ -96,7 +101,7 @@ class HomeController: UIViewController {
     }
     
     private func updateHome(json: JSON) {
-        
+        homeProductContents.removeAll()
         for i in 0..<json.count {
             
             let jsonImages = json[i]["imageLink"].stringValue
@@ -185,7 +190,7 @@ class HomeController: UIViewController {
         
         let sideMenuButton = self.navigationItem.makeSFSymbolButton(self,
                                                                     action: #selector(hamburgerButtonClicked),
-                                                                    symbolName: "hambuger")
+                                                                    symbolName: "sidebar.left")
         self.navigationItem.leftBarButtonItem = sideMenuButton
         
     }
@@ -195,16 +200,16 @@ class HomeController: UIViewController {
             
         let mapButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(mapButtonClicked),
-                                                                symbolName: "place")
+                                                                symbolName: "mappin.and.ellipse")
         
         let postingButton = self.navigationItem.makeSFSymbolButton(self,
                                                                 action: #selector(postingButtonclicked),
-                                                                symbolName: "viewMore")
+                                                                symbolName: "plus")
       
         
         let messageButton = self.navigationItem.makeSFSymbolButton(self,
                                                action: #selector(messageButtonClicked),
-                                               symbolName: "customChat")
+                                               symbolName: "ellipsis.message")
         
         self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
                 
@@ -287,11 +292,22 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
-        let nextViewController =
-        postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
-        nextViewController.productPostId = homeProductContents[indexPath.row].id
-        self.navigationController?.pushViewController(nextViewController, animated: true)
+        if keychain.get("AccessToken") != nil {
+            
+            let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
+            let nextViewController =
+            postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
+            nextViewController.productPostId = homeProductContents[indexPath.row].id
+            self.navigationController?.pushViewController(nextViewController, animated: true)
+            
+        } else {
+            
+            let loginViewStoryboard = UIStoryboard(name: "LoginView", bundle: nil)
+            let nextViewController =
+            loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
+            self.present(nextViewController, animated: true)
+            
+        }
         
     }
     

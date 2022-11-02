@@ -40,11 +40,10 @@ class BaseInterceptor: RequestInterceptor {
         print("BaseInterceptor - retry() called")
         print(request.response?.statusCode)
         
-        guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 400 else {
+        guard let response = request.task?.response as? HTTPURLResponse,
+                response.statusCode == 403 else {
+            
             print(".doNotRetry")
-            
-            
-            
             completion(.doNotRetryWithError(error))
             return
         }
@@ -56,13 +55,23 @@ class BaseInterceptor: RequestInterceptor {
             "Authorization" : keychain.get("RefreshToken") ?? ""
         ]
         
+        print(".retry")
+        
         AF.request(url, method: .post, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-            switch response.result {
-            case .success(_):
+
+            if response.response?.statusCode == 403 {
+                
+                print(".doNotRetryWithError")
+                completion(.doNotRetry)
+                
+            } else {
                 
                 // Token - Dictionary to String
+                
                 let tokens = String((response.response?.headers.dictionary["Authorization"] ?? ""))
+                
                 let splitToken = tokens.components(separatedBy: ",")
+                
                 let refreshStartIndex = splitToken[0].index(splitToken[0].startIndex,
                                                                 offsetBy: 14)
                 let accessStartIndex = splitToken[1].index(splitToken[1].startIndex,
@@ -73,13 +82,14 @@ class BaseInterceptor: RequestInterceptor {
                 accessToken = String(accessToken[accessStartIndex...])
             
                 // Keychain Setting
-            
+                
                 self.keychain.clear()
+                print(accessToken)
                 self.keychain.set(accessToken, forKey: "AccessToken")
                 self.keychain.set(refreshToken, forKey: "RefreshToken")
-            
-            case .failure(_):
-                completion(.doNotRetryWithError(error))
+                
+                // API Retry
+                completion(.retry)
             }
         }
     }

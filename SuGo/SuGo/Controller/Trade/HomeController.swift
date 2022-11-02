@@ -31,6 +31,7 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        print(keychain.get("RefreshToken"))
         customLeftBarButton()
         customRightBarButtons()
         customBackButton()
@@ -303,22 +304,39 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if keychain.get("AccessToken") != nil {
+        let url = API.BASE_URL + "/token"
+        let headers: HTTPHeaders = [
+            "Authorization" : keychain.get("RefreshToken") ?? ""
+        ]
+        
+        AF.request(url, method: .post,
+                   encoding: JSONEncoding.default,
+                   headers: headers).responseJSON { response in
             
-            let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
-            let nextViewController =
-            postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
-            nextViewController.productPostId = homeProductContents[indexPath.row].id
-            self.navigationController?.pushViewController(nextViewController, animated: true)
+            print(JSON(response.data))
             
-        } else {
-            
-            let loginViewStoryboard = UIStoryboard(name: "LoginView", bundle: nil)
-            let nextViewController =
-            loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
-            self.present(nextViewController, animated: true)
+            // 토큰이 존재하고, 리프레쉬 토큰이 만료되지 않았을 경우 다음 페이지로 이동
+            if self.keychain.get("AccessToken") != nil && response.response?.statusCode != 403 {
+                
+                let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
+                let nextViewController =
+                postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
+                nextViewController.productPostId = self.homeProductContents[indexPath.row].id
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+                
+            // 그게 아니라면 로그인 화면으로 이동.
+            } else {
+                
+                let loginViewStoryboard = UIStoryboard(name: "LoginView", bundle: nil)
+                let nextViewController =
+                loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
+                self.present(nextViewController, animated: true)
+                
+            }
             
         }
+        
+        
         
     }
     

@@ -395,6 +395,8 @@ class SignUpController: UIViewController {
             }
     }
     
+
+    
     
     //MARK: Button Actions
      

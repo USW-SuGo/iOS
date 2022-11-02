@@ -41,6 +41,9 @@ class PostingController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contentTextView.layer.cornerRadius = 6.0
+        contentTextView.layer.borderColor = UIColor.black.cgColor
+        contentTextView.layer.borderWidth = 1.0
         designButtons()
         // Do any additional setup after loading the view.
     }
@@ -199,9 +202,13 @@ class PostingController: UIViewController {
             
             print(JSON(response.data))
             print(response.response?.statusCode)
-            
+            self.dismiss(animated: true)
         }
         
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     //MARK: Button Actions
@@ -221,7 +228,7 @@ class PostingController: UIViewController {
                     content: contentTextView.text ?? "",
                     priceText: priceTextField.text ?? "",
                     contactPlace: "종합강의동",
-                    category: "서적")
+                    category: "전자기기")
 
     }
     

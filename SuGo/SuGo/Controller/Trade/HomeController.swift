@@ -16,6 +16,7 @@ class HomeController: UIViewController {
 
     //MARK: IBOutlets
     
+    @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     
     //MARK: Properties
@@ -33,6 +34,7 @@ class HomeController: UIViewController {
         customLeftBarButton()
         customRightBarButtons()
         customBackButton()
+        searchViewDesign()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -226,6 +228,15 @@ class HomeController: UIViewController {
     private func customNaviagtionBar() {
         
     }
+    
+    private func searchViewDesign() {
+        
+        searchView.layer.cornerRadius = 10.0
+        searchView.layer.borderWidth = 0.5
+        searchView.layer.borderColor = UIColor.lightGray.cgColor
+        
+    }
+    
     
 //    private func addNavigationBar() {
 //

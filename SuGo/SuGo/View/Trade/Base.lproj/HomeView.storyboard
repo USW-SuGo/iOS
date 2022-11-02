@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yle-6Z-8iY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yle-6Z-8iY">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -23,7 +24,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9w5-hy-RxZ">
-                                <rect key="frame" x="0.0" y="138" width="414" height="681"/>
+                                <rect key="frame" x="0.0" y="147" width="414" height="672"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="oQN-0f-0EC">
                                     <size key="itemSize" width="213" height="197"/>
@@ -58,41 +59,65 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="UXU-yD-PCY"/>
                                 </connections>
                             </collectionView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="수고 할 물품 검색" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M0L-P7-Zje">
-                                <rect key="frame" x="95" y="95" width="224" height="36"/>
-                                <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="12"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oe-Jn-Ioa">
-                                <rect key="frame" x="72" y="106" width="15" height="15"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7U1-pV-swm">
+                                <rect key="frame" x="20" y="102" width="350" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oe-Jn-Ioa">
+                                        <rect key="frame" x="8" y="8" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="3FJ-qr-1kU"/>
+                                            <constraint firstAttribute="height" constant="24" id="vLd-wh-K04"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
+                                    </button>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="수고 할 물품 검색" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M0L-P7-Zje">
+                                        <rect key="frame" x="40" y="8" width="302" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="tyX-ep-vbS"/>
+                                        </constraints>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="15" id="3Gk-DY-Ptg"/>
-                                    <constraint firstAttribute="height" constant="15" id="3mz-bf-l5l"/>
+                                    <constraint firstItem="0oe-Jn-Ioa" firstAttribute="leading" secondItem="7U1-pV-swm" secondAttribute="leading" constant="8" id="8ks-Yj-LnG"/>
+                                    <constraint firstItem="M0L-P7-Zje" firstAttribute="top" secondItem="7U1-pV-swm" secondAttribute="top" constant="8" id="DUK-YR-hLX"/>
+                                    <constraint firstAttribute="trailing" secondItem="M0L-P7-Zje" secondAttribute="trailing" constant="8" id="Jff-hj-L4L"/>
+                                    <constraint firstItem="0oe-Jn-Ioa" firstAttribute="top" secondItem="7U1-pV-swm" secondAttribute="top" constant="8" id="LfW-ng-hKL"/>
+                                    <constraint firstAttribute="bottom" secondItem="M0L-P7-Zje" secondAttribute="bottom" constant="8" id="f6U-2w-LLg"/>
+                                    <constraint firstItem="M0L-P7-Zje" firstAttribute="leading" secondItem="0oe-Jn-Ioa" secondAttribute="trailing" constant="8" id="fZI-2o-oOF"/>
+                                    <constraint firstAttribute="bottom" secondItem="0oe-Jn-Ioa" secondAttribute="bottom" constant="8" id="lY6-O5-ce3"/>
                                 </constraints>
-                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z07-M5-fF5">
+                                <rect key="frame" x="374" y="105" width="24" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" title="전체"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="0oe-Jn-Ioa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="72" id="1gn-yp-AbD"/>
-                            <constraint firstItem="0oe-Jn-Ioa" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="18" id="9Wh-Vq-HlQ"/>
-                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="9cf-40-nmf"/>
-                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="M0L-P7-Zje" secondAttribute="bottom" constant="7" id="QBS-Qu-UfO"/>
+                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="7U1-pV-swm" secondAttribute="bottom" constant="5" id="2dv-GL-iGz"/>
+                            <constraint firstItem="7U1-pV-swm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="STh-qS-DMM"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Urk-3X-F2B"/>
                             <constraint firstAttribute="bottom" secondItem="9w5-hy-RxZ" secondAttribute="bottom" constant="77" id="ct6-fs-qtb"/>
-                            <constraint firstItem="M0L-P7-Zje" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="95" id="df7-BI-rLh"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="M0L-P7-Zje" secondAttribute="trailing" constant="95" id="ovp-XA-Zqd"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pRH-5q-RcY"/>
-                            <constraint firstItem="M0L-P7-Zje" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="7" id="w2o-VJ-5Zq"/>
+                            <constraint firstItem="7U1-pV-swm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="sRP-oi-mX9"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7U1-pV-swm" secondAttribute="trailing" constant="44" id="xqY-rK-vxN"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="SUGO" largeTitleDisplayMode="always" id="sdd-1x-XTa"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="9w5-hy-RxZ" id="Bkk-It-7GX"/>
+                        <outlet property="searchView" destination="7U1-pV-swm" id="nM0-Ge-Xeu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -106,7 +131,7 @@
                     <tabBarItem key="tabBarItem" title="거래" image="cart" catalog="system" id="WE4-FY-xaX"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="KmT-QF-lXJ">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -140,7 +165,7 @@
     </scenes>
     <resources>
         <image name="cart" catalog="system" width="128" height="102"/>
-        <image name="magnifyingglass" catalog="system" width="128" height="115"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

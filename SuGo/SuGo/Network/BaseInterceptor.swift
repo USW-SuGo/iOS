@@ -36,14 +36,20 @@ class BaseInterceptor: RequestInterceptor {
     }
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
+        
         print("BaseInterceptor - retry() called")
+        print(request.response?.statusCode)
+        
         guard let response = request.task?.response as? HTTPURLResponse, response.statusCode == 400 else {
             print(".doNotRetry")
+            
+            
+            
             completion(.doNotRetryWithError(error))
             return
         }
         
-        print(".retry")
+//        print(".retry")
         
         let url = API.BASE_URL + "/token"
         let headers: HTTPHeaders = [

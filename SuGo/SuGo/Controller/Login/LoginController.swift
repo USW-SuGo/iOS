@@ -81,6 +81,7 @@ class LoginController: UIViewController, UITextFieldDelegate {
             .session
             .request(LoginRouter.login(loginId: id, passsword: password))
             .responseJSON { response in
+                
                 let statusCode = response.response?.statusCode
                 if statusCode == 200 {
                     
@@ -100,24 +101,19 @@ class LoginController: UIViewController, UITextFieldDelegate {
 
                     //Keychain Setting
                     
-                    self.keychain.clear()
                     self.keychain.set(accessToken, forKey: "AccessToken")
                     self.keychain.set(refreshToken, forKey: "RefreshToken")
                     
                     self.dismiss(animated: true)
+                    
                 // 로그인 실패한 경우 에러 메세지 출력
                 } else {
                     
                     self.failToLogin()
                     
                 }
-                
-                
-//                print("Refresh - \(splitToken[0])")
-//                print("Access - \(splitToken[1])")
-              
+            }
         }
-    }
     
     //MARK: Design Functions
     

@@ -60,7 +60,7 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7U1-pV-swm">
-                                <rect key="frame" x="20" y="102" width="350" height="40"/>
+                                <rect key="frame" x="16" y="102" width="336" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oe-Jn-Ioa">
                                         <rect key="frame" x="8" y="8" width="24" height="24"/>
@@ -73,7 +73,7 @@
                                         <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="수고 할 물품 검색" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M0L-P7-Zje">
-                                        <rect key="frame" x="40" y="8" width="302" height="24"/>
+                                        <rect key="frame" x="40" y="8" width="288" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="tyX-ep-vbS"/>
                                         </constraints>
@@ -93,24 +93,31 @@
                                     <constraint firstAttribute="bottom" secondItem="0oe-Jn-Ioa" secondAttribute="bottom" constant="8" id="lY6-O5-ce3"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z07-M5-fF5">
-                                <rect key="frame" x="374" y="105" width="24" height="24"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z07-M5-fF5">
+                                <rect key="frame" x="362" y="104" width="36" height="36"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="Rci-Hu-n5y"/>
+                                    <constraint firstAttribute="height" constant="36" id="loo-zh-omF"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="전체"/>
+                                <buttonConfiguration key="configuration" style="plain" image="list.dash" catalog="system"/>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="7U1-pV-swm" secondAttribute="bottom" constant="5" id="2dv-GL-iGz"/>
-                            <constraint firstItem="7U1-pV-swm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="STh-qS-DMM"/>
+                            <constraint firstItem="7U1-pV-swm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="STh-qS-DMM"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Urk-3X-F2B"/>
                             <constraint firstAttribute="bottom" secondItem="9w5-hy-RxZ" secondAttribute="bottom" constant="77" id="ct6-fs-qtb"/>
+                            <constraint firstItem="Z07-M5-fF5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="cxx-OY-XAp"/>
+                            <constraint firstItem="Z07-M5-fF5" firstAttribute="leading" secondItem="7U1-pV-swm" secondAttribute="trailing" constant="10" id="gwB-aw-Yf6"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pRH-5q-RcY"/>
                             <constraint firstItem="7U1-pV-swm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="sRP-oi-mX9"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="7U1-pV-swm" secondAttribute="trailing" constant="44" id="xqY-rK-vxN"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Z07-M5-fF5" secondAttribute="trailing" constant="16" id="vRW-vh-NMK"/>
+                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="Z07-M5-fF5" secondAttribute="bottom" constant="7" id="vt0-99-0xA"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="SUGO" largeTitleDisplayMode="always" id="sdd-1x-XTa"/>
@@ -165,6 +172,7 @@
     </scenes>
     <resources>
         <image name="cart" catalog="system" width="128" height="102"/>
+        <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

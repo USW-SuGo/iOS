@@ -7,8 +7,11 @@
 
 import UIKit
 
+import Alamofire
 import BSImagePicker
+import SwiftyJSON
 import Photos
+import KeychainSwift
 
 class PostingController: UIViewController {
 
@@ -29,6 +32,8 @@ class PostingController: UIViewController {
     var priviewImages = [UIImage]()
     // real images
     var realImages = [UIImage]()
+    
+    let imgData = UIImage(named: "home")
 
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
@@ -36,6 +41,9 @@ class PostingController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        contentTextView.layer.cornerRadius = 6.0
+        contentTextView.layer.borderColor = UIColor.black.cgColor
+        contentTextView.layer.borderWidth = 1.0
         designButtons()
         // Do any additional setup after loading the view.
     }
@@ -103,8 +111,7 @@ class PostingController: UIViewController {
                 let data = thumbnail.jpegData(compressionQuality: 0.9)
                 let newImage = UIImage(data: data!)
                 self.priviewImages.append(newImage! as UIImage)
-                print("image size - \(thumbnail.pngData())")
-                print("resize image size - \(thumbnail.jpegData(compressionQuality: 0.9))")
+                
             }
             print(priviewImages)
         }
@@ -137,13 +144,68 @@ class PostingController: UIViewController {
                 }
                 
                 let data = realImage.jpegData(compressionQuality: 0.9)
-                print("real images size - \(data)")
+//                print("real images size - \(data)")
                 
                 let newImage = UIImage(data: data!)
                 self.realImages.append(newImage! as UIImage)
-
+                
             }
         }
+    }
+    
+    private func postContent(title: String,
+                             content: String,
+                             priceText: String,
+                             contactPlace: String,
+                             category: String) {
+        
+        let url = API.BASE_URL + "/post"
+        
+        let header: HTTPHeaders = [
+    
+            "Authorization" : String(KeychainSwift().get("AccessToken") ?? "")
+    
+        ]
+        
+        let price: Int = Int(priceText) ?? 0
+        
+        let parameters: Parameters = [
+            "title" : title,
+            "content" : content,
+            "price" : price,
+            "contactPlace" : contactPlace,
+            "category" : category
+        ]
+        
+        // MultipartFormData - 이미지 파일 & 글 전송 logic
+        // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
+        
+        AF.upload(multipartFormData: { multipartFormData in
+            
+            for (key, value) in parameters {
+                multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+            }
+            
+            for i in 0..<self.realImages.count {
+                multipartFormData.append(self.realImages[i].jpegData(compressionQuality: 1)!,
+                                        withName: "multipartFileList",
+                                        fileName: "\(self.titleTextField.text ?? "")+\(i)",
+                                        mimeType: "image/jpeg")
+            }
+            
+        },
+                  to: url,
+                  usingThreshold: UInt64.init(),
+                  method: .post,
+                  headers: header).responseJSON { response in
+        
+            self.dismiss(animated: true)
+        }
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     //MARK: Button Actions
@@ -157,10 +219,14 @@ class PostingController: UIViewController {
     }
     
     @IBAction func sugoButtonClicked(_ sender: Any) {
-//        for i in 0..<testImage.count {
-//            let image = testImage[i]
-//            UIImage.resize(image)
-//        }
+  
+        // text or place 모두 선택 되었을 시 함수 실행
+        postContent(title: titleTextField.text ?? "",
+                    content: contentTextView.text ?? "",
+                    priceText: priceTextField.text ?? "",
+                    contactPlace: "종합강의동",
+                    category: "전자기기")
+
     }
     
     @IBAction func placeButtonClicked(_ sender: Any) {

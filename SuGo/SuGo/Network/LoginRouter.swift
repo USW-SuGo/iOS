@@ -14,6 +14,7 @@ enum LoginRouter: URLRequestConvertible {
     case checkLoginId(id: String)
     case sendAuthorizationEmail(email: String)
     case join(loginId: String, email: String, password: String, department: String)
+    case login(loginId: String, passsword: String)
 
 
     var baseURL: URL {
@@ -22,7 +23,7 @@ enum LoginRouter: URLRequestConvertible {
 
     var method: HTTPMethod {
         switch self {
-        case .checkEmail, .checkLoginId, .sendAuthorizationEmail, .join:
+        case .checkEmail, .checkLoginId, .sendAuthorizationEmail, .join, .login:
             return .post
         }
     }
@@ -37,30 +38,46 @@ enum LoginRouter: URLRequestConvertible {
             return "/send-authorization-email"
         case .join:
             return "/join"
+        case .login:
+            return "/login"
         }
     }
     
     var parameters: [String: String] {
         switch self {
         case let .checkEmail(email):
+            
             return ["email" : email]
+            
         case let .checkLoginId(id):
+            
             return ["loginId" : id]
+            
         case let .sendAuthorizationEmail(email):
-            return ["loginId" : email]
+            
+            return ["email" : email]
+            
         case .join(let loginId, let email, let password, let department):
+            
             return [
                 "loginId" : loginId,
                 "email" : email,
                 "password" : password,
                 "department" : department
             ]
+        
+        case .login(let loginId, let password):
+            return [
+                "loginId" : loginId,
+                "password" : password
+            ]
+            
         }
     }
     
     var headers: HTTPHeaders {
         switch self{
-        case .checkEmail, .checkLoginId, .join, .sendAuthorizationEmail:
+        case .checkEmail, .checkLoginId, .join, .sendAuthorizationEmail, .login:
             return [
                 .contentType("application/json"),
                 .accept("application/json")
@@ -76,6 +93,7 @@ enum LoginRouter: URLRequestConvertible {
         print("LoginRouter - asURLRequest() url : \(url)")
         
         var request = URLRequest(url: url)
+        
         request.method = method
         request.headers = headers
         request = try JSONParameterEncoder().encode(parameters, into: request)

@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Pretendard-Bold.otf">
-            <string>Pretendard-Bold</string>
+        <array key="Pretendard-Medium.otf">
+            <string>Pretendard-Medium</string>
+        </array>
+        <array key="Pretendard-SemiBold.otf">
+            <string>Pretendard-SemiBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -18,7 +22,7 @@
             <objects>
                 <navigationController id="RdY-Cn-gpm" customClass="SideMenuNavController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="LLn-Yg-XHa">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="48" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <userDefinedRuntimeAttributes>
@@ -40,83 +44,111 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XOH-IC-ApW">
-                                <rect key="frame" x="132" y="150" width="150" height="40"/>
-                                <color key="backgroundColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XOH-IC-ApW">
+                                <rect key="frame" x="50" y="192" width="39" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="CXM-UL-QEk"/>
                                     <constraint firstAttribute="height" constant="40" id="REY-Fl-cq7"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="15"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="로그인 / 로그아웃">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="로그인">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
-                                    <action selector="loginButtonClicked:" destination="8ln-EA-g5J" eventType="touchUpInside" id="KkU-xo-Zxn"/>
+                                    <action selector="loginAndLogoutButtonClicked:" destination="8ln-EA-g5J" eventType="touchUpInside" id="nUg-6T-W3S"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pAr-3R-qlj">
-                                <rect key="frame" x="132" y="215" width="150" height="40"/>
-                                <color key="backgroundColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <rect key="frame" x="50" y="243" width="52" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="U00-Cv-0Q2"/>
                                     <constraint firstAttribute="height" constant="40" id="vbz-mr-lnq"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="회원가입">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="signUpAndUserInfoButtonClicked:" destination="8ln-EA-g5J" eventType="touchUpInside" id="v5D-g3-Zlc"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ouE-EA-m4D">
-                                <rect key="frame" x="132" y="280" width="150" height="40"/>
-                                <color key="backgroundColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <rect key="frame" x="50" y="294" width="52" height="40"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="T1z-m9-BNQ"/>
-                                    <constraint firstAttribute="height" constant="40" id="paa-Xi-1Zy"/>
+                                    <constraint firstAttribute="height" constant="40" id="oqG-Zu-h1Y"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="20"/>
+                                <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="공지사항">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xCh-Q2-ff9">
-                                <rect key="frame" x="160.5" y="802" width="93.5" height="30"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비로그인 상태입니다." lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2s-ur-bnC">
+                                <rect key="frame" x="90" y="92" width="108" height="60"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="kIv-jc-H0T"/>
+                                    <constraint firstAttribute="height" constant="60" id="URl-BS-KN9"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="18"/>
+                                <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="13"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SUGO" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gC-h1-0zd">
-                                <rect key="frame" x="167.5" y="88" width="79" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jDy-oN-rPB">
+                                <rect key="frame" x="40" y="237" width="334" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="foR-ti-DFU"/>
+                                    <constraint firstAttribute="height" constant="1" id="Gmu-DA-EzS"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="28"/>
-                                <color key="textColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sep-2u-3Jy">
+                                <rect key="frame" x="40" y="288" width="334" height="1"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="D7q-DW-5nC"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="jt5-7a-iN2"/>
+                                </constraints>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="nwl-5w-kgp">
+                                <rect key="frame" x="20" y="92.5" width="60" height="59"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="knJ-lF-qwa"/>
+                                    <constraint firstAttribute="height" constant="60" id="xPT-fK-Aty"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="CE0-Sb-mMz"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="xCh-Q2-ff9" firstAttribute="centerX" secondItem="nlM-Wh-T9W" secondAttribute="centerX" id="5Bf-Hp-2JR"/>
-                            <constraint firstItem="pAr-3R-qlj" firstAttribute="centerX" secondItem="nlM-Wh-T9W" secondAttribute="centerX" id="HA9-4y-slX"/>
-                            <constraint firstItem="CE0-Sb-mMz" firstAttribute="bottom" secondItem="xCh-Q2-ff9" secondAttribute="bottom" constant="30" id="JLt-1J-HVQ"/>
-                            <constraint firstItem="XOH-IC-ApW" firstAttribute="top" secondItem="CE0-Sb-mMz" secondAttribute="top" constant="62" id="Lv6-hw-nh8"/>
-                            <constraint firstItem="3gC-h1-0zd" firstAttribute="centerX" secondItem="nlM-Wh-T9W" secondAttribute="centerX" id="QSu-DH-d4j"/>
-                            <constraint firstItem="XOH-IC-ApW" firstAttribute="centerX" secondItem="nlM-Wh-T9W" secondAttribute="centerX" id="nHb-fk-6L1"/>
-                            <constraint firstItem="ouE-EA-m4D" firstAttribute="centerX" secondItem="nlM-Wh-T9W" secondAttribute="centerX" id="pLr-Rb-JR2"/>
-                            <constraint firstItem="pAr-3R-qlj" firstAttribute="top" secondItem="XOH-IC-ApW" secondAttribute="bottom" constant="25" id="pUE-MS-gn9"/>
-                            <constraint firstItem="ouE-EA-m4D" firstAttribute="top" secondItem="pAr-3R-qlj" secondAttribute="bottom" constant="25" id="uFt-fP-yRK"/>
-                            <constraint firstItem="3gC-h1-0zd" firstAttribute="top" secondItem="CE0-Sb-mMz" secondAttribute="top" id="xaK-lf-hLG"/>
+                            <constraint firstItem="pAr-3R-qlj" firstAttribute="top" secondItem="jDy-oN-rPB" secondAttribute="bottom" constant="5" id="7Vf-hA-1Cc"/>
+                            <constraint firstItem="Sep-2u-3Jy" firstAttribute="leading" secondItem="nlM-Wh-T9W" secondAttribute="leadingMargin" constant="20" id="8cP-Y3-2b8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Sep-2u-3Jy" secondAttribute="trailing" constant="20" id="AfY-l2-y5F"/>
+                            <constraint firstItem="Sep-2u-3Jy" firstAttribute="top" secondItem="pAr-3R-qlj" secondAttribute="bottom" constant="5" id="Br8-xo-m1z"/>
+                            <constraint firstItem="jDy-oN-rPB" firstAttribute="top" secondItem="XOH-IC-ApW" secondAttribute="bottom" constant="5" id="Fts-o7-PMb"/>
+                            <constraint firstItem="V2s-ur-bnC" firstAttribute="leading" secondItem="nwl-5w-kgp" secondAttribute="trailing" constant="10" id="Ki3-kg-LPv"/>
+                            <constraint firstItem="XOH-IC-ApW" firstAttribute="top" secondItem="CE0-Sb-mMz" secondAttribute="top" constant="100" id="Lv6-hw-nh8"/>
+                            <constraint firstItem="nwl-5w-kgp" firstAttribute="leading" secondItem="CE0-Sb-mMz" secondAttribute="leading" constant="20" id="NGJ-tg-CHS"/>
+                            <constraint firstItem="XOH-IC-ApW" firstAttribute="leading" secondItem="CE0-Sb-mMz" secondAttribute="leading" constant="50" id="P43-QE-neI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jDy-oN-rPB" secondAttribute="trailing" constant="20" id="UF5-L0-6u6"/>
+                            <constraint firstItem="pAr-3R-qlj" firstAttribute="leading" secondItem="CE0-Sb-mMz" secondAttribute="leading" constant="50" id="XmM-iW-rez"/>
+                            <constraint firstItem="jDy-oN-rPB" firstAttribute="leading" secondItem="nlM-Wh-T9W" secondAttribute="leadingMargin" constant="20" id="nTz-XK-qmz"/>
+                            <constraint firstItem="V2s-ur-bnC" firstAttribute="top" secondItem="CE0-Sb-mMz" secondAttribute="top" id="ncf-6a-gxX"/>
+                            <constraint firstItem="ouE-EA-m4D" firstAttribute="top" secondItem="Sep-2u-3Jy" secondAttribute="bottom" constant="5" id="sJK-Mv-7ay"/>
+                            <constraint firstItem="ouE-EA-m4D" firstAttribute="leading" secondItem="CE0-Sb-mMz" secondAttribute="leading" constant="50" id="wUh-Sp-KDD"/>
+                            <constraint firstItem="nwl-5w-kgp" firstAttribute="top" secondItem="CE0-Sb-mMz" secondAttribute="top" id="x99-l4-t1u"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="nFX-MP-fRu"/>
+                    <connections>
+                        <outlet property="loginAndLogoutButton" destination="XOH-IC-ApW" id="RO7-bb-6cF"/>
+                        <outlet property="noticeButton" destination="ouE-EA-m4D" id="2yc-lo-dLF"/>
+                        <outlet property="signUpAndUserInfoButton" destination="pAr-3R-qlj" id="lZ1-oM-chI"/>
+                        <outlet property="userImageView" destination="nwl-5w-kgp" id="gYk-r7-Fyt"/>
+                        <outlet property="userStateLabel" destination="V2s-ur-bnC" id="WAk-hG-zzZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jpj-Ti-WqW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -124,6 +156,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="person.crop.circle" catalog="system" width="128" height="123"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ksg-Pb-097" customClass="ImageSlideshow" customModule="ImageSlideshow">
-                                <rect key="frame" x="0.0" y="44" width="414" height="336"/>
+                                <rect key="frame" x="0.0" y="48" width="414" height="336"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="336" id="jzD-Cm-MJf"/>
@@ -62,7 +63,7 @@
                                 <buttonConfiguration key="configuration" style="plain" title="신고"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUK-LU-Kpg">
-                                <rect key="frame" x="20" y="410" width="35" height="20"/>
+                                <rect key="frame" x="20" y="414" width="35" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="8MQ-H7-0OS"/>
                                 </constraints>
@@ -71,7 +72,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미술대학 | 방금 전 | 학용품" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9Y-3V-s5M">
-                                <rect key="frame" x="20" y="434" width="147.5" height="16"/>
+                                <rect key="frame" x="20" y="438" width="147.5" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="PXh-vc-mlK"/>
                                 </constraints>
@@ -80,15 +81,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XWW-c5-Yy6">
-                                <rect key="frame" x="0.0" y="500" width="414" height="1"/>
-                                <color key="backgroundColor" red="0.43921568989999998" green="0.43921568989999998" blue="0.43921568989999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <rect key="frame" x="0.0" y="504" width="414" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="CQv-Z7-spf"/>
                                     <constraint firstAttribute="height" constant="1" id="p3v-z2-Tgb"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내용" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Wu-xK-g0c">
-                                <rect key="frame" x="20" y="551" width="374" height="20"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내용" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Wu-xK-g0c">
+                                <rect key="frame" x="20" y="555" width="374" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="p62-dn-nFd"/>
                                 </constraints>
@@ -97,7 +98,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20,000원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXU-WL-97H">
-                                <rect key="frame" x="316.5" y="450" width="77.5" height="20"/>
+                                <rect key="frame" x="316.5" y="454" width="77.5" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="1Xg-yd-sRN"/>
                                 </constraints>
@@ -106,7 +107,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="닉네임" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZjE-6S-ImD">
-                                <rect key="frame" x="362.5" y="410" width="31.5" height="16"/>
+                                <rect key="frame" x="362.5" y="414" width="31.5" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="fjk-vJ-JcY"/>
                                 </constraints>
@@ -142,8 +143,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="contentLabel" destination="6Wu-xK-g0c" id="3tj-Qc-hUT"/>
+                        <outlet property="nicknameLabel" destination="ZjE-6S-ImD" id="JgV-tP-yXZ"/>
+                        <outlet property="placeUpdateCategoryLabel" destination="E9Y-3V-s5M" id="vrn-LA-K0J"/>
+                        <outlet property="priceLabel" destination="vXU-WL-97H" id="Hl5-kA-5iw"/>
                         <outlet property="slideshow" destination="Ksg-Pb-097" id="gpX-bn-eaq"/>
                         <outlet property="sugoButton" destination="zLj-sD-NEZ" id="Mg2-en-FIR"/>
+                        <outlet property="titleLabel" destination="MUK-LU-Kpg" id="vhb-8e-kbb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

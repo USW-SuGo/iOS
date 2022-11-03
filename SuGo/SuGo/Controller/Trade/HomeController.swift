@@ -8,6 +8,7 @@
 import UIKit
 
 import Alamofire
+import MaterialComponents
 import SwiftyJSON
 import KeychainSwift
 import Kingfisher
@@ -18,6 +19,7 @@ class HomeController: UIViewController {
     
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var categoryButton: UIButton!
     
     //MARK: Properties
     
@@ -25,13 +27,19 @@ class HomeController: UIViewController {
     var homeProductContents = [ProductContents]()
     var testList = ["미래", "종강", "IT", "글경", "체대", "인문"]
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
+    let categorySelect = CategorySelect.shared
     
     //MARK: Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        print(keychain.get("RefreshToken"))
+        print("Home - viewWillAppear")
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(bottomDismissObserver),
+                                               name: NSNotification.Name("bottomDismiss"),
+                                               object: nil)
+        
         customLeftBarButton()
         customRightBarButtons()
         customBackButton()
@@ -40,15 +48,26 @@ class HomeController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getMainPage(page: 0, size: 10, category: "")
+        print("Home - viewWillAppear")
+        callGetMainPage()
+        customCategoryButton(category: categorySelect.category ?? "카테고리")
     }
     
-    // 이 후 페이지 생성 시 함수 생성 진행 예정
-    @objc func testButtonAction() {
-        print("button clicked")
+
+    
+    // modal view dismiss catch use observer
+    @objc func bottomDismissObserver(_ notification: Notification){
+        
+        DispatchQueue.main.async {
+            
+            self.callGetMainPage()
+            self.customCategoryButton(category: self.categorySelect.category ?? "카테고리")
+            
+        }
     }
     
-    @objc func hamburgerButtonClicked() {
+    //@objc functions for navigation bar buttons
+    @objc func sideMenuButtonClicked() {
         
         let sideMenuViewStoryboard = UIStoryboard(name: "SideMenuView", bundle: nil)
         let sideMenuViewController =
@@ -58,8 +77,7 @@ class HomeController: UIViewController {
         
     }
     
-    // 네비게이션 바 함수 1. 메세지 2. 게시물 3. 검색
-    
+    // 1. message 2. posting 3. map
     @objc func messageButtonClicked() {
         
         let chatingListViewStoryboard = UIStoryboard(name: "ChatingListView", bundle: nil)
@@ -71,26 +89,54 @@ class HomeController: UIViewController {
 
     @objc func postingButtonclicked() {
         
-        let postingViewStoryboard = UIStoryboard(name: "PostingView", bundle: nil)
-        let nextViewController =
-        postingViewStoryboard.instantiateViewController(withIdentifier: "postingVC") as! PostingController
-        nextViewController.modalPresentationStyle = .fullScreen
-        self.present(nextViewController, animated: true, completion: nil)
+        presentViewController(storyboard: "PostingView", identifier: "postingVC", fullScreen: true)
         
     }
     
     @objc func mapButtonClicked() {
           
-        let mapViewStoryboard = UIStoryboard(name: "MapView", bundle: nil)
-        let nextViewController =
-        mapViewStoryboard.instantiateViewController(withIdentifier: "mapVC") as! MapViewController
-        self.present(nextViewController, animated: true, completion: nil)
+        presentViewController(storyboard: "MapView", identifier: "mapVC", fullScreen: false)
+
+    }
+    
+    private func pushViewController(storyboard: String, identifier: String) {
+        
+        let nextStoryboard = UIStoryboard(name: storyboard, bundle: nil)
+        let nextViewController = 
+        
+    }
+    
+    private func presentViewController(storyboard: String,
+                                       identifier: String,
+                                       fullScreen: Bool) {
+        
+        let nextStoryboard = UIStoryboard(name: storyboard, bundle: nil)
+        let nextViewController = nextStoryboard.instantiateViewController(withIdentifier: identifier)
+        if fullScreen {
+            nextViewController.modalPresentationStyle = .fullScreen
+        }
+        self.present(nextViewController, animated: true)
         
     }
     
     //MARK: API Functions
     
+    // call viewWillAppear or when user choose category
+    private func callGetMainPage() {
+        
+        homeProductContents.removeAll()
+
+        if categorySelect.category == "전체" {
+            getMainPage(page: 0, size: 10, category: "")
+        } else {
+            getMainPage(page: 0, size: 10, category: categorySelect.category ?? "")
+        }
+        
+    }
+    
+    // it will be infinite scroll
     private func getMainPage(page: Int, size: Int, category: String) {
+        
         AlamofireManager
             .shared
             .session
@@ -104,13 +150,13 @@ class HomeController: UIViewController {
     }
     
     private func updateHome(json: JSON) {
-        homeProductContents.removeAll()
+        
         for i in 0..<json.count {
             
             let jsonImages = json[i]["imageLink"].stringValue
             var images = jsonImages.components(separatedBy: ", ").map({String($0)})
             
-            // JSON으로 내려받을 때 stringValue로 떨어지기에, 콤마로 스플릿 후 데이터 일부 수정
+            // when get data it is stringValue, so split use ','
             if images.count == 1 {
                 
                 images[0] = String(images[0].dropFirst())
@@ -150,13 +196,11 @@ class HomeController: UIViewController {
                 
                 updatedAt = "\(intervalDays / 7)주 전"
                 
-            } else { // 주 단위 추가 필요
+            } else {
                 
                 updatedAt = "\(intervalDays / 30)달 전"
                 
             }
-            
-            print(json[i]["price"].intValue)
             
             let rawData = ProductContents(id: json[i]["id"].intValue,
                                imageLink: images,
@@ -178,27 +222,51 @@ class HomeController: UIViewController {
     }
     
     func decimalWon(price: Int) -> String {
+        
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
         
         return result
+        
     }
 
     //MARK: Button Actions
     
+    @IBAction func categoryButtonClicked(_ sender: Any) {
+        
+        let bottomSheetView = UIStoryboard(name: "BottomSheetView", bundle: nil)
+        let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "bottomSheetVC") as! BottomSheetController
+        let bottomSheet = MDCBottomSheetController(contentViewController: nextVC)
+        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 330
+        bottomSheet.dismissOnDraggingDownSheet = true
+        present(bottomSheet, animated: true)
+        
+    }
+    
     //MARK: Design Functions
     
-    private func customLeftBarButton(){
+    // when user choose category
+    private func customCategoryButton(category: String) {
+        
+        if category == "" {
+            categoryButton.setTitle("카테고리", for: .normal)
+        } else {
+            categoryButton.setTitle(category, for: .normal)
+        }
+        
+    }
+    
+    // navigation bar's buttons custom
+    private func customLeftBarButton() {
         
         let sideMenuButton = self.navigationItem.makeSFSymbolButton(self,
-                                                                    action: #selector(hamburgerButtonClicked),
+                                                                    action: #selector(sideMenuButtonClicked),
                                                                     symbolName: "sidebar.left")
         self.navigationItem.leftBarButtonItem = sideMenuButton
         
     }
     
-    // 네비게이션 바 우측 버튼 커스텀
     private func customRightBarButtons() {
             
         let mapButton = self.navigationItem.makeSFSymbolButton(self,
@@ -226,10 +294,6 @@ class HomeController: UIViewController {
         
     }
     
-    private func customNaviagtionBar() {
-        
-    }
-    
     private func searchViewDesign() {
         
         searchView.layer.cornerRadius = 10.0
@@ -237,31 +301,6 @@ class HomeController: UIViewController {
         searchView.layer.borderColor = UIColor.lightGray.cgColor
         
     }
-    
-    
-//    private func addNavigationBar() {
-//
-//        // Get Safe Area
-//        var statusBarHeight: CGFloat = 0
-//        statusBarHeight = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
-//
-//        // navigationBar
-//        let naviBar = UINavigationBar(frame: .init(x: 0,
-//                                                   y: statusBarHeight,
-//                                                   width: view.frame.width,
-//                                                   height: statusBarHeight))
-//        naviBar.isTranslucent = false
-//        naviBar.backgroundColor = .systemBackground
-//
-//        let naviItem = UINavigationItem(title: "SUGO")
-//        naviItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-//                                                      target: self,
-//                                                      action: nil)
-//        naviBar.items = [naviItem]
-//
-//        view.addSubview(naviBar)
-//
-//    }
 
 }
 
@@ -303,53 +342,47 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let url = API.BASE_URL + "/token"
-        let headers: HTTPHeaders = [
-            "Authorization" : keychain.get("RefreshToken") ?? ""
-        ]
-        
-        AF.request(url, method: .post,
-                   encoding: JSONEncoding.default,
-                   headers: headers).responseJSON { response in
-            
-            print(JSON(response.data))
-            
-            // 토큰이 존재하고, 리프레쉬 토큰이 만료되지 않았을 경우 다음 페이지로 이동
-            if self.keychain.get("AccessToken") != nil && response.response?.statusCode != 403 {
-                
-                let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
-                let nextViewController =
-                postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
-                nextViewController.productPostId = self.homeProductContents[indexPath.row].id
-                self.navigationController?.pushViewController(nextViewController, animated: true)
-                
-            // 그게 아니라면 로그인 화면으로 이동.
-            } else {
-                
-                let loginViewStoryboard = UIStoryboard(name: "LoginView", bundle: nil)
-                let nextViewController =
-                loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
-                self.present(nextViewController, animated: true)
-                
+                    
+            AlamofireManager
+                .shared
+                .session
+                .request(PostRouter.getDetailPost(productPostId: homeProductContents[indexPath.row].id))
+                .validate()
+                .responseJSON { response in
+
+                // if users have token and refreshToken still alive
+                if response.response?.statusCode == 200 {
+
+                    let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
+                    let nextViewController =
+                    postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
+                    nextViewController.productPostId = self.homeProductContents[indexPath.row].id
+                    self.navigationController?.pushViewController(nextViewController, animated: true)
+
+                // else show loginPage
+                } else {
+
+                    self.keychain.clear()
+                    let loginViewStoryboard = UIStoryboard(name: "LoginView", bundle: nil)
+                    let nextViewController =
+                    loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
+                    self.present(nextViewController, animated: true)
+
+                }
             }
-            
+        
         }
-        
-        
-        
-    }
     
 }
 
 extension HomeController: UICollectionViewDelegateFlowLayout{
     
-    // 위아래 간격
+    // top & down
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
-    // 좌우 간격
+    // left & right
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
@@ -410,7 +443,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }()
     
     override func layoutSubviews() {
-        contentView.layer.borderColor = UIColor.systemGray2.cgColor
+        contentView.layer.borderColor = UIColor.black.cgColor
         contentView.layer.borderWidth = 0.2
     
         addContentView()

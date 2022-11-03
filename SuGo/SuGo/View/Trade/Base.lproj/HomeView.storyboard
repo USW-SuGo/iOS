@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yle-6Z-8iY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="yle-6Z-8iY">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -12,6 +12,9 @@
     <customFonts key="customFonts">
         <array key="Pretendard-Regular.otf">
             <string>Pretendard-Regular</string>
+        </array>
+        <array key="Pretendard-SemiBold.otf">
+            <string>Pretendard-SemiBold</string>
         </array>
     </customFonts>
     <scenes>
@@ -60,7 +63,7 @@
                                 </connections>
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7U1-pV-swm">
-                                <rect key="frame" x="16" y="102" width="336" height="40"/>
+                                <rect key="frame" x="16" y="102" width="302" height="40"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oe-Jn-Ioa">
                                         <rect key="frame" x="8" y="8" width="24" height="24"/>
@@ -72,8 +75,8 @@
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
                                     </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="수고 할 물품 검색" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M0L-P7-Zje">
-                                        <rect key="frame" x="40" y="8" width="288" height="24"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="검색" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M0L-P7-Zje">
+                                        <rect key="frame" x="40" y="8" width="254" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="tyX-ep-vbS"/>
                                         </constraints>
@@ -93,36 +96,52 @@
                                     <constraint firstAttribute="bottom" secondItem="0oe-Jn-Ioa" secondAttribute="bottom" constant="8" id="lY6-O5-ce3"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z07-M5-fF5">
-                                <rect key="frame" x="362" y="104" width="36" height="36"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z07-M5-fF5">
+                                <rect key="frame" x="328" y="104" width="51" height="36"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="36" id="Rci-Hu-n5y"/>
-                                    <constraint firstAttribute="height" constant="36" id="loo-zh-omF"/>
+                                    <constraint firstAttribute="height" constant="36" id="R9u-c3-CTU"/>
+                                    <constraint firstAttribute="width" constant="51" id="Rci-Hu-n5y"/>
                                 </constraints>
-                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="list.dash" catalog="system"/>
+                                <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="14"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="카테고리"/>
+                                <connections>
+                                    <action selector="categoryButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="M4r-v6-Jf4"/>
+                                </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="qn7-ch-rtu">
+                                <rect key="frame" x="382" y="112.5" width="20" height="18.5"/>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="dH7-af-wlE"/>
+                                    <constraint firstAttribute="height" constant="20" id="pkS-Oi-kaB"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="7U1-pV-swm" secondAttribute="bottom" constant="5" id="2dv-GL-iGz"/>
+                            <constraint firstItem="qn7-ch-rtu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="19" id="4dS-0j-bbc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="qn7-ch-rtu" secondAttribute="trailing" constant="12" id="6mB-Dt-PHe"/>
+                            <constraint firstItem="Z07-M5-fF5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="R2H-wx-Nkb"/>
                             <constraint firstItem="7U1-pV-swm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="STh-qS-DMM"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Urk-3X-F2B"/>
                             <constraint firstAttribute="bottom" secondItem="9w5-hy-RxZ" secondAttribute="bottom" constant="77" id="ct6-fs-qtb"/>
-                            <constraint firstItem="Z07-M5-fF5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="cxx-OY-XAp"/>
                             <constraint firstItem="Z07-M5-fF5" firstAttribute="leading" secondItem="7U1-pV-swm" secondAttribute="trailing" constant="10" id="gwB-aw-Yf6"/>
+                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="Z07-M5-fF5" secondAttribute="bottom" constant="7" id="juP-Yd-kJB"/>
+                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="qn7-ch-rtu" secondAttribute="bottom" constant="16" id="lHN-Ek-ov6"/>
+                            <constraint firstItem="qn7-ch-rtu" firstAttribute="leading" secondItem="Z07-M5-fF5" secondAttribute="trailing" constant="3" id="p2N-aP-lzV"/>
                             <constraint firstItem="9w5-hy-RxZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="pRH-5q-RcY"/>
                             <constraint firstItem="7U1-pV-swm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="sRP-oi-mX9"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Z07-M5-fF5" secondAttribute="trailing" constant="16" id="vRW-vh-NMK"/>
-                            <constraint firstItem="9w5-hy-RxZ" firstAttribute="top" secondItem="Z07-M5-fF5" secondAttribute="bottom" constant="7" id="vt0-99-0xA"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="SUGO" largeTitleDisplayMode="always" id="sdd-1x-XTa"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="categoryButton" destination="Z07-M5-fF5" id="7dH-sG-Alw"/>
                         <outlet property="collectionView" destination="9w5-hy-RxZ" id="Bkk-It-7GX"/>
                         <outlet property="searchView" destination="7U1-pV-swm" id="nM0-Ge-Xeu"/>
                     </connections>
@@ -172,7 +191,6 @@
     </scenes>
     <resources>
         <image name="cart" catalog="system" width="128" height="102"/>
-        <image name="list.dash" catalog="system" width="128" height="85"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

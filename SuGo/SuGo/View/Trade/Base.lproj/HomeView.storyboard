@@ -74,6 +74,9 @@
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
+                                        <connections>
+                                            <action selector="searchButtonclicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m77-Xt-ty1"/>
+                                        </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="검색" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M0L-P7-Zje">
                                         <rect key="frame" x="40" y="8" width="254" height="24"/>
@@ -143,6 +146,7 @@
                     <connections>
                         <outlet property="categoryButton" destination="Z07-M5-fF5" id="7dH-sG-Alw"/>
                         <outlet property="collectionView" destination="9w5-hy-RxZ" id="Bkk-It-7GX"/>
+                        <outlet property="searchTextField" destination="M0L-P7-Zje" id="7Iu-g0-HLx"/>
                         <outlet property="searchView" destination="7U1-pV-swm" id="nM0-Ge-Xeu"/>
                     </connections>
                 </viewController>

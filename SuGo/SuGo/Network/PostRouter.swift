@@ -25,8 +25,7 @@ enum PostRouter: URLRequestConvertible {
     case getDetailPost(productPostId: Int)
     
     case searchContent(value: String,
-                       page: Int,
-                       size: Int)
+                       category: String)
     
     
     var baseURL: URL {
@@ -77,11 +76,10 @@ enum PostRouter: URLRequestConvertible {
         case .getDetailPost(let productPostId):
             return ["productPostId" : productPostId]
             
-        case .searchContent(let value, let page, let size):
+        case .searchContent(let value, let category):
             return [
                 "value" : value,
-                "page" : page,
-                "size" : size
+                "category" : category
             ]
         }
         

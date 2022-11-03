@@ -89,11 +89,11 @@ enum PostRouter: URLRequestConvertible {
     
     var headers: HTTPHeaders {
         switch self {
-        case .postContent, .getDetailPost:
+        case .postContent, .getDetailPost, .searchContent:
             return [
                 .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
             ]
-        case .mainPage, .searchContent:
+        case .mainPage:
             return .default
         }
     }

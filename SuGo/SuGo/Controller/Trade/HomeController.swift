@@ -127,7 +127,9 @@ class HomeController: UIViewController {
             .session
             .request(PostRouter.searchContent(value: searchData,
                                               category: category))
+            .validate()
             .responseData { response in
+                print(response.response?.statusCode)
                 print(JSON(response.data))
             }
         
@@ -252,8 +254,9 @@ class HomeController: UIViewController {
         let searchData = searchTextField.text ?? ""
         var category = categorySelect.category
         if category == "전체" {
-            category = ""
+            category = "전체"
         }
+        print(category)
         getSearchData(searchData: searchData, category: category)
         
     }

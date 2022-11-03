@@ -21,3 +21,13 @@ struct ProductContents {
     var category: String = ""
 
 }
+
+class CategorySelect {
+    
+    static let shared = CategorySelect()
+    
+    var category: String = ""
+    
+    private init() {}
+    
+}

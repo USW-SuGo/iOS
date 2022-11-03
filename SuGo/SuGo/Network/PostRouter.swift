@@ -24,6 +24,9 @@ enum PostRouter: URLRequestConvertible {
     
     case getDetailPost(productPostId: Int)
     
+    case searchContent(value: String,
+                       page: Int,
+                       size: Int)
     
     
     var baseURL: URL {
@@ -34,7 +37,7 @@ enum PostRouter: URLRequestConvertible {
         switch self {
         case .postContent:
             return .post
-        case .mainPage, .getDetailPost:
+        case .mainPage, .getDetailPost, .searchContent:
             return .get
         }
     }
@@ -47,6 +50,8 @@ enum PostRouter: URLRequestConvertible {
             return "/all"
         case .getDetailPost:
             return "/"
+        case .searchContent:
+            return "/search"
         }
     
     }
@@ -71,7 +76,17 @@ enum PostRouter: URLRequestConvertible {
         
         case .getDetailPost(let productPostId):
             return ["productPostId" : productPostId]
+            
+        case .searchContent(let value, let page, let size):
+            return [
+                "value" : value,
+                "page" : page,
+                "size" : size
+            ]
         }
+        
+    
+        
     }
     
     var headers: HTTPHeaders {
@@ -80,7 +95,7 @@ enum PostRouter: URLRequestConvertible {
             return [
                 .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
             ]
-        case .mainPage:
+        case .mainPage, .searchContent:
             return .default
         }
     }

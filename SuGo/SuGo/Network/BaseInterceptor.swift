@@ -36,9 +36,9 @@ class BaseInterceptor: RequestInterceptor {
     }
     
     func retry(_ request: Request, for session: Session, dueTo error: Error, completion: @escaping (RetryResult) -> Void) {
-        
         print("BaseInterceptor - retry() called")
-        print(request.response?.statusCode)
+        
+        print(request)
         
         guard let response = request.task?.response as? HTTPURLResponse,
                 response.statusCode == 403 else {
@@ -46,50 +46,52 @@ class BaseInterceptor: RequestInterceptor {
             print(".doNotRetry")
             completion(.doNotRetryWithError(error))
             return
+            
         }
-        
-//        print(".retry")
-        
+            
         let url = API.BASE_URL + "/token"
         let headers: HTTPHeaders = [
             "Authorization" : keychain.get("RefreshToken") ?? ""
         ]
         
-        print(".retry")
-        
         AF.request(url, method: .post, encoding: JSONEncoding.default, headers: headers).responseJSON { response in
-
-            if response.response?.statusCode == 403 {
-                
-                print(".doNotRetryWithError")
-                completion(.doNotRetry)
-                
-            } else {
+            
+            print("retry statusCode - \(response.response?.statusCode)")
+            print(JSON(response.data))
+            
+            if response.response?.statusCode == 200 {
                 
                 // Token - Dictionary to String
+         
+                print("retry & token update")
                 
                 let tokens = String((response.response?.headers.dictionary["Authorization"] ?? ""))
-                
                 let splitToken = tokens.components(separatedBy: ",")
-                
+
                 let refreshStartIndex = splitToken[0].index(splitToken[0].startIndex,
                                                                 offsetBy: 14)
                 let accessStartIndex = splitToken[1].index(splitToken[1].startIndex,
                                                                offsetBy: 13)
-            
+
                 let refreshToken = String(splitToken[0][refreshStartIndex...])
                 var accessToken = String(splitToken[1].dropLast())
                 accessToken = String(accessToken[accessStartIndex...])
-            
+
                 // Keychain Setting
                 
-                self.keychain.clear()
-                print(accessToken)
                 self.keychain.set(accessToken, forKey: "AccessToken")
                 self.keychain.set(refreshToken, forKey: "RefreshToken")
                 
                 // API Retry
                 completion(.retry)
+            
+                
+            } else {
+                
+                self.keychain.clear()
+                print(".doNotRetryWithError")
+                completion(.doNotRetry)
+                
             }
         }
     }

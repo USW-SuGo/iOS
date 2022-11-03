@@ -88,7 +88,10 @@ class LoginController: UIViewController, UITextFieldDelegate {
                     //Token : Dictionary To String
                     
                     let tokens = String((response.response?.headers.dictionary["Authorization"] ?? ""))
+                    print("tokens - \(tokens)")
                     let splitToken = tokens.components(separatedBy: ",")
+                    print("splitToken - \(splitToken)")
+                    
                     
                     let refreshStartIndex = splitToken[0].index(splitToken[0].startIndex,
                                                                 offsetBy: 14)
@@ -100,6 +103,9 @@ class LoginController: UIViewController, UITextFieldDelegate {
                     accessToken = String(accessToken[accessStartIndex...])
 
                     //Keychain Setting
+                    print("accessToken - \(accessToken)")
+                    print("refreshToken - \(refreshToken)")
+                    
                     
                     self.keychain.set(accessToken, forKey: "AccessToken")
                     self.keychain.set(refreshToken, forKey: "RefreshToken")

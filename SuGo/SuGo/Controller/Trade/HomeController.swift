@@ -20,6 +20,7 @@ class HomeController: UIViewController {
     @IBOutlet weak var searchView: UIView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var categoryButton: UIButton!
+    @IBOutlet weak var searchTextField: UITextField!
     
     //MARK: Properties
     
@@ -50,7 +51,7 @@ class HomeController: UIViewController {
         super.viewWillAppear(animated)
         print("Home - viewWillAppear")
         callGetMainPage()
-        customCategoryButton(category: categorySelect.category ?? "카테고리")
+        customCategoryButton(category: categorySelect.category)
     }
     
 
@@ -61,7 +62,7 @@ class HomeController: UIViewController {
         DispatchQueue.main.async {
             
             self.callGetMainPage()
-            self.customCategoryButton(category: self.categorySelect.category ?? "카테고리")
+            self.customCategoryButton(category: self.categorySelect.category)
             
         }
     }
@@ -80,10 +81,7 @@ class HomeController: UIViewController {
     // 1. message 2. posting 3. map
     @objc func messageButtonClicked() {
         
-        let chatingListViewStoryboard = UIStoryboard(name: "ChatingListView", bundle: nil)
-        let nextViewController =
-        chatingListViewStoryboard.instantiateViewController(withIdentifier: "chatinglistVC") as! ChatingListController
-        self.navigationController?.pushViewController(nextViewController, animated: true)
+        pushViewController(storyboard: "ChatingListView", identifier: "chatinglistVC")
         
     }
 
@@ -102,7 +100,8 @@ class HomeController: UIViewController {
     private func pushViewController(storyboard: String, identifier: String) {
         
         let nextStoryboard = UIStoryboard(name: storyboard, bundle: nil)
-        let nextViewController = 
+        let nextViewController = nextStoryboard.instantiateViewController(withIdentifier: identifier)
+        self.navigationController?.pushViewController(nextViewController, animated: true)
         
     }
     
@@ -121,6 +120,19 @@ class HomeController: UIViewController {
     
     //MARK: API Functions
     
+    private func getSearchData(searchData: String, category: String) {
+        
+        AlamofireManager
+            .shared
+            .session
+            .request(PostRouter.searchContent(value: searchData,
+                                              category: category))
+            .responseData { response in
+                print(JSON(response.data))
+            }
+        
+    }
+    
     // call viewWillAppear or when user choose category
     private func callGetMainPage() {
         
@@ -129,7 +141,7 @@ class HomeController: UIViewController {
         if categorySelect.category == "전체" {
             getMainPage(page: 0, size: 10, category: "")
         } else {
-            getMainPage(page: 0, size: 10, category: categorySelect.category ?? "")
+            getMainPage(page: 0, size: 10, category: categorySelect.category)
         }
         
     }
@@ -140,7 +152,9 @@ class HomeController: UIViewController {
         AlamofireManager
             .shared
             .session
-            .request(PostRouter.mainPage(page: page, size: size, category: category))
+            .request(PostRouter.mainPage(page: page,
+                                         size: size,
+                                         category: category))
             .responseData { response in
                 
                 self.updateHome(json: JSON(response.data ?? ""))
@@ -232,6 +246,17 @@ class HomeController: UIViewController {
     }
 
     //MARK: Button Actions
+    
+    @IBAction func searchButtonclicked(_ sender: Any) {
+        
+        let searchData = searchTextField.text ?? ""
+        var category = categorySelect.category
+        if category == "전체" {
+            category = ""
+        }
+        getSearchData(searchData: searchData, category: category)
+        
+    }
     
     @IBAction func categoryButtonClicked(_ sender: Any) {
         
@@ -363,10 +388,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
                 } else {
 
                     self.keychain.clear()
-                    let loginViewStoryboard = UIStoryboard(name: "LoginView", bundle: nil)
-                    let nextViewController =
-                    loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
-                    self.present(nextViewController, animated: true)
+                    self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: false)
 
                 }
             }

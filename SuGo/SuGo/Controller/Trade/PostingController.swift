@@ -111,8 +111,7 @@ class PostingController: UIViewController {
                 let data = thumbnail.jpegData(compressionQuality: 0.9)
                 let newImage = UIImage(data: data!)
                 self.priviewImages.append(newImage! as UIImage)
-                print("image size - \(thumbnail.pngData())")
-                print("resize image size - \(thumbnail.jpegData(compressionQuality: 0.9))")
+                
             }
             print(priviewImages)
         }
@@ -145,7 +144,7 @@ class PostingController: UIViewController {
                 }
                 
                 let data = realImage.jpegData(compressionQuality: 0.9)
-                print("real images size - \(data)")
+//                print("real images size - \(data)")
                 
                 let newImage = UIImage(data: data!)
                 self.realImages.append(newImage! as UIImage)
@@ -199,9 +198,7 @@ class PostingController: UIViewController {
                   usingThreshold: UInt64.init(),
                   method: .post,
                   headers: header).responseJSON { response in
-            
-            print(JSON(response.data))
-            print(response.response?.statusCode)
+        
             self.dismiss(animated: true)
         }
         

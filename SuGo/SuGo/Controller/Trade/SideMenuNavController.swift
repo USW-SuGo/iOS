@@ -22,6 +22,7 @@ class SideMenuNavController: SideMenuNavigationController {
 
 }
 
+// 리프레쉬 토큰 만료 시 검증할 방법 구현 필요
 class SideMenuController: UIViewController{
     
     //MARK: IBOutlets
@@ -43,6 +44,8 @@ class SideMenuController: UIViewController{
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print(keychain.get("AccessToken"))
+        print("sideViewWillAppear")
         buttonTitleChange()
     }
     
@@ -82,6 +85,7 @@ class SideMenuController: UIViewController{
     //MARK: Design Functions
     
     private func buttonTitleChange() {
+        
         
         if keychain.get("AccessToken") == nil {
             

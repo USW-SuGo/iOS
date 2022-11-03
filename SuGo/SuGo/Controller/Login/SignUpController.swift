@@ -341,8 +341,8 @@ class SignUpController: UIViewController {
             .session
             .request(LoginRouter.checkEmail(email: email))
             .responseJSON { response in
-                print(JSON(response.data))
-                if JSON(response.data)["exist"].boolValue == false {
+//                print(JSON(response.data))
+                if JSON(response.data ?? "")["exist"].boolValue == false {
                     
                     self.warningText(label: self.emailWarningLabel,
                                 box: self.emailBox,
@@ -436,7 +436,7 @@ class SignUpController: UIViewController {
             .session
             .request(LoginRouter.join(loginId: id, email: email, password: password, department: department))
             .responseJSON { response in
-                print(JSON(response.data))
+//                print(JSON(response.data))
 
             }
     }

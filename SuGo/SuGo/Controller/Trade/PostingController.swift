@@ -9,9 +9,11 @@ import UIKit
 
 import Alamofire
 import BSImagePicker
-import SwiftyJSON
-import Photos
 import KeychainSwift
+import MaterialComponents
+import Photos
+import SwiftyJSON
+
 
 class PostingController: UIViewController {
 
@@ -32,18 +34,17 @@ class PostingController: UIViewController {
     var priviewImages = [UIImage]()
     // real images
     var realImages = [UIImage]()
-    
-    let imgData = UIImage(named: "home")
-
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
+    let textViewPlaceHolder = "수고할 상품에 대한 글을 작성해주세요! (거짓 정보 및 가품 등 문제가 될만한 글은 자동으로 삭제됩니다.)"
+    let categorySelect = CategorySelect.shared
     
     //MARK: Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentTextView.layer.cornerRadius = 6.0
-        contentTextView.layer.borderColor = UIColor.black.cgColor
-        contentTextView.layer.borderWidth = 1.0
+        
+        contentTextView.delegate = self
+        
         designButtons()
         // Do any additional setup after loading the view.
     }
@@ -210,6 +211,17 @@ class PostingController: UIViewController {
     
     //MARK: Button Actions
     
+    @IBAction func categoryButtonClicked(_ sender: Any) {
+        let bottomSheetView = UIStoryboard(name: "PostingBottomSheetView", bundle: nil)
+        let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "postingBottomSheetVC") as! PostingBottomSheetController
+        
+        let bottomSheet = MDCBottomSheetController(contentViewController: nextVC)
+        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 280
+        bottomSheet.dismissOnDraggingDownSheet = true
+        present(bottomSheet, animated: true)
+        
+    }
+    
     @IBAction func selectPhotoButtonClicked(_ sender: Any) {
         imageSelectSetting()
     }
@@ -245,7 +257,13 @@ class PostingController: UIViewController {
     
     private func designButtons() {
         
-        sugoButton.layer.cornerRadius = 20.0
+        contentTextView.layer.cornerRadius = 6.0
+        contentTextView.text = textViewPlaceHolder
+        contentTextView.textColor = .lightGray
+//        contentTextView.layer.borderColor = UIColor.black.cgColor
+//        contentTextView.layer.borderWidth = 1.0
+        
+        sugoButton.layer.cornerRadius = 12.0
         sugoButton.layer.borderColor = UIColor.white.cgColor
         
         placeButton.layer.cornerRadius = 6.0
@@ -256,6 +274,23 @@ class PostingController: UIViewController {
         imageButton.layer.borderColor = UIColor.darkGray.cgColor
         imageButton.layer.borderWidth = 1.0
         
+    }
+    
+}
+
+extension PostingController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if contentTextView.text == textViewPlaceHolder {
+            contentTextView.text = nil
+            contentTextView.textColor = .darkGray
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            contentTextView.text = textViewPlaceHolder
+            contentTextView.textColor = .lightGray
+        }
     }
     
 }

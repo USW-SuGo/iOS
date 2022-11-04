@@ -26,7 +26,8 @@ class CategorySelect {
     
     static let shared = CategorySelect()
     
-    var category: String = ""
+    var homeCategory: String = ""
+    var postCategory: String = ""
     
     private init() {}
     

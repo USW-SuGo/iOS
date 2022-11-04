@@ -51,7 +51,7 @@ class HomeController: UIViewController {
         super.viewWillAppear(animated)
         print("Home - viewWillAppear")
         callGetMainPage()
-        customCategoryButton(category: categorySelect.category)
+        customCategoryButton(category: categorySelect.homeCategory)
     }
     
 
@@ -62,7 +62,7 @@ class HomeController: UIViewController {
         DispatchQueue.main.async {
             
             self.callGetMainPage()
-            self.customCategoryButton(category: self.categorySelect.category)
+            self.customCategoryButton(category: self.categorySelect.homeCategory)
             
         }
     }
@@ -140,10 +140,10 @@ class HomeController: UIViewController {
         
         homeProductContents.removeAll()
 
-        if categorySelect.category == "전체" {
+        if categorySelect.homeCategory == "전체" {
             getMainPage(page: 0, size: 10, category: "")
         } else {
-            getMainPage(page: 0, size: 10, category: categorySelect.category)
+            getMainPage(page: 0, size: 10, category: categorySelect.homeCategory)
         }
         
     }
@@ -252,7 +252,7 @@ class HomeController: UIViewController {
     @IBAction func searchButtonclicked(_ sender: Any) {
         
         let searchData = searchTextField.text ?? ""
-        var category = categorySelect.category
+        var category = categorySelect.homeCategory
         if category == "전체" {
             category = "전체"
         }
@@ -263,8 +263,8 @@ class HomeController: UIViewController {
     
     @IBAction func categoryButtonClicked(_ sender: Any) {
         
-        let bottomSheetView = UIStoryboard(name: "BottomSheetView", bundle: nil)
-        let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "bottomSheetVC") as! BottomSheetController
+        let bottomSheetView = UIStoryboard(name: "HomeBottomSheetView", bundle: nil)
+        let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "homeBottomSheetVC") as! HomeBottomSheetController
         let bottomSheet = MDCBottomSheetController(contentViewController: nextVC)
         bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 330
         bottomSheet.dismissOnDraggingDownSheet = true

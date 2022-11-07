@@ -37,8 +37,8 @@ class HomeController: UIViewController {
         print("Home - viewWillAppear")
         
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(bottomDismissObserver),
-                                               name: NSNotification.Name("bottomDismiss"),
+                                               selector: #selector(homeBottomDismissObserver),
+                                               name: NSNotification.Name("homeBottomDismiss"),
                                                object: nil)
         
         customLeftBarButton()
@@ -57,10 +57,11 @@ class HomeController: UIViewController {
 
     
     // modal view dismiss catch use observer
-    @objc func bottomDismissObserver(_ notification: Notification){
+    @objc func homeBottomDismissObserver(_ notification: Notification){
         
         DispatchQueue.main.async {
             
+            self.searchTextField.text = ""
             self.callGetMainPage()
             self.customCategoryButton(category: self.categorySelect.homeCategory)
             
@@ -141,7 +142,7 @@ class HomeController: UIViewController {
         homeProductContents.removeAll()
 
         if categorySelect.homeCategory == "전체" {
-            getMainPage(page: 0, size: 10, category: "")
+            getMainPage(page: 0, size: 10, category: "전체")
         } else {
             getMainPage(page: 0, size: 10, category: categorySelect.homeCategory)
         }
@@ -158,7 +159,7 @@ class HomeController: UIViewController {
                                          size: size,
                                          category: category))
             .responseData { response in
-                
+                print(JSON(response.data))
                 self.updateHome(json: JSON(response.data ?? ""))
                 
             }
@@ -254,7 +255,7 @@ class HomeController: UIViewController {
         let searchData = searchTextField.text ?? ""
         var category = categorySelect.homeCategory
         if category == "전체" {
-            category = "전체"
+            category = ""
         }
         print(category)
         getSearchData(searchData: searchData, category: category)

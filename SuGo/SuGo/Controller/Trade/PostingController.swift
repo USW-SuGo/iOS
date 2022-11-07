@@ -26,7 +26,7 @@ class PostingController: UIViewController {
     @IBOutlet weak var sugoButton: UIButton!
     @IBOutlet weak var placeButton: UIButton!
     @IBOutlet weak var imageButton: UIButton!
-    
+    @IBOutlet weak var categoryButton: UIButton!
     //MARK: Properties
     
     var phAssetImages = [PHAsset]()
@@ -42,11 +42,23 @@ class PostingController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        contentTextView.delegate = self
-        
+        print(contentTextView.text.count)
+        textDelegates()
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(postBottomDismissObserver),
+                                               name: NSNotification.Name("postBottomDismiss"),
+                                               object: nil)
         designButtons()
-        // Do any additional setup after loading the view.
+    }
+    
+    @objc func postBottomDismissObserver(_ notification: Notification){
+        
+        DispatchQueue.main.async {
+        
+            self.customCategoryButton()
+            
+        }
     }
     
     private func imageSelectSetting() {
@@ -98,9 +110,6 @@ class PostingController: UIViewController {
                 // UIImage Resize
                 option.resizeMode = .exact
                 var thumbnail = UIImage()
-
-//                let widthRatio = testList[i].pixelWidth / 30
-//                let heightRatio = testList[i].pixelHeight / 30
                 
                 imageManager.requestImage(for: phAssetImages[i],
                                           targetSize: CGSize(width: 40, height: 40),
@@ -200,8 +209,16 @@ class PostingController: UIViewController {
                   method: .post,
                   headers: header).responseJSON { response in
         
-            self.dismiss(animated: true)
         }
+        self.dismiss(animated: true)
+
+    }
+    
+    private func textDelegates() {
+        
+        titleTextField.delegate = self
+        priceTextField.delegate = self
+        contentTextView.delegate = self
         
     }
     
@@ -210,6 +227,11 @@ class PostingController: UIViewController {
     }
     
     //MARK: Button Actions
+    
+    @IBAction func priceTextFieldChanged(_ sender: Any) {
+        checkMaxLength(textField: priceTextField, maxLength: 9)
+    }
+    
     
     @IBAction func categoryButtonClicked(_ sender: Any) {
         let bottomSheetView = UIStoryboard(name: "PostingBottomSheetView", bundle: nil)
@@ -231,13 +253,28 @@ class PostingController: UIViewController {
     }
     
     @IBAction func sugoButtonClicked(_ sender: Any) {
-  
+        
+        let title = titleTextField.text?.count ?? 0
+        let content = contentTextView.text.count
+        let price = priceTextField.text?.count ?? 0
+        let category = categorySelect.postCategory
         // text or place 모두 선택 되었을 시 함수 실행
-        postContent(title: titleTextField.text ?? "",
-                    content: contentTextView.text ?? "",
-                    priceText: priceTextField.text ?? "",
-                    contactPlace: "종합강의동",
-                    category: "전자기기")
+        
+        // 이후에 거래장소도 추가
+        if title > 0 && content > 0  && contentTextView.text != textViewPlaceHolder && price > 0 && category != "" {
+            
+            postContent(title: titleTextField.text ?? "",
+                        content: contentTextView.text ?? "",
+                        priceText: priceTextField.text ?? "",
+                        contactPlace: "종합강의동",
+                        category: categorySelect.postCategory)
+
+        } else {
+            
+            customAlert(title: "모두 입력해주세요 !",
+                        message: "입력되지 않은 정보가 있어요 !")
+            
+        }
 
     }
     
@@ -254,6 +291,19 @@ class PostingController: UIViewController {
     }
     
     //MARK: Design Functions
+    
+    private func customAlert(title: String, message: String) {
+        
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    private func customCategoryButton() {
+        categoryButton.setTitle(categorySelect.postCategory, for: .normal)
+        categoryButton.setTitleColor(.black, for: .normal)
+    }
     
     private func designButtons() {
         
@@ -274,6 +324,16 @@ class PostingController: UIViewController {
         imageButton.layer.borderColor = UIColor.darkGray.cgColor
         imageButton.layer.borderWidth = 1.0
         
+    }
+    
+}
+
+extension PostingController: UITextFieldDelegate {
+    
+    func checkMaxLength(textField: UITextField!, maxLength: Int) {
+        if textField.text?.count ?? 0 > maxLength {
+            textField.deleteBackward()
+        }
     }
     
 }

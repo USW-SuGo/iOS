@@ -20,6 +20,11 @@ class PostingBottomSheetController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.post(name: NSNotification.Name("postBottomDismiss"), object: nil)
+    }
+    
 }
 
 extension PostingBottomSheetController: UITableViewDelegate, UITableViewDataSource {
@@ -36,6 +41,10 @@ extension PostingBottomSheetController: UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        categorySelect.postCategory = category[indexPath.row]
+        self.dismiss(animated: true)
+    }
     
 }
 

@@ -196,7 +196,10 @@
                                     <constraint firstAttribute="height" constant="20" id="0fL-0n-Gxt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" textContentType="one-time-code"/>
+                                <connections>
+                                    <action selector="priceTextFieldChanged:" destination="Y6W-OH-hqX" eventType="editingChanged" id="uY2-y8-OsR"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="₩" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygD-oe-coz">
                                 <rect key="frame" x="20" y="191" width="16" height="20"/>
@@ -279,6 +282,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="categoryButton" destination="M0s-Qi-fIy" id="rxG-kw-iBL"/>
                         <outlet property="collectionView" destination="CEE-LT-tfP" id="SWw-g0-m1w"/>
                         <outlet property="contentTextView" destination="48Z-yd-jRc" id="PBa-NW-dbz"/>
                         <outlet property="imageButton" destination="FpL-aY-ojp" id="UaC-sf-R1s"/>

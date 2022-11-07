@@ -53,13 +53,15 @@
 		AFD7BF1D28D5BF7700F42908 /* UINavigationItem+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */; };
 		AFD7BF1F28D5D1E400F42908 /* PostView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */; };
 		AFD7BF2128D5D1F500F42908 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD7BF2028D5D1F500F42908 /* PostController.swift */; };
+		AFDCD3C82914AFB700D77EAF /* PostingBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFDCD3C72914AFB700D77EAF /* PostingBottomSheetController.swift */; };
+		AFDCD3CA2914B5BB00D77EAF /* PostingBottomSheetView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFDCD3C92914B5BB00D77EAF /* PostingBottomSheetView.storyboard */; };
 		AFE6C03B28E5BB3F006C6AAC /* PlaceView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */; };
 		AFE6C03D28E5BB52006C6AAC /* PlaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */; };
 		AFE6C04028E5BBB0006C6AAC /* ProductContents.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6C03F28E5BBB0006C6AAC /* ProductContents.swift */; };
 		AFE6C04328E5C225006C6AAC /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE6C04228E5C225006C6AAC /* Network.swift */; };
 		AFEE466A28F5876E00DA1043 /* PostRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFEE466928F5876E00DA1043 /* PostRouter.swift */; };
-		AFF08BF32913CBA6002FF67B /* BottomSheetView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFF08BF22913CBA6002FF67B /* BottomSheetView.storyboard */; };
-		AFF08BF52913CBF0002FF67B /* BottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF08BF42913CBF0002FF67B /* BottomSheetController.swift */; };
+		AFF08BF32913CBA6002FF67B /* HomeBottomSheetView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFF08BF22913CBA6002FF67B /* HomeBottomSheetView.storyboard */; };
+		AFF08BF52913CBF0002FF67B /* HomeBottomSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF08BF42913CBF0002FF67B /* HomeBottomSheetController.swift */; };
 		AFF345B928DC652A000DB114 /* MapView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AFF345B828DC652A000DB114 /* MapView.storyboard */; };
 		D41456969C86041FBC77F7EC /* Pods_SuGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D470B62586794582C8169F7C /* Pods_SuGo.framework */; };
 /* End PBXBuildFile section */
@@ -115,13 +117,15 @@
 		AFD7BF1C28D5BF7700F42908 /* UINavigationItem+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationItem+Extensions.swift"; sourceTree = "<group>"; };
 		AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostView.storyboard; sourceTree = "<group>"; };
 		AFD7BF2028D5D1F500F42908 /* PostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		AFDCD3C72914AFB700D77EAF /* PostingBottomSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostingBottomSheetController.swift; sourceTree = "<group>"; };
+		AFDCD3C92914B5BB00D77EAF /* PostingBottomSheetView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PostingBottomSheetView.storyboard; sourceTree = "<group>"; };
 		AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PlaceView.storyboard; sourceTree = "<group>"; };
 		AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceController.swift; sourceTree = "<group>"; };
 		AFE6C03F28E5BBB0006C6AAC /* ProductContents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductContents.swift; sourceTree = "<group>"; };
 		AFE6C04228E5C225006C6AAC /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		AFEE466928F5876E00DA1043 /* PostRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRouter.swift; sourceTree = "<group>"; };
-		AFF08BF22913CBA6002FF67B /* BottomSheetView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = BottomSheetView.storyboard; sourceTree = "<group>"; };
-		AFF08BF42913CBF0002FF67B /* BottomSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetController.swift; sourceTree = "<group>"; };
+		AFF08BF22913CBA6002FF67B /* HomeBottomSheetView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeBottomSheetView.storyboard; sourceTree = "<group>"; };
+		AFF08BF42913CBF0002FF67B /* HomeBottomSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomSheetController.swift; sourceTree = "<group>"; };
 		AFF345B828DC652A000DB114 /* MapView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MapView.storyboard; sourceTree = "<group>"; };
 		D470B62586794582C8169F7C /* Pods_SuGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SuGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -238,8 +242,9 @@
 			children = (
 				AF6C2B1628E47F620070B3A2 /* SideMenuView.storyboard */,
 				AF513BDB28CA159600580240 /* HomeView.storyboard */,
-				AFF08BF22913CBA6002FF67B /* BottomSheetView.storyboard */,
+				AFF08BF22913CBA6002FF67B /* HomeBottomSheetView.storyboard */,
 				AF79B91528DB14DA0047E8C1 /* PostingView.storyboard */,
+				AFDCD3C92914B5BB00D77EAF /* PostingBottomSheetView.storyboard */,
 				AFF345B828DC652A000DB114 /* MapView.storyboard */,
 				AFE6C03A28E5BB3F006C6AAC /* PlaceView.storyboard */,
 				AFD7BF1E28D5D1E400F42908 /* PostView.storyboard */,
@@ -268,9 +273,10 @@
 			children = (
 				AF6C2B1428E47BB30070B3A2 /* SideMenuNavController.swift */,
 				AF513BD928CA159600580240 /* HomeController.swift */,
-				AFF08BF42913CBF0002FF67B /* BottomSheetController.swift */,
+				AFF08BF42913CBF0002FF67B /* HomeBottomSheetController.swift */,
 				AFC2DB6828ED8ED100085A9B /* MapViewController.swift */,
 				AF79B91728DB14E70047E8C1 /* PostingController.swift */,
+				AFDCD3C72914AFB700D77EAF /* PostingBottomSheetController.swift */,
 				AFE6C03C28E5BB51006C6AAC /* PlaceController.swift */,
 				AFD7BF2028D5D1F500F42908 /* PostController.swift */,
 			);
@@ -441,7 +447,7 @@
 			files = (
 				AF513BE228CA159800580240 /* LaunchScreen.storyboard in Resources */,
 				AF9BB5F128DB36840059E609 /* Pretendard-Regular.otf in Resources */,
-				AFF08BF32913CBA6002FF67B /* BottomSheetView.storyboard in Resources */,
+				AFF08BF32913CBA6002FF67B /* HomeBottomSheetView.storyboard in Resources */,
 				AF9BB5F628DB36840059E609 /* Pretendard-Light.otf in Resources */,
 				AF9BB5F428DB36840059E609 /* Pretendard-ExtraBold.otf in Resources */,
 				AF9BB5EF28DB36840059E609 /* Pretendard-Bold.otf in Resources */,
@@ -458,6 +464,7 @@
 				AF9BB5EE28DB36840059E609 /* Pretendard-SemiBold.otf in Resources */,
 				AF9BB5E128DB1A870059E609 /* ChatingListView.storyboard in Resources */,
 				AF8A008A28F4286F008F8B7A /* SignUpView.storyboard in Resources */,
+				AFDCD3CA2914B5BB00D77EAF /* PostingBottomSheetView.storyboard in Resources */,
 				AFF345B928DC652A000DB114 /* MapView.storyboard in Resources */,
 				AF279B5D2907FB530096D526 /* DepartmentView.storyboard in Resources */,
 				AF9BB5F028DB36840059E609 /* Pretendard-Thin.otf in Resources */,
@@ -520,8 +527,9 @@
 				AFD7BF2128D5D1F500F42908 /* PostController.swift in Sources */,
 				AF4A2B7B28EAEF57008F8AC7 /* LoginRouter.swift in Sources */,
 				AFE6C04328E5C225006C6AAC /* Network.swift in Sources */,
+				AFDCD3C82914AFB700D77EAF /* PostingBottomSheetController.swift in Sources */,
 				AF7CF68828E3176E000EE85E /* ChatingRoomController.swift in Sources */,
-				AFF08BF52913CBF0002FF67B /* BottomSheetController.swift in Sources */,
+				AFF08BF52913CBF0002FF67B /* HomeBottomSheetController.swift in Sources */,
 				AF6C2B1528E47BB30070B3A2 /* SideMenuNavController.swift in Sources */,
 				AF279B61290806980096D526 /* UserInfo.swift in Sources */,
 				AF4A2B7728EAEE1E008F8AC7 /* ApiStatusLogger.swift in Sources */,

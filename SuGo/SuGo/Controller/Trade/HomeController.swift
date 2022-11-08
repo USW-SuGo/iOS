@@ -142,7 +142,7 @@ class HomeController: UIViewController {
         homeProductContents.removeAll()
 
         if categorySelect.homeCategory == "전체" {
-            getMainPage(page: 0, size: 10, category: "전체")
+            getMainPage(page: 0, size: 10, category: "")
         } else {
             getMainPage(page: 0, size: 10, category: categorySelect.homeCategory)
         }
@@ -159,14 +159,13 @@ class HomeController: UIViewController {
                                          size: size,
                                          category: category))
             .responseData { response in
-                print(JSON(response.data))
-                self.updateHome(json: JSON(response.data ?? ""))
+                self.updateMainPage(json: JSON(response.data ?? ""))
                 
             }
         
     }
     
-    private func updateHome(json: JSON) {
+    private func updateMainPage(json: JSON) {
         
         for i in 0..<json.count {
             
@@ -219,7 +218,7 @@ class HomeController: UIViewController {
                 
             }
             
-            let rawData = ProductContents(id: json[i]["id"].intValue,
+            let getData = ProductContents(id: json[i]["id"].intValue,
                                imageLink: images,
                                contactPlace: json[i]["contactPlace"].stringValue,
                                updatedAt: updatedAt,
@@ -228,7 +227,7 @@ class HomeController: UIViewController {
                                nickname: json[i]["nickname"].stringValue,
                                category: json[i]["category"].stringValue)
             
-            homeProductContents.append(rawData)
+            homeProductContents.append(getData)
             
             // need to reload - collectionView.reload()
             

@@ -50,8 +50,11 @@ class HomeController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("Home - viewWillAppear")
-        callGetMainPage()
-        customCategoryButton(category: categorySelect.homeCategory)
+        if searchTextField.text == "" {
+            callGetMainPage()
+            customCategoryButton(category: categorySelect.homeCategory)
+        }
+
     }
     
 
@@ -130,8 +133,9 @@ class HomeController: UIViewController {
                                               category: category))
             .validate()
             .responseData { response in
-                print(response.response?.statusCode)
-                print(JSON(response.data))
+                
+                self.updateMainPage(json: JSON(response.data ?? ""))
+                
             }
         
     }
@@ -256,7 +260,8 @@ class HomeController: UIViewController {
         if category == "전체" {
             category = ""
         }
-        print(category)
+        
+        homeProductContents.removeAll()
         getSearchData(searchData: searchData, category: category)
         
     }
@@ -346,7 +351,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
             
             let processor = DownsamplingImageProcessor(size: CGSize(width: cell.image.frame.width,
                                                                     height: cell.image.frame.width * 1.33))
-            
             cell.image.kf.indicatorType = .activity
             cell.image.kf.setImage(with: url,
                                    placeholder: nil,
@@ -356,15 +360,20 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
                                     .cacheOriginalImage
                                         ],
                                    progressBlock: nil)
+            
             }
         
+        cell.image.contentMode = .scaleAspectFill
+
         cell.backgroundColor = .white
+
         cell.placeUpdateCategoryLabel.text =
         "\(homeProductContents[indexPath.row].contactPlace) | \(homeProductContents[indexPath.row].updatedAt) | \(homeProductContents[indexPath.row].category)"
         cell.nicknameLabel.text = "\(homeProductContents[indexPath.row].nickname)"
         cell.priceLabel.text = "\(homeProductContents[indexPath.row].price)"
         cell.priceLabel.textColor = colorLiteralGreen
         cell.titleLabel.text = "\(homeProductContents[indexPath.row].title)"
+        
         
         return cell
     }
@@ -414,7 +423,7 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width / 2 - 0.2
+        let width = collectionView.frame.width / 2 - 1
         
 //        print("UIScreenWidth - \(UIScreen.main.bounds.width)")
 //        print("collectionViewWidth - \(collectionView.frame.width)")
@@ -430,11 +439,8 @@ extension HomeController: UICollectionViewDelegateFlowLayout{
 
 class HomeCollectionViewCell: UICollectionViewCell {
     
-    
-    
     @IBOutlet weak var image: UIImageView!
 
-    
     let placeUpdateCategoryLabel: UILabel = {
         let placeUpdateCategoryLabel = UILabel()
         placeUpdateCategoryLabel.text = "temp"
@@ -468,7 +474,8 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }()
     
     override func layoutSubviews() {
-        contentView.layer.borderColor = UIColor.black.cgColor
+        
+        contentView.layer.borderColor = UIColor.white.cgColor
         contentView.layer.borderWidth = 0.2
     
         addContentView()
@@ -496,8 +503,6 @@ class HomeCollectionViewCell: UICollectionViewCell {
         image.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         
         
-        
-        
         placeUpdateCategoryLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 10).isActive = true
         placeUpdateCategoryLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
         placeUpdateCategoryLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
@@ -514,11 +519,9 @@ class HomeCollectionViewCell: UICollectionViewCell {
         nicknameLabel.heightAnchor.constraint(equalToConstant: 14).isActive = true
         
         
-        priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15).isActive = true
+        priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 18).isActive = true
         priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -14).isActive = true
         priceLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
-        
-        
         
     }
     

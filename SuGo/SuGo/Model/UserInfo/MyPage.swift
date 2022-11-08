@@ -23,6 +23,7 @@ struct MyPagePosting {
     var userIndex: String = ""
     var title: String = ""
     var price: String = ""
+    var category: String = ""
     var status: Bool = false
     var imageLink: String = ""
     var contactPlace: String = ""

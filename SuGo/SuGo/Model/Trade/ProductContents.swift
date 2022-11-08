@@ -27,7 +27,7 @@ class CategorySelect {
     static let shared = CategorySelect()
     
     var homeCategory: String = ""
-    var postCategory: String = ""
+    var postCategory: String = "기타"
     
     private init() {}
     

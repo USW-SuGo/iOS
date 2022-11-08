@@ -9,6 +9,7 @@ import UIKit
 
 import Alamofire
 import KeychainSwift
+import Kingfisher
 import SwiftyJSON
 
 class MyInfoController: UIViewController {
@@ -28,14 +29,16 @@ class MyInfoController: UIViewController {
     var myPage = MyPage()
     var userPosting: [MyPagePosting] = []
     var likePosting: [MyPagePosting] = []
+    var testUser = [1, 2, 3]
+    var testLike = [1, 2]
     
     //MARK: Functions
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-
-        
+        tableView.tag = 1
+        tableView.separatorStyle = .none
+        registerXib()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,6 +59,8 @@ class MyInfoController: UIViewController {
             .responseJSON { response in
                 
                 if response.response?.statusCode == 200 {
+                    
+                    print(JSON(response.data))
                     
                     if self.myPage.userIndex == "" {
                         self.updateMyPage(json: JSON(response.data ?? ""))
@@ -91,6 +96,7 @@ class MyInfoController: UIViewController {
             let getData = MyPagePosting(userIndex: myPosting["id"].stringValue,
                                         title: myPosting["title"].stringValue,
                                         price: myPosting["price"].stringValue,
+                                        category: myPosting["category"].stringValue,
                                         status: myPosting["status"].boolValue,
                                         imageLink: myPosting["imageLink"].stringValue,
                                         contactPlace: myPosting["contactPlace"].stringValue,
@@ -102,18 +108,43 @@ class MyInfoController: UIViewController {
 //        for i in 0..<json["likePosting"].count {
 //
 //        }
-        print(userPosting)
+        tableView.reloadData()
+
     }
     
     
     
     //MARK: Button Actions
     
+    @IBAction func myPostButtonClicked(_ sender: Any) {
+    
+        tableView.tag = 1
+        tableView.reloadData()
+        
+    }
+    
+    @IBAction func likePostButtonClicked(_ sender: Any) {
+        
+        tableView.tag = 2
+        tableView.reloadData()
+        
+    }
+    
     //MARK: Design Functions
+    
+    private func registerXib() {
+        
+        let userPostingXib = UINib(nibName: "UserPostingCell", bundle: nil)
+        tableView.register(userPostingXib, forCellReuseIdentifier: "userPostingCell")
+        
+        let likePostingXib = UINib(nibName: "LikePostingCell", bundle: nil)
+        tableView.register(likePostingXib, forCellReuseIdentifier: "likePostingCell")
+        
+    }
     
     private func designLoginView() {
         
-        userNicknameLabel.text = myPage.userNickname
+        userNicknameLabel.text = "\(myPage.userNickname)님 ! 반갑습니다."
         userMannerGradeLabel.text = myPage.userMannerGrade
         userEvaluationCountLabel.text = "\(myPage.userEvaluationCount)"
         userTradeCountLabel.text = "\(myPage.userTradeCount)"
@@ -125,14 +156,63 @@ class MyInfoController: UIViewController {
 
 extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userPosting.count
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 180.0
     }
-
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if tableView.tag == 1 {
+            return userPosting.count
+        } else {
+            return testLike.count
+        }
+        
+    }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        if tableView.tag == 1 {
+                
+            let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
+            
+                                                     for: indexPath) as! UserPostingCell
+            
+            if let url = URL(string: userPosting[indexPath.row].imageLink) {
+                
+                cell.productImage.kf.indicatorType = .activity
+                cell.productImage.kf.setImage(with: url,
+                                       placeholder: nil,
+                                       options: [
+                                        .transition(.fade(0.1)),
+                                        .cacheOriginalImage
+                                            ],
+                                       progressBlock: nil)
+                
+                }
+            
+            cell.productImage.contentMode = .scaleAspectFill
+            cell.productImage.layer.cornerRadius = 6.0
+            cell.titleLabel.text = userPosting[indexPath.row].title
+            cell.nicknameLabel.text = "내가 쓴 글"
+            cell.placeUpdateCategoryLabel.text = "\(userPosting[indexPath.row].contactPlace) | \(userPosting[indexPath.row].updatedAt) | \(userPosting[indexPath.row].category)"
+            
+            
+            cell.selectionStyle = .none
+            
+            return cell
+            
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "likePostingCell",
+                                                          for: indexPath) as! LikePostingCell
+            
+            print(testLike[indexPath.row])
+            
+            return cell
+        }
+                
     }
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("select Cell")
+    }
 
 }

@@ -45,7 +45,7 @@ class MapViewController: UIViewController {
         imageScrollView.setup()
         let campusImage = UIImage(named: "campusmap_img.jpeg")!
         imageScrollView.display(image: campusImage)
-        
+        imageScrollView.imageContentMode = .aspectFit
     }
     
     private func pinchAction() {

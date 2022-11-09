@@ -14,10 +14,10 @@ import SwiftyJSON
 
 // 1. 로그인 화면 처리
 // 1-1. 게시물 수정, 삭제, 게시물 포스트업
-// 1-2. 게시물 클릭 시 해당 게시물로 이동시키기
-// 1-3. 로그인 화면 디자인 수정 필요
+// 1-2. 게시물 클릭 시 해당 게시물로 이동시키기 (v)
+// 1-3. 로그인 화면 디자인 수정 필요 (v)
 
-// 2. 비로그인 화면 처리
+// 2. 비로그인 화면 처리 (v)
 // 2-1. 상단 화면 비로그인 표시(게스트 표시)
 // 2-2. 하단에 로그인 시 볼 수 있도록 불투명 처리. 로그인 버튼 추가
 
@@ -62,6 +62,8 @@ class MyInfoController: UIViewController {
         
         super.viewWillAppear(animated)
         print("My Info")
+        
+        userPosting.removeAll()
         getMyPage(page: 0, size: 10)
         
     }

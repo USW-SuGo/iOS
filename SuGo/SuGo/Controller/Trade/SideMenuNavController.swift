@@ -79,6 +79,10 @@ class SideMenuController: UIViewController{
             
         } else {
             
+            let myInfoViewStoryboard = UIStoryboard(name: "MyInfoView", bundle: nil)
+            let myInfoViewController = myInfoViewStoryboard.instantiateViewController(withIdentifier: "myInfoVC") as! MyInfoController
+            self.present(myInfoViewController, animated: true, completion: nil)
+            
         }
     }
     

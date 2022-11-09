@@ -12,6 +12,19 @@ import KeychainSwift
 import Kingfisher
 import SwiftyJSON
 
+// 1. 로그인 화면 처리
+// 1-1. 게시물 수정, 삭제, 게시물 포스트업
+// 1-2. 게시물 클릭 시 해당 게시물로 이동시키기
+// 1-3. 로그인 화면 디자인 수정 필요
+
+// 2. 비로그인 화면 처리
+// 2-1. 상단 화면 비로그인 표시(게스트 표시)
+// 2-2. 하단에 로그인 시 볼 수 있도록 불투명 처리. 로그인 버튼 추가
+
+// 3. 우측 상단 네비게이션 버튼 추가
+// 3-1. 로그인
+// 3-2. 비 로그인 분기처리  
+
 class MyInfoController: UIViewController {
 
     //MARK: IBOutlets
@@ -22,6 +35,9 @@ class MyInfoController: UIViewController {
     @IBOutlet weak var userMannerGradeLabel: UILabel!
     @IBOutlet weak var userEvaluationCountLabel: UILabel!
     @IBOutlet weak var userTradeCountLabel: UILabel!
+    @IBOutlet weak var myPostButton: UIButton!
+    @IBOutlet weak var likePostButton: UIButton!
+    @IBOutlet weak var guestLabel: UILabel!
     
     //MARK: Properties
     
@@ -31,6 +47,7 @@ class MyInfoController: UIViewController {
     var likePosting: [MyPagePosting] = []
     var testUser = [1, 2, 3]
     var testLike = [1, 2]
+    let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
     //MARK: Functions
     
@@ -67,6 +84,9 @@ class MyInfoController: UIViewController {
                     }
                     self.updateMyPagePosting(json: JSON(response.data ?? ""))
                     
+                } else {
+                    
+                    self.designGuestView()
                     
                 }
                 
@@ -144,10 +164,48 @@ class MyInfoController: UIViewController {
     
     private func designLoginView() {
         
-        userNicknameLabel.text = "\(myPage.userNickname)님 ! 반갑습니다."
+        tableView.isHidden = false
+        myPostButton.isHidden = false
+        likePostButton.isHidden = false
+        
+        guestLabel.text = ""
+        userImage.tintColor = colorLiteralGreen
+        
+        userNicknameLabel.text = "오늘도 수고하세요! \(myPage.userNickname)님!"
+        userNicknameLabel.textColor = .black
+        
         userMannerGradeLabel.text = myPage.userMannerGrade
+        userMannerGradeLabel.textColor = colorLiteralGreen
+        
         userEvaluationCountLabel.text = "\(myPage.userEvaluationCount)"
+        userEvaluationCountLabel.textColor = colorLiteralGreen
+        
         userTradeCountLabel.text = "\(myPage.userTradeCount)"
+        userTradeCountLabel.textColor = colorLiteralGreen
+        
+    }
+    
+    private func designGuestView() {
+        
+        tableView.isHidden = true
+        myPostButton.isHidden = true
+        likePostButton.isHidden = true
+        
+        userImage.tintColor = .lightGray
+        
+        guestLabel.text = "로그인이 필요해요!"
+        
+        userNicknameLabel.text = "게스트 상태입니다."
+        userNicknameLabel.textColor = .darkGray
+        
+        userMannerGradeLabel.text = "-"
+        userMannerGradeLabel.textColor = .darkGray
+        
+        userEvaluationCountLabel.text = "-"
+        userEvaluationCountLabel.textColor = .darkGray
+        
+        userTradeCountLabel.text = "-"
+        userTradeCountLabel.textColor = .darkGray
         
     }
     

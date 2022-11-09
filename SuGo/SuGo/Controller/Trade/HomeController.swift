@@ -34,7 +34,8 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Home - viewWillAppear")
+                
+        print("Home - viewDidLoad")
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(homeBottomDismissObserver),
@@ -50,6 +51,7 @@ class HomeController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("Home - viewWillAppear")
+                
         if searchTextField.text == "" {
             callGetMainPage()
             customCategoryButton(category: categorySelect.homeCategory)
@@ -91,8 +93,24 @@ class HomeController: UIViewController {
 
     @objc func postingButtonclicked() {
         
-        presentViewController(storyboard: "PostingView", identifier: "postingVC", fullScreen: true)
-        
+        AlamofireManager
+            .shared
+            .session
+            .request(PageRouter.myPage(page: 0, size: 10))
+            .validate()
+            .responseJSON { response in
+                
+                if response.response?.statusCode == 200 {
+                    
+                    self.presentViewController(storyboard: "PostingView", identifier: "postingVC", fullScreen: true)
+                    
+                } else {
+                    
+                    self.keychain.clear()
+                    self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: false)
+                    
+            }
+        }
     }
     
     @objc func mapButtonClicked() {
@@ -134,7 +152,17 @@ class HomeController: UIViewController {
             .validate()
             .responseData { response in
                 
-                self.updateMainPage(json: JSON(response.data ?? ""))
+                if response.response?.statusCode == 200 {
+                    
+                    self.updateMainPage(json: JSON(response.data ?? ""))
+                    
+                } else {
+                    
+                    self.keychain.clear()
+                    self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: false)
+                    
+                }
+                
                 
             }
         

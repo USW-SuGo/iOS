@@ -15,16 +15,35 @@ class UserPostingCell: UITableViewCell {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     
+    @IBOutlet weak var upPostButton: UIButton!
+    @IBOutlet weak var modifyButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    override func layoutSubviews() {
+        designButtons()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    private func designButtons() {
+        upPostButton.layer.borderWidth = 0.5
+        upPostButton.layer.borderColor = UIColor.systemGray5.cgColor
+        
+        modifyButton.layer.borderWidth = 0.5
+        modifyButton.layer.borderColor = UIColor.systemGray5.cgColor
+        
+        deleteButton.layer.borderWidth = 0.5
+        deleteButton.layer.borderColor = UIColor.systemGray5.cgColor
     }
     
 }

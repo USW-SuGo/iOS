@@ -31,7 +31,6 @@ class PostController: UIViewController {
     
     var productPostId = 0
     var productContentsDetail = ProductContentsDetail()
-
     // imageFiles
     var alamofireSource: [AlamofireSource] = []
     
@@ -122,15 +121,11 @@ class PostController: UIViewController {
             
             // JSON으로 내려받을 때 stringValue로 떨어지기에, 콤마로 스플릿 후 데이터 일부 수정
             if images.count == 1 {
-                
                 images[0] = String(images[0].dropFirst())
                 images[0] = String(images[0].dropLast())
-                
             } else {
-                
                 images[0] = String(images[0].dropFirst())
                 images[images.count - 1] = String(images[images.count - 1].dropLast())
-                
             }
             
             productContentsDetail.imageLink = images
@@ -138,33 +133,21 @@ class PostController: UIViewController {
             let postDate = json["updatedAt"].stringValue.components(separatedBy: "T")[0]
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
-            
             let startDate = dateFormatter.date(from: postDate) ?? nil
             let interval = Date().timeIntervalSince(startDate ?? Date())
             let intervalDays = Int((interval) / 86400)
-            
             var updatedAt = ""
             
             if intervalDays < 1 {
-                
                 updatedAt = "오늘"
-                
             } else if intervalDays == 1 {
-                
                 updatedAt = "어제"
-                
             } else if intervalDays < 7 {
-                
                 updatedAt = "\(intervalDays)일 전"
-                
             } else if intervalDays < 30 {
-                
                 updatedAt = "\(intervalDays / 7)주 전"
-                
             } else {
-                
                 updatedAt = "\(intervalDays / 30)달 전"
-                
             }
             
             productContentsDetail.updatedAt = updatedAt

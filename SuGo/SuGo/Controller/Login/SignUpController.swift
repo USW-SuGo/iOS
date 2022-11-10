@@ -59,26 +59,22 @@ class SignUpController: UIViewController {
   //MARK: Functions
   
   override func viewDidLoad() {
+    customBackButton()
+    customRightBarButton()
+    designBox()
+    designLabel()
+    textFieldAddTargets()
+    super.viewDidLoad()
       
-      designBox()
-      designLabel()
-      
-      super.viewDidLoad()
-      
-      textFieldAddTargets()
-      
-      NotificationCenter.default.addObserver(self,
+    NotificationCenter.default.addObserver(self,
                                              selector: #selector(keyboardWillAppear),
                                              name: UIResponder.keyboardWillShowNotification,
                                              object: nil)
       
-      NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear),
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear),
                                              name: UIResponder.keyboardWillHideNotification,
                                              object: nil)
       
-    customRightBarButton()
-      
-      // Do any additional setup after loading the view.
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -333,9 +329,7 @@ class SignUpController: UIViewController {
   }
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-
         self.view.endEditing(true)
-
   }
   
   //MARK: API Functions
@@ -409,17 +403,17 @@ class SignUpController: UIViewController {
     
       if signUpIsValid {
           
-          userInfo.loginId = idTextField.text
-          userInfo.password = passwordTextField.text
-          userInfo.email = emailTextField.text
-          let departmentViewStoryboard = UIStoryboard(name: "DepartmentView", bundle: nil)
-          let nextViewController =
-          departmentViewStoryboard.instantiateViewController(withIdentifier: "departmentVC") as! DepartmentController
+        userInfo.loginId = idTextField.text
+        userInfo.password = passwordTextField.text
+        userInfo.email = (emailTextField.text ?? "sozohoy") + "@suwon.ac.kr"
+        let departmentViewStoryboard = UIStoryboard(name: "DepartmentView", bundle: nil)
+        let nextViewController =
+        departmentViewStoryboard.instantiateViewController(withIdentifier: "departmentVC") as! DepartmentController
         self.navigationController?.pushViewController(nextViewController, animated: true)
           
       } else {
           
-          customAlert(title: "계정 정보를 확인해주세요 !", message: "입력되지 않았거나, 올바르지 않은 정보가 있어요 !")
+        customAlert(title: "계정 정보를 확인해주세요 !", message: "입력되지 않았거나, 올바르지 않은 정보가 있어요 !")
           
       }
   }
@@ -482,9 +476,6 @@ class SignUpController: UIViewController {
       confirmPasswordBox.layer.cornerRadius = 3.0
       
       nextButton.layer.cornerRadius = 6.0
-
-      
-      
   }
   
   func designLabel() {
@@ -496,5 +487,10 @@ class SignUpController: UIViewController {
       
   }
     
+  private func customBackButton() {
+      let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+      backButtonItem.tintColor = .darkGray
+      self.navigationItem.backBarButtonItem = backButtonItem
+  }
     
 }

@@ -29,13 +29,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="학과 고르기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zhk-2o-t58">
-                                <rect key="frame" x="40" y="139" width="83" height="22"/>
+                                <rect key="frame" x="20" y="98" width="83" height="22"/>
                                 <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9d9-Qc-MzJ">
-                                <rect key="frame" x="5" y="196" width="404" height="436"/>
+                                <rect key="frame" x="5" y="145" width="404" height="517"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="departmentCell" rowHeight="60" id="tfh-ft-0KD" customClass="DepartmentCell" customModule="SuGo" customModuleProvider="target">
@@ -100,7 +100,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J0U-YR-IwI">
-                                <rect key="frame" x="40" y="769" width="334" height="43"/>
+                                <rect key="frame" x="20" y="769" width="374" height="43"/>
                                 <color key="backgroundColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="43" id="gcV-eW-oQg"/>
@@ -110,28 +110,29 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="다음"/>
                                 <connections>
-                                    <action selector="signUpButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="3se-pY-Jzu"/>
+                                    <action selector="nextButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="HMK-ni-Et2"/>
                                 </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Zhk-2o-t58" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="91" id="0OU-jZ-o7F"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9d9-Qc-MzJ" secondAttribute="bottom" constant="230" id="3hY-o2-Jaq"/>
-                            <constraint firstItem="9d9-Qc-MzJ" firstAttribute="top" secondItem="Zhk-2o-t58" secondAttribute="bottom" constant="35" id="FOB-mP-6d9"/>
+                            <constraint firstItem="Zhk-2o-t58" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="0OU-jZ-o7F"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9d9-Qc-MzJ" secondAttribute="bottom" constant="200" id="3hY-o2-Jaq"/>
+                            <constraint firstItem="9d9-Qc-MzJ" firstAttribute="top" secondItem="Zhk-2o-t58" secondAttribute="bottom" constant="25" id="FOB-mP-6d9"/>
                             <constraint firstItem="9d9-Qc-MzJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="5" id="MiM-61-uce"/>
                             <constraint firstItem="r9P-oa-ef5" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="Q5N-eL-jrt"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9d9-Qc-MzJ" secondAttribute="trailing" constant="5" id="QC0-b0-mPH"/>
                             <constraint firstItem="J0U-YR-IwI" firstAttribute="top" secondItem="r9P-oa-ef5" secondAttribute="bottom" constant="20" id="VwE-Wi-lRv"/>
-                            <constraint firstItem="J0U-YR-IwI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="drB-Xk-WHs"/>
+                            <constraint firstItem="J0U-YR-IwI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="drB-Xk-WHs"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="r9P-oa-ef5" secondAttribute="trailing" constant="40" id="hb9-mw-NOH"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="J0U-YR-IwI" secondAttribute="trailing" constant="40" id="iKt-FB-87C"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="J0U-YR-IwI" secondAttribute="trailing" constant="20" id="iKt-FB-87C"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="J0U-YR-IwI" secondAttribute="bottom" constant="50" id="nbz-VV-BCw"/>
-                            <constraint firstItem="Zhk-2o-t58" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="rbD-Xl-Mwd"/>
+                            <constraint firstItem="Zhk-2o-t58" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="rbD-Xl-Mwd"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="nextButton" destination="J0U-YR-IwI" id="PgS-qm-jEg"/>
                         <outlet property="showDepartmentLabel" destination="r9P-oa-ef5" id="GJ1-yc-OCz"/>
                         <outlet property="tableView" destination="9d9-Qc-MzJ" id="VS1-9u-nbm"/>
                     </connections>

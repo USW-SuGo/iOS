@@ -19,7 +19,6 @@ struct LoginModel{
         return IdTest.evaluate(with: id)
     } // 아이디 형식 검사
         
-        
     func isValidPassword(pwd: String) -> Bool {
         let passwordRegEx = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}"
         let passwordTest = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
@@ -28,7 +27,7 @@ struct LoginModel{
     }
     
     func isValidEmail(email: String) -> Bool {
-        let EmailRegEx = "[A-Za-z0-9]{5,13}"
+        let EmailRegEx = "[A-Za-z0-9]{2,20}"
         let EmailTest = NSPredicate(format: "SELF MATCHES %@", EmailRegEx)
         
         return EmailTest.evaluate(with: email)

@@ -67,7 +67,8 @@ class LoginController: UIViewController, UITextFieldDelegate {
     @IBAction func signUpButtonClicked(_ sender: Any) {
         
         let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
-        let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signupVC") as! SignUpController
+        guard let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signUpNavigationVC") as? UINavigationController else { return }
+        nextViewController.modalPresentationStyle = .fullScreen
         self.present(nextViewController, animated: true, completion: nil)
         
     }

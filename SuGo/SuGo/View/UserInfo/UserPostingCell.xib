@@ -87,45 +87,36 @@
                         </constraints>
                     </view>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mbm-b7-XhP">
-                        <rect key="frame" x="0.0" y="140" width="138" height="37"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="138" id="MbQ-tW-YBi"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="14"/>
+                        <rect key="frame" x="0.0" y="140" width="206.66666666666666" height="37"/>
+                        <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="15"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <state key="normal" title="게시물 살리기">
                             <color key="titleColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         </state>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p18-34-6zV">
-                        <rect key="frame" x="276" y="140" width="138" height="37"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="138" id="8aX-TO-9rp"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="13"/>
-                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                        <state key="normal" title="삭제하기">
-                            <color key="titleColor" systemColor="systemRedColor"/>
-                        </state>
-                    </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xGo-py-cbE">
-                        <rect key="frame" x="138" y="140" width="138" height="37"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="138" id="KvO-Nh-nB1"/>
-                        </constraints>
+                        <rect key="frame" x="207.66666666666663" y="140" width="206.33333333333337" height="37"/>
                         <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="15"/>
                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                         <state key="normal" title="수정하기">
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </state>
                     </button>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9a1-Vs-dX7">
-                        <rect key="frame" x="138" y="179" width="1" height="1"/>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p18-34-6zV">
+                        <rect key="frame" x="266" y="57" width="138" height="37"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="15"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" title="삭제">
+                            <color key="titleColor" systemColor="systemRedColor"/>
+                        </state>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5xX-g0-XjT">
+                        <rect key="frame" x="206.66666666666666" y="140" width="1" height="38"/>
                         <color key="backgroundColor" systemColor="systemGray5Color"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="1" id="JAV-nR-pNA"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="ZTB-Y4-bHY"/>
-                            <constraint firstAttribute="width" constant="1" id="xgn-sd-mZ4"/>
+                            <constraint firstAttribute="width" constant="1" id="AGV-rH-6JN"/>
+                            <constraint firstAttribute="height" constant="38" id="neX-cn-nKO"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -134,32 +125,30 @@
                     <constraint firstAttribute="bottom" secondItem="Ns5-8F-NZz" secondAttribute="bottom" constant="40" id="4YA-0Q-3ng"/>
                     <constraint firstItem="P7O-LZ-IRI" firstAttribute="leading" secondItem="21t-Qx-ulI" secondAttribute="trailing" constant="12" id="5HN-Xg-anC"/>
                     <constraint firstItem="xGo-py-cbE" firstAttribute="top" secondItem="Ns5-8F-NZz" secondAttribute="bottom" id="6YE-zg-cuf"/>
+                    <constraint firstItem="xGo-py-cbE" firstAttribute="leading" secondItem="5xX-g0-XjT" secondAttribute="trailing" id="CS6-pT-RGe"/>
                     <constraint firstItem="21t-Qx-ulI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="D1y-uJ-zxS"/>
                     <constraint firstAttribute="bottom" secondItem="xGd-ps-4cV" secondAttribute="bottom" constant="50" id="DP6-vh-EnD"/>
                     <constraint firstAttribute="trailing" secondItem="xGd-ps-4cV" secondAttribute="trailing" constant="15" id="DPs-cy-hf6"/>
                     <constraint firstItem="kLA-8a-o67" firstAttribute="leading" secondItem="21t-Qx-ulI" secondAttribute="trailing" constant="12" id="HNO-NO-Wlq"/>
-                    <constraint firstAttribute="trailing" secondItem="p18-34-6zV" secondAttribute="trailing" id="HaW-1p-9UR"/>
                     <constraint firstItem="Ns5-8F-NZz" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="Jbl-EM-MHy"/>
                     <constraint firstItem="Qf7-cg-f3e" firstAttribute="top" secondItem="xGo-py-cbE" secondAttribute="bottom" id="L8q-PY-crI"/>
                     <constraint firstItem="ILZ-Mx-EAD" firstAttribute="leading" secondItem="21t-Qx-ulI" secondAttribute="trailing" constant="12" id="MPP-cs-itp"/>
-                    <constraint firstAttribute="bottom" secondItem="9a1-Vs-dX7" secondAttribute="bottom" id="Ord-cu-RgM"/>
-                    <constraint firstItem="9a1-Vs-dX7" firstAttribute="leading" secondItem="Mbm-b7-XhP" secondAttribute="trailing" id="P45-Kq-Q05"/>
+                    <constraint firstAttribute="trailing" secondItem="xGo-py-cbE" secondAttribute="trailing" id="Uiy-Ra-WFW"/>
+                    <constraint firstItem="5xX-g0-XjT" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="Uoe-Ig-WZJ"/>
                     <constraint firstAttribute="trailing" secondItem="kLA-8a-o67" secondAttribute="trailing" constant="10" id="XSZ-AN-KGK"/>
-                    <constraint firstItem="Qf7-cg-f3e" firstAttribute="top" secondItem="p18-34-6zV" secondAttribute="bottom" id="Yot-aa-QxM"/>
                     <constraint firstItem="Qf7-cg-f3e" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="ZiR-hz-ZzS"/>
                     <constraint firstItem="Mbm-b7-XhP" firstAttribute="top" secondItem="Ns5-8F-NZz" secondAttribute="bottom" id="acY-bh-rcv"/>
                     <constraint firstItem="kLA-8a-o67" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="b7Y-hR-bJL"/>
-                    <constraint firstItem="p18-34-6zV" firstAttribute="leading" secondItem="xGo-py-cbE" secondAttribute="trailing" id="dhw-kH-bG2"/>
                     <constraint firstAttribute="trailing" secondItem="Ns5-8F-NZz" secondAttribute="trailing" constant="5" id="fuF-bS-8t4"/>
                     <constraint firstItem="Qf7-cg-f3e" firstAttribute="top" secondItem="Mbm-b7-XhP" secondAttribute="bottom" id="hVl-Lh-4oe"/>
                     <constraint firstAttribute="bottom" secondItem="Qf7-cg-f3e" secondAttribute="bottom" constant="2" id="iMp-Lt-Hk3"/>
                     <constraint firstItem="ILZ-Mx-EAD" firstAttribute="top" secondItem="kLA-8a-o67" secondAttribute="bottom" constant="4" id="lUh-MO-8St"/>
                     <constraint firstItem="21t-Qx-ulI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="mTx-Yp-msS"/>
                     <constraint firstAttribute="trailing" secondItem="ILZ-Mx-EAD" secondAttribute="trailing" constant="10" id="nIv-Qn-86V"/>
+                    <constraint firstAttribute="bottom" secondItem="5xX-g0-XjT" secondAttribute="bottom" constant="2" id="q1c-sA-1ZN"/>
+                    <constraint firstItem="5xX-g0-XjT" firstAttribute="leading" secondItem="Mbm-b7-XhP" secondAttribute="trailing" id="sHH-DT-yXr"/>
                     <constraint firstItem="Mbm-b7-XhP" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="sHJ-g5-hQ0"/>
                     <constraint firstAttribute="trailing" secondItem="Qf7-cg-f3e" secondAttribute="trailing" constant="5" id="wqq-az-xKY"/>
-                    <constraint firstItem="p18-34-6zV" firstAttribute="top" secondItem="Ns5-8F-NZz" secondAttribute="bottom" id="xCL-Tl-SBG"/>
-                    <constraint firstItem="xGo-py-cbE" firstAttribute="leading" secondItem="Mbm-b7-XhP" secondAttribute="trailing" id="yRz-0H-mOQ"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

@@ -27,12 +27,11 @@ class PostingController: UIViewController {
     @IBOutlet weak var placeButton: UIButton!
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var categoryButton: UIButton!
+  
     //MARK: Properties
     
     var phAssetImages = [PHAsset]()
-    // priview images
     var priviewImages = [UIImage]()
-    // real images
     var realImages = [UIImage]()
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     let textViewPlaceHolder = "수고할 상품에 대한 글을 작성해주세요! (거짓 정보 및 가품 등 문제가 될만한 글은 자동으로 삭제됩니다.)"
@@ -55,9 +54,7 @@ class PostingController: UIViewController {
     @objc func postBottomDismissObserver(_ notification: Notification){
         
         DispatchQueue.main.async {
-        
             self.customCategoryButton()
-            
         }
     }
     
@@ -80,7 +77,6 @@ class PostingController: UIViewController {
         }, cancel: { asset in
         }, finish: { assets in
             
-            
             self.phAssetImages.removeAll()
             self.priviewImages.removeAll()
             self.realImages.removeAll()
@@ -91,7 +87,6 @@ class PostingController: UIViewController {
             
             self.convertAssetToPriviewImage()
             self.convertAssetToRealImage()
-            
             self.collectionView.reloadData()
             })
     }
@@ -123,7 +118,6 @@ class PostingController: UIViewController {
                 self.priviewImages.append(newImage! as UIImage)
                 
             }
-            print(priviewImages)
         }
     }
     
@@ -172,9 +166,7 @@ class PostingController: UIViewController {
         let url = API.BASE_URL + "/post"
         
         let header: HTTPHeaders = [
-    
             "Authorization" : String(KeychainSwift().get("AccessToken") ?? "")
-    
         ]
         
         let price: Int = Int(priceText) ?? 0
@@ -202,7 +194,6 @@ class PostingController: UIViewController {
                                         fileName: "\(self.titleTextField.text ?? "")+\(i)",
                                         mimeType: "image/jpeg")
             }
-            
         },
                   to: url,
                   usingThreshold: UInt64.init(),
@@ -236,7 +227,6 @@ class PostingController: UIViewController {
     @IBAction func categoryButtonClicked(_ sender: Any) {
         let bottomSheetView = UIStoryboard(name: "PostingBottomSheetView", bundle: nil)
         let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "postingBottomSheetVC") as! PostingBottomSheetController
-        
         let bottomSheet = MDCBottomSheetController(contentViewController: nextVC)
         bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 280
         bottomSheet.dismissOnDraggingDownSheet = true
@@ -259,7 +249,6 @@ class PostingController: UIViewController {
         let price = priceTextField.text?.count ?? 0
         let category = categorySelect.postCategory
         // text or place 모두 선택 되었을 시 함수 실행
-        
         // 이후에 거래장소도 추가
         if title > 0 && content > 0  && contentTextView.text != textViewPlaceHolder && price > 0 && category != "" {
             
@@ -282,22 +271,18 @@ class PostingController: UIViewController {
     }
     
     @objc func imageDeleteButtonClicked(sender: UIButton) {
-        
         let indexPath = IndexPath(row: sender.tag, section: 0)
         priviewImages.remove(at: indexPath.row)
         realImages.remove(at: indexPath.row)
         self.collectionView.reloadData()
-    
     }
     
     //MARK: Design Functions
     
     private func customAlert(title: String, message: String) {
-        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         self.present(alert, animated: true, completion: nil)
-        
     }
     
     private func customCategoryButton() {
@@ -306,7 +291,6 @@ class PostingController: UIViewController {
     }
     
     private func designButtons() {
-        
         contentTextView.layer.cornerRadius = 6.0
         contentTextView.text = textViewPlaceHolder
         contentTextView.textColor = .lightGray
@@ -323,7 +307,6 @@ class PostingController: UIViewController {
         imageButton.layer.cornerRadius = 5.0
         imageButton.layer.borderColor = UIColor.darkGray.cgColor
         imageButton.layer.borderWidth = 1.0
-        
     }
     
 }
@@ -339,6 +322,7 @@ extension PostingController: UITextFieldDelegate {
 }
 
 extension PostingController: UITextViewDelegate {
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if contentTextView.text == textViewPlaceHolder {
             contentTextView.text = nil
@@ -370,13 +354,12 @@ extension PostingController: UICollectionViewDelegate, UICollectionViewDataSourc
         cell.itemImage.layer.cornerRadius = 5
         cell.itemImage.layer.borderWidth = 2
         cell.itemImage.layer.borderColor = UIColor.darkGray.cgColor
-
         cell.deleteButton.tag = indexPath.row
         cell.deleteButton.addTarget(self, action: #selector(imageDeleteButtonClicked), for: .touchUpInside)
 
         return cell
-        
     }
+    
 }
 
 extension PostingController: UICollectionViewDelegateFlowLayout{
@@ -390,9 +373,7 @@ extension PostingController: UICollectionViewDelegateFlowLayout{
         let size = CGSize(width: 50, height: 50)
 
         return size
-        
     }
-    
     
 }
 

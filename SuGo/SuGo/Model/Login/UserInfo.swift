@@ -8,14 +8,15 @@
 import Foundation
 
 class UserInfo {
-    
-    static let shared = UserInfo()
-    
-    var loginId: String?
-    var email: String?
-    var password: String?
-    var department: String?
-    
-    private init() {}
+  
+  static let shared = UserInfo()
+  
+  var loginId: String?
+  var email: String?
+  var password: String?
+  var department: String?
+  var userIndex: Int?
+  
+  private init() {}
     
 }

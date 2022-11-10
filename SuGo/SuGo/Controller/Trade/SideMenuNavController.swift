@@ -66,7 +66,6 @@ class SideMenuController: UIViewController{
             self.dismiss(animated: true)
             
         }
-        
     }
     
     @IBAction func signUpAndUserInfoButtonClicked(_ sender: Any) {

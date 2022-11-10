@@ -58,6 +58,7 @@ class DepartmentController: UIViewController {
     //MARK: Button Actions
     
     @IBAction func signUpButtonClicked(_ sender: Any) {
+      
         if userInfo.department != nil {
             
             let id = userInfo.loginId ?? ""
@@ -70,10 +71,17 @@ class DepartmentController: UIViewController {
                 .session
                 .request(LoginRouter.join(loginId: id, email: email, password: password, department: department))
                 .responseJSON { response in
-                    print(JSON(response.data))
-
-                }
-            
+          
+                  guard let statusCode = response.response?.statusCode, statusCode == 200 else {
+                    self.customAlert(title: "이미 인증메일이 발송되었습니다.",
+                                     message: "중복된 아이디거나, 이미 인증메일이 발송되었습니다. 문제 발생시 문의 바랍니다.")
+                    return }
+                  
+                  let emailAuthView = UIStoryboard(name: "EmailAuthView", bundle: nil)
+                  guard let emailAuthController = emailAuthView.instantiateViewController(withIdentifier: "emailAuthVC") as? EmailAuthController else { return }
+                  self.navigationController?.pushViewController(emailAuthController, animated: true)
+                  
+            }
         } else {
             
             customAlert(title: "학과를 선택해주세요 !", message: "본인 학과를 선택해주세요 !")

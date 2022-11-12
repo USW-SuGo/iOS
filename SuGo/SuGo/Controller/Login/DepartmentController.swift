@@ -137,97 +137,94 @@ extension DepartmentController: UITableViewDataSource, UITableViewDelegate {
     return sections[section]
   }
   
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      switch section{
-      case 0:
-        return departments[0].count
-      case 1:
-        return departments[1].count
-      case 2:
-        return departments[2].count
-      case 3:
-        return departments[3].count
-      case 4:
-        return departments[4].count
-      case 5:
-        return departments[5].count
-      case 6:
-        return departments[6].count
-      case 7:
-        return departments[7].count
-      case 8:
-        return departments[8].count
-      case 9:
-        return departments[9].count
-      case 10:
-        return departments[10].count
-      case 11:
-        return departments[11].count
-      default:
-        return 0
-      }
-      // searchMode ? searchDepartments.count : departments.count
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    switch section{
+    case 0:
+      return departments[0].count
+    case 1:
+      return departments[1].count
+    case 2:
+      return departments[2].count
+    case 3:
+      return departments[3].count
+    case 4:
+      return departments[4].count
+    case 5:
+      return departments[5].count
+    case 6:
+      return departments[6].count
+    case 7:
+      return departments[7].count
+    case 8:
+      return departments[8].count
+    case 9:
+      return departments[9].count
+    case 10:
+      return departments[10].count
+    case 11:
+      return departments[11].count
+    default:
+      return 0
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      let cell = tableView.dequeueReusableCell(withIdentifier: "departmentCell",
-                                                 for: indexPath) as! DepartmentCell
-      switch indexPath.section{
-      case 0:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[0][indexPath.row]
-      case 1:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[1][indexPath.row]
-      case 2:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[2][indexPath.row]
-      case 3:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[3][indexPath.row]
-      case 4:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[4][indexPath.row]
-      case 5:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[5][indexPath.row]
-      case 6:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[6][indexPath.row]
-      case 7:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[7][indexPath.row]
-      case 8:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[8][indexPath.row]
-      case 9:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[9][indexPath.row]
-      case 10:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[10][indexPath.row]
-      case 11:
-        cell.checkButton.image = UIImage(systemName: "circle")
-        cell.departmentLabel.text = departments[11][indexPath.row]
-
-      default:
-        break
-      }
-      
-        
-      return cell
-    }
-    
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      userInfo.department = departments[indexPath.section][indexPath.row]
-      showDepartmentLabel.text = "\(userInfo.loginId ?? "")님의 학과는 \(userInfo.department ?? "") 입니다 !"
+    // searchMode ? searchDepartments.count : departments.count
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "departmentCell",
+                                               for: indexPath) as! DepartmentCell
+    switch indexPath.section{
+    case 0:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[0][indexPath.row]
+    case 1:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[1][indexPath.row]
+    case 2:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[2][indexPath.row]
+    case 3:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[3][indexPath.row]
+    case 4:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[4][indexPath.row]
+    case 5:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[5][indexPath.row]
+    case 6:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[6][indexPath.row]
+    case 7:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[7][indexPath.row]
+    case 8:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[8][indexPath.row]
+    case 9:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[9][indexPath.row]
+    case 10:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[10][indexPath.row]
+    case 11:
+      cell.checkButton.image = UIImage(systemName: "circle")
+      cell.departmentLabel.text = departments[11][indexPath.row]
+    default:
+      break
     }
 
+    return cell
+  }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-      return 60.0
-    }
+
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    userInfo.department = departments[indexPath.section][indexPath.row]
+    showDepartmentLabel.text = "\(userInfo.loginId ?? "")님의 학과는 \(userInfo.department ?? "") 입니다 !"
+  }
+
+  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    return 60.0
+  }
     
 }
 

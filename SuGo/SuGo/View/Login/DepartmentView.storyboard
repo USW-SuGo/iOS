@@ -35,18 +35,18 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9d9-Qc-MzJ">
-                                <rect key="frame" x="5" y="145" width="404" height="517"/>
+                                <rect key="frame" x="0.0" y="145" width="414" height="517"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="departmentCell" rowHeight="60" id="tfh-ft-0KD" customClass="DepartmentCell" customModule="SuGo" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="404" height="60"/>
+                                        <rect key="frame" x="0.0" y="50" width="414" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="tfh-ft-0KD" id="hoC-Ud-2cz">
-                                            <rect key="frame" x="0.0" y="0.0" width="404" height="60"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yLb-cd-3DC">
-                                                    <rect key="frame" x="20" y="11" width="364" height="38"/>
+                                                    <rect key="frame" x="20" y="11" width="374" height="38"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="정보보호학과" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PuQ-eC-YdX">
                                                             <rect key="frame" x="40" y="8.5" width="89" height="21"/>
@@ -120,9 +120,9 @@
                             <constraint firstItem="Zhk-2o-t58" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="0OU-jZ-o7F"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="9d9-Qc-MzJ" secondAttribute="bottom" constant="200" id="3hY-o2-Jaq"/>
                             <constraint firstItem="9d9-Qc-MzJ" firstAttribute="top" secondItem="Zhk-2o-t58" secondAttribute="bottom" constant="25" id="FOB-mP-6d9"/>
-                            <constraint firstItem="9d9-Qc-MzJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="5" id="MiM-61-uce"/>
+                            <constraint firstItem="9d9-Qc-MzJ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="MiM-61-uce"/>
                             <constraint firstItem="r9P-oa-ef5" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="40" id="Q5N-eL-jrt"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9d9-Qc-MzJ" secondAttribute="trailing" constant="5" id="QC0-b0-mPH"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="9d9-Qc-MzJ" secondAttribute="trailing" id="QC0-b0-mPH"/>
                             <constraint firstItem="J0U-YR-IwI" firstAttribute="top" secondItem="r9P-oa-ef5" secondAttribute="bottom" constant="20" id="VwE-Wi-lRv"/>
                             <constraint firstItem="J0U-YR-IwI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="drB-Xk-WHs"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="r9P-oa-ef5" secondAttribute="trailing" constant="40" id="hb9-mw-NOH"/>

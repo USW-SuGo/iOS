@@ -80,7 +80,6 @@ class SignUpController: UIViewController {
   override func viewWillDisappear(_ animated: Bool) {
       
     super.viewWillDisappear(animated)
-      
     NotificationCenter.default.removeObserver(self)
       
   }
@@ -310,10 +309,8 @@ class SignUpController: UIViewController {
           if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
               UIView.animate(withDuration: 0.7){
                   self.view.frame.origin.y -= 180
-                  print(keyboardFrame.height)
               }
           }
-          
       }
   }
   

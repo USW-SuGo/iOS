@@ -32,33 +32,35 @@ class LoginController: UIViewController, UITextFieldDelegate {
     
     //MARK: Fucntions
     
-    override func viewDidLoad() {
-        self.idTextField.delegate = self
-        self.passwordTextField.delegate = self
-        
-        super.viewDidLoad()
-        wrongAccountBox.isHidden = true
-      designBox()
-      keyboardTopToolBar()
-        idTextField.addTarget(self,
-                              action: #selector(idBoxClicked),
-                              for: .touchDown)
-        idTextField.addTarget(self,
-                              action: #selector(idBoxClicked),
-                              for: .editingChanged)
-        passwordTextField.addTarget(self,
-                                    action: #selector(passwordBoxClicked),
-                                    for: .touchDown)
-        passwordTextField.addTarget(self,
-                                    action: #selector(passwordBoxClicked),
-                                    for: .editingChanged)
-
-        // Do any additional setup after loading the view.
-    }
+  override func viewDidLoad() {
+    idTextField.delegate = self
+    passwordTextField.delegate = self
+    passwordTextField.isSecureTextEntry = true
+    super.viewDidLoad()
+    wrongAccountBox.isHidden = true
+    designBox()
+    keyboardTopToolBar()
+    textFieldsAddTargets()
+  }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+      self.view.endEditing(true)
+  }
+  
+  private func textFieldsAddTargets() {
+    idTextField.addTarget(self,
+                          action: #selector(idBoxClicked),
+                          for: .touchDown)
+    idTextField.addTarget(self,
+                          action: #selector(idBoxClicked),
+                          for: .editingChanged)
+    passwordTextField.addTarget(self,
+                                action: #selector(passwordBoxClicked),
+                                for: .touchDown)
+    passwordTextField.addTarget(self,
+                                action: #selector(passwordBoxClicked),
+                                for: .editingChanged)
+  }
 
     
     //MARK: Button Actions
@@ -130,15 +132,21 @@ class LoginController: UIViewController, UITextFieldDelegate {
   
   func keyboardTopToolBar() {
     let toolbar = UIToolbar()
-    let doneBtn = UIBarButtonItem(barButtonSystemItem: .done, target: nil, action: #selector(done))
+    let doneBtn = UIBarButtonItem(barButtonSystemItem: .done,
+                                  target: nil,
+                                  action: #selector(doneButtonClicked))
 //    let customBtn = UIBarButtonItem(title: "button", style: .plain, target: nil, action: nil)
-    let flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    // 여백
+    let flexibleSpaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                              target: nil,
+                                              action: nil)
     toolbar.sizeToFit()
     toolbar.setItems([flexibleSpaceButton, flexibleSpaceButton, doneBtn], animated: false)
     idTextField.inputAccessoryView = toolbar
+    passwordTextField.inputAccessoryView = toolbar
   }
   
-  @objc func done() {
+  @objc func doneButtonClicked() {
     self.view.endEditing(true)
   }
     

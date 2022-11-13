@@ -73,7 +73,7 @@ class HomeController: UIViewController {
         let sideMenuViewController =
         sideMenuViewStoryboard.instantiateViewController(withIdentifier: "sideVC") as! SideMenuController
         let sideMenu = SideMenuNavController(rootViewController: sideMenuViewController)
-        self.present(sideMenu, animated: true, completion: nil)
+        present(sideMenu, animated: true, completion: nil)
     }
     
     // 1. message 2. posting 3. map
@@ -89,10 +89,13 @@ class HomeController: UIViewController {
             .validate()
             .responseJSON { response in
                 if response.response?.statusCode == 200 {
-                    self.presentViewController(storyboard: "PostingView", identifier: "postingVC", fullScreen: true)
+                  let postingView = UIStoryboard(name: "PostingView", bundle: nil)
+                  guard let postingController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
+                  postingController.modalPresentationStyle = .fullScreen
+                  self.present(postingController, animated: true)
                 } else {
-                    self.keychain.clear()
-                    self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: false)
+                  self.keychain.clear()
+                  self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: true)
             }
         }
     }
@@ -134,7 +137,7 @@ class HomeController: UIViewController {
                                           searchData: searchData)
                 } else {
                     self.keychain.clear()
-                    self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: false)
+                    self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: true)
                 }
                 
             }

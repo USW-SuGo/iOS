@@ -37,6 +37,7 @@ class PostingController: UIViewController {
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   let textViewPlaceHolder = "수고할 상품에 대한 글을 작성해주세요! (거짓 정보 및 가품 등 문제가 될만한 글은 자동으로 삭제됩니다.)"
   let categorySelect = CategorySelect.shared
+  let modifyData = ModifyProduct.shared
   var keyboardAppear = false
   
   //MARK: Functions
@@ -55,9 +56,10 @@ class PostingController: UIViewController {
 //    observerKeyboard()
   }
   
-  override func viewWillDisappear(_ animated: Bool) {
- 
+  override func viewWillAppear(_ animated: Bool) {
+    modifyPostingDataUpdate()
   }
+
   
   @objc func postBottomDismissObserver(_ notification: Notification){
       
@@ -169,48 +171,54 @@ class PostingController: UIViewController {
                            content: String,
                            priceText: String,
                            contactPlace: String,
-                           category: String) {
+                           category: String,
+                           modify: Bool) {
       
-      let url = API.BASE_URL + "/post"
-      
-      let header: HTTPHeaders = [
-          "Authorization" : String(KeychainSwift().get("AccessToken") ?? "")
-      ]
-      
-      let price: Int = Int(priceText) ?? 0
-      
-      let parameters: Parameters = [
-          "title" : title,
-          "content" : content,
-          "price" : price,
-          "contactPlace" : contactPlace,
-          "category" : category
-      ]
-      
+    let url = API.BASE_URL + "/post"
+    var method: HTTPMethod = .post
+    let header: HTTPHeaders = [
+        "Authorization" : String(KeychainSwift().get("AccessToken") ?? "")
+    ]
+    
+    let price: Int = Int(priceText) ?? 0
+    
+    var parameters: Parameters = [
+      "title" : title,
+      "content" : content,
+      "price" : price,
+      "contactPlace" : contactPlace,
+      "category" : category
+    ]
+    if modify {
+      guard let productPostId = modifyData.productPostId else { return }
+      parameters.updateValue(productPostId, forKey: "productPostId")
+      method = .put
+    }
       // MultipartFormData - 이미지 파일 & 글 전송 logic
       // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
       
-      AF.upload(multipartFormData: { multipartFormData in
-          
-          for (key, value) in parameters {
-              multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
-          }
-          
-          for i in 0..<self.realImages.count {
-              multipartFormData.append(self.realImages[i].jpegData(compressionQuality: 1)!,
-                                      withName: "multipartFileList",
-                                      fileName: "\(self.titleTextField.text ?? "")+\(i)",
-                                      mimeType: "image/jpeg")
-          }
-      },
-                to: url,
-                usingThreshold: UInt64.init(),
-                method: .post,
-                headers: header).responseJSON { response in
-      
-      }
+    AF.upload(multipartFormData: { multipartFormData in
+        
+        for (key, value) in parameters {
+            multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+        }
+        
+        for i in 0..<self.realImages.count {
+            multipartFormData.append(self.realImages[i].jpegData(compressionQuality: 1)!,
+                                    withName: "multipartFileList",
+                                    fileName: "\(self.titleTextField.text ?? "")+\(i)",
+                                    mimeType: "image/jpeg")
+        }
+    },
+              to: url,
+              usingThreshold: UInt64.init(),
+              method: method,
+              headers: header).responseJSON { response in
+      print("modify - \(modify)")
+      print("method - \(method)")
+      self.modifyData.productPostId = nil
+    }
       self.dismiss(animated: true)
-
   }
   
   private func textDelegates() {
@@ -292,19 +300,24 @@ class PostingController: UIViewController {
       let category = categorySelect.postCategory
       // text or place 모두 선택 되었을 시 함수 실행
       // 이후에 거래장소도 추가
+    
       if title > 0 && content > 0  && contentTextView.text != textViewPlaceHolder && price > 0 && category != "" {
-          
-          postContent(title: titleTextField.text ?? "",
-                      content: contentTextView.text ?? "",
-                      priceText: priceTextField.text ?? "",
-                      contactPlace: "종합강의동",
-                      category: categorySelect.postCategory)
-
+        
+        var modify = false
+        if modifyData.productPostId != nil {
+          modify = true
+        }
+        
+        postContent(title: titleTextField.text ?? "",
+                    content: contentTextView.text ?? "",
+                    priceText: priceTextField.text ?? "",
+                    contactPlace: "종합강의동",
+                    category: categorySelect.postCategory,
+                    modify: modify)
+ 
       } else {
-          
           customAlert(title: "모두 입력해주세요 !",
                       message: "입력되지 않은 정보가 있어요 !")
-          
       }
 
   }
@@ -320,6 +333,17 @@ class PostingController: UIViewController {
   }
   
   //MARK: Design Functions
+  
+  private func modifyPostingDataUpdate() {
+    if modifyData.productPostId != nil {
+      titleTextField.text = modifyData.title
+      if let category = modifyData.category {
+        categorySelect.postCategory = category
+        customCategoryButton()
+      }
+      priceTextField.text = modifyData.price
+    }
+  }
   
   private func customLeftBarButton() {
     let finishButton = self.navigationItem.makeWordButton(self,
@@ -338,33 +362,33 @@ class PostingController: UIViewController {
   }
   
   private func customAlert(title: String, message: String) {
-      let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-      alert.addAction(UIAlertAction(title: "확인", style: .default))
-      self.present(alert, animated: true, completion: nil)
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "확인", style: .default))
+    self.present(alert, animated: true, completion: nil)
   }
   
   private func customCategoryButton() {
-      categoryButton.setTitle(categorySelect.postCategory, for: .normal)
-      categoryButton.setTitleColor(.black, for: .normal)
+    categoryButton.setTitle(categorySelect.postCategory, for: .normal)
+    categoryButton.setTitleColor(.black, for: .normal)
   }
   
   private func designButtons() {
-      contentTextView.layer.cornerRadius = 6.0
-      contentTextView.text = textViewPlaceHolder
-      contentTextView.textColor = .lightGray
+    contentTextView.layer.cornerRadius = 6.0
+    contentTextView.text = textViewPlaceHolder
+    contentTextView.textColor = .lightGray
 //        contentTextView.layer.borderColor = UIColor.black.cgColor
 //        contentTextView.layer.borderWidth = 1.0
-      
-      sugoButton.layer.cornerRadius = 12.0
-      sugoButton.layer.borderColor = UIColor.white.cgColor
-      
-      placeButton.layer.cornerRadius = 6.0
-      placeButton.layer.borderColor = colorLiteralGreen.cgColor
-      placeButton.layer.borderWidth = 1.0
+    
+    sugoButton.layer.cornerRadius = 12.0
+    sugoButton.layer.borderColor = UIColor.white.cgColor
+    
+    placeButton.layer.cornerRadius = 6.0
+    placeButton.layer.borderColor = colorLiteralGreen.cgColor
+    placeButton.layer.borderWidth = 1.0
 
-      imageButton.layer.cornerRadius = 5.0
-      imageButton.layer.borderColor = UIColor.darkGray.cgColor
-      imageButton.layer.borderWidth = 1.0
+    imageButton.layer.cornerRadius = 5.0
+    imageButton.layer.borderColor = UIColor.darkGray.cgColor
+    imageButton.layer.borderWidth = 1.0
   }
   
 }

@@ -9,17 +9,15 @@ import UIKit
 
 class UserPostingCell: UITableViewCell {
 
-    @IBOutlet weak var productImage: UIImageView!
-    @IBOutlet weak var placeUpdateCategoryLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    
-    @IBOutlet weak var upPostButton: UIButton!
-    @IBOutlet weak var modifyButton: UIButton!
-    @IBOutlet weak var deleteButton: UIButton!
-    
-    
+  @IBOutlet weak var productImage: UIImageView!
+  @IBOutlet weak var placeUpdateCategoryLabel: UILabel!
+  @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var nicknameLabel: UILabel!
+  @IBOutlet weak var priceLabel: UILabel!
+  @IBOutlet weak var upPostButton: UIButton!
+  @IBOutlet weak var modifyButton: UIButton!
+  @IBOutlet weak var kebabMenuButton: UIButton!
+  
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -41,9 +39,6 @@ class UserPostingCell: UITableViewCell {
         
         modifyButton.layer.borderWidth = 0.5
         modifyButton.layer.borderColor = UIColor.systemGray5.cgColor
-        
-        deleteButton.layer.borderWidth = 0.5
-        deleteButton.layer.borderColor = UIColor.systemGray5.cgColor
     }
     
 }

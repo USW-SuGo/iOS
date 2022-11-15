@@ -12,20 +12,23 @@ import KeychainSwift
 
 enum PostRouter: URLRequestConvertible {
     
-    case postContent(title: String,
-                     content: String,
-                     price: Int,
-                     contactPlace: String,
+  case postContent(title: String,
+                   content: String,
+                   price: Int,
+                   contactPlace: String,
+                   category: String)
+  
+  case mainPage(page: Int,
+                size: Int,
+                category: String)
+  
+  case getDetailPost(productPostId: Int)
+  
+  case searchContent(value: String,
                      category: String)
+  
+  case deletePost(productPostId: Int)
     
-    case mainPage(page: Int,
-                  size: Int,
-                  category: String)
-    
-    case getDetailPost(productPostId: Int)
-    
-    case searchContent(value: String,
-                       category: String)
     
     
     var baseURL: URL {
@@ -35,9 +38,11 @@ enum PostRouter: URLRequestConvertible {
     var method: HTTPMethod {
         switch self {
         case .postContent:
-            return .post
+          return .post
         case .mainPage, .getDetailPost, .searchContent:
-            return .get
+          return .get
+        case .deletePost:
+          return .delete
         }
     }
     
@@ -47,7 +52,7 @@ enum PostRouter: URLRequestConvertible {
             return "/content"
         case .mainPage:
             return "/all"
-        case .getDetailPost:
+        case .getDetailPost, .deletePost:
             return "/"
         case .searchContent:
             return "/search"
@@ -73,7 +78,7 @@ enum PostRouter: URLRequestConvertible {
                 "category" : category
             ]
         
-        case .getDetailPost(let productPostId):
+        case .getDetailPost(let productPostId), .deletePost(let productPostId):
             return ["productPostId" : productPostId]
             
         case .searchContent(let value, let category):
@@ -87,32 +92,32 @@ enum PostRouter: URLRequestConvertible {
         
     }
     
-    var headers: HTTPHeaders {
-        switch self {
-        case .postContent, .getDetailPost, .searchContent:
-            return [
-                .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
-            ]
-        case .mainPage:
-            return .default
-        }
+  var headers: HTTPHeaders {
+    switch self {
+    case .postContent, .getDetailPost, .searchContent, .deletePost:
+      return [
+          .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
+      ]
+    case .mainPage:
+      return .default
     }
+  }
+  
+  func asURLRequest() throws -> URLRequest {
+      
+    let url = baseURL.appendingPathComponent(path)
     
-    func asURLRequest() throws -> URLRequest {
-        
-        let url = baseURL.appendingPathComponent(path)
-        
-        var request = URLRequest(url: url)
-        
-        request.method = method
-        request.headers = headers
-        
-        if request.method == .post {
-            request = try JSONEncoding.default.encode(request, with: parameters)
-        } else if request.method == .get {
-            request = try URLEncoding.default.encode(request, with: parameters)
-        }
-        
-        return request
+    var request = URLRequest(url: url)
+    
+    request.method = method
+    request.headers = headers
+      
+    if request.method == .post || request.method == .delete {
+      request = try JSONEncoding.default.encode(request, with: parameters)
+    } else if request.method == .get {
+      request = try URLEncoding.default.encode(request, with: parameters)
     }
+      
+    return request
+  }
 }

@@ -63,7 +63,7 @@
                                 <buttonConfiguration key="configuration" style="plain" title="신고"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MUK-LU-Kpg">
-                                <rect key="frame" x="20" y="414" width="35" height="20"/>
+                                <rect key="frame" x="20" y="414" width="34.5" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="8MQ-H7-0OS"/>
                                 </constraints>
@@ -72,7 +72,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="미술대학 | 방금 전 | 학용품" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9Y-3V-s5M">
-                                <rect key="frame" x="20" y="438" width="147.5" height="16"/>
+                                <rect key="frame" x="20" y="438" width="147" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="PXh-vc-mlK"/>
                                 </constraints>
@@ -88,11 +88,9 @@
                                     <constraint firstAttribute="height" constant="1" id="p3v-z2-Tgb"/>
                                 </constraints>
                             </view>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="내용" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Wu-xK-g0c">
-                                <rect key="frame" x="20" y="555" width="374" height="20"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="p62-dn-nFd"/>
-                                </constraints>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Wu-xK-g0c">
+                                <rect key="frame" x="20" y="555" width="374" height="197"/>
+                                <string key="text">fasdadpsaopmadomdpdmompmdosamdpaopdmpamdamdpomdpamdpomaopsmdopasmdasopomdmasdpomaopdfasdadpsaopmadomdpdmompmdosamdpaopdmpamdamdpomdpamdpomaopsmdopasmdasopomdmasdpomaopdfasdadpsaopmadomdpdmompmdosamdpaopdmpamdamdpomdpamdpomaopsmdopasmdasopomdmasdpomaopdfasdadpsaopmadomdpdmompmdosamdpaopdmpamdamdpomdpamdpomaopsmdopasmdasopomdmasdpomaopd</string>
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -124,6 +122,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="FjV-2j-bzM" secondAttribute="trailing" constant="20" id="2F9-LI-J9E"/>
                             <constraint firstItem="E9Y-3V-s5M" firstAttribute="top" secondItem="MUK-LU-Kpg" secondAttribute="bottom" constant="4" id="4sQ-Xg-uek"/>
                             <constraint firstAttribute="trailing" secondItem="XWW-c5-Yy6" secondAttribute="trailing" id="5vi-yO-omS"/>
+                            <constraint firstItem="zLj-sD-NEZ" firstAttribute="top" secondItem="6Wu-xK-g0c" secondAttribute="bottom" constant="50" id="A7U-bZ-PHi"/>
                             <constraint firstItem="ZjE-6S-ImD" firstAttribute="top" secondItem="Ksg-Pb-097" secondAttribute="bottom" constant="30" id="Czb-Zo-CDh"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="vXU-WL-97H" secondAttribute="trailing" constant="20" id="EI3-xa-DPn"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ZjE-6S-ImD" secondAttribute="trailing" constant="20" id="F9N-gL-NhN"/>

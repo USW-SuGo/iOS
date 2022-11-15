@@ -20,13 +20,14 @@ struct MyPage {
 
 struct MyPagePosting {
     
-    var userIndex: String = ""
-    var title: String = ""
-    var price: String = ""
-    var category: String = ""
-    var status: Bool = false
-    var imageLink: String = ""
-    var contactPlace: String = ""
-    var updatedAt: String = ""
-    
+  var productIndex: Int = 0
+  var title: String = ""
+  var price: String = ""
+  var decimalWon: String = ""
+  var category: String = ""
+  var status: Bool = false
+  var imageLink: String = ""
+  var contactPlace: String = ""
+  var updatedAt: String = ""
+  
 }

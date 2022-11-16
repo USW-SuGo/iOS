@@ -7,19 +7,20 @@
 
 import UIKit
 
+import IQKeyboardManagerSwift
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-//        let appearance = UINavigationBarAppearance()
-//        appearance.configureWithOpaqueBackground()
-//        appearance.backgroundColor = colorLiteralGreen
-//        UINavigationBar.
-//        
-        return true
+      
+      IQKeyboardManager.shared.enable = true
+      IQKeyboardManager.shared.enableAutoToolbar = true
+      IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+      
+      return true
     }
 
     // MARK: UISceneSession Lifecycle

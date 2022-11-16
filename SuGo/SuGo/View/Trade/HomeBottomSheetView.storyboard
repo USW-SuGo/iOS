@@ -14,10 +14,10 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Bottom Sheet Controller-->
+        <!--Home Bottom Sheet Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="bottomSheetVC" id="Y6W-OH-hqX" customClass="BottomSheetController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeBottomSheetVC" id="Y6W-OH-hqX" customClass="HomeBottomSheetController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -26,7 +26,7 @@
                                 <rect key="frame" x="20" y="59" width="353" height="759"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="bottomCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="bottomCell" id="dPU-Or-tg4" customClass="bottomSheetCell" customModule="SuGo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="homeBottomCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="bottomCell" id="dPU-Or-tg4" customClass="HomeBottomSheetCell" customModule="SuGo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="353" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dPU-Or-tg4" id="CVj-S8-8VZ">

@@ -52,34 +52,38 @@ class SideMenuController: UIViewController{
     //MARK: Button Actions
     
     @IBAction func loginAndLogoutButtonClicked(_ sender: Any) {
-        
-        if keychain.get("AccessToken") == nil {
-            
-            let loginViewStoryboard  = UIStoryboard(name: "LoginView", bundle: nil)
-            let nextViewController = loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
-            nextViewController.modalPresentationStyle = .fullScreen
-            self.present(nextViewController, animated: true, completion: nil)
-            
-        } else { // alert 실행 후 확인버튼 누를 시 로그인
-            
-            keychain.clear()
-            self.dismiss(animated: true)
-            
-        }
-        
+          
+      if keychain.get("AccessToken") == nil {
+          
+          let loginViewStoryboard  = UIStoryboard(name: "LoginView", bundle: nil)
+          let nextViewController = loginViewStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginController
+          nextViewController.modalPresentationStyle = .fullScreen
+          present(nextViewController, animated: true, completion: nil)
+          
+      } else { // alert 실행 후 확인버튼 누를 시 로그인
+          
+          keychain.clear()
+          self.dismiss(animated: true)
+          
+      }
     }
     
     @IBAction func signUpAndUserInfoButtonClicked(_ sender: Any) {
         
-        if keychain.get("AccessToken") == nil {
-            
-            let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
-            let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signupVC") as! SignUpController
-            self.present(nextViewController, animated: true, completion: nil)
-            
-        } else {
-            
-        }
+      if keychain.get("AccessToken") == nil {
+          
+        let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
+        let signUpNavigationController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signUpNavigationVC") as! UINavigationController
+        signUpNavigationController.modalPresentationStyle = .fullScreen
+        present(signUpNavigationController, animated: true, completion: nil)
+        
+      } else {
+          
+        let myInfoViewStoryboard = UIStoryboard(name: "MyInfoView", bundle: nil)
+        let myInfoViewController = myInfoViewStoryboard.instantiateViewController(withIdentifier: "myInfoVC") as! MyInfoController
+        present(myInfoViewController, animated: true, completion: nil)
+          
+      }
     }
     
     //MARK: Design Functions
@@ -87,22 +91,22 @@ class SideMenuController: UIViewController{
     private func buttonTitleChange() {
         
         
-        if keychain.get("AccessToken") == nil {
-            
-            userImageView.tintColor = UIColor.lightGray
-            userStateLabel.text = "비 로그인 상태입니다."
-            loginAndLogoutButton.setTitle("로그인", for: .normal)
-            signUpAndUserInfoButton.setTitle("회원가입", for: .normal)
-            
-        } else {
-            
-            userImageView.tintColor = colorLiteralGreen
-            userStateLabel.text = "반갑습니다 !\nsozohoy 님 !"
-            loginAndLogoutButton.setTitle("로그아웃", for: .normal)
-            signUpAndUserInfoButton.setTitle("내 정보", for: .normal)
-            
-        }
+      if keychain.get("AccessToken") == nil {
+          
+        userImageView.tintColor = UIColor.lightGray
+        userStateLabel.text = "비 로그인 상태입니다."
+        loginAndLogoutButton.setTitle("로그인", for: .normal)
+        signUpAndUserInfoButton.setTitle("회원가입", for: .normal)
+          
+      } else {
+          
+        userImageView.tintColor = colorLiteralGreen
+        userStateLabel.text = "오늘도 수고하세요 !"
+        loginAndLogoutButton.setTitle("로그아웃", for: .normal)
+        signUpAndUserInfoButton.setTitle("내 정보", for: .normal)
+          
+      }
     }
-    
+  
 }
 

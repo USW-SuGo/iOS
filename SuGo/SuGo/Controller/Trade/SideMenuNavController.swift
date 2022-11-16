@@ -73,15 +73,14 @@ class SideMenuController: UIViewController{
       if keychain.get("AccessToken") == nil {
           
         let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
-        let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signupVC") as! SignUpController
-        nextViewController.modalPresentationStyle = .fullScreen
-        present(nextViewController, animated: true, completion: nil)
+        let signUpNavigationController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signUpNavigationVC") as! UINavigationController
+        signUpNavigationController.modalPresentationStyle = .fullScreen
+        present(signUpNavigationController, animated: true, completion: nil)
         
       } else {
           
         let myInfoViewStoryboard = UIStoryboard(name: "MyInfoView", bundle: nil)
         let myInfoViewController = myInfoViewStoryboard.instantiateViewController(withIdentifier: "myInfoVC") as! MyInfoController
-        myInfoViewController.modalPresentationStyle = .fullScreen
         present(myInfoViewController, animated: true, completion: nil)
           
       }

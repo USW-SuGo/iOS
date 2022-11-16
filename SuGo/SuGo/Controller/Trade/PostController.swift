@@ -19,90 +19,83 @@ class PostController: UIViewController {
     
     //MARK: IBOutlets
     
-    @IBOutlet weak var slideshow: ImageSlideshow!
-    @IBOutlet weak var sugoButton: UIButton!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var placeUpdateCategoryLabel: UILabel!
-    @IBOutlet weak var nicknameLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
+  @IBOutlet weak var slideshow: ImageSlideshow!
+  @IBOutlet weak var sugoButton: UIButton!
+  @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var placeUpdateCategoryLabel: UILabel!
+  @IBOutlet weak var nicknameLabel: UILabel!
+  @IBOutlet weak var priceLabel: UILabel!
+  @IBOutlet weak var contentView: UILabel!
+  
+  //MARK: Properties
     
-    //MARK: Properties
+  var productPostId = 0
+  var productContentsDetail = ProductContentsDetail()
+  // imageFiles
+  var alamofireSource: [AlamofireSource] = []
     
-    var productPostId = 0
-    var productContentsDetail = ProductContentsDetail()
-    // imageFiles
-    var alamofireSource: [AlamofireSource] = []
+  //MARK: Functions
     
-    //MARK: Functions
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    getPostProduct()
+    designButtons()
+  }
     
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        getPostProduct()
-        designButtons()
-        // Do any additional setup after loading the view.
+  private func setSlideShow() {
+      
+      // 자동 슬라이드
+      // slideshow.slideshowInterval = 5.0
+      
+      // 이미지 포지션
+      slideshow.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
+      slideshow.contentScaleMode = UIViewContentMode.scaleAspectFill
 
-    }
+      let pageIndicator = UIPageControl()
+      pageIndicator.currentPageIndicatorTintColor = UIColor.systemGreen
+      pageIndicator.pageIndicatorTintColor = UIColor.lightGray
+      slideshow.pageIndicator = pageIndicator
+
+      // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
+      slideshow.activityIndicator = DefaultActivityIndicator()
+      slideshow.delegate = self
+
+      // image input
+      slideshow.setImageInputs(alamofireSource)
+
+      // page 넘기기 이벤트
+      let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
+      slideshow.addGestureRecognizer(recognizer)
+      
+  }
     
-    private func setSlideShow() {
-        
-        // 자동 슬라이드
-        // slideshow.slideshowInterval = 5.0
-        
-        // 이미지 포지션
-        slideshow.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
-        slideshow.contentScaleMode = UIViewContentMode.scaleAspectFill
-
-        let pageIndicator = UIPageControl()
-        pageIndicator.currentPageIndicatorTintColor = UIColor.systemGreen
-        pageIndicator.pageIndicatorTintColor = UIColor.lightGray
-        slideshow.pageIndicator = pageIndicator
-
-        // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
-        slideshow.activityIndicator = DefaultActivityIndicator()
-        slideshow.delegate = self
-
-        // image input
-        slideshow.setImageInputs(alamofireSource)
-
-        // page 넘기기 이벤트
-        let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
-        slideshow.addGestureRecognizer(recognizer)
-        
-    }
+  @objc func didTap() {
+         let fullScreenController = slideshow.presentFullScreenController(from: self)
+         // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
+         fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .white, color: nil)
+     }
     
-    @objc func didTap() {
-           let fullScreenController = slideshow.presentFullScreenController(from: self)
-           // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
-           fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .white, color: nil)
-       }
-    
-    func decimalWon(price: Int) -> String {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
-        
-        return result
-    }
+  func decimalWon(price: Int) -> String {
+      let numberFormatter = NumberFormatter()
+      numberFormatter.numberStyle = .decimal
+      let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
+      
+      return result
+  }
     
     //MARK: API Functions
     
-    private func getPostProduct() {
-        AlamofireManager
-            .shared
-            .session
-            .request(PostRouter.getDetailPost(productPostId: productPostId))
-            .validate()
-            .responseJSON { response in
-                
-                if response.response?.statusCode == 200 {
-                    self.updatePost(json: JSON(response.data ?? "") )
-                }
-                
-                
-            }
+  private func getPostProduct() {
+      AlamofireManager
+          .shared
+          .session
+          .request(PostRouter.getDetailPost(productPostId: productPostId))
+          .validate()
+          .responseJSON { response in
+            guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+            self.updatePost(json: JSON(response.data ?? "") )
     }
+  }
     
     private func updatePost(json: JSON) {
         
@@ -166,21 +159,19 @@ class PostController: UIViewController {
     
     //MARK: Design Functions
     
-    private func updateDesign() {
-        
-        titleLabel.text = productContentsDetail.title
-        placeUpdateCategoryLabel.text = "\(productContentsDetail.contactPlace) | \(productContentsDetail.updatedAt) | \(productContentsDetail.category)"
-        nicknameLabel.text = productContentsDetail.nickname
-        priceLabel.text = productContentsDetail.price
-        contentLabel.text = productContentsDetail.content
-        
-    }
+  private func updateDesign() {
+    titleLabel.text = productContentsDetail.title
+    placeUpdateCategoryLabel.text = "\(productContentsDetail.contactPlace) | \(productContentsDetail.updatedAt) | \(productContentsDetail.category)"
+    nicknameLabel.text = productContentsDetail.nickname
+    priceLabel.text = productContentsDetail.price
+    contentView.text = productContentsDetail.content
+  }
 
-    private func designButtons() {
-        sugoButton.layer.cornerRadius = 6.0
-        sugoButton.layer.borderWidth = 1.0
-        sugoButton.layer.borderColor = UIColor.white.cgColor
-    }
+  private func designButtons() {
+    sugoButton.layer.cornerRadius = 6.0
+    sugoButton.layer.borderWidth = 1.0
+    sugoButton.layer.borderColor = UIColor.white.cgColor
+  }
     
     
 

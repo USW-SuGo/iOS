@@ -24,7 +24,6 @@ class PostingController: UIViewController {
   @IBOutlet weak var priceTextField: UITextField!
   @IBOutlet weak var contentTextView: UITextView!
   @IBOutlet weak var collectionView: UICollectionView!
-  @IBOutlet weak var sugoButton: UIButton!
   @IBOutlet weak var placeButton: UIButton!
   @IBOutlet weak var imageButton: UIButton!
   @IBOutlet weak var categoryButton: UIButton!
@@ -62,109 +61,94 @@ class PostingController: UIViewController {
 
   
   @objc func postBottomDismissObserver(_ notification: Notification){
-      
-      DispatchQueue.main.async {
-          self.customCategoryButton()
-      }
+    DispatchQueue.main.async {
+      self.customCategoryButton()
+    }
   }
   
   private func imageSelectSetting() {
       
-      let imagePicker = ImagePickerController()
+    let imagePicker = ImagePickerController()
+    imagePicker.modalPresentationStyle = .fullScreen
+    imagePicker.settings.selection.max = 5
+    imagePicker.settings.theme.selectionStyle = .numbered
+    imagePicker.settings.fetch.assets.supportedMediaTypes = [.image]
+    imagePicker.settings.theme.selectionFillColor = .white
+    imagePicker.doneButtonTitle = "선택완료"
+    imagePicker.cancelButton.tintColor = .black
+    imagePicker.cancelButton.title = "취소"
+    
+    presentImagePicker(imagePicker, select: {
+        asset in
+    }, deselect: { asset in
+    }, cancel: { asset in
+    }, finish: { assets in
+      self.phAssetImages.removeAll()
+      self.priviewImages.removeAll()
+      self.realImages.removeAll()
       
-      imagePicker.modalPresentationStyle = .fullScreen
-      imagePicker.settings.selection.max = 5
-      imagePicker.settings.theme.selectionStyle = .numbered
-      imagePicker.settings.fetch.assets.supportedMediaTypes = [.image]
-      imagePicker.settings.theme.selectionFillColor = .white
-      imagePicker.doneButtonTitle = "선택완료"
-      imagePicker.cancelButton.tintColor = .black
-      imagePicker.cancelButton.title = "취소"
+      for i in 0..<assets.count {
+          self.phAssetImages.append(assets[i])
+      }
       
-      presentImagePicker(imagePicker, select: {
-          asset in
-      }, deselect: { asset in
-      }, cancel: { asset in
-      }, finish: { assets in
-          
-          self.phAssetImages.removeAll()
-          self.priviewImages.removeAll()
-          self.realImages.removeAll()
-          
-          for i in 0..<assets.count {
-              self.phAssetImages.append(assets[i])
-          }
-          
-          self.convertAssetToPriviewImage()
-          self.convertAssetToRealImage()
-          self.collectionView.reloadData()
-          })
-  }
+      self.convertAssetToPriviewImage()
+      self.convertAssetToRealImage()
+      self.collectionView.reloadData()
+      })
+}
   
   // PHAsset -> UIImage로 형변환
   private func convertAssetToPriviewImage() {
-      
-      if phAssetImages.count != 0 {
-          
-          for i in 0..<phAssetImages.count {
-              let imageManager = PHImageManager.default()
-              let option = PHImageRequestOptions()
-              option.deliveryMode = .opportunistic
-              option.isSynchronous = true
+    if phAssetImages.count != 0 {
+      for i in 0..<phAssetImages.count {
+        let imageManager = PHImageManager.default()
+        let option = PHImageRequestOptions()
+        option.deliveryMode = .opportunistic
+        option.isSynchronous = true
+        
+        // UIImage Resize
+        option.resizeMode = .exact
+        var thumbnail = UIImage()
+        
+        imageManager.requestImage(for: phAssetImages[i],
+                                  targetSize: CGSize(width: 40, height: 40),
+                                  contentMode: .aspectFill,
+                                  options: option) { (result, info) in
+            thumbnail = result!
+        }
               
-              // UIImage Resize
-              option.resizeMode = .exact
-              var thumbnail = UIImage()
-              
-              imageManager.requestImage(for: phAssetImages[i],
-                                        targetSize: CGSize(width: 40, height: 40),
-                                        contentMode: .aspectFill,
-                                        options: option) { (result, info) in
-                  thumbnail = result!
-              }
-              
-              let data = thumbnail.jpegData(compressionQuality: 0.9)
-              let newImage = UIImage(data: data!)
-              self.priviewImages.append(newImage! as UIImage)
-              
-          }
+        let data = thumbnail.jpegData(compressionQuality: 0.9)
+        let newImage = UIImage(data: data!)
+        self.priviewImages.append(newImage! as UIImage)
+        
       }
+    }
   }
   
   private func convertAssetToRealImage() {
-      
-      if phAssetImages.count != 0 {
-          
-          for i in 0..<phAssetImages.count {
-              let imageManager = PHImageManager.default()
-              let option = PHImageRequestOptions()
-              option.deliveryMode = .opportunistic
-              option.isSynchronous = true
+    if phAssetImages.count != 0 { // 선택한 이미지가 있을 경우에만 함수 실행
+      for i in 0..<phAssetImages.count {
+        let imageManager = PHImageManager.default()
+        let option = PHImageRequestOptions()
+        option.deliveryMode = .opportunistic
+        option.isSynchronous = true
+        // UIImage Resize
+        option.resizeMode = .exact
+        var realImage = UIImage()
+        // 원본 사이즈 그대로 유지
+        imageManager.requestImage(for: phAssetImages[i],
+                                  targetSize: CGSize(width: phAssetImages[i].pixelWidth,
+                                                     height: phAssetImages[i].pixelHeight),
+                                  contentMode: .aspectFill,
+                                  options: option) { (result, info) in
+            realImage = result!
+        }
               
-              // UIImage Resize
-              option.resizeMode = .exact
-              var realImage = UIImage()
-
-//                let widthRatio = testList[i].pixelWidth / 30
-//                let heightRatio = testList[i].pixelHeight / 30
-              
-              // 원본 사이즈 그대로 유지
-              imageManager.requestImage(for: phAssetImages[i],
-                                        targetSize: CGSize(width: phAssetImages[i].pixelWidth,
-                                                           height: phAssetImages[i].pixelHeight),
-                                        contentMode: .aspectFill,
-                                        options: option) { (result, info) in
-                  realImage = result!
-              }
-              
-              let data = realImage.jpegData(compressionQuality: 0.9)
-//                print("real images size - \(data)")
-              
-              let newImage = UIImage(data: data!)
-              self.realImages.append(newImage! as UIImage)
-              
-          }
+        let data = realImage.jpegData(compressionQuality: 0.9)
+        let newImage = UIImage(data: data!)
+        self.realImages.append(newImage! as UIImage)
       }
+    }
   }
   
   private func postContent(title: String,
@@ -189,14 +173,15 @@ class PostingController: UIViewController {
       "contactPlace" : contactPlace,
       "category" : category
     ]
+    
     if modify {
       guard let productPostId = modifyData.productPostId else { return }
       parameters.updateValue(productPostId, forKey: "productPostId")
       method = .put
     }
-      // MultipartFormData - 이미지 파일 & 글 전송 logic
-      // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
       
+    // MultipartFormData - 이미지 파일 & 글 전송 logic
+    // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
     AF.upload(multipartFormData: { multipartFormData in
         
         for (key, value) in parameters {
@@ -222,104 +207,65 @@ class PostingController: UIViewController {
   }
   
   private func textDelegates() {
-      
     titleTextField.delegate = self
     priceTextField.delegate = self
     contentTextView.delegate = self
-//    contentTextView.isScrollEnabled = false
-        
-  }
-
-  private func observerKeyboard() {
-    NotificationCenter.default.addObserver(self,
-                                           selector: #selector(keyboardWillAppear),
-                                           name: UIResponder.keyboardWillShowNotification,
-                                           object: nil)
-    
-    NotificationCenter.default.addObserver(self,
-                                           selector: #selector(keyboardWillDisappear),
-                                           name: UIResponder.keyboardWillHideNotification,
-                                           object: nil)
-}
-  
-  @objc func keyboardWillAppear(_ notification: NSNotification){
-    guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, keyboardAppear == false else { return }
-    keyboardAppear = true
-    UIView.animate(withDuration: 0.7){
-      self.view.frame.origin.y -= keyboardFrame.cgRectValue.height
-    }
-    
-    
-  }
-  
-  @objc func keyboardWillDisappear(_ notification: Notification){
-    keyboardAppear = false
-    UIView.animate(withDuration: 0.8){
-        self.view.frame.origin.y = 0
-    }
   }
   
   @objc func closeButtonClicked() {
     dismiss(animated: true)
   }
   
-  @objc func finishButtonClicked() {
-    print("hi")
+  @objc func finishButtonClicked() { // 조건 추가 필요.
+    let title = titleTextField.text?.count ?? 0
+    let content = contentTextView.text.count
+    let price = priceTextField.text?.count ?? 0
+    let category = categorySelect.postCategory
+    // text or place 모두 선택 되었을 시 함수 실행
+    // 이후에 거래장소도 추가
+  
+    if title > 0 && content > 0  && contentTextView.text != textViewPlaceHolder && price > 0 && category != "" {
+      
+      var modify = false
+      if modifyData.productPostId != nil {
+        modify = true
+      }
+      
+      postContent(title: titleTextField.text ?? "",
+                  content: contentTextView.text ?? "",
+                  priceText: priceTextField.text ?? "",
+                  contactPlace: "종합강의동",
+                  category: categorySelect.postCategory,
+                  modify: modify)
+
+    } else {
+        customAlert(title: "모두 입력해주세요 !",
+                    message: "입력되지 않은 정보가 있어요 !")
+    }
   }
     
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-      self.view.endEditing(true)
+    self.view.endEditing(true)
   }
   
   //MARK: Button Actions
   
   @IBAction func priceTextFieldChanged(_ sender: Any) {
-      checkMaxLength(textField: priceTextField, maxLength: 9)
+    checkMaxLength(textField: priceTextField, maxLength: 9)
   }
   
   
   @IBAction func categoryButtonClicked(_ sender: Any) {
-      let bottomSheetView = UIStoryboard(name: "PostingBottomSheetView", bundle: nil)
-      let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "postingBottomSheetVC") as! PostingBottomSheetController
-      let bottomSheet = MDCBottomSheetController(contentViewController: nextVC)
-      bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 280
-      bottomSheet.dismissOnDraggingDownSheet = true
-      present(bottomSheet, animated: true)
-      
+    let bottomSheetView = UIStoryboard(name: "PostingBottomSheetView", bundle: nil)
+    let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "postingBottomSheetVC") as! PostingBottomSheetController
+    let bottomSheet = MDCBottomSheetController(contentViewController: nextVC)
+    bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 280
+    bottomSheet.dismissOnDraggingDownSheet = true
+    present(bottomSheet, animated: true)
   }
   
   @IBAction func selectPhotoButtonClicked(_ sender: Any) {
       imageSelectSetting()
-  }
-
-  @IBAction func sugoButtonClicked(_ sender: Any) {
-      
-      let title = titleTextField.text?.count ?? 0
-      let content = contentTextView.text.count
-      let price = priceTextField.text?.count ?? 0
-      let category = categorySelect.postCategory
-      // text or place 모두 선택 되었을 시 함수 실행
-      // 이후에 거래장소도 추가
-    
-      if title > 0 && content > 0  && contentTextView.text != textViewPlaceHolder && price > 0 && category != "" {
-        
-        var modify = false
-        if modifyData.productPostId != nil {
-          modify = true
-        }
-        
-        postContent(title: titleTextField.text ?? "",
-                    content: contentTextView.text ?? "",
-                    priceText: priceTextField.text ?? "",
-                    contactPlace: "종합강의동",
-                    category: categorySelect.postCategory,
-                    modify: modify)
- 
-      } else {
-          customAlert(title: "모두 입력해주세요 !",
-                      message: "입력되지 않은 정보가 있어요 !")
-      }
-
   }
   
   @IBAction func placeButtonClicked(_ sender: Any) {
@@ -378,10 +324,6 @@ class PostingController: UIViewController {
     contentTextView.textColor = .lightGray
 //        contentTextView.layer.borderColor = UIColor.black.cgColor
 //        contentTextView.layer.borderWidth = 1.0
-    
-    sugoButton.layer.cornerRadius = 12.0
-    sugoButton.layer.borderColor = UIColor.white.cgColor
-    
     placeButton.layer.cornerRadius = 6.0
     placeButton.layer.borderColor = colorLiteralGreen.cgColor
     placeButton.layer.borderWidth = 1.0

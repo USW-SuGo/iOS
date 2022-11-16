@@ -61,7 +61,7 @@
                                         </connections>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="48Z-yd-jRc">
-                                        <rect key="frame" x="20" y="294" width="374" height="416"/>
+                                        <rect key="frame" x="20" y="294" width="374" height="436"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" systemColor="labelColor"/>
                                         <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="17"/>
@@ -185,21 +185,6 @@
                                             <action selector="placeButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="s0f-2i-VLK"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAF-WR-qdV">
-                                        <rect key="frame" x="20" y="727" width="374" height="43"/>
-                                        <color key="backgroundColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="43" id="zVo-97-yZu"/>
-                                        </constraints>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="수고올리기">
-                                            <fontDescription key="titleFontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="16"/>
-                                        </buttonConfiguration>
-                                        <connections>
-                                            <action selector="sugoButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Je6-qF-PRs"/>
-                                        </connections>
-                                    </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="₩" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ygD-oe-coz">
                                         <rect key="frame" x="20" y="111" width="16" height="20"/>
                                         <constraints>
@@ -231,7 +216,6 @@
                                     <constraint firstItem="zCJ-1a-ZE1" firstAttribute="top" secondItem="CEE-LT-tfP" secondAttribute="bottom" constant="10" id="EdP-ID-u8e"/>
                                     <constraint firstItem="tIq-DE-Xj8" firstAttribute="top" secondItem="GKw-5K-WZG" secondAttribute="bottom" constant="10" id="H3f-sq-oDJ"/>
                                     <constraint firstItem="wEy-9I-z7d" firstAttribute="top" secondItem="1w4-AA-iN4" secondAttribute="top" constant="100" id="KHB-Co-QWW"/>
-                                    <constraint firstAttribute="trailing" secondItem="iAF-WR-qdV" secondAttribute="trailing" constant="20" id="KYD-WO-CT9"/>
                                     <constraint firstAttribute="trailing" secondItem="dSn-9e-IBp" secondAttribute="trailing" constant="20" id="NAv-PN-Xtd"/>
                                     <constraint firstAttribute="trailing" secondItem="wzt-TW-Bdv" secondAttribute="trailing" constant="20" id="NsX-Mb-bLE"/>
                                     <constraint firstAttribute="trailing" secondItem="CEE-LT-tfP" secondAttribute="trailing" constant="20" id="Oue-EL-43u"/>
@@ -244,9 +228,8 @@
                                     <constraint firstItem="ygD-oe-coz" firstAttribute="leading" secondItem="1w4-AA-iN4" secondAttribute="leading" constant="20" id="Y3d-We-jDJ"/>
                                     <constraint firstItem="zCJ-1a-ZE1" firstAttribute="leading" secondItem="1w4-AA-iN4" secondAttribute="leading" constant="20" id="YdE-iC-NCG"/>
                                     <constraint firstItem="dSn-9e-IBp" firstAttribute="top" secondItem="GKw-5K-WZG" secondAttribute="bottom" constant="10" id="aAV-tv-c8V"/>
-                                    <constraint firstAttribute="bottom" secondItem="48Z-yd-jRc" secondAttribute="bottom" constant="60" id="cFo-AS-ZBg"/>
+                                    <constraint firstAttribute="bottom" secondItem="48Z-yd-jRc" secondAttribute="bottom" constant="40" id="cFo-AS-ZBg"/>
                                     <constraint firstAttribute="trailing" secondItem="GKw-5K-WZG" secondAttribute="trailing" constant="20" id="dgc-p0-hVo"/>
-                                    <constraint firstItem="iAF-WR-qdV" firstAttribute="leading" secondItem="1w4-AA-iN4" secondAttribute="leading" constant="20" id="drx-bK-XgH"/>
                                     <constraint firstItem="48Z-yd-jRc" firstAttribute="leading" secondItem="1w4-AA-iN4" secondAttribute="leading" constant="20" id="f0c-MF-tW0"/>
                                     <constraint firstItem="Hso-3m-bjc" firstAttribute="leading" secondItem="1w4-AA-iN4" secondAttribute="leading" constant="20" id="gST-5B-qIs"/>
                                     <constraint firstItem="dSn-9e-IBp" firstAttribute="leading" secondItem="wEy-9I-z7d" secondAttribute="trailing" constant="10" id="gyt-aL-yYA"/>
@@ -255,7 +238,6 @@
                                     <constraint firstItem="GKw-5K-WZG" firstAttribute="top" secondItem="NSH-bc-97c" secondAttribute="bottom" constant="10" id="kfE-2Y-EN8"/>
                                     <constraint firstItem="FpL-aY-ojp" firstAttribute="leading" secondItem="1w4-AA-iN4" secondAttribute="leading" constant="20" id="ndK-Nr-lYL"/>
                                     <constraint firstAttribute="trailing" secondItem="48Z-yd-jRc" secondAttribute="trailing" constant="20" id="nhR-4i-cMN"/>
-                                    <constraint firstAttribute="bottom" secondItem="iAF-WR-qdV" secondAttribute="bottom" id="nhq-JN-zKU"/>
                                     <constraint firstItem="wzt-TW-Bdv" firstAttribute="top" secondItem="ygD-oe-coz" secondAttribute="bottom" constant="20" id="qof-el-GXr"/>
                                     <constraint firstAttribute="trailing" secondItem="zCJ-1a-ZE1" secondAttribute="trailing" constant="20" id="rP8-eh-jhR"/>
                                     <constraint firstItem="ygD-oe-coz" firstAttribute="top" secondItem="GKw-5K-WZG" secondAttribute="bottom" constant="20" id="rYr-2J-Bx2"/>
@@ -282,7 +264,6 @@
                         <outlet property="imageButton" destination="FpL-aY-ojp" id="UaC-sf-R1s"/>
                         <outlet property="placeButton" destination="dSn-9e-IBp" id="5JR-Xa-rBp"/>
                         <outlet property="priceTextField" destination="tIq-DE-Xj8" id="Dec-g6-wDl"/>
-                        <outlet property="sugoButton" destination="iAF-WR-qdV" id="dys-mq-9Om"/>
                         <outlet property="titleTextField" destination="NSH-bc-97c" id="0sQ-AF-7HR"/>
                     </connections>
                 </viewController>

@@ -12,11 +12,9 @@ import KeychainSwift
 
 enum ChatRouter: URLRequestConvertible {
         
-  case chatList(roomIndex: Int,
-                oppositeIndex: Int,
-                oppositeNickname: String,
-                recentChat: String,
-                recentChatTime: String)
+  case chatList(page: Int,
+                size: Int)
+  // case chatRoom(noteId: Int, page: Int, size: Int)
 
   var baseURL: URL {
       return URL(string: API.BASE_URL + "/note")!

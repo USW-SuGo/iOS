@@ -170,14 +170,14 @@ class MyInfoController: UIViewController {
   @objc func modifyButtonClicked(sender: UIButton) {
     let indexPath = IndexPath(row: sender.tag, section: 0)
     let postingView = UIStoryboard(name: "PostingView", bundle: nil)
-    guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
-    postingNavigationController.modalPresentationStyle = .fullScreen
-    postingNavigationController.title = "게시글 수정"
     modifyData.productPostId = userPosting[indexPath.row].productIndex
     modifyData.title = userPosting[indexPath.row].title
     modifyData.category = userPosting[indexPath.row].category
     modifyData.price = userPosting[indexPath.row].price
     print(userPosting[indexPath.row].productIndex)
+    guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
+    postingNavigationController.modalPresentationStyle = .fullScreen
+    postingNavigationController.navigationBar.topItem?.title = "게시글 수정"
     self.present(postingNavigationController, animated: true)
   }
   

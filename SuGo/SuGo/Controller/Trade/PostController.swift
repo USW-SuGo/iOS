@@ -101,13 +101,14 @@ class PostController: UIViewController {
         
         if json != "" {
             
-            productContentsDetail.id = json["id"].intValue
-            productContentsDetail.contactPlace = json["contactPlace"].stringValue
-            productContentsDetail.title = json["title"].stringValue
-            productContentsDetail.price = decimalWon(price: json["price"].intValue)
-            productContentsDetail.nickname = json["nickname"].stringValue
-            productContentsDetail.category = json["category"].stringValue
-            productContentsDetail.content = json["content"].stringValue
+          productContentsDetail.productIndex = json["id"].intValue
+          productContentsDetail.contactPlace = json["contactPlace"].stringValue
+          productContentsDetail.title = json["title"].stringValue
+          productContentsDetail.price = decimalWon(price: json["price"].intValue)
+          productContentsDetail.nickname = json["nickname"].stringValue
+          productContentsDetail.category = json["category"].stringValue
+          productContentsDetail.content = json["content"].stringValue
+          productContentsDetail.userIndex = json["writerId"].intValue
             
             let jsonImages = json["imageLink"].stringValue
             var images = jsonImages.components(separatedBy: ", ").map({String($0)})
@@ -155,9 +156,23 @@ class PostController: UIViewController {
         }
     }
     
-    //MARK: Button Actions
-    
-    //MARK: Design Functions
+  //MARK: Button Actions
+  
+  @IBAction func sugoButtonClicked(_ sender: Any) {
+    AlamofireManager
+      .shared
+      .session
+      .request(MessageRouter.makeMessageRoom(opponentIndex: productContentsDetail.userIndex,
+                                             productIndex: productContentsDetail.productIndex))
+      .validate()
+      .responseJSON { response in
+        print(JSON(response.data ?? ""))
+        print(self.productContentsDetail.userIndex, self.productContentsDetail.productIndex)
+        
+      }
+  }
+  
+  //MARK: Design Functions
     
   private func updateDesign() {
     titleLabel.text = productContentsDetail.title

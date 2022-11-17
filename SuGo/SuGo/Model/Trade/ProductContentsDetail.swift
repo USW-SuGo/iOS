@@ -9,14 +9,14 @@ import Foundation
 
 struct ProductContentsDetail {
     
-    var id: Int = 0
-    var imageLink: [String] = [""]
-    var contactPlace: String = ""
-    var updatedAt: String = ""
-    var title: String = ""
-    var price: String = ""
-    var nickname: String = ""
-    var category: String = ""
-    var content: String = ""
-    
+  var productIndex: Int = 0
+  var imageLink: [String] = [""]
+  var contactPlace: String = ""
+  var updatedAt: String = ""
+  var title: String = ""
+  var price: String = ""
+  var nickname: String = ""
+  var category: String = ""
+  var content: String = ""
+  var userIndex: Int = 0
 }

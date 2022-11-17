@@ -10,7 +10,7 @@ import Foundation
 class ModifyProduct {
   static let shared = ModifyProduct()
   
-  var productPostId: Int?
+  var productIndex: Int?
   var title: String?
   var price: String?
   var category: String?

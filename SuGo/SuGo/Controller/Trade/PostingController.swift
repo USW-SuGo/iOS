@@ -17,7 +17,7 @@ import IQKeyboardManagerSwift
 
 
 class PostingController: UIViewController {
-
+  
   //MARK: IBOutlets
   
   @IBOutlet weak var titleTextField: UITextField!
@@ -28,6 +28,7 @@ class PostingController: UIViewController {
   @IBOutlet weak var imageButton: UIButton!
   @IBOutlet weak var categoryButton: UIButton!
 
+  @IBOutlet weak var photoCount: UILabel!
   //MARK: Properties
   
   var phAssetImages = [PHAsset]()
@@ -37,6 +38,7 @@ class PostingController: UIViewController {
   let textViewPlaceHolder = "수고할 상품에 대한 글을 작성해주세요! (거짓 정보 및 가품 등 문제가 될만한 글은 자동으로 삭제됩니다.)"
   let categorySelect = CategorySelect.shared
   let modifyData = ModifyProduct.shared
+  var contactPlace = ""
   var keyboardAppear = false
   
   //MARK: Functions
@@ -51,12 +53,14 @@ class PostingController: UIViewController {
     designButtons()
     customRightBarButton()
     customLeftBarButton()
-    self.navigationController?.navigationBar.backgroundColor = .white
+    customBackButton()
+//    self.navigationController?.navigationBar.backgroundColor = .white
 //    observerKeyboard()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     modifyPostingDataUpdate()
+    print(contactPlace)
   }
 
   
@@ -93,7 +97,6 @@ class PostingController: UIViewController {
       
       self.convertAssetToPriviewImage()
       self.convertAssetToRealImage()
-      self.collectionView.reloadData()
       })
 }
   
@@ -119,9 +122,10 @@ class PostingController: UIViewController {
               
         let data = thumbnail.jpegData(compressionQuality: 0.9)
         let newImage = UIImage(data: data!)
-        self.priviewImages.append(newImage! as UIImage)
-        
+        priviewImages.append(newImage! as UIImage)
       }
+      collectionView.reloadData()
+      photoCount.text = "\(priviewImages.count)/5"
     }
   }
   
@@ -146,7 +150,7 @@ class PostingController: UIViewController {
               
         let data = realImage.jpegData(compressionQuality: 0.9)
         let newImage = UIImage(data: data!)
-        self.realImages.append(newImage! as UIImage)
+        realImages.append(newImage! as UIImage)
       }
     }
   }
@@ -175,7 +179,7 @@ class PostingController: UIViewController {
     ]
     
     if modify {
-      guard let productPostId = modifyData.productPostId else { return }
+      guard let productPostId = modifyData.productIndex else { return }
       parameters.updateValue(productPostId, forKey: "productPostId")
       method = .put
     }
@@ -201,7 +205,7 @@ class PostingController: UIViewController {
               headers: header).responseJSON { response in
       print("modify - \(modify)")
       print("method - \(method)")
-      self.modifyData.productPostId = nil
+      self.modifyData.productIndex = nil
     }
       self.dismiss(animated: true)
   }
@@ -211,10 +215,13 @@ class PostingController: UIViewController {
     priceTextField.delegate = self
     contentTextView.delegate = self
   }
-  
-  @objc func closeButtonClicked() {
-    dismiss(animated: true)
+    
+
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    self.view.endEditing(true)
   }
+  
+  //MARK: Button Actions
   
   @objc func finishButtonClicked() { // 조건 추가 필요.
     let title = titleTextField.text?.count ?? 0
@@ -227,14 +234,14 @@ class PostingController: UIViewController {
     if title > 0 && content > 0  && contentTextView.text != textViewPlaceHolder && price > 0 && category != "" {
       
       var modify = false
-      if modifyData.productPostId != nil {
+      if modifyData.productIndex != nil {
         modify = true
       }
       
       postContent(title: titleTextField.text ?? "",
                   content: contentTextView.text ?? "",
                   priceText: priceTextField.text ?? "",
-                  contactPlace: "종합강의동",
+                  contactPlace: contactPlace,
                   category: categorySelect.postCategory,
                   modify: modify)
 
@@ -244,11 +251,10 @@ class PostingController: UIViewController {
     }
   }
     
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    self.view.endEditing(true)
-  }
   
-  //MARK: Button Actions
+  @objc func closeButtonClicked() {
+    dismiss(animated: true)
+  }
   
   @IBAction func priceTextFieldChanged(_ sender: Any) {
     checkMaxLength(textField: priceTextField, maxLength: 9)
@@ -269,19 +275,30 @@ class PostingController: UIViewController {
   }
   
   @IBAction func placeButtonClicked(_ sender: Any) {
+    let placeView = UIStoryboard(name: "PlaceView", bundle: nil)
+    let placeController = placeView.instantiateViewController(withIdentifier: "placeVC") as! PlaceViewController
+    placeController.delegate = self
+    navigationController?.pushViewController(placeController, animated: true)
   }
   
   @objc func imageDeleteButtonClicked(sender: UIButton) {
-      let indexPath = IndexPath(row: sender.tag, section: 0)
-      priviewImages.remove(at: indexPath.row)
-      realImages.remove(at: indexPath.row)
-      self.collectionView.reloadData()
+    let indexPath = IndexPath(row: sender.tag, section: 0)
+    priviewImages.remove(at: indexPath.row)
+    realImages.remove(at: indexPath.row)
+    photoCount.text = "\(priviewImages.count)/5"
+    collectionView.reloadData()
   }
   
   //MARK: Design Functions
   
+  private func customBackButton() {
+      let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+      backButtonItem.tintColor = .darkGray
+      self.navigationItem.backBarButtonItem = backButtonItem
+  }
+  
   private func modifyPostingDataUpdate() {
-    if modifyData.productPostId != nil {
+    if modifyData.productIndex != nil {
       titleTextField.text = modifyData.title
       if let category = modifyData.category {
         categorySelect.postCategory = category
@@ -299,12 +316,10 @@ class PostingController: UIViewController {
   }
   
   private func customRightBarButton() {
-      
     let closeButton = self.navigationItem.makeSFSymbolButton(self,
                                                              action: #selector(closeButtonClicked),
                                                              symbolName: "xmark")
     self.navigationItem.rightBarButtonItem = closeButton
-
   }
   
   private func customAlert(title: String, message: String) {
@@ -333,6 +348,18 @@ class PostingController: UIViewController {
     imageButton.layer.borderWidth = 1.0
   }
   
+}
+
+extension PostingController: PlaceProtocol {
+  func sendPlacePopVC(contactPlace: String) {
+    self.contactPlace = contactPlace
+  }
+  func designButton(contactPlace: String) {
+    //Pretendard-SemiBold 16.0
+    placeButton.setTitle(contactPlace, for: .normal)
+    placeButton.setTitleColor(.white, for: .normal)
+    placeButton.backgroundColor = colorLiteralGreen
+  }
 }
 
 extension PostingController: UITextFieldDelegate {
@@ -387,7 +414,7 @@ extension PostingController: UICollectionViewDelegate, UICollectionViewDataSourc
       cell.itemImage.image = priviewImages[indexPath.row]
       cell.itemImage.layer.cornerRadius = 5
       cell.itemImage.layer.borderWidth = 2
-      cell.itemImage.layer.borderColor = UIColor.darkGray.cgColor
+      cell.itemImage.layer.borderColor = UIColor.white.cgColor
       cell.deleteButton.tag = indexPath.row
       cell.deleteButton.addTarget(self, action: #selector(imageDeleteButtonClicked), for: .touchUpInside)
 

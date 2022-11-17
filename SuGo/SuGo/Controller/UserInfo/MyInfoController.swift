@@ -170,7 +170,7 @@ class MyInfoController: UIViewController {
   @objc func modifyButtonClicked(sender: UIButton) {
     let indexPath = IndexPath(row: sender.tag, section: 0)
     let postingView = UIStoryboard(name: "PostingView", bundle: nil)
-    modifyData.productPostId = userPosting[indexPath.row].productIndex
+    modifyData.productIndex = userPosting[indexPath.row].productIndex
     modifyData.title = userPosting[indexPath.row].title
     modifyData.category = userPosting[indexPath.row].category
     modifyData.price = userPosting[indexPath.row].price

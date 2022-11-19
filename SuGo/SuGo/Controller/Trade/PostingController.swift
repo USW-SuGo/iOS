@@ -253,6 +253,10 @@ class PostingController: UIViewController {
     
   
   @objc func closeButtonClicked() {
+    modifyData.title = nil
+    modifyData.category = nil
+    modifyData.productIndex = nil
+    modifyData.price = nil
     dismiss(animated: true)
   }
   

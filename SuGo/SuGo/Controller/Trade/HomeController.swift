@@ -335,26 +335,26 @@ class HomeController: UIViewController {
         self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
     }
     
-    private func customBackButton() {
-        let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        backButtonItem.tintColor = .darkGray
-        self.navigationItem.backBarButtonItem = backButtonItem
-    }
+  private func customBackButton() {
+    let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    backButtonItem.tintColor = .darkGray
+    self.navigationItem.backBarButtonItem = backButtonItem
+  }
+  
+  private func searchViewDesign() {
+    searchView.layer.cornerRadius = 10.0
+    searchView.layer.borderWidth = 0.5
+    searchView.layer.borderColor = UIColor.lightGray.cgColor
+  }
+  
+  private func noSearchResultViewDesign(searchData: String) {
+    noSearchResultView.isHidden = false
+    noSearchResultLabel.text = "' \(searchData) '"
     
-    private func searchViewDesign() {
-        searchView.layer.cornerRadius = 10.0
-        searchView.layer.borderWidth = 0.5
-        searchView.layer.borderColor = UIColor.lightGray.cgColor
-    }
-    
-    private func noSearchResultViewDesign(searchData: String) {
-        noSearchResultView.isHidden = false
-        noSearchResultLabel.text = "' \(searchData) '"
-        
-        showHomeButton.layer.cornerRadius = 8.0
-        showHomeButton.layer.borderColor = UIColor.white.cgColor
-        showHomeButton.layer.borderWidth = 0.2
-    }
+    showHomeButton.layer.cornerRadius = 8.0
+    showHomeButton.layer.borderColor = UIColor.white.cgColor
+    showHomeButton.layer.borderWidth = 0.2
+  }
     
 }
 
@@ -409,7 +409,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
       AlamofireManager
         .shared
         .session
-        .request(PostRouter.getDetailPost(productPostId: homeProductContents[indexPath.row].productIndex))
+        .request(PostRouter.getDetailPost(productIndex: homeProductContents[indexPath.row].productIndex))
         .validate()
         .responseJSON { response in
           // if users have token and refreshToken still alive

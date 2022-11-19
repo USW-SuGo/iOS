@@ -9,6 +9,7 @@ import UIKit
 
 import Alamofire
 import ImageSlideshow
+import KeychainSwift
 import SwiftyJSON
 
 class PostController: UIViewController {
@@ -26,12 +27,12 @@ class PostController: UIViewController {
   @IBOutlet weak var nicknameLabel: UILabel!
   @IBOutlet weak var priceLabel: UILabel!
   @IBOutlet weak var contentView: UILabel!
+  @IBOutlet weak var likeButton: UIButton!
   
   //MARK: Properties
     
   var productPostId = 0
   var productContentsDetail = ProductContentsDetail()
-  // imageFiles
   var alamofireSource: [AlamofireSource] = []
     
   //MARK: Functions
@@ -43,53 +44,49 @@ class PostController: UIViewController {
   }
     
   private func setSlideShow() {
-      
-      // 자동 슬라이드
-      // slideshow.slideshowInterval = 5.0
-      
-      // 이미지 포지션
-      slideshow.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
-      slideshow.contentScaleMode = UIViewContentMode.scaleAspectFill
+    // 이미지 포지션
+    slideshow.pageIndicatorPosition = .init(horizontal: .center, vertical: .under)
+    slideshow.contentScaleMode = UIViewContentMode.scaleAspectFill
 
-      let pageIndicator = UIPageControl()
-      pageIndicator.currentPageIndicatorTintColor = UIColor.systemGreen
-      pageIndicator.pageIndicatorTintColor = UIColor.lightGray
-      slideshow.pageIndicator = pageIndicator
+    let pageIndicator = UIPageControl()
+    pageIndicator.currentPageIndicatorTintColor = UIColor.systemGreen
+    pageIndicator.pageIndicatorTintColor = UIColor.lightGray
+    slideshow.pageIndicator = pageIndicator
 
-      // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
-      slideshow.activityIndicator = DefaultActivityIndicator()
-      slideshow.delegate = self
+    // optional way to show activity indicator during image load (skipping the line will show no activity indicator)
+    slideshow.activityIndicator = DefaultActivityIndicator()
+    slideshow.delegate = self
 
-      // image input
-      slideshow.setImageInputs(alamofireSource)
+    // image input
+    slideshow.setImageInputs(alamofireSource)
 
-      // page 넘기기 이벤트
-      let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
-      slideshow.addGestureRecognizer(recognizer)
-      
+    // page 넘기기 이벤트
+    let recognizer = UITapGestureRecognizer(target: self, action: #selector(didTap))
+    slideshow.addGestureRecognizer(recognizer)
   }
     
   @objc func didTap() {
-         let fullScreenController = slideshow.presentFullScreenController(from: self)
-         // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
-         fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .white, color: nil)
-     }
+     let fullScreenController = slideshow.presentFullScreenController(from: self)
+     // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
+     fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium,
+                                                                                 color: nil)
+   }
     
   func decimalWon(price: Int) -> String {
-      let numberFormatter = NumberFormatter()
-      numberFormatter.numberStyle = .decimal
-      let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
-      
-      return result
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .decimal
+    let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
+    
+    return result
   }
     
-    //MARK: API Functions
+  //MARK: API Functions
     
   private func getPostProduct() {
       AlamofireManager
           .shared
           .session
-          .request(PostRouter.getDetailPost(productPostId: productPostId))
+          .request(PostRouter.getDetailPost(productIndex: productPostId))
           .validate()
           .responseJSON { response in
             guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
@@ -109,6 +106,7 @@ class PostController: UIViewController {
           productContentsDetail.category = json["category"].stringValue
           productContentsDetail.content = json["content"].stringValue
           productContentsDetail.userIndex = json["writerId"].intValue
+          productContentsDetail.userLikeStatus = json["userLikeStatus"].boolValue
             
             let jsonImages = json["imageLink"].stringValue
             var images = jsonImages.components(separatedBy: ", ").map({String($0)})
@@ -158,6 +156,31 @@ class PostController: UIViewController {
     
   //MARK: Button Actions
   
+  @IBAction func likeButtonClicked(_ sender: Any) {
+    let url = "https://api.sugo-diger.com/like"
+    let parameter = ["productPostId" : productContentsDetail.productIndex]
+    guard let accessToken = KeychainSwift().get("AccessToken") else { return }
+    let header: HTTPHeaders = ["Authorization" : accessToken]
+    
+    AF.request(url,
+               method: .post,
+               parameters: parameter,
+               encoding: JSONEncoding.default,
+               headers: header,
+               interceptor: BaseInterceptor()).validate().responseJSON { response in
+      guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+      guard let responseData = response.data else { return }
+      if JSON(responseData)["Like"].boolValue {
+        self.likeButton.setImage(UIImage(systemName: "heart.fill"),
+                                 for: .normal)
+      } else {
+        self.likeButton.setImage(UIImage(systemName: "heart"),
+                                 for: .normal)
+      }
+      print(JSON(response.data))
+    }
+  }
+  
   @IBAction func sugoButtonClicked(_ sender: Any) {
     AlamofireManager
       .shared
@@ -180,6 +203,14 @@ class PostController: UIViewController {
     nicknameLabel.text = productContentsDetail.nickname
     priceLabel.text = productContentsDetail.price
     contentView.text = productContentsDetail.content
+    if productContentsDetail.userLikeStatus == true {
+      likeButton.setImage(UIImage(systemName: "heart.fill"),
+                          for: .normal)
+    } else {
+      likeButton.setImage(UIImage(systemName: "heart"),
+                          for: .normal)
+      
+    }
   }
 
   private func designButtons() {

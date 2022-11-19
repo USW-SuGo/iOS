@@ -8,12 +8,12 @@
 import Foundation
 
 struct MessageList {
-  var roomIndex: Int?
-  var oppositeIndex: Int?
-  var oppositeNickname: String?
-  var recentMessage: String?
-  var recentMessageTime: String?
-  var newMessageCount: Int?
+  var roomIndex: Int = 0
+  var oppositeIndex: Int = 0
+  var oppositeNickname: String = ""
+  var recentMessage: String = ""
+  var recentMessageTime: String = ""
+  var newMessageCount: Int = 0
 }
 
 

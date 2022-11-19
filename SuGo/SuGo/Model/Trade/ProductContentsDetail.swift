@@ -8,7 +8,6 @@
 import Foundation
 
 struct ProductContentsDetail {
-    
   var productIndex: Int = 0
   var imageLink: [String] = [""]
   var contactPlace: String = ""
@@ -19,4 +18,5 @@ struct ProductContentsDetail {
   var category: String = ""
   var content: String = ""
   var userIndex: Int = 0
+  var userLikeStatus: Bool = false
 }

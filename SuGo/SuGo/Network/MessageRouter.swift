@@ -21,11 +21,11 @@ enum MessageRouter: URLRequestConvertible {
                    size: Int)
   case sendMessage(roomIndex: Int,
                    message: String,
-                   myIndex: Int,
-                   opponentIndex: Int)
+                   senderId: Int,
+                   receiverId: Int)
 
   var baseURL: URL {
-      return URL(string: API.BASE_URL + "/note")!
+      return URL(string: API.BASE_URL)!
   }
 
   var method: HTTPMethod {
@@ -40,13 +40,13 @@ enum MessageRouter: URLRequestConvertible {
   var path: String {
       switch self {
       case .messageList:
-        return "/list"
+        return "/note/list"
       case .makeMessageRoom:
-        return ""
+        return "/note"
       case .messageRoom:
-        return "/"
+        return "/note/"
       case .sendMessage:
-        return "-content/"
+        return "/note-content/"
       }
   }
   
@@ -68,12 +68,12 @@ enum MessageRouter: URLRequestConvertible {
         "opponentUserId" : opponentIndex,
         "productPostId" : productIndex
       ]
-    case .sendMessage(let roomIndex, let message, let myIndex, let opponentIndex):
+    case .sendMessage(let roomIndex, let message, let senderId, let receiverId):
       return [
         "noteId" : roomIndex,
         "message" : message,
-        "senderId" : myIndex,
-        "receiverId" : opponentIndex
+        "senderId" : senderId,
+        "receiverId" : receiverId
       ]
     }
   }

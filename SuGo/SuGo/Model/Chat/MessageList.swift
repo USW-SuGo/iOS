@@ -9,6 +9,7 @@ import Foundation
 
 struct MessageList {
   var roomIndex: Int = 0
+  var myIndex: Int = 0
   var oppositeIndex: Int = 0
   var oppositeNickname: String = ""
   var recentMessage: String = ""

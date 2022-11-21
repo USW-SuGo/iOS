@@ -19,51 +19,60 @@ class MessageListControoler: UIViewController {
   //MARK: Properties
   
   var messageList: [MessageList] = []
+  var page = 0
+  private lazy var refresh: UIRefreshControl = {
+    let refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action: #selector(callRefresh), for: .valueChanged)
+    return refreshControl
+  }()
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    customBackButton()
     customRightBarButton()
-    getMessageList()
+    tableView.refreshControl = refresh
+    getMessageList(page: page, size: 10)
   }
 
   //MARK: Functions
   
-  private func getMessageList() {
+  // refreshControl 추가 필요
+  
+  @objc
+  private func callRefresh() {
+    tableView.refreshControl?.beginRefreshing()
+    page = 0
+    messageList.removeAll()
+    getMessageList(page: page, size: 10)
+    tableView.refreshControl?.endRefreshing()
+  }
+  
+  private func getMessageList(page: Int, size: Int) {
     AlamofireManager
       .shared
       .session
-      .request(MessageRouter.messageList(page: 0, size: 10))
+      .request(MessageRouter.messageList(page: page, size: size))
       .validate()
       .responseJSON { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-        self.jsonToCollectionViewData(json: JSON(response.data ?? ""))
+        self.jsonToTableViewData(json: JSON(response.data ?? ""))
+        print(JSON(response.data ?? ""))
       }
   }
-
-  private func jsonToCollectionViewData(json: JSON) {
-    let messageRoomIMade = json["LoadNoteListCreatingByRequestUserForm"]
-    let messageRoomOpponentMade = json["LoadNoteListCreatingByOpponentUserForm"]
-    print(json)
-    for i in 0..<messageRoomIMade.count {
-      let message = MessageList(roomIndex: messageRoomIMade[i]["roomId"].intValue,
-                                oppositeIndex: messageRoomIMade[i]["opponentUserId"].intValue,
-                                oppositeNickname: messageRoomIMade[i]["opponentUserNickname"].stringValue,
-                                recentMessage: messageRoomIMade[i]["recentContent"].stringValue,
-                                recentMessageTime: dateToString(localDateTime: messageRoomIMade, index: i),
-                                newMessageCount: messageRoomIMade[i]["creatingUserUnreadCount"].intValue)
-      messageList.append(message)
-    }
-    
-    for i in 0..<messageRoomOpponentMade.count {
-      let message = MessageList(roomIndex: messageRoomOpponentMade[i]["roomId"].intValue,
-                                oppositeIndex: messageRoomOpponentMade[i]["creatingUserId"].intValue,
-                                oppositeNickname: messageRoomOpponentMade[i]["creatingUserNickname"].stringValue,
-                                recentMessage: messageRoomOpponentMade[i]["recentContent"].stringValue,
-                                recentMessageTime: dateToString(localDateTime: messageRoomOpponentMade, index: i),
-                                newMessageCount: messageRoomOpponentMade[i]["opponentUserUnreadCount"].intValue)
+  
+  private func jsonToTableViewData(json: JSON) {
+    for i in 0..<json.count {
+      let message = MessageList(roomIndex: json[i]["noteId"].intValue,
+                                myIndex: json[i]["requestUserId"].intValue,
+                                oppositeIndex: json[i]["opponentUserId"].intValue,
+                                oppositeNickname: json[i]["opponentUserNickname"].stringValue,
+                                recentMessage: json[i]["recentContent"].stringValue,
+                                recentMessageTime: dateToString(localDateTime: json, index: i),
+                                newMessageCount: json[i]["requestUserUnreadCount"].intValue)
       messageList.append(message)
     }
     print(messageList)
+    tableView.reloadData()
   }
   
   private func dateToString(localDateTime: JSON, index: Int) -> String {
@@ -87,6 +96,12 @@ class MessageListControoler: UIViewController {
   
   //MARK: Design Functions
   
+  private func customBackButton() {
+    let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    backButtonItem.tintColor = .darkGray
+    self.navigationItem.backBarButtonItem = backButtonItem
+  }
+
   private func customRightBarButton() {
     let closeButton = self.navigationItem.makeSFSymbolButton(self,
                                                              action: #selector(closeButtonClicked),
@@ -98,18 +113,33 @@ class MessageListControoler: UIViewController {
 
 extension MessageListControoler: UITableViewDelegate, UITableViewDataSource {
   
+  // 무한 스크롤 추가 필요
+  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 3
+    return messageList.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "chatingListCell", for: indexPath) as! ChatingListCell
-    
+    let cell = tableView.dequeueReusableCell(withIdentifier: "messageListCell", for: indexPath) as! MessageListCell
+    cell.userNicknameLabel.text = messageList[indexPath.row].oppositeNickname
+    cell.recentMessageLabel.text = messageList[indexPath.row].recentMessage
+    cell.recentMessageTimeLabel.text = messageList[indexPath.row].recentMessageTime
     return cell
   }
+  
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let messageRoomView = UIStoryboard(name: "MessageRoomView", bundle: nil)
+    let messageRoomController = messageRoomView.instantiateViewController(withIdentifier: "messageRoomVC")
+    as! MessageRoomController
+    messageRoomController.sendMessage.roomIndex = messageList[indexPath.row].roomIndex
+    messageRoomController.sendMessage.myIndex = messageList[indexPath.row].myIndex
+    messageRoomController.sendMessage.oppositeIndex = messageList[indexPath.row].oppositeIndex
+    navigationController?.pushViewController(messageRoomController, animated: true)
+  }
+  
 }
 
-class ChatingListCell: UITableViewCell {
+class MessageListCell: UITableViewCell {
   
   @IBOutlet weak var userNicknameLabel: UILabel!
   @IBOutlet weak var recentMessageLabel: UILabel!
@@ -118,8 +148,9 @@ class ChatingListCell: UITableViewCell {
   override func awakeFromNib() {
     super.awakeFromNib()
     // Initialization code
-}
+  }
   
   override func layoutSubviews() {
   }
+  
 }

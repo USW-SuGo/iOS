@@ -8,8 +8,9 @@
 import Foundation
 
 struct MessageRoom {
-  var myIndex: Int?
-  var opponentIndex: Int?
-  var message: String?
-  var messageTime: String?
+  var myIndex: Int = 0
+  var senderIndex: Int = 0
+  var receiverIndex: Int = 0
+  var message: String = ""
+  var messageTime: String = ""
 }

@@ -50,6 +50,7 @@ class PostingController: UIViewController {
                                            selector: #selector(postBottomDismissObserver),
                                            name: NSNotification.Name("postBottomDismiss"),
                                            object: nil)
+    navigationController?.navigationBar.backgroundColor = .white
     designButtons()
     customRightBarButton()
     customLeftBarButton()
@@ -355,9 +356,11 @@ class PostingController: UIViewController {
 }
 
 extension PostingController: PlaceProtocol {
+  
   func sendPlacePopVC(contactPlace: String) {
     self.contactPlace = contactPlace
   }
+  
   func designButton(contactPlace: String) {
     //Pretendard-SemiBold 16.0
     placeButton.setTitle(contactPlace, for: .normal)
@@ -391,7 +394,7 @@ extension PostingController: UITextViewDelegate {
   func textViewDidBeginEditing(_ textView: UITextView) {
       if contentTextView.text == textViewPlaceHolder {
           contentTextView.text = nil
-          contentTextView.textColor = .darkGray
+          contentTextView.textColor = .black
       }
   }
   

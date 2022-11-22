@@ -22,6 +22,12 @@ class MessageRoomController: UIViewController {
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   var messageRoom: [MessageRoom] = []
   var page = 0
+  var lastPage = false
+  private lazy var refresh: UIRefreshControl = {
+    let refreshControl = UIRefreshControl()
+    refreshControl.addTarget(self, action: #selector(callRefresh), for: .valueChanged)
+    return refreshControl
+  }()
   
   // roomIndex: 6, oppositeIndex: 1, oppositeNickname: "정보보호학과-1", recentMessage: "ios\n", recentMessageTime: "11-20 19:49", newMessageCount: 0
   
@@ -37,14 +43,40 @@ class MessageRoomController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    customRightBarButton()
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 80
-    getMessageRoom(roomIndex: sendMessage.roomIndex, page: 0, size: 10)
-    // Do any additional setup after loading the view.
+    tableView.refreshControl = refresh
+    customRightBarButton()
+    initializeMessageRoom()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    print("view will appear")
+    initializeMessageRoom()
   }
   
   //MARK: Functions
+  
+  private func initializeMessageRoom() {
+    page = 0
+    lastPage = false
+    messageRoom.removeAll()
+    getMessageRoom(roomIndex: sendMessage.roomIndex,
+                   page: page,
+                   size: 10)
+  }
+  
+  @objc
+  private func callRefresh() {
+    tableView.refreshControl?.beginRefreshing()
+    page = 0
+    lastPage = false
+    messageRoom.removeAll()
+    getMessageRoom(roomIndex: sendMessage.roomIndex,
+                   page: page,
+                   size: 10)
+    tableView.refreshControl?.endRefreshing()
+  }
   
   private func getMessageRoom(roomIndex: Int, page: Int, size: Int) {
     AlamofireManager
@@ -59,6 +91,9 @@ class MessageRoomController: UIViewController {
   }
   
   private func jsonToTableViewData(json: JSON) {
+    if json.count < 10 {
+      lastPage = true
+    }
     for i in 0..<json.count {
       let message = MessageRoom(myIndex: json[i]["requestUserId"].intValue,
                                     senderIndex: json[i]["messageSenderId"].intValue,
@@ -68,7 +103,6 @@ class MessageRoomController: UIViewController {
       messageRoom.append(message)
     }
     tableView.reloadData()
-    print(messageRoom)
   }
   
   private func dateToString(localDateTime: JSON, index: Int) -> String {
@@ -78,7 +112,6 @@ class MessageRoomController: UIViewController {
     let convertLocalToDate = dateFormatter.date(from: localDateTime) ?? Date()
     dateFormatter.dateFormat = "MM-dd HH:mm"
     let recentMessageTime = dateFormatter.string(from: convertLocalToDate)
-    print(recentMessageTime)
     
     return recentMessageTime
   }
@@ -109,6 +142,18 @@ class MessageRoomController: UIViewController {
 }
 
 extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
+  
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    let lastIndex = messageRoom.count - 2
+    if lastIndex == indexPath.row {
+      page += 1
+      if !lastPage {
+        getMessageRoom(roomIndex: sendMessage.roomIndex,
+                       page: page,
+                       size: 10)
+      }
+    }
+  }
   
   func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension

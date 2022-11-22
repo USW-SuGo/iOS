@@ -49,10 +49,10 @@ class SendMessageController: UIViewController {
                                          receiverId: sendMessage.oppositeIndex))
       .validate()
       .responseJSON { response in
-        print(JSON(response.data ?? ""))
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+        print("dismiss")
+        self.dismiss(animated: true)
       }
-    
-//    dismiss(animated: true)
   }
   
   @IBAction func closeButtonClicked(_ sender: Any) {

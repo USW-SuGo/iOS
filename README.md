@@ -30,6 +30,15 @@
 | :---: | :---: | :---: |
 | ![게시글 자세히 보기](https://user-images.githubusercontent.com/49385546/204085166-b7b48afa-0147-4d2c-beec-91919121b1f4.gif) | ![수고 올리기1](https://user-images.githubusercontent.com/49385546/204085173-3e01978e-23dc-43e3-8151-1fe98687c068.gif) | ![수고 올리기2](https://user-images.githubusercontent.com/49385546/204085174-96c99d14-7b0e-4674-abbe-f0c74124782d.gif) |
 
+| **회원가입** | | |
+| :---: | :---: | :---: |
+| ![회원가입 1](https://user-images.githubusercontent.com/49385546/204085252-f0324860-cf6e-47ac-8d28-03b1f1f31744.png) | ![회원가입 2](https://user-images.githubusercontent.com/49385546/204085253-24aaa103-64df-4d58-a787-aeeb42b1eafa.png) | ![회원가입 3](https://user-images.githubusercontent.com/49385546/204085256-c5ce6941-d177-4a55-94d4-d0f28948060f.png) |
+ 
+| **회원가입** | | |
+| :---: | :---: | :---: |
+| ![회원가입 1](https://user-images.githubusercontent.com/49385546/204085314-d171f51e-8f04-4ae5-bfb1-78bd8434bc02.png) | ![회원가입 2](https://user-images.githubusercontent.com/49385546/204085315-3ed912c5-3f76-4af2-8292-e7c62732b6dc.png) | ![회원가입 3](https://user-images.githubusercontent.com/49385546/204085311-a7404bf6-7898-401e-bba1-4e2e338e816b.png) | 
+
+ 
 <br> 
 </div>
 </details>

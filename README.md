@@ -55,21 +55,26 @@
 - Swift
 - UIKit
 - Alamofire / SwiftyJSON
-- Firebase
-- Realm
-- Keychain, UserDefaults
-
+- Keychain
+- MVC
+- KingFisher
+- iQKeyboardManager
+- BSImagePicker
+- Photos
+- ImageSlideShow
+ 
 ### 기능 키워드
 
-- UITableView
-- UIScrollView
 - UICollectionView
-- Delegate
-- UITextView
-- UITextField
+- UITableView
+- Photos
+- PHAssets
 - Network
-- UITabBarController
-- NotificationCenter
-
+- Singleton
+- Observer
+- MultipartFormData
+- UITabbarController
+- Extension
+ 
 </div>
 </details>

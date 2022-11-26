@@ -62,6 +62,8 @@
 - BSImagePicker
 - Photos
 - ImageSlideShow
+- Singleton
+- Observer
  
 ### 기능 키워드
 
@@ -70,8 +72,6 @@
 - Photos
 - PHAssets
 - Network
-- Singleton
-- Observer
 - MultipartFormData
 - UITabbarController
 - Extension

@@ -16,26 +16,20 @@
 <summary>살펴보기</summary>
 <div markdown="1">
 
-| **시간표** |||
-| :---: | :---: | :---: |
-| ![시간표](https://velog.velcdn.com/images/sozohoy/post/6ae52c9c-baf0-45ec-b555-e7c328625b47/image.png) | ![](https://velog.velcdn.com/images/sozohoy/post/b7f50284-825a-4be2-ac15-945d3c1b02d7/image.png) | ![](https://velog.velcdn.com/images/sozohoy/post/e0bd5c99-e318-4d3f-a13e-7ed2cf7a7788/image.png) |
 
-| **강의평가 메인** | **강의평가 필터링** | **강의평가 상세보기** |
-| :---: | :---: | :---: |
-| ![강의평가 메인](https://user-images.githubusercontent.com/49385546/203537086-e4477b92-67df-4344-9704-54f95645f032.gif) | ![강의평가 필터링](https://user-images.githubusercontent.com/49385546/203535149-f4583326-e5cd-43a3-98a0-c2cd59603d91.gif) | ![강의평가 상세보기](https://user-images.githubusercontent.com/49385546/203535036-ffba8e80-e37a-4e3b-a07c-1d6f982dafc2.gif) |
-
-| **강의평가 작성** | **강의평가 검색** | **내 정보** |
-| :---: | :---: | :---: |
-| ![강의평가 작성](https://user-images.githubusercontent.com/49385546/203535237-24fd2012-e67f-4a8c-8ea6-e7396d313343.gif) | ![강의평가 작성](https://user-images.githubusercontent.com/49385546/203535225-44509bb3-3b4e-4a63-9f39-1f00e40cacb7.gif) | ![내 정보](https://user-images.githubusercontent.com/49385546/203537127-ad26a47f-7260-43d9-a974-0db9ba7860af.gif) |
-
-| **로그인** |||
-| :---: | :---: | :---: |
-| ![로그인](https://i.ibb.co/drqHwZ4/1.png) | ![](https://i.ibb.co/W3Lk4D6/2.png) | ![](https://i.ibb.co/W3Lk4D6/2.png) |
-
-| **회원가입** |||
-| :---: | :---: | :---: |
-| ![회원가입](https://user-images.githubusercontent.com/49385546/203537563-f0d11807-74a2-44ef-becd-6ca0899ad5d3.png) | ![](https://user-images.githubusercontent.com/49385546/203537574-d8aec9c1-b6a5-41a1-8542-af8473f2acd7.png) | ![](https://user-images.githubusercontent.com/49385546/203537585-f138b2f7-faae-4982-a66a-c774c12ecf47.png) |
  
+| **로그인** | **쪽지 내용** | **쪽지 보내기** |
+| :---: | :---: | :---: |
+| ![로그인](https://user-images.githubusercontent.com/49385546/204084797-1d7e1c22-7e8f-41d8-b7f2-0664b22d1da0.png) | ![쪽지](https://user-images.githubusercontent.com/49385546/204084980-98034924-06b4-4851-b1b3-b9b0dc98db07.png) | ![쪽지 보내기](https://user-images.githubusercontent.com/49385546/204084770-efa56a52-5d4f-46cb-9ba7-213b776abf73.png) |
+
+| **메인 페이지** | **물건 검색** | **물건 필터링** |
+| :---: | :---: | :---: |
+| ![메인 페이지](https://user-images.githubusercontent.com/49385546/204085073-7ffd9b8c-917d-4d2f-b947-773b2172e0c1.gif) | ![물건 검색](https://user-images.githubusercontent.com/49385546/204085080-18278bc4-45df-471b-bc4e-e120fa43ddef.gif) | ![물건 필터링](https://user-images.githubusercontent.com/49385546/204085077-64c82383-5428-475e-8445-1a57c49e236c.gif) |
+
+| **게시글 자세히 보기** | **수고 올리기** | |
+| :---: | :---: | :---: |
+| ![게시글 자세히 보기](https://user-images.githubusercontent.com/49385546/204085166-b7b48afa-0147-4d2c-beec-91919121b1f4.gif) | ![수고 올리기1](https://user-images.githubusercontent.com/49385546/204085173-3e01978e-23dc-43e3-8151-1fe98687c068.gif) | ![수고 올리기2](https://user-images.githubusercontent.com/49385546/204085174-96c99d14-7b0e-4674-abbe-f0c74124782d.gif) |
+
 <br> 
 </div>
 </details>

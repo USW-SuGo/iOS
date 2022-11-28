@@ -15,7 +15,7 @@ enum LoginRouter: URLRequestConvertible {
   case join(loginId: String, email: String, password: String, department: String)
   case login(loginId: String, passsword: String)
   case checkAuthNumber(userId: Int, payload: String)
-
+  
   var baseURL: URL {
     return URL(string: API.BASE_URL + "/user")!
   }
@@ -23,7 +23,7 @@ enum LoginRouter: URLRequestConvertible {
   var method: HTTPMethod {
     switch self {
     case .checkEmail, .checkLoginId, .join, .login, .checkAuthNumber:
-        return .post
+      return .post
     }
   }
 

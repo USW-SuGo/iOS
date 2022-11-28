@@ -10,6 +10,10 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
+protocol MessageRoomIndex {
+  func getIndex(roomIndex: Int, myIndex: Int, oppositeIndex: Int)
+}
+
 class MessageRoomController: UIViewController {
 
   //MARK: IBOutlets
@@ -140,6 +144,15 @@ class MessageRoomController: UIViewController {
   }
 
 }
+
+extension MessageRoomController: MessageRoomIndex {
+  func getIndex(roomIndex: Int, myIndex: Int, oppositeIndex: Int) {
+    self.sendMessage.roomIndex = roomIndex
+    self.sendMessage.myIndex = myIndex
+    self.sendMessage.oppositeIndex = oppositeIndex
+  }
+}
+
 
 extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   

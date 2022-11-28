@@ -34,12 +34,15 @@ class PostController: UIViewController {
   var productPostId = 0
   var productContentsDetail = ProductContentsDetail()
   var alamofireSource: [AlamofireSource] = []
+  var indexDelegate: MessageRoomIndex?
     
   //MARK: Functions
     
   override func viewDidLoad() {
     super.viewDidLoad()
+    customBackButton()
     getPostProduct()
+    getMyIndex()
     designButtons()
   }
     
@@ -81,6 +84,22 @@ class PostController: UIViewController {
   }
     
   //MARK: API Functions
+  
+  private func getMyIndex() {
+    let url = API.BASE_URL + "/user/identifier"
+    guard let accessToken = KeychainSwift().get("AccessToken") else { return }
+    let header: HTTPHeaders = ["Authorization" : accessToken]
+    
+    AF.request(url,
+               method: .get,
+               encoding: URLEncoding.default,
+               headers: header,
+               interceptor: BaseInterceptor()).validate().responseJSON { response in
+      guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+      guard let data = response.data else { return }
+      self.productContentsDetail.myIndex = JSON(data)["userId"].intValue
+    }
+  }
     
   private func getPostProduct() {
       AlamofireManager
@@ -189,14 +208,28 @@ class PostController: UIViewController {
                                              productIndex: productContentsDetail.productIndex))
       .validate()
       .responseJSON { response in
-        print(JSON(response.data ?? ""))
-        print(self.productContentsDetail.userIndex, self.productContentsDetail.productIndex)
-        
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+        guard let data = response.data else { return }
+        print(JSON(data))
+        // 수고하기 버튼 클릭 후 바로 쪽지방으로 연결, 쪽지 데이터 없을 경우 공지사항같은거 만들어줘야 함
+        let messageRoomView = UIStoryboard(name: "MessageRoomView", bundle: nil)
+        guard let messageRoomController = messageRoomView.instantiateViewController(withIdentifier: "messageRoomVC") as? MessageRoomController else { return }
+        self.indexDelegate?.getIndex(roomIndex: JSON(data)["noteId"].intValue,
+                                myIndex: self.productContentsDetail.myIndex,
+                                oppositeIndex: self.productContentsDetail.userIndex)
+        self.navigationController?.pushViewController(messageRoomController,
+                                                      animated: true)
       }
   }
   
   //MARK: Design Functions
     
+  private func customBackButton() {
+    let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    backButtonItem.tintColor = .darkGray
+    self.navigationItem.backBarButtonItem = backButtonItem
+  }
+  
   private func updateDesign() {
     titleLabel.text = productContentsDetail.title
     placeUpdateCategoryLabel.text = "\(productContentsDetail.contactPlace) | \(productContentsDetail.updatedAt) | \(productContentsDetail.category)"
@@ -209,7 +242,6 @@ class PostController: UIViewController {
     } else {
       likeButton.setImage(UIImage(systemName: "heart"),
                           for: .normal)
-      
     }
   }
 
@@ -218,10 +250,10 @@ class PostController: UIViewController {
     sugoButton.layer.borderWidth = 1.0
     sugoButton.layer.borderColor = UIColor.white.cgColor
   }
-    
-    
 
 }
+
+
 
 extension PostController: ImageSlideshowDelegate {
     func imageSlideshow(_ imageSlideshow: ImageSlideshow, didChangeCurrentPageTo page: Int) {

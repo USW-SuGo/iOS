@@ -17,7 +17,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--쪽지-->
+        <!--Message Room Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="messageRoomVC" id="Y6W-OH-hqX" customClass="MessageRoomController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -26,7 +26,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="NKP-H1-Wbu">
-                                <rect key="frame" x="0.0" y="103" width="393" height="715"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="messageRoomCell" rowHeight="80" id="2lB-62-Umd" customClass="MessageRoomCell" customModule="SuGo" customModuleProvider="target">
@@ -91,7 +91,6 @@
                             <constraint firstItem="NKP-H1-Wbu" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="eEi-Ea-lZx"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="쪽지" id="BCd-1C-ymY"/>
                     <connections>
                         <outlet property="tableView" destination="NKP-H1-Wbu" id="wNb-cO-dEH"/>
                     </connections>
@@ -99,28 +98,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1057.2519083969464" y="-27.464788732394368"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="RPh-dI-S0G">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="7kL-90-yV5" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="x6u-Qy-Zyo">
-                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="15"/>
-                        </textAttributes>
-                        <navigationBarAppearance key="standardAppearance"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="5bK-Lu-oy3"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="PI9-OI-qzK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="130.53435114503816" y="-27.464788732394368"/>
         </scene>
     </scenes>
     <resources>

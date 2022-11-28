@@ -9,7 +9,12 @@ import UIKit
 
 class LikePostingCell: UITableViewCell {
 
-    override func awakeFromNib() {
+  @IBOutlet weak var productImage: UIImageView!
+  @IBOutlet weak var placeUpdateCategoryLabel: UILabel!
+  @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var priceLabel: UILabel!
+  
+  override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }

@@ -19,4 +19,5 @@ struct ProductContentsDetail {
   var content: String = ""
   var userIndex: Int = 0
   var userLikeStatus: Bool = false
+  var myIndex: Int = 0
 }

@@ -15,6 +15,7 @@ import Photos
 import SwiftyJSON
 import IQKeyboardManagerSwift
 
+// iCloud에 올려져있는 사진이 추가되지 않는 버그 존재
 
 class PostingController: UIViewController {
   
@@ -118,12 +119,12 @@ class PostingController: UIViewController {
                                   targetSize: CGSize(width: 40, height: 40),
                                   contentMode: .aspectFill,
                                   options: option) { (result, info) in
-            thumbnail = result!
+          guard let image = result else { return }
+          thumbnail = image
         }
-              
-        let data = thumbnail.jpegData(compressionQuality: 0.9)
-        let newImage = UIImage(data: data!)
-        priviewImages.append(newImage! as UIImage)
+        guard let data = thumbnail.jpegData(compressionQuality: 0.9) else { return }
+        guard let newImage = UIImage(data: data) else { return }
+        priviewImages.append(newImage as UIImage)
       }
       collectionView.reloadData()
       photoCount.text = "\(priviewImages.count)/5"
@@ -146,12 +147,16 @@ class PostingController: UIViewController {
                                                      height: phAssetImages[i].pixelHeight),
                                   contentMode: .aspectFill,
                                   options: option) { (result, info) in
-            realImage = result!
+// error
+          guard let image = result else { return }
+            realImage = image
         }
-              
-        let data = realImage.jpegData(compressionQuality: 0.9)
-        let newImage = UIImage(data: data!)
-        realImages.append(newImage! as UIImage)
+// error
+        
+  
+        guard let data = realImage.jpegData(compressionQuality: 0.9) else { return }
+        guard let newImage = UIImage(data: data) else { return }
+        realImages.append(newImage as UIImage)
       }
     }
   }
@@ -206,6 +211,7 @@ class PostingController: UIViewController {
               headers: header).responseJSON { response in
       print("modify - \(modify)")
       print("method - \(method)")
+      print(JSON(response.data ?? ""))
       self.modifyData.productIndex = nil
     }
       self.dismiss(animated: true)

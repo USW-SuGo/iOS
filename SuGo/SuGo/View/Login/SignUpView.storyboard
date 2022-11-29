@@ -39,7 +39,7 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="7oM-be-LqX"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="18"/>
+                                        <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="16"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@ suwon.ac.kr" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pfE-Me-HHt">
@@ -191,6 +191,25 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PBQ-f1-UUy">
+                                <rect key="frame" x="20" y="734" width="25" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="Mbd-mW-92H"/>
+                                    <constraint firstAttribute="width" constant="25" id="pgV-Lq-FJE"/>
+                                </constraints>
+                                <color key="tintColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="checkmark.square.fill" catalog="system"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="수고 이용약관 및 개인정보 처리방침에 동의합니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GHd-E5-hAO">
+                                <rect key="frame" x="52" y="740" width="342" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="gkw-pi-GPr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="13"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -213,11 +232,14 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="iaj-Pk-6C5" secondAttribute="trailing" constant="20" id="V9i-Xp-2bf"/>
                             <constraint firstItem="7tr-8A-2FP" firstAttribute="top" secondItem="ZCz-wc-3rT" secondAttribute="bottom" constant="2" id="VBO-rr-le2"/>
                             <constraint firstItem="7tr-8A-2FP" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="XFr-ZG-Cog"/>
+                            <constraint firstItem="oP4-Y1-tJ5" firstAttribute="top" secondItem="PBQ-f1-UUy" secondAttribute="bottom" constant="10" id="Xe9-m4-fzh"/>
                             <constraint firstItem="QLF-FM-Ngs" firstAttribute="top" secondItem="b1T-x6-CXJ" secondAttribute="bottom" constant="2" id="YKY-87-pkG"/>
+                            <constraint firstItem="oP4-Y1-tJ5" firstAttribute="top" secondItem="GHd-E5-hAO" secondAttribute="bottom" constant="15" id="ZJ7-ev-uGF"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="oP4-Y1-tJ5" secondAttribute="bottom" constant="50" id="ZJb-AM-LdV"/>
                             <constraint firstItem="fme-cX-MhC" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="c1e-Zg-z62"/>
                             <constraint firstItem="G0y-Mk-0IA" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="cGz-jX-krv"/>
                             <constraint firstItem="OVE-CK-6Op" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="cXh-AG-jFk"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="GHd-E5-hAO" secondAttribute="trailing" constant="20" id="eqL-w6-aqN"/>
                             <constraint firstItem="ZCz-wc-3rT" firstAttribute="top" secondItem="OVE-CK-6Op" secondAttribute="bottom" constant="29" id="g9m-q0-cAJ"/>
                             <constraint firstItem="dba-O5-9WH" firstAttribute="top" secondItem="RFT-PQ-zfS" secondAttribute="bottom" constant="9" id="gnl-65-uq7"/>
                             <constraint firstItem="RFT-PQ-zfS" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="h2o-fn-UCU"/>
@@ -225,9 +247,11 @@
                             <constraint firstItem="ZCz-wc-3rT" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="kId-cd-8jj"/>
                             <constraint firstItem="kkU-kN-geu" firstAttribute="top" secondItem="G0y-Mk-0IA" secondAttribute="bottom" constant="2" id="n2B-1w-73n"/>
                             <constraint firstItem="OVE-CK-6Op" firstAttribute="top" secondItem="b1T-x6-CXJ" secondAttribute="bottom" constant="20" id="nRi-3c-rEq"/>
+                            <constraint firstItem="GHd-E5-hAO" firstAttribute="leading" secondItem="PBQ-f1-UUy" secondAttribute="trailing" constant="7" id="qeT-q3-hGW"/>
                             <constraint firstItem="fme-cX-MhC" firstAttribute="top" secondItem="OVE-CK-6Op" secondAttribute="bottom" constant="9" id="r8s-Da-S55"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="oP4-Y1-tJ5" secondAttribute="trailing" constant="20" id="v0e-bV-a32"/>
                             <constraint firstItem="iaj-Pk-6C5" firstAttribute="top" secondItem="ZCz-wc-3rT" secondAttribute="bottom" constant="20" id="wyH-ka-Au3"/>
+                            <constraint firstItem="PBQ-f1-UUy" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="zHS-hn-uk8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="회원가입" id="hJ5-Di-zYB"/>
@@ -278,6 +302,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="checkmark.square.fill" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

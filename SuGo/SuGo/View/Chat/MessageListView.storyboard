@@ -20,7 +20,7 @@
         <!--쪽지함-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
-                <viewController storyboardIdentifier="chatinglistVC" id="Y6W-OH-hqX" customClass="ChatingListController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="messageListVC" id="Y6W-OH-hqX" customClass="MessageListControoler" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -29,7 +29,7 @@
                                 <rect key="frame" x="0.0" y="122" width="414" height="730"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="chatingListCell" rowHeight="70" id="aqC-6r-LDb" customClass="ChatingListCell" customModule="SuGo" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageListCell" rowHeight="70" id="aqC-6r-LDb" customClass="MessageListCell" customModule="SuGo" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="414" height="70"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="aqC-6r-LDb" id="FR7-Yn-6rd">
@@ -74,6 +74,11 @@
                                                 <constraint firstItem="0Us-9h-AZ0" firstAttribute="leading" secondItem="FR7-Yn-6rd" secondAttribute="leading" constant="20" id="mel-23-hyK"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="recentMessageLabel" destination="0Us-9h-AZ0" id="c2E-nl-PgN"/>
+                                            <outlet property="recentMessageTimeLabel" destination="tfq-5Y-hNf" id="08O-zf-LVa"/>
+                                            <outlet property="userNicknameLabel" destination="0eP-oQ-YDW" id="t6d-sr-jKk"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -103,7 +108,7 @@
         <!--Navigation Controller-->
         <scene sceneID="U9S-hu-8Rx">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="eq4-YB-0bI" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="messageListNavigationVC" automaticallyAdjustsScrollViewInsets="NO" id="eq4-YB-0bI" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="9b6-Le-Rgl">
                         <rect key="frame" x="0.0" y="48" width="414" height="44"/>

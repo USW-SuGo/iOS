@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Pretendard-Medium.otf">
+            <string>Pretendard-Medium</string>
+        </array>
+        <array key="Pretendard-SemiBold.otf">
+            <string>Pretendard-SemiBold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Send Message Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="sendMessageVC" id="Y6W-OH-hqX" customClass="SendMessageController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="쪽지 보내기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UUp-30-ngK">
+                                <rect key="frame" x="157.66666666666666" y="69" width="77.666666666666657" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="i2n-G8-UyA"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q8g-Pw-Ezs">
+                                <rect key="frame" x="349" y="69" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="8ib-Fl-UCh"/>
+                                    <constraint firstAttribute="width" constant="24" id="wTO-0N-Ypg"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="xmark" catalog="system"/>
+                                <connections>
+                                    <action selector="closeButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="9H3-bu-VNA"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jwP-EI-eQU">
+                                <rect key="frame" x="20" y="124" width="353" height="674"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ixh-gM-fCE">
+                                <rect key="frame" x="20" y="108" width="353" height="1"/>
+                                <color key="backgroundColor" red="0.43921568989999998" green="0.43921568989999998" blue="0.43921568989999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="qs0-hM-Ipr"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H0g-UN-FsA">
+                                <rect key="frame" x="20" y="69" width="45" height="30"/>
+                                <color key="backgroundColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="45" id="Fx8-z5-q0b"/>
+                                    <constraint firstAttribute="height" constant="30" id="pcz-kh-NjP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="17"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="전송">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendMessageButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Mrm-CT-0DZ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="jwP-EI-eQU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="7JA-wh-kRy"/>
+                            <constraint firstItem="Ixh-gM-fCE" firstAttribute="top" secondItem="q8g-Pw-Ezs" secondAttribute="bottom" constant="15" id="8TJ-7N-74N"/>
+                            <constraint firstItem="H0g-UN-FsA" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="Fy5-wd-fzL"/>
+                            <constraint firstItem="jwP-EI-eQU" firstAttribute="top" secondItem="Ixh-gM-fCE" secondAttribute="bottom" constant="15" id="LRb-wO-K6w"/>
+                            <constraint firstItem="UUp-30-ngK" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="S0V-sc-wyB"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="jwP-EI-eQU" secondAttribute="trailing" constant="20" id="SG3-Gf-Fpb"/>
+                            <constraint firstAttribute="trailing" secondItem="Ixh-gM-fCE" secondAttribute="trailing" constant="20" id="VU2-DI-UXQ"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="q8g-Pw-Ezs" secondAttribute="trailing" constant="20" id="Yio-2O-d9E"/>
+                            <constraint firstItem="q8g-Pw-Ezs" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="10" id="ay0-ka-6nz"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="jwP-EI-eQU" secondAttribute="bottom" constant="20" id="cet-pl-fHx"/>
+                            <constraint firstItem="H0g-UN-FsA" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="cu4-Qo-TPJ"/>
+                            <constraint firstItem="UUp-30-ngK" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="dUu-wY-zmA"/>
+                            <constraint firstItem="Ixh-gM-fCE" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="20" id="jR1-z4-GJ8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="aLo-DJ-09K"/>
+                    <connections>
+                        <outlet property="messageTextView" destination="jwP-EI-eQU" id="o7R-b1-TRr"/>
+                        <outlet property="sendButton" destination="H0g-UN-FsA" id="PRW-bw-0dp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="938.16793893129773" y="-34.507042253521128"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="xmark" catalog="system" width="128" height="113"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

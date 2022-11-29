@@ -87,51 +87,54 @@ class SignUpController: UIViewController {
   private func textFieldAddTargets() {
       
       // email add targets
-      emailTextField.addTarget(self,
-                               action: #selector(emailTextFieldEditingChanged),
-                               for: .touchDown)
-      emailTextField.addTarget(self,
-                               action: #selector(emailTextFieldEditingChanged),
-                               for: .editingChanged)
-      emailTextField.addTarget(self,
-                               action: #selector(emailTextFieldisValid),
-                               for: .editingDidEnd)
+    emailTextField.addTarget(self,
+                             action: #selector(emailTextFieldEditingChanged),
+                             for: .touchDown)
+    emailTextField.addTarget(self,
+                             action: #selector(emailTextFieldEditingChanged),
+                             for: .editingChanged)
+    emailTextField.addTarget(self,
+                             action: #selector(emailTextFieldisValid),
+                             for: .editingDidEnd)
       
       // id add targets
-      idTextField.addTarget(self,
-                            action: #selector(idTextFieldEditingChanged),
-                            for: .touchDown)
-      idTextField.addTarget(self,
-                            action: #selector(idTextFieldEditingChanged),
-                            for: .editingChanged)
-      idTextField.addTarget(self,
-                            action: #selector(idTextFieldisValid),
-                            for: .editingDidEnd)
-      
+    idTextField.addTarget(self,
+                          action: #selector(idTextFieldEditingChanged),
+                          for: .touchDown)
+    idTextField.addTarget(self,
+                          action: #selector(idTextFieldEditingChanged),
+                          for: .editingChanged)
+    idTextField.addTarget(self,
+                          action: #selector(idTextFieldisValid),
+                          for: .editingDidEnd)
+    
       // password add targets
-      passwordTextField.addTarget(self,
-                                  action: #selector(passwordTextFieldEditingChanged),
-                                  for: .touchDown)
-      passwordTextField.addTarget(self,
-                                  action: #selector(passwordTextFieldEditingChanged),
-                                  for: .editingChanged)
-      passwordTextField.addTarget(self,
-                                  action: #selector(passwordTextFieldisValid),
-                                  for: .editingDidEnd)
+    passwordTextField.addTarget(self,
+                                action: #selector(passwordTextFieldEditingChanged),
+                                for: .touchDown)
+    passwordTextField.addTarget(self,
+                                action: #selector(passwordTextFieldEditingChanged),
+                                for: .editingChanged)
+    passwordTextField.addTarget(self,
+                                action: #selector(passwordTextFieldisValid),
+                                for: .editingDidEnd)
+    passwordTextField.isSecureTextEntry = true
       
       // confirm add targets
-      confirmPasswordTextField.addTarget(self,
-                                         action: #selector(confirmPasswordTextFieldEditingChanged),
-                                         for: .touchDown)
-      confirmPasswordTextField.addTarget(self,
-                                         action: #selector(confirmPasswordTextFieldEditingChanged),
-                                         for: .editingChanged)
-      confirmPasswordTextField.addTarget(self,
-                                         action: #selector(confirmPasswordTextFieldisValid),
-                                         for: .editingChanged)
-      confirmPasswordTextField.addTarget(self,
-                                         action: #selector(confirmPasswordTextFieldisValid),
-                                         for: .editingDidEnd)
+    confirmPasswordTextField.addTarget(self,
+                                       action: #selector(confirmPasswordTextFieldEditingChanged),
+                                       for: .touchDown)
+    confirmPasswordTextField.addTarget(self,
+                                       action: #selector(confirmPasswordTextFieldEditingChanged),
+                                       for: .editingChanged)
+    confirmPasswordTextField.addTarget(self,
+                                       action: #selector(confirmPasswordTextFieldisValid),
+                                       for: .editingChanged)
+    confirmPasswordTextField.addTarget(self,
+                                       action: #selector(confirmPasswordTextFieldisValid),
+                                       for: .editingDidEnd)
+    confirmPasswordTextField.isSecureTextEntry = true
+    
   }
   
   // 기존 입력마다 형식 알려주던 방식 대신, endEditing 이후 유효성 검사하는 방식으로 전환
@@ -292,7 +295,6 @@ class SignUpController: UIViewController {
           
           
       }
-      
   }
   
   @objc func closeButtonClicked() {

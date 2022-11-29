@@ -11,7 +11,7 @@ import UIKit
 
 struct ProductContents {
     
-  var id: Int = 0
+  var productIndex: Int = 0
   var imageLink: [String] = [""]
   var contactPlace: String = ""
   var updatedAt: String = ""

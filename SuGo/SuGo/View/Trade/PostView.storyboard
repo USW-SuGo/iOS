@@ -152,16 +152,31 @@
                                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="p33-k9-yxS"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O8v-cT-vKz">
+                                        <rect key="frame" x="344" y="16" width="50" height="39"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="gUv-Z7-Qgj"/>
+                                        </constraints>
+                                        <color key="tintColor" systemColor="systemPinkColor"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system"/>
+                                        <connections>
+                                            <action selector="likeButtonClicked:" destination="Ipz-hx-veU" eventType="touchUpInside" id="6ZB-Vq-cTM"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EyV-u2-0t0">
-                                        <rect key="frame" x="20" y="15" width="100" height="40"/>
+                                        <rect key="frame" x="20" y="15" width="120" height="40"/>
                                         <color key="backgroundColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="100" id="8YD-xZ-8LS"/>
+                                            <constraint firstAttribute="width" constant="120" id="8YD-xZ-8LS"/>
                                             <constraint firstAttribute="height" constant="40" id="XVq-T7-iRk"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="17"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="수고하기"/>
+                                        <connections>
+                                            <action selector="sugoButtonClicked:" destination="Ipz-hx-veU" eventType="touchUpInside" id="7Au-lx-fre"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -169,11 +184,14 @@
                                 <constraints>
                                     <constraint firstItem="EyV-u2-0t0" firstAttribute="leading" secondItem="PVF-eJ-XAQ" secondAttribute="leading" constant="20" id="42f-sn-8qH"/>
                                     <constraint firstItem="NEa-UK-egf" firstAttribute="leading" secondItem="PVF-eJ-XAQ" secondAttribute="leading" id="Ew7-Gz-gRx"/>
+                                    <constraint firstAttribute="bottom" secondItem="O8v-cT-vKz" secondAttribute="bottom" constant="15" id="NP7-Av-6Xg"/>
+                                    <constraint firstItem="O8v-cT-vKz" firstAttribute="top" secondItem="NEa-UK-egf" secondAttribute="bottom" constant="15" id="cG9-VK-ycY"/>
                                     <constraint firstAttribute="trailing" secondItem="NEa-UK-egf" secondAttribute="trailing" id="cIT-Cu-5cP"/>
                                     <constraint firstItem="NEa-UK-egf" firstAttribute="top" secondItem="PVF-eJ-XAQ" secondAttribute="top" id="iNF-FF-aX6"/>
                                     <constraint firstAttribute="bottom" secondItem="EyV-u2-0t0" secondAttribute="bottom" constant="15" id="ok2-vD-pfo"/>
                                     <constraint firstAttribute="height" constant="70" id="pbg-yk-dlZ"/>
                                     <constraint firstItem="EyV-u2-0t0" firstAttribute="top" secondItem="PVF-eJ-XAQ" secondAttribute="top" constant="15" id="sWA-pH-dLN"/>
+                                    <constraint firstAttribute="trailing" secondItem="O8v-cT-vKz" secondAttribute="trailing" constant="20" id="t49-Hw-L9Z"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -192,6 +210,7 @@
                     <navigationItem key="navigationItem" id="uvt-Ks-IjA"/>
                     <connections>
                         <outlet property="contentView" destination="bbO-fl-f2j" id="Dzs-Aw-yHp"/>
+                        <outlet property="likeButton" destination="O8v-cT-vKz" id="tR3-CP-cde"/>
                         <outlet property="nicknameLabel" destination="TgG-su-1cQ" id="sCi-yU-tAj"/>
                         <outlet property="placeUpdateCategoryLabel" destination="cGD-e3-cxV" id="M9n-3H-ndI"/>
                         <outlet property="priceLabel" destination="gqt-01-8Ju" id="QUb-Wx-7mA"/>
@@ -202,15 +221,19 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DCh-7u-WJ7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="978" y="68"/>
+            <point key="canvasLocation" x="976.81159420289862" y="67.633928571428569"/>
         </scene>
     </scenes>
     <resources>
+        <image name="heart" catalog="system" width="128" height="107"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray3Color">
             <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

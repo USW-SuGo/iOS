@@ -53,6 +53,7 @@ class HomeController: UIViewController {
     customRightBarButtons()
     customBackButton()
     searchViewDesign()
+    print(keychain.get("AccessToken"))
     
   }
     
@@ -101,7 +102,10 @@ class HomeController: UIViewController {
     
   // 1. message 2. posting 3. map
   @objc func messageButtonClicked() {
-    presentViewController(storyboard: "ChatingListView", identifier: "chatinglistVC", fullScreen: false)
+    let messageListView = UIStoryboard(name: "MessageListView", bundle: nil)
+    let messageListNavigationController = messageListView.instantiateViewController(withIdentifier: "messageListNavigationVC") as! UINavigationController
+    messageListNavigationController.modalPresentationStyle = .fullScreen
+    present(messageListNavigationController, animated: true)
   }
 
   @objc func postingButtonclicked() {
@@ -113,9 +117,9 @@ class HomeController: UIViewController {
       .responseJSON { response in
         if response.response?.statusCode == 200 {
           let postingView = UIStoryboard(name: "PostingView", bundle: nil)
-          guard let postingController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
-          postingController.modalPresentationStyle = .fullScreen
-          self.present(postingController, animated: true)
+          guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
+          postingNavigationController.modalPresentationStyle = .fullScreen
+          self.present(postingNavigationController, animated: true)
         } else {
           self.keychain.clear()
           self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: true)
@@ -243,7 +247,7 @@ class HomeController: UIViewController {
           updatedAt = "\(intervalDays / 30)달 전"
       }
           
-      let getData = ProductContents(id: json[i]["id"].intValue,
+      let getData = ProductContents(productIndex: json[i]["id"].intValue,
                                     imageLink: images,
                                     contactPlace: json[i]["contactPlace"].stringValue,
                                     updatedAt: updatedAt,
@@ -331,33 +335,32 @@ class HomeController: UIViewController {
         self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
     }
     
-    private func customBackButton() {
-        let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        backButtonItem.tintColor = .darkGray
-        self.navigationItem.backBarButtonItem = backButtonItem
-    }
+  private func customBackButton() {
+    let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    backButtonItem.tintColor = .darkGray
+    self.navigationItem.backBarButtonItem = backButtonItem
+  }
+  
+  private func searchViewDesign() {
+    searchView.layer.cornerRadius = 10.0
+    searchView.layer.borderWidth = 0.5
+    searchView.layer.borderColor = UIColor.lightGray.cgColor
+  }
+  
+  private func noSearchResultViewDesign(searchData: String) {
+    noSearchResultView.isHidden = false
+    noSearchResultLabel.text = "' \(searchData) '"
     
-    private func searchViewDesign() {
-        searchView.layer.cornerRadius = 10.0
-        searchView.layer.borderWidth = 0.5
-        searchView.layer.borderColor = UIColor.lightGray.cgColor
-    }
-    
-    private func noSearchResultViewDesign(searchData: String) {
-        noSearchResultView.isHidden = false
-        noSearchResultLabel.text = "' \(searchData) '"
-        
-        showHomeButton.layer.cornerRadius = 8.0
-        showHomeButton.layer.borderColor = UIColor.white.cgColor
-        showHomeButton.layer.borderWidth = 0.2
-    }
+    showHomeButton.layer.cornerRadius = 8.0
+    showHomeButton.layer.borderColor = UIColor.white.cgColor
+    showHomeButton.layer.borderWidth = 0.2
+  }
     
 }
 
 extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
   
   func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    print("page - \(page)")
     let lastIndex = homeProductContents.count - 3
     if indexPath.row == lastIndex {
       page += 1
@@ -390,7 +393,6 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
                                progressBlock: nil)
         
         }
-      print("kingFisherSize - \(cell.image.frame.width), \(cell.image.frame.width * 1.33)")
       cell.image.contentMode = .scaleAspectFill
       cell.backgroundColor = .white
       cell.placeUpdateCategoryLabel.text =
@@ -407,15 +409,16 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
       AlamofireManager
         .shared
         .session
-        .request(PostRouter.getDetailPost(productPostId: homeProductContents[indexPath.row].id))
+        .request(PostRouter.getDetailPost(productIndex: homeProductContents[indexPath.row].productIndex))
         .validate()
         .responseJSON { response in
           // if users have token and refreshToken still alive
+          print(JSON(response.data ?? ""))
         if response.response?.statusCode == 200 {
             let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
             let nextViewController =
             postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
-            nextViewController.productPostId = self.homeProductContents[indexPath.row].id
+            nextViewController.productPostId = self.homeProductContents[indexPath.row].productIndex
             self.navigationController?.pushViewController(nextViewController, animated: true)
         // else show loginPage
         } else {
@@ -455,6 +458,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     placeUpdateCategoryLabel.text = "temp"
     placeUpdateCategoryLabel.translatesAutoresizingMaskIntoConstraints = false
     placeUpdateCategoryLabel.font = UIFont(name: "Pretendard-Regular", size: 12)
+    placeUpdateCategoryLabel.sizeToFit()
     return placeUpdateCategoryLabel
   }()
   

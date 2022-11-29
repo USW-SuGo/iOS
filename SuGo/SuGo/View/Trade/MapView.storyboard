@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--지도-->
+        <!--Map View Controller-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="mapVC" id="Y6W-OH-hqX" customClass="MapViewController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -29,7 +29,6 @@
                             <constraint firstItem="EhY-ah-BS3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="udf-ca-k86"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="지도" image="map" catalog="system" id="wtW-xa-dVo"/>
                     <navigationItem key="navigationItem" id="3hQ-Q9-DJ7"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
@@ -40,6 +39,5 @@
     </scenes>
     <resources>
         <image name="SUGOMAP" width="828" height="1792"/>
-        <image name="map" catalog="system" width="128" height="112"/>
     </resources>
 </document>

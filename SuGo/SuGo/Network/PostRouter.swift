@@ -17,17 +17,14 @@ enum PostRouter: URLRequestConvertible {
                    price: Int,
                    contactPlace: String,
                    category: String)
-  
   case mainPage(page: Int,
                 size: Int,
                 category: String)
-  
-  case getDetailPost(productPostId: Int)
-  
+  case getDetailPost(productIndex: Int)
   case searchContent(value: String,
                      category: String)
-  
-  case deletePost(productPostId: Int)
+  case deletePost(productIndex: Int)
+  case upPost(productIndex: Int)
     
     
     
@@ -37,7 +34,7 @@ enum PostRouter: URLRequestConvertible {
     
     var method: HTTPMethod {
         switch self {
-        case .postContent:
+        case .postContent, .upPost:
           return .post
         case .mainPage, .getDetailPost, .searchContent:
           return .get
@@ -47,54 +44,54 @@ enum PostRouter: URLRequestConvertible {
     }
     
     var path: String {
-        switch self {
-        case .postContent:
-            return "/content"
-        case .mainPage:
-            return "/all"
-        case .getDetailPost, .deletePost:
-            return "/"
-        case .searchContent:
-            return "/search"
-        }
-    
+      switch self {
+      case .postContent:
+        return "/content"
+      case .mainPage:
+        return "/all"
+      case .getDetailPost, .deletePost:
+        return "/"
+      case .searchContent:
+        return "/search"
+      case .upPost:
+        return "/up-post"
+      }
     }
     
     var parameters: Parameters {
-        switch self{
-        case .postContent(let title, let content, let price, let contactPlace, let category):
-            return [
-                "title" : title,
-                "content" : content,
-                "price" : price,
-                "contactPlace" : contactPlace,
-                "category" : category
-            ]
-            
-        case .mainPage(let page, let size, let category):
-            return [
-                "page" : page,
-                "size" : size,
-                "category" : category
-            ]
-        
-        case .getDetailPost(let productPostId), .deletePost(let productPostId):
-            return ["productPostId" : productPostId]
-            
-        case .searchContent(let value, let category):
-            return [
-                "value" : value,
-                "category" : category
-            ]
-        }
-        
-    
-        
+      switch self{
+      case .postContent(let title, let content, let price, let contactPlace, let category):
+        return [
+            "title" : title,
+            "content" : content,
+            "price" : price,
+            "contactPlace" : contactPlace,
+            "category" : category
+        ]
+          
+      case .mainPage(let page, let size, let category):
+        return [
+            "page" : page,
+            "size" : size,
+            "category" : category
+        ]
+      
+      case .getDetailPost(let productIndex),
+           .deletePost(let productIndex),
+           .upPost(let productIndex):
+        return ["productPostId" : productIndex]
+          
+      case .searchContent(let value, let category):
+        return [
+            "value" : value,
+            "category" : category
+        ]
+      }
     }
     
   var headers: HTTPHeaders {
     switch self {
-    case .postContent, .getDetailPost, .searchContent, .deletePost:
+    case .postContent, .getDetailPost, .searchContent, .deletePost, .upPost:
       return [
           .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
       ]

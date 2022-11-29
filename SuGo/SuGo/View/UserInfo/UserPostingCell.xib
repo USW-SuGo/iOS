@@ -52,7 +52,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="글 제목" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILZ-Mx-EAD">
-                        <rect key="frame" x="132" y="39" width="272" height="20"/>
+                        <rect key="frame" x="132" y="34" width="272" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="Cfq-81-qL0"/>
                         </constraints>
@@ -61,7 +61,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="유저 닉네임" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P7O-LZ-IRI">
-                        <rect key="frame" x="132" y="63" width="51" height="14"/>
+                        <rect key="frame" x="132" y="58" width="51" height="14"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="14" id="3eL-ga-DMO"/>
                         </constraints>
@@ -72,7 +72,7 @@
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100,000원" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xGd-ps-4cV">
                         <rect key="frame" x="317" y="108.66666666666667" width="82" height="19.333333333333329"/>
                         <fontDescription key="fontDescription" name="Pretendard-Black" family="Pretendard" pointSize="16"/>
-                        <color key="textColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="textColor" red="0.34509803921568627" green="0.63921568627450975" blue="0.44705882352941173" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ns5-8F-NZz">
@@ -150,7 +150,7 @@
                     <constraint firstAttribute="trailing" secondItem="Ns5-8F-NZz" secondAttribute="trailing" constant="5" id="fuF-bS-8t4"/>
                     <constraint firstItem="Qf7-cg-f3e" firstAttribute="top" secondItem="Mbm-b7-XhP" secondAttribute="bottom" id="hVl-Lh-4oe"/>
                     <constraint firstAttribute="bottom" secondItem="Qf7-cg-f3e" secondAttribute="bottom" constant="2" id="iMp-Lt-Hk3"/>
-                    <constraint firstItem="ILZ-Mx-EAD" firstAttribute="top" secondItem="kLA-8a-o67" secondAttribute="bottom" constant="10" id="lUh-MO-8St"/>
+                    <constraint firstItem="ILZ-Mx-EAD" firstAttribute="top" secondItem="kLA-8a-o67" secondAttribute="bottom" constant="5" id="lUh-MO-8St"/>
                     <constraint firstItem="21t-Qx-ulI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="mTx-Yp-msS"/>
                     <constraint firstAttribute="trailing" secondItem="ILZ-Mx-EAD" secondAttribute="trailing" constant="10" id="nIv-Qn-86V"/>
                     <constraint firstAttribute="bottom" secondItem="5xX-g0-XjT" secondAttribute="bottom" constant="2" id="q1c-sA-1ZN"/>

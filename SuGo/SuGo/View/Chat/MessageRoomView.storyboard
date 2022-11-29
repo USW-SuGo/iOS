@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Pretendard-Regular.otf">
+            <string>Pretendard-Regular</string>
+        </array>
+        <array key="Pretendard-SemiBold.otf">
+            <string>Pretendard-SemiBold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Message Room Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="messageRoomVC" id="Y6W-OH-hqX" customClass="MessageRoomController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="NKP-H1-Wbu">
+                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="messageRoomCell" rowHeight="80" id="2lB-62-Umd" customClass="MessageRoomCell" customModule="SuGo" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2lB-62-Umd" id="6om-Ys-FOX">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="80"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="받은 쪽지" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1D-iu-aFz">
+                                                    <rect key="frame" x="20" y="10" width="63" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="kSQ-Ev-Zaw"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="17"/>
+                                                    <color key="textColor" red="0.34509804840000002" green="0.63921570780000003" blue="0.44705885649999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="받은 쪽지받은 쪽지받은 쪽지받은 쪽지받은 쪽지받은 쪽지받은 쪽지받은 쪽지받은 쪽지받은 쪽지" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L89-LS-ynT">
+                                                    <rect key="frame" x="20" y="37" width="353" height="22"/>
+                                                    <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="17"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11-06 22:22" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSP-6D-7DJ">
+                                                    <rect key="frame" x="303" y="12" width="70" height="15.666666666666664"/>
+                                                    <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="13"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="v1D-iu-aFz" firstAttribute="top" secondItem="6om-Ys-FOX" secondAttribute="top" constant="10" id="04D-5S-B6x"/>
+                                                <constraint firstItem="L89-LS-ynT" firstAttribute="leading" secondItem="6om-Ys-FOX" secondAttribute="leading" constant="20" id="3sR-Uy-VvV"/>
+                                                <constraint firstAttribute="trailing" secondItem="vSP-6D-7DJ" secondAttribute="trailing" constant="20" id="Pjs-k1-39b"/>
+                                                <constraint firstItem="vSP-6D-7DJ" firstAttribute="top" secondItem="6om-Ys-FOX" secondAttribute="top" constant="12" id="Q3s-1Z-cYm"/>
+                                                <constraint firstItem="L89-LS-ynT" firstAttribute="top" secondItem="v1D-iu-aFz" secondAttribute="bottom" constant="7" id="d3P-5Y-sAe"/>
+                                                <constraint firstItem="v1D-iu-aFz" firstAttribute="leading" secondItem="6om-Ys-FOX" secondAttribute="leading" constant="20" id="d9h-f9-zZy"/>
+                                                <constraint firstAttribute="trailing" secondItem="L89-LS-ynT" secondAttribute="trailing" constant="20" id="hmh-Es-oty"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="L89-LS-ynT" secondAttribute="bottom" constant="10" id="kHb-Ur-Lpe"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="messageLabel" destination="L89-LS-ynT" id="NGd-2y-WtZ"/>
+                                            <outlet property="messageTimeLabel" destination="vSP-6D-7DJ" id="HzL-kL-V5J"/>
+                                            <outlet property="messageTypeLabel" destination="v1D-iu-aFz" id="DN3-Hb-tv8"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="v4s-uG-Ox1"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="nVc-fR-xRn"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="NKP-H1-Wbu" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="8kO-3U-Y8P"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="NKP-H1-Wbu" secondAttribute="trailing" id="DTx-wC-fq7"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="NKP-H1-Wbu" secondAttribute="bottom" id="X5j-wD-EVT"/>
+                            <constraint firstItem="NKP-H1-Wbu" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="eEi-Ea-lZx"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="NKP-H1-Wbu" id="wNb-cO-dEH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1057.2519083969464" y="-27.464788732394368"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

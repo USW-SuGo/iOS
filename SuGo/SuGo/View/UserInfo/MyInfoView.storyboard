@@ -101,7 +101,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="IXN-5g-wux">
-                                <rect key="frame" x="0.0" y="312" width="414" height="501"/>
+                                <rect key="frame" x="0.0" y="303" width="414" height="510"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="Y6W-OH-hqX" id="U4x-9h-p3I"/>
@@ -109,9 +109,9 @@
                                 </connections>
                             </tableView>
                             <button hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fm7-2x-4TC">
-                                <rect key="frame" x="20" y="267" width="60" height="30"/>
+                                <rect key="frame" x="20" y="267" width="60" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="35Z-hp-0np"/>
+                                    <constraint firstAttribute="height" constant="20" id="35Z-hp-0np"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -140,9 +140,9 @@
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fy0-MS-Lsd">
-                                <rect key="frame" x="95" y="267" width="86" height="30"/>
+                                <rect key="frame" x="95" y="267" width="86" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="jBA-LJ-S8f"/>
+                                    <constraint firstAttribute="height" constant="20" id="jBA-LJ-S8f"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -160,6 +160,13 @@
                                     <constraint firstAttribute="height" constant="1" id="bhu-B1-y1R"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7YL-Xc-CTk">
+                                <rect key="frame" x="0.0" y="302" width="414" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="alY-r6-YVS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -168,6 +175,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="IXN-5g-wux" secondAttribute="bottom" id="0TM-OX-zuh"/>
                             <constraint firstItem="IXN-5g-wux" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="15a-No-Hug"/>
                             <constraint firstItem="aSE-SE-4SM" firstAttribute="leading" secondItem="KhL-iV-x6T" secondAttribute="trailing" constant="100" id="1r8-JC-GZL"/>
+                            <constraint firstAttribute="trailing" secondItem="7YL-Xc-CTk" secondAttribute="trailing" id="2tz-kS-qnv"/>
                             <constraint firstAttribute="trailing" secondItem="esg-Sr-XnF" secondAttribute="trailing" id="3va-2V-zTd"/>
                             <constraint firstItem="6Ag-zj-974" firstAttribute="leading" secondItem="OG3-mC-zws" secondAttribute="trailing" constant="100" id="6F1-26-A5c"/>
                             <constraint firstItem="Fy0-MS-Lsd" firstAttribute="top" secondItem="ogj-td-kBa" secondAttribute="bottom" constant="100" id="6KL-1D-cKn"/>
@@ -181,8 +189,8 @@
                             <constraint firstItem="OG3-mC-zws" firstAttribute="top" secondItem="aSE-SE-4SM" secondAttribute="bottom" constant="5" id="Iem-hE-AIn"/>
                             <constraint firstItem="fm7-2x-4TC" firstAttribute="top" secondItem="ogj-td-kBa" secondAttribute="bottom" constant="100" id="Omc-Tk-5Ch"/>
                             <constraint firstItem="6b5-yb-uJl" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="34" id="Pfj-62-YhH"/>
-                            <constraint firstItem="IXN-5g-wux" firstAttribute="top" secondItem="fm7-2x-4TC" secondAttribute="bottom" constant="15" id="Q6F-Ms-0op"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="IXN-5g-wux" secondAttribute="bottom" id="SqJ-LG-A4o"/>
+                            <constraint firstItem="7YL-Xc-CTk" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="T0d-Ni-s3l"/>
                             <constraint firstItem="lS2-9N-WR0" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Tn7-56-ebi"/>
                             <constraint firstItem="ogj-td-kBa" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="UIC-sW-4mC"/>
                             <constraint firstItem="6Ag-zj-974" firstAttribute="top" secondItem="liB-Fk-djT" secondAttribute="bottom" constant="5" id="V6k-J9-aSi"/>
@@ -191,12 +199,14 @@
                             <constraint firstItem="liB-Fk-djT" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="90" id="d4P-J3-ChW"/>
                             <constraint firstItem="rdn-0q-rww" firstAttribute="top" secondItem="esg-Sr-XnF" secondAttribute="bottom" constant="200" id="dFO-Yh-JlZ"/>
                             <constraint firstItem="rdn-0q-rww" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="fW8-tU-n6g"/>
+                            <constraint firstItem="7YL-Xc-CTk" firstAttribute="top" secondItem="fm7-2x-4TC" secondAttribute="bottom" constant="15" id="iyR-Fq-Hvu"/>
                             <constraint firstItem="lS2-9N-WR0" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="l8G-2r-P5h"/>
                             <constraint firstItem="aSE-SE-4SM" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="90" id="mTE-Ps-dxP"/>
                             <constraint firstItem="ogj-td-kBa" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="mbB-q2-8bS"/>
                             <constraint firstItem="Fy0-MS-Lsd" firstAttribute="leading" secondItem="fm7-2x-4TC" secondAttribute="trailing" constant="15" id="o7S-ek-kES"/>
                             <constraint firstItem="esg-Sr-XnF" firstAttribute="top" secondItem="OG3-mC-zws" secondAttribute="bottom" constant="20" id="r0K-op-daN"/>
                             <constraint firstItem="aSE-SE-4SM" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="rA4-GT-1lG"/>
+                            <constraint firstItem="IXN-5g-wux" firstAttribute="top" secondItem="7YL-Xc-CTk" secondAttribute="bottom" id="xtf-mx-Nud"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="내 정보" id="YuG-F1-1sa"/>

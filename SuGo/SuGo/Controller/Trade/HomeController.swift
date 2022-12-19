@@ -247,7 +247,7 @@ class HomeController: UIViewController {
           updatedAt = "\(intervalDays / 30)달 전"
       }
           
-      let getData = ProductContents(productIndex: json[i]["id"].intValue,
+      let getData = ProductContents(productIndex: json[i]["productPostId"].intValue,
                                     imageLink: images,
                                     contactPlace: json[i]["contactPlace"].stringValue,
                                     updatedAt: updatedAt,
@@ -258,6 +258,7 @@ class HomeController: UIViewController {
                                     status: json[i]["status"].boolValue)
       homeProductContents.append(getData)
       }
+    print(homeProductContents)
     self.collectionView.reloadData()
   }
     

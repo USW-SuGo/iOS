@@ -98,8 +98,6 @@ class LoginController: UIViewController, UITextFieldDelegate {
                     print("tokens - \(tokens)")
                     let splitToken = tokens.components(separatedBy: ",")
                     print("splitToken - \(splitToken)")
-                    
-                    
                     let refreshStartIndex = splitToken[0].index(splitToken[0].startIndex,
                                                                 offsetBy: 14)
                     let refreshToken = String(splitToken[0][refreshStartIndex...])
@@ -112,13 +110,9 @@ class LoginController: UIViewController, UITextFieldDelegate {
                     //Keychain Setting
                     print("accessToken - \(accessToken)")
                     print("refreshToken - \(refreshToken)")
-                    
-                    
                     self.keychain.set(accessToken, forKey: "AccessToken")
                     self.keychain.set(refreshToken, forKey: "RefreshToken")
-                    
                     self.dismiss(animated: true)
-                    
                 // 로그인 실패한 경우 에러 메세지 출력
                 } else {
                     

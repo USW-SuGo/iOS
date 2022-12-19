@@ -61,7 +61,6 @@ class MyInfoController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.refreshControl = refresh
-    tableView.tag = 1
     tableView.separatorStyle = .none
     customBackButton()
     registerXib()
@@ -104,6 +103,23 @@ class MyInfoController: UIViewController {
     getMyPage(page: userPostingPage, size: 10)
     getLikePosting(page: userLikePostingPage, size: 10)
   }
+  
+  private func customUpdateAt(day: Int) -> String {
+    switch day{
+    case 0:
+      return "오늘"
+    case 1:
+      return "어제"
+    case 2..<7:
+      return "\(day)일 전"
+    case 7..<30:
+      return "\(day / 7)주 전"
+    case 30...:
+      return "\(day / 30)달 전"
+    default:
+      return ""
+    }    
+  }
     
   private func getMyPage(page: Int, size: Int) {
     AlamofireManager
@@ -116,9 +132,11 @@ class MyInfoController: UIViewController {
           self.designGuestView()
           return
         }
+        
         if self.myPage.userIndex == "" {
             self.updateMyPage(json: JSON(response.data ?? ""))
         }
+        
         self.updateUserPosting(json: JSON(response.data ?? "")["myPosting"])
     }
   }
@@ -149,6 +167,11 @@ class MyInfoController: UIViewController {
     if json.count < 10 {
       userPostingLastPage = true
     }
+    
+    if json.count == 0 {
+      tableView.tag = 0
+    }
+    
     for i in 0..<json.count {
       let myPosting = json[i]
       
@@ -158,19 +181,6 @@ class MyInfoController: UIViewController {
       let startDate = dateFormatter.date(from: postDate) ?? nil
       let interval = Date().timeIntervalSince(startDate ?? Date())
       let intervalDays = Int((interval) / 86400)
-      var updatedAt = ""
-  
-      if intervalDays < 1 {
-          updatedAt = "오늘"
-      } else if intervalDays == 1 {
-          updatedAt = "어제"
-      } else if intervalDays < 7 {
-          updatedAt = "\(intervalDays)일 전"
-      } else if intervalDays < 30 {
-          updatedAt = "\(intervalDays / 7)주 전"
-      } else {
-          updatedAt = "\(intervalDays / 30)달 전"
-      }
       
       let getData = MyPagePosting(productIndex: myPosting["id"].intValue,
                                   title: myPosting["title"].stringValue,
@@ -180,7 +190,7 @@ class MyInfoController: UIViewController {
                                   status: myPosting["status"].boolValue,
                                   imageLink: myPosting["imageLink"].stringValue,
                                   contactPlace: myPosting["contactPlace"].stringValue,
-                                  updatedAt: updatedAt)
+                                  updatedAt: customUpdateAt(day: intervalDays))
       userPosting.append(getData)
     }
     tableView.reloadData()
@@ -190,7 +200,6 @@ class MyInfoController: UIViewController {
     if json.count < 10 {
       userLikePostingLastPage = true
     }
-    
     for i in 0..<json.count {
       let likePosting = json[i]
       let postDate = likePosting["updatedAt"].stringValue.components(separatedBy: "T")[0]
@@ -199,19 +208,6 @@ class MyInfoController: UIViewController {
       let startDate = dateFormatter.date(from: postDate) ?? nil
       let interval = Date().timeIntervalSince(startDate ?? Date())
       let intervalDays = Int((interval) / 86400)
-      var updatedAt = ""
-      
-      if intervalDays < 1 {
-          updatedAt = "오늘"
-      } else if intervalDays == 1 {
-          updatedAt = "어제"
-      } else if intervalDays < 7 {
-          updatedAt = "\(intervalDays)일 전"
-      } else if intervalDays < 30 {
-          updatedAt = "\(intervalDays / 7)주 전"
-      } else {
-          updatedAt = "\(intervalDays / 30)달 전"
-      }
       
       let getData = MyPagePosting(productIndex: likePosting["id"].intValue,
                                   title: likePosting["title"].stringValue,
@@ -221,7 +217,7 @@ class MyInfoController: UIViewController {
                                   status: likePosting["status"].boolValue,
                                   imageLink: likePosting["imageLink"].stringValue,
                                   contactPlace: likePosting["contactPlace"].stringValue,
-                                  updatedAt: updatedAt)
+                                  updatedAt: customUpdateAt(day: intervalDays))
       userLikePosting.append(getData)
     }
     tableView.reloadData()
@@ -243,7 +239,7 @@ class MyInfoController: UIViewController {
     //MARK: Button Actions
     
   @IBAction func myPostButtonClicked(_ sender: Any) {
-    tableView.tag = 1
+    tableView.tag = 0
     myPostButton.setTitleColor(.black, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
     tableView.reloadData()
@@ -311,7 +307,7 @@ class MyInfoController: UIViewController {
     present(actionSheetController, animated: true)
   }
     
-    //MARK: Design Functions
+  //MARK: Design Functions
   
   func decimalWon(price: Int) -> String {
     let numberFormatter = NumberFormatter()
@@ -337,9 +333,10 @@ class MyInfoController: UIViewController {
       
     let userPostingXib = UINib(nibName: "UserPostingCell", bundle: nil)
     tableView.register(userPostingXib, forCellReuseIdentifier: "userPostingCell")
-    
     let likePostingXib = UINib(nibName: "LikePostingCell", bundle: nil)
     tableView.register(likePostingXib, forCellReuseIdentifier: "likePostingCell")
+    let emptyPostingXib = UINib(nibName: "EmptyPostingCell", bundle: nil)
+    tableView.register(emptyPostingXib, forCellReuseIdentifier: "emptyPostingCell")
     
   }
   
@@ -397,7 +394,9 @@ class MyInfoController: UIViewController {
 
 extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if tableView.tag == 1 {
+    if tableView.tag == 0 {
+      return 510
+    } else if tableView.tag == 1 {
      return 178
     } else if tableView.tag == 2 {
       return 138
@@ -428,21 +427,31 @@ extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if tableView.tag == 1 {
+    if tableView.tag == 0 {
+      return 1
+    } else if tableView.tag == 1 {
       return userPosting.count
-    } else { // will tag 2 come here
+    } else {
       return userLikePosting.count
     }
   }
 
+  // 테이블 뷰 데이터 없을 때 보여줘야 할 텍스트 분기 필요함.
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if tableView.tag == 1 {
+    if tableView.tag == 0 {
+      
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
+                                                     for: indexPath) as? EmptyPostingCell else
+      { return UITableViewCell() }
+      
+      return cell
+      
+    } else if tableView.tag == 1 {
             
     let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
                                              for: indexPath) as! UserPostingCell
       if userPosting.count > 0 { // indexPath out of range 방지 위함.
         if let url = URL(string: userPosting[indexPath.row].imageLink) {
-          
           cell.productImage.kf.indicatorType = .activity
           cell.productImage.kf.setImage(with: url,
                                         placeholder: nil,
@@ -451,9 +460,7 @@ extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
                                           .cacheOriginalImage
                                         ],
                                         progressBlock: nil)
-          
         }
-        
         cell.productImage.contentMode = .scaleAspectFill
         cell.productImage.layer.cornerRadius = 6.0
         cell.titleLabel.text = userPosting[indexPath.row].title
@@ -468,12 +475,10 @@ extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
         cell.modifyButton.addTarget(self,
                                     action: #selector(modifyButtonClicked),
                                     for: .touchUpInside)
-        
         cell.upPostButton.tag = indexPath.row
         cell.upPostButton.addTarget(self,
                                     action: #selector(upPostButtonClicked),
                                     for: .touchUpInside)
-        
         cell.selectionStyle = .none
       }
       return cell

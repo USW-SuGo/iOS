@@ -117,7 +117,7 @@ class PostController: UIViewController {
         
         if json != "" {
             
-          productContentsDetail.productIndex = json["id"].intValue
+          productContentsDetail.productIndex = json["productPostId"].intValue
           productContentsDetail.contactPlace = json["contactPlace"].stringValue
           productContentsDetail.title = json["title"].stringValue
           productContentsDetail.price = decimalWon(price: json["price"].intValue)
@@ -208,7 +208,10 @@ class PostController: UIViewController {
                                              productIndex: productContentsDetail.productIndex))
       .validate()
       .responseJSON { response in
-        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+        
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else {
+          print(JSON(response.data))
+          return }
         guard let data = response.data else { return }
         print(JSON(data))
         // 수고하기 버튼 클릭 후 바로 쪽지방으로 연결, 쪽지 데이터 없을 경우 공지사항같은거 만들어줘야 함

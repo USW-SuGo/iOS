@@ -77,16 +77,26 @@ class MyInfoController: UIViewController {
   @objc
   private func callRefresh() {
     tableView.refreshControl?.beginRefreshing()
-    if tableView.tag == 1 {
+    switch tableView.tag{
+    case 1:
       userPostingPage = 0
       userPostingLastPage = false
       userPosting.removeAll()
       getMyPage(page: userPostingPage, size: 10)
-    } else {
+    case 2:
       userLikePostingPage = 0
       userLikePostingLastPage = false
       userLikePosting.removeAll()
       getLikePosting(page: userLikePostingPage, size: 10)
+    case 3:
+      tableView.refreshControl?.endRefreshing()
+      return
+    case 4:
+      tableView.refreshControl?.endRefreshing()
+      return
+    default:
+      tableView.refreshControl?.endRefreshing()
+      return
     }
     tableView.refreshControl?.endRefreshing()
   }
@@ -102,6 +112,7 @@ class MyInfoController: UIViewController {
     userLikePosting.removeAll()
     getMyPage(page: userPostingPage, size: 10)
     getLikePosting(page: userLikePostingPage, size: 10)
+    print(tableView.tag)
   }
   
   private func customUpdateAt(day: Int) -> String {
@@ -164,12 +175,14 @@ class MyInfoController: UIViewController {
   }
   
   private func updateUserPosting(json: JSON) {
+    guard json.count > 0 else {
+      tableView.tag = 3
+      tableView.reloadData()
+      return
+    }
+    tableView.tag = 1
     if json.count < 10 {
       userPostingLastPage = true
-    }
-    
-    if json.count == 0 {
-      tableView.tag = 0
     }
     
     for i in 0..<json.count {
@@ -197,9 +210,16 @@ class MyInfoController: UIViewController {
   }
   
   private func updateUserLikePosting(json: JSON) {
+    guard json.count > 0 else {
+      tableView.tag = 4
+      tableView.reloadData()
+      return
+    }
+    tableView.tag = 2
     if json.count < 10 {
       userLikePostingLastPage = true
     }
+    
     for i in 0..<json.count {
       let likePosting = json[i]
       let postDate = likePosting["updatedAt"].stringValue.components(separatedBy: "T")[0]
@@ -208,7 +228,6 @@ class MyInfoController: UIViewController {
       let startDate = dateFormatter.date(from: postDate) ?? nil
       let interval = Date().timeIntervalSince(startDate ?? Date())
       let intervalDays = Int((interval) / 86400)
-      
       let getData = MyPagePosting(productIndex: likePosting["id"].intValue,
                                   title: likePosting["title"].stringValue,
                                   price: likePosting["price"].stringValue,
@@ -239,14 +258,22 @@ class MyInfoController: UIViewController {
     //MARK: Button Actions
     
   @IBAction func myPostButtonClicked(_ sender: Any) {
-    tableView.tag = 0
+    if userPosting.count > 0 {
+      tableView.tag = 1
+    } else {
+      tableView.tag = 3
+    }
     myPostButton.setTitleColor(.black, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
     tableView.reloadData()
   }
   
   @IBAction func likePostButtonClicked(_ sender: Any) {
-    tableView.tag = 2
+    if userLikePosting.count > 0 {
+      tableView.tag = 2
+    } else {
+      tableView.tag = 4
+    }
     myPostButton.setTitleColor(.lightGray, for: .normal)
     likePostButton.setTitleColor(.black, for: .normal)
     tableView.reloadData()
@@ -301,7 +328,6 @@ class MyInfoController: UIViewController {
       self.customAlert(title: "게시글을 정말 삭제하시겠어요?", message: "", indexPath: indexPath)
     }
     let cancelAction = UIAlertAction(title: "닫기", style: .cancel)
-    
     actionSheetController.addAction(deleteAction)
     actionSheetController.addAction(cancelAction)
     present(actionSheetController, animated: true)
@@ -313,7 +339,7 @@ class MyInfoController: UIViewController {
     let numberFormatter = NumberFormatter()
     numberFormatter.numberStyle = .decimal
     let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
-
+    
     return result
   }
   
@@ -325,19 +351,16 @@ class MyInfoController: UIViewController {
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
     alert.addAction(deleteAction)
     alert.addAction(cancelAction)
-    
     self.present(alert, animated: true, completion: nil)
   }
     
   private func registerXib() {
-      
     let userPostingXib = UINib(nibName: "UserPostingCell", bundle: nil)
     tableView.register(userPostingXib, forCellReuseIdentifier: "userPostingCell")
     let likePostingXib = UINib(nibName: "LikePostingCell", bundle: nil)
     tableView.register(likePostingXib, forCellReuseIdentifier: "likePostingCell")
     let emptyPostingXib = UINib(nibName: "EmptyPostingCell", bundle: nil)
     tableView.register(emptyPostingXib, forCellReuseIdentifier: "emptyPostingCell")
-    
   }
   
   private func customBackButton() {
@@ -394,15 +417,20 @@ class MyInfoController: UIViewController {
 
 extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if tableView.tag == 0 {
-      return 510
-    } else if tableView.tag == 1 {
-     return 178
-    } else if tableView.tag == 2 {
+    switch tableView.tag {
+    case 1:
       return 138
+    case 2:
+      return 178
+    case 3:
+      return 510
+    case 4:
+      return 510
+    default:
+      return UITableView.automaticDimension
     }
-    return UITableView.automaticDimension
   }
+  
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     
     if tableView.tag == 1 {
@@ -427,29 +455,26 @@ extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if tableView.tag == 0 {
-      return 1
-    } else if tableView.tag == 1 {
+    switch tableView.tag {
+    case 1:
       return userPosting.count
-    } else {
+    case 2:
       return userLikePosting.count
+    case 3:
+      return 1
+    case 4:
+      return 1
+    default:
+      return 1
     }
   }
 
   // 테이블 뷰 데이터 없을 때 보여줘야 할 텍스트 분기 필요함.
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if tableView.tag == 0 {
-      
-      guard let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
-                                                     for: indexPath) as? EmptyPostingCell else
-      { return UITableViewCell() }
-      
-      return cell
-      
-    } else if tableView.tag == 1 {
-            
-    let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
-                                             for: indexPath) as! UserPostingCell
+    switch tableView.tag {
+    case 1:
+      let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
+                                               for: indexPath) as! UserPostingCell
       if userPosting.count > 0 { // indexPath out of range 방지 위함.
         if let url = URL(string: userPosting[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity
@@ -482,8 +507,7 @@ extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
         cell.selectionStyle = .none
       }
       return cell
-      
-    } else if tableView.tag == 2{
+    case 2:
       let cell = tableView.dequeueReusableCell(withIdentifier: "likePostingCell",
                                                       for: indexPath) as! LikePostingCell
       print(userLikePosting)
@@ -504,9 +528,23 @@ extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
         cell.priceLabel.text = userLikePosting[indexPath.row].decimalWon
       }
       return cell
+    case 3:
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
+                                                     for: indexPath) as? EmptyPostingCell else
+      { return UITableViewCell() }
+      cell.titleLabel.text = "아직 작성한 게시글이 없습니다."
+      cell.explanationLabel.text = "거래하고 싶은 물품들을 수고에 올려보세요!"
+      return cell
+    case 4:
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
+                                                     for: indexPath) as? EmptyPostingCell else
+      { return UITableViewCell() }
+      cell.titleLabel.text = "아직 좋아요 누른 글이 없습니다."
+      cell.explanationLabel.text = "관심가는 상품에 좋아요를 눌러보세요!"
+      return cell
+    default:
+      return UITableViewCell()
     }
-   
-    return UITableViewCell()
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

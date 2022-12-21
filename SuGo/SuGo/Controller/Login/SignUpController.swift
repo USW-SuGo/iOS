@@ -9,6 +9,7 @@ import UIKit
 
 import Alamofire
 import SwiftyJSON
+import IQKeyboardManagerSwift
 
 // 회원가입 로직
 // 1. 아이디 형식 확인 및 중복확인
@@ -17,9 +18,7 @@ import SwiftyJSON
 // 4. 이메일 중복 확인
 // 5. 완료와 동시에 인증메일 전송
 // 텍스트 변경을 실시간으로 확인해주어야 함. 예를 들어 이메일 중복확인 이후 텍스트가 변경되는 경우를 캐치 해야 함.
-
 // 이후 signUpView 하단에 약관 동의 체크박스 추가
-
 
 class SignUpController: UIViewController {
 
@@ -56,37 +55,29 @@ class SignUpController: UIViewController {
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   let userInfo = UserInfo.shared
   
-  //MARK: Functions
+  //MARK: Life Cycle
   
   override func viewDidLoad() {
+    textFieldDelegates()
     customBackButton()
     customRightBarButton()
     designBox()
     designLabel()
     textFieldAddTargets()
     super.viewDidLoad()
-      
-    NotificationCenter.default.addObserver(self,
-                                             selector: #selector(keyboardWillAppear),
-                                             name: UIResponder.keyboardWillShowNotification,
-                                             object: nil)
-      
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisappear),
-                                             name: UIResponder.keyboardWillHideNotification,
-                                             object: nil)
-      
   }
   
-  override func viewWillDisappear(_ animated: Bool) {
-      
-    super.viewWillDisappear(animated)
-    NotificationCenter.default.removeObserver(self)
-      
-  }
+  //MARK: Functions
   
+  private func textFieldDelegates() {
+    emailTextField.delegate = self
+    idTextField.delegate = self
+    passwordTextField.delegate = self
+    confirmPasswordTextField.delegate = self
+  }
+
   private func textFieldAddTargets() {
-      
-      // email add targets
+    // email add targets
     emailTextField.addTarget(self,
                              action: #selector(emailTextFieldEditingChanged),
                              for: .touchDown)
@@ -97,7 +88,7 @@ class SignUpController: UIViewController {
                              action: #selector(emailTextFieldisValid),
                              for: .editingDidEnd)
       
-      // id add targets
+    // id add targets
     idTextField.addTarget(self,
                           action: #selector(idTextFieldEditingChanged),
                           for: .touchDown)
@@ -108,7 +99,7 @@ class SignUpController: UIViewController {
                           action: #selector(idTextFieldisValid),
                           for: .editingDidEnd)
     
-      // password add targets
+    // password add targets
     passwordTextField.addTarget(self,
                                 action: #selector(passwordTextFieldEditingChanged),
                                 for: .touchDown)
@@ -120,7 +111,7 @@ class SignUpController: UIViewController {
                                 for: .editingDidEnd)
     passwordTextField.isSecureTextEntry = true
       
-      // confirm add targets
+    // confirm add targets
     confirmPasswordTextField.addTarget(self,
                                        action: #selector(confirmPasswordTextFieldEditingChanged),
                                        for: .touchDown)
@@ -301,31 +292,27 @@ class SignUpController: UIViewController {
     self.dismiss(animated: true)
   }
   
- 
-  
+  /* IQKeyboard 라이브러리 사용으로 대체
   @objc func keyboardWillAppear(_ notification: NSNotification){
-      
-      if keyboardTouchCheck == false && emailTouch == false{
-          
-          keyboardTouchCheck = true
-          if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-              UIView.animate(withDuration: 0.7){
-                  self.view.frame.origin.y -= 180
-              }
-          }
+    if keyboardTouchCheck == false && emailTouch == false{
+      keyboardTouchCheck = true
+      if let keyboardFrame = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        UIView.animate(withDuration: 0.7){
+          self.view.frame.origin.y -= 180
+        }
       }
+    }
   }
   
   @objc func keyboardWillDisappear(_ notification: Notification){
-      
-      if keyboardTouchCheck == true{
-          
-          keyboardTouchCheck = false
-          UIView.animate(withDuration: 0.8){
-              self.view.frame.origin.y = 0
-          }
+    if keyboardTouchCheck == true{
+      keyboardTouchCheck = false
+      UIView.animate(withDuration: 0.8){
+        self.view.frame.origin.y = 0
       }
+    }
   }
+  */
   
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
@@ -429,61 +416,46 @@ class SignUpController: UIViewController {
   }
     
   private func customAlert(title: String, message: String) {
-      
-      let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-      alert.addAction(UIAlertAction(title: "확인", style: .default))
-      self.present(alert, animated: true, completion: nil)
-      
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "확인", style: .default))
+    self.present(alert, animated: true, completion: nil)
   }
-  
-  @objc func emailBoxClicked(_ sender: UITextField) {
-      
-  }
-    
-    
-  
-  
   
   private func warningText(label: UILabel,
                    box: UIView,
                    text: String,
                    textColor: UIColor,
                    borderColor: CGColor) {
-      
-      label.text = text
-      label.textColor = textColor
-      box.layer.borderColor = borderColor
-      
+    label.text = text
+    label.textColor = textColor
+    box.layer.borderColor = borderColor
   }
 
   func designBox() {
-      
-      emailBox.layer.borderWidth = 0.7
-      emailBox.layer.borderColor = UIColor.lightGray.cgColor
-      emailBox.layer.cornerRadius = 3.0
-      
-      idBox.layer.borderWidth = 0.7
-      idBox.layer.borderColor = UIColor.lightGray.cgColor
-      idBox.layer.cornerRadius = 3.0
-      
-      passwordBox.layer.borderWidth = 0.7
-      passwordBox.layer.borderColor = UIColor.lightGray.cgColor
-      passwordBox.layer.cornerRadius = 3.0
-      
-      confirmPasswordBox.layer.borderWidth = 0.7
-      confirmPasswordBox.layer.borderColor = UIColor.lightGray.cgColor
-      confirmPasswordBox.layer.cornerRadius = 3.0
-      
-      nextButton.layer.cornerRadius = 6.0
+    emailBox.layer.borderWidth = 0.7
+    emailBox.layer.borderColor = UIColor.lightGray.cgColor
+    emailBox.layer.cornerRadius = 3.0
+    
+    idBox.layer.borderWidth = 0.7
+    idBox.layer.borderColor = UIColor.lightGray.cgColor
+    idBox.layer.cornerRadius = 3.0
+    
+    passwordBox.layer.borderWidth = 0.7
+    passwordBox.layer.borderColor = UIColor.lightGray.cgColor
+    passwordBox.layer.cornerRadius = 3.0
+    
+    confirmPasswordBox.layer.borderWidth = 0.7
+    confirmPasswordBox.layer.borderColor = UIColor.lightGray.cgColor
+    confirmPasswordBox.layer.cornerRadius = 3.0
+    
+    nextButton.layer.cornerRadius = 6.0
   }
   
   func designLabel() {
-      
-      emailWarningLabel.isHidden = true
-      idWarningLabel.isHidden = true
-      passwordWarningLabel.isHidden = true
-      confirmPasswordWarningLabel.isHidden = true
-      
+    emailWarningLabel.isHidden = true
+    idWarningLabel.isHidden = true
+    passwordWarningLabel.isHidden = true
+    confirmPasswordWarningLabel.isHidden = true
   }
     
   private func customBackButton() {
@@ -492,4 +464,22 @@ class SignUpController: UIViewController {
       self.navigationItem.backBarButtonItem = backButtonItem
   }
     
+}
+
+extension SignUpController: UITextFieldDelegate {
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    switch textField {
+    case emailTextField:
+      idTextField.becomeFirstResponder()
+    case idTextField:
+      passwordTextField.becomeFirstResponder()
+    case passwordTextField:
+      confirmPasswordTextField.becomeFirstResponder()
+    case confirmPasswordTextField:
+      confirmPasswordTextField.resignFirstResponder()
+    default:
+      break
+    }
+    return true
+  }
 }

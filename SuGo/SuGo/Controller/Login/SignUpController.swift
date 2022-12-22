@@ -101,6 +101,9 @@ class SignUpController: UIViewController {
                                 for: .editingChanged)
     passwordTextField.addTarget(self,
                                 action: #selector(passwordTextFieldisValid),
+                                for: .editingChanged)
+    passwordTextField.addTarget(self,
+                                action: #selector(passwordTextFieldisValid),
                                 for: .editingDidEnd)
     passwordTextField.isSecureTextEntry = true
     confirmPasswordTextField.addTarget(self,
@@ -181,6 +184,28 @@ class SignUpController: UIViewController {
     passwordWarningLabel.isHidden = false
     
     guard let password = passwordTextField.text, !password.isEmpty else { return }
+    // 이부분은 guard 문법으로 early-exit 시키면 안됨.
+    // -> 2차 비밀번호까지 입력 후 1차 비밀번호를 수정 시 비밀번호가 일치하지 않음 또한 출력해주어야 하기 때문이다.
+    if let count = confirmPasswordTextField.text?.count, count > 0 {
+      if password != confirmPasswordTextField.text {
+        warningText(label: confirmPasswordWarningLabel,
+                    box: confirmPasswordBox,
+                    text: "비밀번호가 일치하지 않아요.",
+                    textColor: UIColor.red,
+                    borderColor: UIColor.red.cgColor,
+                    validType: &confirmPasswordIsValid,
+                    bool: false)
+      } else {
+        warningText(label: confirmPasswordWarningLabel,
+                    box: confirmPasswordBox,
+                    text: "비밀번호가 일치해요!",
+                    textColor: colorLiteralGreen,
+                    borderColor: colorLiteralGreen.cgColor,
+                    validType: &confirmPasswordIsValid,
+                    bool: true)
+      }
+    }
+    
     guard loginModel.isValidPassword(pwd: password) else {
       warningText(label: passwordWarningLabel,
                   box: passwordBox,
@@ -189,21 +214,7 @@ class SignUpController: UIViewController {
                   borderColor: UIColor.red.cgColor,
                   validType: &passwordIsValid,
                   bool: false)
-      return
-    }
-    guard let count = confirmPasswordTextField.text?.count,
-              count > 0,
-              password == confirmPasswordTextField.text else {
-      warningText(label: confirmPasswordWarningLabel,
-                  box: confirmPasswordBox,
-                  text: "비밀번호가 일치하지 않아요.",
-                  textColor: UIColor.red,
-                  borderColor: UIColor.red.cgColor,
-                  validType: &confirmPasswordIsValid,
-                  bool: false)
-      return
-    }
-
+      return }
     warningText(label: passwordWarningLabel,
                 box: passwordBox,
                 text: "사용 가능한 비밀번호에요!",
@@ -286,7 +297,7 @@ class SignUpController: UIViewController {
           return
         }
         guard let data = response.data else { return }
-        guard JSON(data)["exist"].boolValue else {
+        guard !JSON(data)["exist"].boolValue else {
           self.warningText(label: self.emailWarningLabel,
                            box: self.emailBox,
                            text: "이미 사용중이거나, 사용할 수 없는 이메일이에요.",
@@ -314,7 +325,7 @@ class SignUpController: UIViewController {
       .responseJSON { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
         guard let data = response.data else { return }
-        guard JSON(data)["exist"].boolValue else {
+        guard !JSON(data)["exist"].boolValue else {
           self.warningText(label: self.idWarningLabel,
                            box: self.idBox,
                            text: "이미 사용중인 아이디에요!",
@@ -342,20 +353,18 @@ class SignUpController: UIViewController {
   //MARK: Button Actions
    
   @IBAction func nextButtonClicked(_ sender: Any) {
+    guard signUpIsValid else {
+      customAlert(title: "계정 정보를 확인해주세요 !", message: "입력되지 않았거나, 올바르지 않은 정보가 있어요 !")
+      return }
     
-      if signUpIsValid {
-          
-        userInfo.loginId = idTextField.text
-        userInfo.password = passwordTextField.text
-        userInfo.email = (emailTextField.text ?? "sozohoy") + "@suwon.ac.kr"
-        let departmentViewStoryboard = UIStoryboard(name: "DepartmentView", bundle: nil)
-        let nextViewController =
-        departmentViewStoryboard.instantiateViewController(withIdentifier: "departmentVC") as! DepartmentController
-        self.navigationController?.pushViewController(nextViewController, animated: true)
-          
-      } else {
-        customAlert(title: "계정 정보를 확인해주세요 !", message: "입력되지 않았거나, 올바르지 않은 정보가 있어요 !")
-      }
+    userInfo.loginId = idTextField.text
+    userInfo.password = passwordTextField.text
+    userInfo.email = (emailTextField.text ?? "sozohoy") + "@suwon.ac.kr"
+    let departmentViewStoryboard = UIStoryboard(name: "DepartmentView", bundle: nil)
+    guard let nextViewController =
+            departmentViewStoryboard.instantiateViewController(withIdentifier: "departmentVC")
+            as? DepartmentController else { return }
+    self.navigationController?.pushViewController(nextViewController, animated: true)
   }
 
   //MARK: Design Funtions

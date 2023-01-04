@@ -34,13 +34,12 @@ class PostingController: UIViewController {
   
   var phAssetImages = [PHAsset]()
   var priviewImages = [UIImage]()
-  var realImages = [UIImage]()
+  var uploadImages = [UIImage]()
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   let textViewPlaceHolder = "수고할 상품에 대한 글을 작성해주세요! (거짓 정보 및 가품 등 문제가 될만한 글은 자동으로 삭제됩니다.)"
   let categorySelect = CategorySelect.shared
   let modifyData = ModifyProduct.shared
   var contactPlace = ""
-  var keyboardAppear = false
   
   //MARK: Functions
   
@@ -56,8 +55,6 @@ class PostingController: UIViewController {
     customRightBarButton()
     customLeftBarButton()
     customBackButton()
-//    self.navigationController?.navigationBar.backgroundColor = .white
-//    observerKeyboard()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -73,12 +70,11 @@ class PostingController: UIViewController {
   }
   
   private func imageSelectSetting() {
-      
     let imagePicker = ImagePickerController()
     imagePicker.modalPresentationStyle = .fullScreen
-    imagePicker.settings.selection.max = 5
-    imagePicker.settings.theme.selectionStyle = .numbered
-    imagePicker.settings.fetch.assets.supportedMediaTypes = [.image]
+    imagePicker.settings.selection.max = 5 // 최대 갯수
+    imagePicker.settings.theme.selectionStyle = .numbered // 숫자로 유저에게 보여주기
+    imagePicker.settings.fetch.assets.supportedMediaTypes = [.image] // 이미지만 허용
     imagePicker.settings.theme.selectionFillColor = .white
     imagePicker.doneButtonTitle = "선택완료"
     imagePicker.cancelButton.tintColor = .black
@@ -91,74 +87,71 @@ class PostingController: UIViewController {
     }, finish: { assets in
       self.phAssetImages.removeAll()
       self.priviewImages.removeAll()
-      self.realImages.removeAll()
+      self.uploadImages.removeAll()
       
       for i in 0..<assets.count {
           self.phAssetImages.append(assets[i])
       }
       
+      guard self.phAssetImages.count > 0 else { return }
       self.convertAssetToPriviewImage()
       self.convertAssetToRealImage()
       })
-}
+  }
   
   // PHAsset -> UIImage로 형변환
   private func convertAssetToPriviewImage() {
-    if phAssetImages.count != 0 {
-      for i in 0..<phAssetImages.count {
-        let imageManager = PHImageManager.default()
-        let option = PHImageRequestOptions()
-        option.deliveryMode = .opportunistic
-        option.isSynchronous = true
-        
-        // UIImage Resize
-        option.resizeMode = .exact
-        var thumbnail = UIImage()
-        
-        imageManager.requestImage(for: phAssetImages[i],
-                                  targetSize: CGSize(width: 40, height: 40),
-                                  contentMode: .aspectFill,
-                                  options: option) { (result, info) in
-          guard let image = result else { return }
-          thumbnail = image
-        }
-        guard let data = thumbnail.jpegData(compressionQuality: 0.9) else { return }
-        guard let newImage = UIImage(data: data) else { return }
-        priviewImages.append(newImage as UIImage)
-      }
-      collectionView.reloadData()
-      photoCount.text = "\(priviewImages.count)/5"
+    for i in 0..<phAssetImages.count {
+      phImageManagerCustom(phAssetImages: phAssetImages,
+                           index: i,
+                           deliveryMode: .opportunistic,
+                           isSynchronous: true,
+                           resizeMode: .exact,
+                           imageArray: &priviewImages)
     }
+    collectionView.reloadData()
+    photoCount.text = "\(priviewImages.count)/5"
   }
   
   private func convertAssetToRealImage() {
-    if phAssetImages.count != 0 { // 선택한 이미지가 있을 경우에만 함수 실행
-      for i in 0..<phAssetImages.count {
-        let imageManager = PHImageManager.default()
-        let option = PHImageRequestOptions()
-        option.deliveryMode = .opportunistic
-        option.isSynchronous = true
-        // UIImage Resize
-        option.resizeMode = .exact
-        var realImage = UIImage()
-        // 원본 사이즈 그대로 유지
-        imageManager.requestImage(for: phAssetImages[i],
-                                  targetSize: CGSize(width: phAssetImages[i].pixelWidth,
-                                                     height: phAssetImages[i].pixelHeight),
-                                  contentMode: .aspectFill,
-                                  options: option) { (result, info) in
-// error
-          guard let image = result else { return }
-            realImage = image
-        }
-// error
-        
-  
-        guard let data = realImage.jpegData(compressionQuality: 0.9) else { return }
-        guard let newImage = UIImage(data: data) else { return }
-        realImages.append(newImage as UIImage)
-      }
+    for i in 0..<phAssetImages.count {
+      phImageManagerCustom(phAssetImages: phAssetImages,
+                           index: i,
+                           deliveryMode: .opportunistic,
+                           isSynchronous: true,
+                           resizeMode: .exact,
+                           imageArray: &uploadImages)
     }
+  }
+  
+  private func phImageManagerCustom(phAssetImages: [PHAsset],
+                                    index: Int,
+                                    deliveryMode: PHImageRequestOptionsDeliveryMode,
+                                    isSynchronous: Bool,
+                                    resizeMode: PHImageRequestOptionsResizeMode,
+                                    imageArray: inout [UIImage]) {
+    
+    PHImageRequestOptions().deliveryMode = deliveryMode
+    PHImageRequestOptions().isSynchronous = isSynchronous
+    // 이미지 요청을 동기적으로 처리할 지 여부
+    // 동기처리를 true로 해놓을 경우 opportunistic으로 deliveryMode를 설정해도 의미 없음.
+    
+    var image: UIImage?
+    
+    // UIImage Resize
+    PHImageRequestOptions().resizeMode = resizeMode
+    // iCloud에 저장 되어있는 사진 업로드 시 문제 해결 해야함.
+    PHImageManager.default().requestImage(for: phAssetImages[index],
+                                          targetSize: CGSize(width: phAssetImages[index].pixelWidth,
+                                                             height: phAssetImages[index].pixelHeight),
+                                          contentMode: .aspectFill,
+                                          options: PHImageRequestOptions()) { (result, info) in
+      guard result != nil else { return }
+      image = result
+    }
+    guard let data = image?.jpegData(compressionQuality: 0.9) else { return }
+    guard let appendImage = UIImage(data: data) else { return }
+    imageArray.append(appendImage)
   }
   
   private func postContent(title: String,
@@ -198,8 +191,8 @@ class PostingController: UIViewController {
             multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
         }
         
-        for i in 0..<self.realImages.count {
-            multipartFormData.append(self.realImages[i].jpegData(compressionQuality: 1)!,
+        for i in 0..<self.uploadImages.count {
+            multipartFormData.append(self.uploadImages[i].jpegData(compressionQuality: 1)!,
                                     withName: "multipartFileList",
                                     fileName: "\(self.titleTextField.text ?? "")+\(i)",
                                     mimeType: "image/jpeg")
@@ -295,7 +288,7 @@ class PostingController: UIViewController {
   @objc func imageDeleteButtonClicked(sender: UIButton) {
     let indexPath = IndexPath(row: sender.tag, section: 0)
     priviewImages.remove(at: indexPath.row)
-    realImages.remove(at: indexPath.row)
+    uploadImages.remove(at: indexPath.row)
     photoCount.text = "\(priviewImages.count)/5"
     collectionView.reloadData()
   }
@@ -421,17 +414,18 @@ extension PostingController: UICollectionViewDelegate, UICollectionViewDataSourc
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
       
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostingCell",
-                                                    for: indexPath) as! PostingCollectionViewCell
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostingCell",
+                                                  for: indexPath) as! PostingCollectionViewCell
 
-      cell.itemImage.image = priviewImages[indexPath.row]
-      cell.itemImage.layer.cornerRadius = 5
-      cell.itemImage.layer.borderWidth = 2
-      cell.itemImage.layer.borderColor = UIColor.white.cgColor
-      cell.deleteButton.tag = indexPath.row
-      cell.deleteButton.addTarget(self, action: #selector(imageDeleteButtonClicked), for: .touchUpInside)
+    cell.itemImage.image = priviewImages[indexPath.row]
+    cell.itemImage.contentMode = .scaleAspectFill
+    cell.itemImage.layer.cornerRadius = 5
+    cell.itemImage.layer.borderWidth = 2
+    cell.itemImage.layer.borderColor = UIColor.white.cgColor
+    cell.deleteButton.tag = indexPath.row
+    cell.deleteButton.addTarget(self, action: #selector(imageDeleteButtonClicked), for: .touchUpInside)
 
-      return cell
+    return cell
   }
   
 }

@@ -91,41 +91,33 @@ class LoginController: UIViewController, UITextFieldDelegate {
                 
                 let statusCode = response.response?.statusCode
                 if statusCode == 200 {
-                    
-                    //Token : Dictionary To String
-                    
-                    let tokens = String((response.response?.headers.dictionary["Authorization"] ?? ""))
-                    print("tokens - \(tokens)")
-                    let splitToken = tokens.components(separatedBy: ",")
-                    print("splitToken - \(splitToken)")
-                    
-                    
-                    let refreshStartIndex = splitToken[0].index(splitToken[0].startIndex,
-                                                                offsetBy: 14)
-                    let refreshToken = String(splitToken[0][refreshStartIndex...])
-    
-                    let accessStartIndex = splitToken[1].index(splitToken[1].startIndex,
-                                                               offsetBy: 13)
-                    var accessToken = String(splitToken[1].dropLast())
-                    accessToken = String(accessToken[accessStartIndex...])
+                  
+                  //Token : Dictionary To String
+                  
+                  let tokens = String((response.response?.headers.dictionary["Authorization"] ?? ""))
+                  print("tokens - \(tokens)")
+                  let splitToken = tokens.components(separatedBy: ",")
+                  print("splitToken - \(splitToken)")
+                  let refreshStartIndex = splitToken[0].index(splitToken[0].startIndex,
+                                                              offsetBy: 14)
+                  let refreshToken = String(splitToken[0][refreshStartIndex...])
+                  let accessStartIndex = splitToken[1].index(splitToken[1].startIndex,
+                                                             offsetBy: 13)
+                  var accessToken = String(splitToken[1].dropLast())
+                  accessToken = String(accessToken[accessStartIndex...])
 
-                    //Keychain Setting
-                    print("accessToken - \(accessToken)")
-                    print("refreshToken - \(refreshToken)")
-                    
-                    
-                    self.keychain.set(accessToken, forKey: "AccessToken")
-                    self.keychain.set(refreshToken, forKey: "RefreshToken")
-                    
-                    self.dismiss(animated: true)
-                    
+                  //Keychain Setting
+                  print("accessToken - \(accessToken)")
+                  print("refreshToken - \(refreshToken)")
+                  self.keychain.set(accessToken, forKey: "AccessToken")
+                  self.keychain.set(refreshToken, forKey: "RefreshToken")
+                  self.dismiss(animated: true)
+                
                 // 로그인 실패한 경우 에러 메세지 출력
-                } else {
-                    
-                    self.failToLogin()
-                    
-                }
+              } else {
+                  self.failToLogin()
             }
+          }
         }
     
     //MARK: Design Functions

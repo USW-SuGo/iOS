@@ -61,7 +61,6 @@ class MyInfoController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.refreshControl = refresh
-    tableView.tag = 1
     tableView.separatorStyle = .none
     customBackButton()
     registerXib()
@@ -78,34 +77,59 @@ class MyInfoController: UIViewController {
   @objc
   private func callRefresh() {
     tableView.refreshControl?.beginRefreshing()
-    if tableView.tag == 1 {
-      userPostingPage = 0
-      userPostingLastPage = false
-      userPosting.removeAll()
+    userPostingPage = 0
+    userPostingLastPage = false
+    userPosting.removeAll()
+    userLikePostingPage = 0
+    userLikePostingLastPage = false
+    userLikePosting.removeAll()
+    
+    switch tableView.tag{
+    case 1, 3:
       getMyPage(page: userPostingPage, size: 10)
-    } else {
-      userLikePostingPage = 0
-      userLikePostingLastPage = false
-      userLikePosting.removeAll()
+    case 2, 4:
       getLikePosting(page: userLikePostingPage, size: 10)
+    default:
+      tableView.refreshControl?.endRefreshing()
+      return
     }
+    
     tableView.refreshControl?.endRefreshing()
   }
   
   private func initializeMyInfo() {
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = UITableView.automaticDimension
+    myPostButton.setTitleColor(.black, for: .normal)
+    likePostButton.setTitleColor(.lightGray, for: .normal)
     userPostingPage = 0
     userPostingLastPage = false
-    userLikePostingPage = 0
-    userLikePostingLastPage = false
     userPosting.removeAll()
+    userLikePostingPage = 0
+    userPostingLastPage = false
     userLikePosting.removeAll()
     getMyPage(page: userPostingPage, size: 10)
-    getLikePosting(page: userLikePostingPage, size: 10)
+    print(tableView.tag)
+  }
+  
+  private func customUpdateAt(day: Int) -> String {
+    switch day{
+    case 0:
+      return "오늘"
+    case 1:
+      return "어제"
+    case 2..<7:
+      return "\(day)일 전"
+    case 7..<30:
+      return "\(day / 7)주 전"
+    case 30...:
+      return "\(day / 30)달 전"
+    default:
+      return ""
+    }    
   }
     
-  private func getMyPage(page: Int, size: Int) {
+  func getMyPage(page: Int, size: Int) {
     AlamofireManager
       .shared
       .session
@@ -123,7 +147,7 @@ class MyInfoController: UIViewController {
     }
   }
   
-  private func getLikePosting(page: Int, size: Int) {
+  func getLikePosting(page: Int, size: Int) {
     AlamofireManager
       .shared
       .session
@@ -146,114 +170,108 @@ class MyInfoController: UIViewController {
   }
   
   private func updateUserPosting(json: JSON) {
+    guard json.count > 0 else {
+      tableView.tag = 3
+      tableView.reloadData()
+      return
+    }
+    tableView.tag = 1
     if json.count < 10 {
       userPostingLastPage = true
     }
     for i in 0..<json.count {
-      let myPosting = json[i]
-      
-      let postDate = myPosting["updatedAt"].stringValue.components(separatedBy: "T")[0]
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "yyyy-MM-dd"
-      let startDate = dateFormatter.date(from: postDate) ?? nil
-      let interval = Date().timeIntervalSince(startDate ?? Date())
-      let intervalDays = Int((interval) / 86400)
-      var updatedAt = ""
-  
-      if intervalDays < 1 {
-          updatedAt = "오늘"
-      } else if intervalDays == 1 {
-          updatedAt = "어제"
-      } else if intervalDays < 7 {
-          updatedAt = "\(intervalDays)일 전"
-      } else if intervalDays < 30 {
-          updatedAt = "\(intervalDays / 7)주 전"
-      } else {
-          updatedAt = "\(intervalDays / 30)달 전"
-      }
-      
-      let getData = MyPagePosting(productIndex: myPosting["id"].intValue,
-                                  title: myPosting["title"].stringValue,
-                                  price: myPosting["price"].stringValue,
-                                  decimalWon: decimalWon(price: myPosting["price"].intValue),
-                                  category: myPosting["category"].stringValue,
-                                  status: myPosting["status"].boolValue,
-                                  imageLink: myPosting["imageLink"].stringValue,
-                                  contactPlace: myPosting["contactPlace"].stringValue,
-                                  updatedAt: updatedAt)
-      userPosting.append(getData)
+      jsonAppendToArray(json: json[i], posting: &userPosting)
     }
     tableView.reloadData()
   }
   
+
+  
   private func updateUserLikePosting(json: JSON) {
+    guard json.count > 0 else {
+      tableView.tag = 4
+      tableView.reloadData()
+      return
+    }
+    tableView.tag = 2
     if json.count < 10 {
       userLikePostingLastPage = true
     }
     
     for i in 0..<json.count {
-      let likePosting = json[i]
-      let postDate = likePosting["updatedAt"].stringValue.components(separatedBy: "T")[0]
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "yyyy-MM-dd"
-      let startDate = dateFormatter.date(from: postDate) ?? nil
-      let interval = Date().timeIntervalSince(startDate ?? Date())
-      let intervalDays = Int((interval) / 86400)
-      var updatedAt = ""
-      
-      if intervalDays < 1 {
-          updatedAt = "오늘"
-      } else if intervalDays == 1 {
-          updatedAt = "어제"
-      } else if intervalDays < 7 {
-          updatedAt = "\(intervalDays)일 전"
-      } else if intervalDays < 30 {
-          updatedAt = "\(intervalDays / 7)주 전"
-      } else {
-          updatedAt = "\(intervalDays / 30)달 전"
-      }
-      
-      let getData = MyPagePosting(productIndex: likePosting["id"].intValue,
-                                  title: likePosting["title"].stringValue,
-                                  price: likePosting["price"].stringValue,
-                                  decimalWon: decimalWon(price: likePosting["price"].intValue),
-                                  category: likePosting["category"].stringValue,
-                                  status: likePosting["status"].boolValue,
-                                  imageLink: likePosting["imageLink"].stringValue,
-                                  contactPlace: likePosting["contactPlace"].stringValue,
-                                  updatedAt: updatedAt)
-      userLikePosting.append(getData)
+     jsonAppendToArray(json: json[i], posting: &userLikePosting)
     }
     tableView.reloadData()
   }
+  
+  private func jsonAppendToArray(json: JSON, posting: inout Array<MyPagePosting>) {
+    let postDate = json["updatedAt"].stringValue.components(separatedBy: "T")[0]
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    let startDate = dateFormatter.date(from: postDate) ?? nil
+    let interval = Date().timeIntervalSince(startDate ?? Date())
+    let intervalDays = Int((interval) / 86400)
+    let getData = MyPagePosting(productIndex: json["productPostId"].intValue,
+                                title: json["title"].stringValue,
+                                price: json["price"].stringValue,
+                                decimalWon: decimalWon(price: json["price"].intValue),
+                                category: json["category"].stringValue,
+                                status: json["status"].boolValue,
+                                imageLink: json["imageLink"].stringValue,
+                                contactPlace: json["contactPlace"].stringValue,
+                                updatedAt: customUpdateAt(day: intervalDays))
+    posting.append(getData)
+  }
     
+  // 로직 확인 필요
   private func deletePost(indexPath: IndexPath) {
-    userPostingPage = 0
     AlamofireManager
       .shared
       .session
       .request(PostRouter.deletePost(productIndex: userPosting[indexPath.row].productIndex))
       .validate()
       .responseJSON { response in
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
         self.userPosting.removeAll()
+        self.userPostingPage = 0
+        self.userPostingLastPage = false
         self.getMyPage(page: self.userPostingPage, size: 10)
       }
   }
+  
+  private func registerXib() {
+    let userPostingXib = UINib(nibName: "UserPostingCell", bundle: nil)
+    tableView.register(userPostingXib, forCellReuseIdentifier: "userPostingCell")
+    let likePostingXib = UINib(nibName: "LikePostingCell", bundle: nil)
+    tableView.register(likePostingXib, forCellReuseIdentifier: "likePostingCell")
+    let emptyPostingXib = UINib(nibName: "EmptyPostingCell", bundle: nil)
+    tableView.register(emptyPostingXib, forCellReuseIdentifier: "emptyPostingCell")
+  }
     
-    //MARK: Button Actions
+  //MARK: Button Actions
     
   @IBAction func myPostButtonClicked(_ sender: Any) {
-    tableView.tag = 1
     myPostButton.setTitleColor(.black, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
+    guard userPosting.count == 0 else {
+      tableView.tag = 1
+      tableView.reloadData()
+      return
+    }
+    tableView.tag = 3
     tableView.reloadData()
   }
   
   @IBAction func likePostButtonClicked(_ sender: Any) {
-    tableView.tag = 2
+    // 카운트가 0이면 api 호출하기
     myPostButton.setTitleColor(.lightGray, for: .normal)
     likePostButton.setTitleColor(.black, for: .normal)
-    tableView.reloadData()
+    guard userLikePosting.count == 0 else {
+      tableView.tag = 2
+      tableView.reloadData()
+      return
+    }
+    getLikePosting(page: userLikePostingPage, size: 10)
   }
   
   @objc func modifyButtonClicked(sender: UIButton) {
@@ -305,19 +323,18 @@ class MyInfoController: UIViewController {
       self.customAlert(title: "게시글을 정말 삭제하시겠어요?", message: "", indexPath: indexPath)
     }
     let cancelAction = UIAlertAction(title: "닫기", style: .cancel)
-    
     actionSheetController.addAction(deleteAction)
     actionSheetController.addAction(cancelAction)
     present(actionSheetController, animated: true)
   }
     
-    //MARK: Design Functions
+  //MARK: Design Functions
   
   func decimalWon(price: Int) -> String {
     let numberFormatter = NumberFormatter()
     numberFormatter.numberStyle = .decimal
     let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
-
+    
     return result
   }
   
@@ -329,19 +346,10 @@ class MyInfoController: UIViewController {
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
     alert.addAction(deleteAction)
     alert.addAction(cancelAction)
-    
     self.present(alert, animated: true, completion: nil)
   }
     
-  private func registerXib() {
-      
-    let userPostingXib = UINib(nibName: "UserPostingCell", bundle: nil)
-    tableView.register(userPostingXib, forCellReuseIdentifier: "userPostingCell")
-    
-    let likePostingXib = UINib(nibName: "LikePostingCell", bundle: nil)
-    tableView.register(likePostingXib, forCellReuseIdentifier: "likePostingCell")
-    
-  }
+
   
   private func customBackButton() {
     let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -395,124 +403,3 @@ class MyInfoController: UIViewController {
 
 }
 
-extension MyInfoController: UITableViewDelegate, UITableViewDataSource {
-  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if tableView.tag == 1 {
-     return 178
-    } else if tableView.tag == 2 {
-      return 138
-    }
-    return UITableView.automaticDimension
-  }
-  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    
-    if tableView.tag == 1 {
-      let lastIndex = userPosting.count - 2
-      if indexPath.row == lastIndex {
-        userPostingPage += 1
-        if !userPostingLastPage {
-          print("infinite scroll work")
-          getMyPage(page: userPostingPage, size: 10)
-        }
-      }
-    } else if tableView.tag == 2 {
-      let lastIndex = userLikePosting.count - 2
-      if indexPath.row == lastIndex {
-        userLikePostingPage += 1
-        if !userLikePostingLastPage {
-          getLikePosting(page: userLikePostingPage, size: 10)
-        }
-      }
-    }
-    
-  }
-  
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    if tableView.tag == 1 {
-      return userPosting.count
-    } else { // will tag 2 come here
-      return userLikePosting.count
-    }
-  }
-
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    if tableView.tag == 1 {
-            
-    let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
-                                             for: indexPath) as! UserPostingCell
-      if userPosting.count > 0 { // indexPath out of range 방지 위함.
-        if let url = URL(string: userPosting[indexPath.row].imageLink) {
-          
-          cell.productImage.kf.indicatorType = .activity
-          cell.productImage.kf.setImage(with: url,
-                                        placeholder: nil,
-                                        options: [
-                                          .transition(.fade(0.1)),
-                                          .cacheOriginalImage
-                                        ],
-                                        progressBlock: nil)
-          
-        }
-        
-        cell.productImage.contentMode = .scaleAspectFill
-        cell.productImage.layer.cornerRadius = 6.0
-        cell.titleLabel.text = userPosting[indexPath.row].title
-        cell.nicknameLabel.text = "내가 쓴 글"
-        cell.placeUpdateCategoryLabel.text = "\(userPosting[indexPath.row].contactPlace) | \(userPosting[indexPath.row].updatedAt) | \(userPosting[indexPath.row].category)"
-        cell.priceLabel.text = userPosting[indexPath.row].decimalWon
-        cell.kebabMenuButton.tag = indexPath.row
-        cell.kebabMenuButton.addTarget(self,
-                                       action: #selector(kebabMenuClicked),
-                                       for: .touchUpInside)
-        cell.modifyButton.tag = indexPath.row
-        cell.modifyButton.addTarget(self,
-                                    action: #selector(modifyButtonClicked),
-                                    for: .touchUpInside)
-        
-        cell.upPostButton.tag = indexPath.row
-        cell.upPostButton.addTarget(self,
-                                    action: #selector(upPostButtonClicked),
-                                    for: .touchUpInside)
-        
-        cell.selectionStyle = .none
-      }
-      return cell
-      
-    } else if tableView.tag == 2{
-      let cell = tableView.dequeueReusableCell(withIdentifier: "likePostingCell",
-                                                      for: indexPath) as! LikePostingCell
-      print(userLikePosting)
-      if userLikePosting.count > 0 {
-        if let url = URL(string: userLikePosting[indexPath.row].imageLink) {
-          cell.productImage.kf.indicatorType = .activity
-          cell.productImage.kf.setImage(with: url,
-                                        placeholder: nil,
-                                        options: [
-                                          .transition(.fade(0.1)),
-                                          .cacheOriginalImage
-                                        ],
-                                        progressBlock: nil)
-        }
-        cell.productImage.contentMode = .scaleAspectFill
-        cell.placeUpdateCategoryLabel.text = "\(userLikePosting[indexPath.row].contactPlace) | \(userLikePosting[indexPath.row].updatedAt) | \(userLikePosting[indexPath.row].category)"
-        cell.titleLabel.text = userLikePosting[indexPath.row].title
-        cell.priceLabel.text = userLikePosting[indexPath.row].decimalWon
-      }
-      return cell
-    }
-   
-    return UITableViewCell()
-  }
-  
-  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    if tableView.tag == 1 {
-      let postView = UIStoryboard(name: "PostView", bundle: nil)
-      guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
-              as? PostController
-      else { return }
-      postController.productPostId = userPosting[indexPath.row].productIndex
-      navigationController?.pushViewController(postController, animated: true)
-    }
-  }
-
-}

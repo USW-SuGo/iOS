@@ -46,7 +46,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="게스트 상태입니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6b5-yb-uJl">
-                                <rect key="frame" x="91" y="126" width="119" height="22"/>
+                                <rect key="frame" x="91" y="126" width="303" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="S6H-Et-WWv"/>
                                 </constraints>
@@ -184,6 +184,7 @@
                             <constraint firstItem="OG3-mC-zws" firstAttribute="leading" secondItem="I08-hr-WIl" secondAttribute="trailing" constant="100" id="8Gc-ZM-eRw"/>
                             <constraint firstItem="liB-Fk-djT" firstAttribute="leading" secondItem="aSE-SE-4SM" secondAttribute="trailing" constant="85" id="9Ok-x5-jeI"/>
                             <constraint firstItem="OG3-mC-zws" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Ct0-zR-iiK"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6b5-yb-uJl" secondAttribute="trailing" constant="20" id="Dxy-nR-R5K"/>
                             <constraint firstAttribute="trailing" secondItem="lS2-9N-WR0" secondAttribute="trailing" id="GMD-VH-zkw"/>
                             <constraint firstItem="esg-Sr-XnF" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="HBe-0W-tdB"/>
                             <constraint firstItem="OG3-mC-zws" firstAttribute="top" secondItem="aSE-SE-4SM" secondAttribute="bottom" constant="5" id="Iem-hE-AIn"/>

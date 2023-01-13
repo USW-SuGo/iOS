@@ -39,7 +39,7 @@ class SendMessageController: UIViewController {
   @IBAction func sendMessageButtonClicked(_ sender: Any) {
     
     guard let message = messageTextView.text else { return }
-    
+    print(sendMessage)
     AlamofireManager
       .shared
       .session
@@ -49,7 +49,9 @@ class SendMessageController: UIViewController {
                                          receiverId: sendMessage.oppositeIndex))
       .validate()
       .responseJSON { response in
-        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else {
+          print(JSON(response.data))
+          return }
         print("dismiss")
         self.dismiss(animated: true)
       }
@@ -87,3 +89,4 @@ extension SendMessageController: UITextViewDelegate {
   }
   
 }
+

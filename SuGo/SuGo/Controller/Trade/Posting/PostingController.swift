@@ -28,8 +28,8 @@ class PostingController: UIViewController {
   @IBOutlet weak var placeButton: UIButton!
   @IBOutlet weak var imageButton: UIButton!
   @IBOutlet weak var categoryButton: UIButton!
-
   @IBOutlet weak var photoCount: UILabel!
+  
   //MARK: Properties
   
   var phAssetImages = [PHAsset]()
@@ -131,18 +131,15 @@ class PostingController: UIViewController {
                                     resizeMode: PHImageRequestOptionsResizeMode,
                                     imageArray: inout [UIImage]) {
     
-//    PHImageManager.default()
     let imageOption = PHImageRequestOptions()
+    // 이미지 요청을 동기적으로 처리할 지 여부
+    // 동기처리를 true로 해놓을 경우 opportunistic으로 deliveryMode를 설정해도 의미 없음.
     imageOption.deliveryMode = deliveryMode
     imageOption.isSynchronous = isSynchronous
     
     // iCloud에 저장된 이미지를 요구할때, 다운로드할 수 있는지 여부를 결정
     imageOption.isNetworkAccessAllowed = true
-    print(imageOption.isNetworkAccessAllowed)
-    
-    // 이미지 요청을 동기적으로 처리할 지 여부
-    // 동기처리를 true로 해놓을 경우 opportunistic으로 deliveryMode를 설정해도 의미 없음.
-    
+
     var image: UIImage?
     
     // UIImage Resize
@@ -161,7 +158,6 @@ class PostingController: UIViewController {
     guard let appendImage = UIImage(data: data) else { return }
     imageArray.append(appendImage)
   }
-  
   
   private func postContent(title: String,
                            content: String,
@@ -186,6 +182,7 @@ class PostingController: UIViewController {
       "category" : category
     ]
     
+    // 게시글을 수정했을 경우 하나의 화면을 더 좋게 사용할 방법이 없을까..
     if modify {
       guard let productPostId = modifyData.productIndex else { return }
       parameters.updateValue(productPostId, forKey: "productPostId")
@@ -196,27 +193,27 @@ class PostingController: UIViewController {
     // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
     AF.upload(multipartFormData: { multipartFormData in
         
-        for (key, value) in parameters {
-            multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+      for (key, value) in parameters {
+          multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+      }
+      
+      for i in 0..<self.uploadImages.count {
+          multipartFormData.append(self.uploadImages[i].jpegData(compressionQuality: 1)!,
+                                  withName: "multipartFileList",
+                                  fileName: "\(self.titleTextField.text ?? "")+\(i)",
+                                  mimeType: "image/jpeg")
         }
-        
-        for i in 0..<self.uploadImages.count {
-            multipartFormData.append(self.uploadImages[i].jpegData(compressionQuality: 1)!,
-                                    withName: "multipartFileList",
-                                    fileName: "\(self.titleTextField.text ?? "")+\(i)",
-                                    mimeType: "image/jpeg")
-        }
-    },
-              to: url,
-              usingThreshold: UInt64.init(),
-              method: method,
-              headers: header).responseJSON { response in
+      },
+        to: url,
+        usingThreshold: UInt64.init(),
+        method: method,
+        headers: header).responseJSON { response in
       print("modify - \(modify)")
       print("method - \(method)")
       print(JSON(response.data ?? ""))
       self.modifyData.productIndex = nil
     }
-      self.dismiss(animated: true)
+    self.dismiss(animated: true)
   }
   
   private func textDelegates() {
@@ -348,12 +345,9 @@ class PostingController: UIViewController {
     contentTextView.layer.cornerRadius = 6.0
     contentTextView.text = textViewPlaceHolder
     contentTextView.textColor = .lightGray
-//        contentTextView.layer.borderColor = UIColor.black.cgColor
-//        contentTextView.layer.borderWidth = 1.0
     placeButton.layer.cornerRadius = 6.0
     placeButton.layer.borderColor = colorLiteralGreen.cgColor
     placeButton.layer.borderWidth = 1.0
-
     imageButton.layer.cornerRadius = 5.0
     imageButton.layer.borderColor = UIColor.darkGray.cgColor
     imageButton.layer.borderWidth = 1.0

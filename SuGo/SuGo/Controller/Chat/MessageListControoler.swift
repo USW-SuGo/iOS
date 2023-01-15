@@ -53,7 +53,7 @@ class MessageListControoler: UIViewController {
       .session
       .request(MessageRouter.messageList(page: page, size: size))
       .validate()
-      .responseJSON { response in
+      .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
         self.jsonToTableViewData(json: JSON(response.data ?? ""))
         print(JSON(response.data ?? ""))

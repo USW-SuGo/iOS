@@ -53,7 +53,7 @@ class HomeController: UIViewController {
     customRightBarButtons()
     customBackButton()
     searchViewDesign()
-    print(keychain.get("AccessToken"))
+//    print(keychain.get("AccessToken"))
     
   }
     
@@ -114,7 +114,7 @@ class HomeController: UIViewController {
       .session
       .request(PageRouter.myPage(page: 0, size: 10))
       .validate()
-      .responseJSON { response in
+      .response { response in
         if response.response?.statusCode == 200 {
           let postingView = UIStoryboard(name: "PostingView", bundle: nil)
           guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
@@ -412,7 +412,7 @@ extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
         .session
         .request(PostRouter.getDetailPost(productIndex: homeProductContents[indexPath.row].productIndex))
         .validate()
-        .responseJSON { response in
+        .response { response in
           // if users have token and refreshToken still alive
           print(JSON(response.data ?? ""))
         if response.response?.statusCode == 200 {

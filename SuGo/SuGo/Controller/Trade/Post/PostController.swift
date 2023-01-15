@@ -94,7 +94,7 @@ class PostController: UIViewController {
                method: .get,
                encoding: URLEncoding.default,
                headers: header,
-               interceptor: BaseInterceptor()).validate().responseJSON { response in
+               interceptor: BaseInterceptor()).validate().response { response in
       guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
       guard let data = response.data else { return }
       self.productContentsDetail.myIndex = JSON(data)["userId"].intValue
@@ -107,7 +107,7 @@ class PostController: UIViewController {
           .session
           .request(PostRouter.getDetailPost(productIndex: productPostId))
           .validate()
-          .responseJSON { response in
+          .response { response in
             guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
             self.updatePost(json: JSON(response.data ?? "") )
     }

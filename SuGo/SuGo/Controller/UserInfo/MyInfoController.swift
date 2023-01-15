@@ -135,7 +135,7 @@ class MyInfoController: UIViewController {
       .session
       .request(PageRouter.myPage(page: page, size: size))
       .validate()
-      .responseJSON { response in
+      .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else {
           self.designGuestView()
           return
@@ -153,7 +153,7 @@ class MyInfoController: UIViewController {
       .session
       .request(PageRouter.myPage(page: page, size: size))
       .validate()
-      .responseJSON { response in
+      .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
         self.updateUserLikePosting(json: JSON(response.data ?? "")["likePosting"])
       }
@@ -230,7 +230,7 @@ class MyInfoController: UIViewController {
       .session
       .request(PostRouter.deletePost(productIndex: userPosting[indexPath.row].productIndex))
       .validate()
-      .responseJSON { response in
+      .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
         self.userPosting.removeAll()
         self.userPostingPage = 0
@@ -295,7 +295,7 @@ class MyInfoController: UIViewController {
       .session
       .request(PostRouter.upPost(productIndex: userPosting[indexPath.row].productIndex))
       .validate()
-      .responseJSON { response in
+      .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else {
           let alertController = UIAlertController(title: "이미 올리셨어요!",
                                         message: "게시글은 하루에 한 개만 올릴 수 있어요.",

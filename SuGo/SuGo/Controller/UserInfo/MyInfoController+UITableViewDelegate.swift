@@ -49,10 +49,16 @@ extension MyInfoController: UITableViewDelegate {
     if tableView.tag == 1 {
       let postView = UIStoryboard(name: "PostView", bundle: nil)
       guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
-              as? PostController
-      else { return }
+              as? PostController else { return }
       postController.productPostId = userPosting[indexPath.row].productIndex
+      navigationController?.pushViewController(postController, animated: true)
+    } else if tableView.tag == 2 {
+      let postView = UIStoryboard(name: "PostView", bundle: nil)
+      guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
+              as? PostController else { return }
+      postController.productPostId = userLikePosting[indexPath.row].productIndex
       navigationController?.pushViewController(postController, animated: true)
     }
   }
+  
 }

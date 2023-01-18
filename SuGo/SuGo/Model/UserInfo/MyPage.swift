@@ -18,7 +18,7 @@ struct MyPage {
     
 }
 
-struct MyPagePosting {
+struct MyPagePosting: PostProtocol {
     
   var productIndex: Int = 0
   var title: String = ""

@@ -11,7 +11,7 @@ import UIKit
 import SwiftyJSON
 
 
-struct ProductContents {
+struct ProductContents: PostProtocol {
     
   var productIndex: Int = 0
   var imageLink: [String] = [""]
@@ -23,7 +23,7 @@ struct ProductContents {
   var category: String = ""
   var status: Bool = false
 
-  func jsonToCollectionViewData(i: Int, json: JSON) -> ProductContents {
+  func makeCollectionViewData(i: Int, json: JSON) -> ProductContents {
       let jsonImages = json[i]["imageLink"].stringValue
       var images = jsonImages.components(separatedBy: ", ").map({String($0)})
       

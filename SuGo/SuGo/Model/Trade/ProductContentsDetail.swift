@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ProductContentsDetail {
+struct ProductContentsDetail: PostProtocol {  
   
   var productIndex: Int = 0
   var imageLink: [String] = [""]

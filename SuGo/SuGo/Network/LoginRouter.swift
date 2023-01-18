@@ -15,6 +15,8 @@ enum LoginRouter: URLRequestConvertible {
   case join(loginId: String, email: String, password: String, department: String)
   case login(loginId: String, passsword: String)
   case checkAuthNumber(userId: Int, payload: String)
+  case findId(email: String)
+  case findPassword(loginId: String, email: String)
   
   var baseURL: URL {
     return URL(string: API.BASE_URL + "/user")!
@@ -22,7 +24,7 @@ enum LoginRouter: URLRequestConvertible {
 
   var method: HTTPMethod {
     switch self {
-    case .checkEmail, .checkLoginId, .join, .login, .checkAuthNumber:
+    case .checkEmail, .checkLoginId, .join, .login, .checkAuthNumber, .findId, .findPassword:
       return .post
     }
   }
@@ -39,12 +41,16 @@ enum LoginRouter: URLRequestConvertible {
       return "/login"
     case .checkAuthNumber:
       return "/auth"
+    case .findId:
+      return "/find-id"
+    case .findPassword:
+      return "/find-pw"
     }
   }
   
   var parameters: Parameters {
     switch self {
-    case let .checkEmail(email):
+    case let .checkEmail(email), let .findId(email):
       return ["email" : email]
       
     case let .checkLoginId(id):
@@ -69,18 +75,25 @@ enum LoginRouter: URLRequestConvertible {
         "userId" : userId,
         "payload" : payload
       ]
+      
+    case .findPassword(let loginId, let email):
+      return [
+        "loginId" : loginId,
+        "email" : email
+      ]
     }
   }
   
   var headers: HTTPHeaders {
     switch self{
-    case .checkEmail, .checkLoginId, .join, .login, .checkAuthNumber:
+    case .checkEmail, .checkLoginId, .join, .login, .checkAuthNumber, .findId, .findPassword:
       return [
           .contentType("application/json"),
           .accept("application/json")
       ]
     }
   }
+  
   
   func asURLRequest() throws -> URLRequest {
       

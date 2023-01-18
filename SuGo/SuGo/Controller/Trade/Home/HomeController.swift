@@ -15,18 +15,18 @@ import Kingfisher
 
 class HomeController: UIViewController {
 
-    //MARK: IBOutlets
-    
-    @IBOutlet weak var searchView: UIView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var categoryButton: UIButton!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var noSearchResultView: UIView!
-    @IBOutlet weak var noSearchResultLabel: UILabel!
-    @IBOutlet weak var showHomeButton: UIButton!
-    
-    //MARK: Properties
-    
+  //MARK: IBOutlets
+  
+  @IBOutlet weak var searchView: UIView!
+  @IBOutlet weak var collectionView: UICollectionView!
+  @IBOutlet weak var categoryButton: UIButton!
+  @IBOutlet weak var searchTextField: UITextField!
+  @IBOutlet weak var noSearchResultView: UIView!
+  @IBOutlet weak var noSearchResultLabel: UILabel!
+  @IBOutlet weak var showHomeButton: UIButton!
+  
+  //MARK: Properties
+  
   let keychain = KeychainSwift()
   let productContents = ProductContents()
   var homeProductContents = [ProductContents]()
@@ -54,8 +54,6 @@ class HomeController: UIViewController {
     customRightBarButtons()
     customBackButton()
     searchViewDesign()
-//    print(keychain.get("AccessToken"))
-    
   }
     
   override func viewWillAppear(_ animated: Bool) {
@@ -116,15 +114,15 @@ class HomeController: UIViewController {
       .request(PageRouter.myPage(page: 0, size: 10))
       .validate()
       .response { response in
-        if response.response?.statusCode == 200 {
-          let postingView = UIStoryboard(name: "PostingView", bundle: nil)
-          guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
-          postingNavigationController.modalPresentationStyle = .fullScreen
-          self.present(postingNavigationController, animated: true)
-        } else {
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else {
           self.keychain.clear()
           self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: true)
-      }
+          return
+        }
+        let postingView = UIStoryboard(name: "PostingView", bundle: nil)
+        guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
+        postingNavigationController.modalPresentationStyle = .fullScreen
+        self.present(postingNavigationController, animated: true)
     }
   }
     
@@ -215,7 +213,7 @@ class HomeController: UIViewController {
   // 이 부분을 모델로 뺄 수 없을지 고민해보자.
   private func jsonToCollectionViewData(json: JSON) {
     for i in 0..<json.count {
-      homeProductContents.append(productContents.jsonToCollectionViewData(i: i, json: json))
+      homeProductContents.append(productContents.makeCollectionViewData(i: i, json: json))
     }
     print(homeProductContents)
     self.collectionView.reloadData()

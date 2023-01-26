@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Pretendard-ExtraBold.otf">
+            <string>Pretendard-ExtraBold</string>
+        </array>
+        <array key="Pretendard-Medium.otf">
+            <string>Pretendard-Medium</string>
+        </array>
+        <array key="Pretendard-Regular.otf">
+            <string>Pretendard-Regular</string>
+        </array>
+        <array key="Pretendard-SemiBold.otf">
+            <string>Pretendard-SemiBold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-P9-sqf">
+                                <rect key="frame" x="0.0" y="103" width="393" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="tKi-Mp-DCc"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viB-Uw-2qY">
+                                <rect key="frame" x="0.0" y="249" width="393" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="p18-W8-lbS"/>
+                                </constraints>
+                            </view>
+                            <button hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jz-dN-3Rn">
+                                <rect key="frame" x="20" y="265" width="69" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="2sH-Iy-6v9"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="판매중인 글">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="게스트 상태입니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5iv-GT-Tin">
+                                <rect key="frame" x="136" y="132" width="247" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="yZN-Rh-9xK"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="16"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="'시작이 반이다.'" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpH-cr-NbK">
+                                <rect key="frame" x="16" y="190" width="104" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="3ys-dW-0Nd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AppleSymbols" family="Apple Symbols" pointSize="16"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="graduationcap.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ru2-gU-veB">
+                                <rect key="frame" x="13" y="117" width="83" height="59"/>
+                                <color key="tintColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="4rX-UT-maC"/>
+                                    <constraint firstAttribute="width" constant="60" id="Ses-9P-k1U"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lN6-My-HlS">
+                                <rect key="frame" x="310" y="209.33333333333337" width="30" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="VGx-9k-9xy"/>
+                                    <constraint firstAttribute="height" constant="21" id="n4u-jz-JzO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-ExtraBold" family="Pretendard" pointSize="14"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zzv-GK-dIx">
+                                <rect key="frame" x="347" y="209.33333333333337" width="30" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="PnP-Wa-QO0"/>
+                                    <constraint firstAttribute="width" constant="30" id="iWo-RC-FE1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-ExtraBold" family="Pretendard" pointSize="14"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="message" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="APP-73-8ry">
+                                <rect key="frame" x="313" y="181.33333333333337" width="24" height="23.333333333333332"/>
+                                <color key="tintColor" red="0.34509803919999998" green="0.63921568630000003" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="24" id="28z-Jp-KUK"/>
+                                    <constraint firstAttribute="height" constant="24" id="LZW-Vt-rd8"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="heart.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="PIB-si-pvx">
+                                <rect key="frame" x="353" y="183.33333333333337" width="24" height="21"/>
+                                <color key="tintColor" red="0.94152462121212122" green="0.17961735822781141" blue="0.1883977450374828" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="SMF-gM-w38"/>
+                                    <constraint firstAttribute="width" constant="60" id="pe2-q3-3Zd"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="-" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOg-aq-wfu">
+                                <rect key="frame" x="264" y="209.33333333333337" width="30" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="Dcn-5O-7SV"/>
+                                    <constraint firstAttribute="width" constant="30" id="kgS-cf-7Yb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-ExtraBold" family="Pretendard" pointSize="14"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="학점" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9JV-Mt-8KH">
+                                <rect key="frame" x="264" y="182.33333333333337" width="30" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="XVt-FK-RZF"/>
+                                    <constraint firstAttribute="height" constant="21" id="qeX-oi-dQ1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Rmo-P9-sqf" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="9Ne-VE-TkS"/>
+                            <constraint firstItem="vOg-aq-wfu" firstAttribute="top" secondItem="9JV-Mt-8KH" secondAttribute="bottom" constant="5" id="Fsx-bz-Zwg"/>
+                            <constraint firstAttribute="trailing" secondItem="Rmo-P9-sqf" secondAttribute="trailing" id="Hev-kM-Rbq"/>
+                            <constraint firstItem="4jz-dN-3Rn" firstAttribute="top" secondItem="viB-Uw-2qY" secondAttribute="bottom" constant="15" id="HiC-5K-b7w"/>
+                            <constraint firstItem="viB-Uw-2qY" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="145" id="PeB-Ij-47s"/>
+                            <constraint firstItem="4jz-dN-3Rn" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="RCa-qS-eYw"/>
+                            <constraint firstItem="viB-Uw-2qY" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="agg-F1-txN"/>
+                            <constraint firstItem="lN6-My-HlS" firstAttribute="leading" secondItem="vOg-aq-wfu" secondAttribute="trailing" constant="100" id="bLA-Cs-9q8"/>
+                            <constraint firstAttribute="trailing" secondItem="viB-Uw-2qY" secondAttribute="trailing" id="hZa-pq-SYG"/>
+                            <constraint firstItem="zzv-GK-dIx" firstAttribute="leading" secondItem="lN6-My-HlS" secondAttribute="trailing" constant="100" id="ojS-ld-GVH"/>
+                            <constraint firstItem="Rmo-P9-sqf" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="sCL-gp-Dz9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="w2M-ko-Q4D"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1052.6717557251909" y="-34.507042253521128"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="dCv-6A-WDw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gJl-85-8NX" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lKX-03-D9J">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="3Mg-KS-nx9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l3g-LE-9Aa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="130.53435114503816" y="-34.507042253521128"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="graduationcap.circle" catalog="system" width="128" height="123"/>
+        <image name="heart.fill" catalog="system" width="128" height="107"/>
+        <image name="message" catalog="system" width="128" height="116"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

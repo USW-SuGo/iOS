@@ -12,6 +12,8 @@ import ImageSlideshow
 import KeychainSwift
 import SwiftyJSON
 
+// 리펙토링
+
 class PostController: UIViewController {
 
     open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -45,6 +47,8 @@ class PostController: UIViewController {
     getMyIndex()
     designButtons()
   }
+  
+  //MARK: Functions
     
   private func setSlideShow() {
     // 이미지 포지션
@@ -74,14 +78,6 @@ class PostController: UIViewController {
      fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium,
                                                                                  color: nil)
    }
-    
-  func decimalWon(price: Int) -> String {
-    let numberFormatter = NumberFormatter()
-    numberFormatter.numberStyle = .decimal
-    let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
-    
-    return result
-  }
     
   //MARK: API Functions
   
@@ -114,66 +110,24 @@ class PostController: UIViewController {
   }
     
     private func updatePost(json: JSON) {
-        
-        if json != "" {
-            
-          productContentsDetail.productIndex = json["productPostId"].intValue
-          productContentsDetail.contactPlace = json["contactPlace"].stringValue
-          productContentsDetail.title = json["title"].stringValue
-          productContentsDetail.price = decimalWon(price: json["price"].intValue)
-          productContentsDetail.nickname = json["nickname"].stringValue
-          productContentsDetail.category = json["category"].stringValue
-          productContentsDetail.content = json["content"].stringValue
-          productContentsDetail.userIndex = json["writerId"].intValue
-          productContentsDetail.userLikeStatus = json["userLikeStatus"].boolValue
-            
-            let jsonImages = json["imageLink"].stringValue
-            var images = jsonImages.components(separatedBy: ", ").map({String($0)})
-            
-            // JSON으로 내려받을 때 stringValue로 떨어지기에, 콤마로 스플릿 후 데이터 일부 수정
-            if images.count == 1 {
-                images[0] = String(images[0].dropFirst())
-                images[0] = String(images[0].dropLast())
-            } else {
-                images[0] = String(images[0].dropFirst())
-                images[images.count - 1] = String(images[images.count - 1].dropLast())
-            }
-            
-            productContentsDetail.imageLink = images
-            
-            let postDate = json["updatedAt"].stringValue.components(separatedBy: "T")[0]
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            let startDate = dateFormatter.date(from: postDate) ?? nil
-            let interval = Date().timeIntervalSince(startDate ?? Date())
-            let intervalDays = Int((interval) / 86400)
-            var updatedAt = ""
-            
-            if intervalDays < 1 {
-                updatedAt = "오늘"
-            } else if intervalDays == 1 {
-                updatedAt = "어제"
-            } else if intervalDays < 7 {
-                updatedAt = "\(intervalDays)일 전"
-            } else if intervalDays < 30 {
-                updatedAt = "\(intervalDays / 7)주 전"
-            } else {
-                updatedAt = "\(intervalDays / 30)달 전"
-            }
-            
-            productContentsDetail.updatedAt = updatedAt
-            
-            for i in 0..<productContentsDetail.imageLink.count {
-                alamofireSource.append(AlamofireSource(urlString: productContentsDetail.imageLink[i])!)
-            }
-            
-            setSlideShow()
-            updateDesign()
-            
-        }
+      guard json != "" else {
+        self.navigationController?.popViewController(animated: true)
+        return }
+      productContentsDetail.jsonToProductContentsDetail(json: json)
+      for i in 0..<productContentsDetail.imageLink.count {
+          alamofireSource.append(AlamofireSource(urlString: productContentsDetail.imageLink[i])!)
+      }
+      setSlideShow()
+      updateDesign()
     }
     
   //MARK: Button Actions
+  
+  @IBAction func userInfoButtonClicked(_ sender: Any) {
+    let userInfoView = UIStoryboard(name: "UserInfoView", bundle: nil)
+    let userInfoController = userInfoView.instantiateViewController(withIdentifier: "userInfoVC")
+    present(userInfoController, animated: true)
+  }
   
   @IBAction func likeButtonClicked(_ sender: Any) {
     let url = "https://api.sugo-diger.com/like"
@@ -186,20 +140,16 @@ class PostController: UIViewController {
                parameters: parameter,
                encoding: JSONEncoding.default,
                headers: header,
-               interceptor: BaseInterceptor()).validate().responseJSON { response in
+               interceptor: BaseInterceptor()).validate().response { response in
       guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
       guard let responseData = response.data else { return }
-      if JSON(responseData)["Like"].boolValue {
-        self.likeButton.setImage(UIImage(systemName: "heart.fill"),
-                                 for: .normal)
-      } else {
-        self.likeButton.setImage(UIImage(systemName: "heart"),
-                                 for: .normal)
-      }
-      print(JSON(response.data))
+      JSON(responseData)["Like"].boolValue ?
+      self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal) :
+      self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
     }
   }
   
+  // 서버에서 쪽지방 삭제 기능 구현 이후 테스트 가능
   @IBAction func sugoButtonClicked(_ sender: Any) {
     AlamofireManager
       .shared
@@ -207,7 +157,7 @@ class PostController: UIViewController {
       .request(MessageRouter.makeMessageRoom(opponentIndex: productContentsDetail.userIndex,
                                              productIndex: productContentsDetail.productIndex))
       .validate()
-      .responseJSON { response in
+      .response { response in
         
         guard let statusCode = response.response?.statusCode, statusCode == 200 else {
           print(JSON(response.data))
@@ -218,10 +168,9 @@ class PostController: UIViewController {
         let messageRoomView = UIStoryboard(name: "MessageRoomView", bundle: nil)
         guard let messageRoomController = messageRoomView.instantiateViewController(withIdentifier: "messageRoomVC") as? MessageRoomController else { return }
         self.indexDelegate?.getIndex(roomIndex: JSON(data)["noteId"].intValue,
-                                myIndex: self.productContentsDetail.myIndex,
-                                oppositeIndex: self.productContentsDetail.userIndex)
-        self.navigationController?.pushViewController(messageRoomController,
-                                                      animated: true)
+                                     myIndex: self.productContentsDetail.myIndex,
+                                     oppositeIndex: self.productContentsDetail.userIndex)
+        self.navigationController?.pushViewController(messageRoomController, animated: true)
       }
   }
   
@@ -239,13 +188,9 @@ class PostController: UIViewController {
     nicknameLabel.text = productContentsDetail.nickname
     priceLabel.text = productContentsDetail.price
     contentView.text = productContentsDetail.content
-    if productContentsDetail.userLikeStatus == true {
-      likeButton.setImage(UIImage(systemName: "heart.fill"),
-                          for: .normal)
-    } else {
-      likeButton.setImage(UIImage(systemName: "heart"),
-                          for: .normal)
-    }
+    productContentsDetail.userLikeStatus ?
+    likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal) :
+    likeButton.setImage(UIImage(systemName: "heart"),for: .normal)
   }
 
   private func designButtons() {
@@ -256,10 +201,9 @@ class PostController: UIViewController {
 
 }
 
-
-
 extension PostController: ImageSlideshowDelegate {
     func imageSlideshow(_ imageSlideshow: ImageSlideshow, didChangeCurrentPageTo page: Int) {
         print("current page:", page)
     }
 }
+

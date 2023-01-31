@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 struct MyPage {
     
@@ -29,5 +30,48 @@ struct MyPagePosting: PostProtocol {
   var imageLink: String = ""
   var contactPlace: String = ""
   var updatedAt: String = ""
+  
+  mutating func jsonToMyPagePosting(json: JSON) -> MyPagePosting {
+    let postDate = json["updatedAt"].stringValue.components(separatedBy: "T")[0]
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    let startDate = dateFormatter.date(from: postDate) ?? nil
+    let interval = Date().timeIntervalSince(startDate ?? Date())
+    let intervalDays = Int((interval) / 86400)
+    return MyPagePosting(productIndex: json["productPostId"].intValue,
+                        title: json["title"].stringValue,
+                        price: json["price"].stringValue,
+                        decimalWon: decimalWon(price: json["price"].intValue),
+                        category: json["category"].stringValue,
+                        status: json["status"].boolValue,
+                        imageLink: json["imageLink"].stringValue,
+                        contactPlace: json["contactPlace"].stringValue,
+                        updatedAt: customUpdateAt(day: intervalDays))
+  }
+  
+  func decimalWon(price: Int) -> String {
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .decimal
+    let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
+    
+    return result
+  }
+  
+  func customUpdateAt(day: Int) -> String {
+    switch day{
+    case 0:
+      return "오늘"
+    case 1:
+      return "어제"
+    case 2..<7:
+      return "\(day)일 전"
+    case 7..<30:
+      return "\(day / 7)주 전"
+    case 30...:
+      return "\(day / 30)달 전"
+    default:
+      return ""
+    }
+  }
   
 }

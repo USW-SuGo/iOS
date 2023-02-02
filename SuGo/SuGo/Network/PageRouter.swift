@@ -13,8 +13,7 @@ import KeychainSwift
 enum PageRouter: URLRequestConvertible {
         
     case myPage(page: Int, size: Int)
-    case userPage(target: Int, page: Int, size: Int)
-
+    case userPage(userId: Int, page: Int, size: Int)
 
     var baseURL: URL {
         return URL(string: API.BASE_URL)!
@@ -39,22 +38,17 @@ enum PageRouter: URLRequestConvertible {
     
     var parameters: Parameters {
         switch self {
-    
         case .myPage(let page, let size):
-            
             return [
                 "page" : page,
                 "size" : size
             ]
-            
-        case .userPage(let target, let page, let size):
-            
+        case .userPage(let userId, let page, let size):
             return [
-                "target" : target,
+                "userId" : userId,
                 "page" : page,
                 "size" : size
             ]
-            
         }
     }
     
@@ -68,8 +62,6 @@ enum PageRouter: URLRequestConvertible {
     }
     
     func asURLRequest() throws -> URLRequest {
-        
-        
         let url = baseURL.appendingPathComponent(path) // string을 붙히는, path를 이어 붙힌다.
         
         print("LoginRouter - asURLRequest() url : \(url)")

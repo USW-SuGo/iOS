@@ -13,7 +13,7 @@ import KeychainSwift
 
 class LoginController: UIViewController, UITextFieldDelegate {
 
-    //MARK: IBOutlets
+  //MARK: IBOutlets
     
   @IBOutlet weak var idTextField: UITextField!
   @IBOutlet weak var idBox: UIView!
@@ -63,20 +63,31 @@ class LoginController: UIViewController, UITextFieldDelegate {
   }
 
     
-    //MARK: Button Actions
-
-    
-    @IBAction func closeButtonClicked(_ sender: Any) {
-        self.dismiss(animated: true)
-    }
-    
-    @IBAction func signUpButtonClicked(_ sender: Any) {
+  //MARK: Button Actions
+  
+  @IBAction func closeButtonClicked(_ sender: Any) {
+    self.dismiss(animated: true)
+  }
+  
+  @IBAction func findIdButtonClicked(_ sender: Any) {
+    let findIdViewStoryboard = UIStoryboard(name: "FindIdView", bundle: nil)
+    let findIdController = findIdViewStoryboard.instantiateViewController(withIdentifier: "findIdVC")
+    self.present(findIdController, animated: true, completion: nil)
+  }
+  
+  @IBAction func findPasswordButtonClicked(_ sender: Any) {
+    let findPasswordViewStorybard = UIStoryboard(name: "FindPasswordView", bundle: nil)
+    let findPasswordController = findPasswordViewStorybard.instantiateViewController(withIdentifier: "findPasswordVC")
+    self.present(findPasswordController, animated: true)
+  }
+  
+  @IBAction func signUpButtonClicked(_ sender: Any) {
         
-        let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
-        guard let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signUpNavigationVC") as? UINavigationController else { return }
-        nextViewController.modalPresentationStyle = .fullScreen
-        self.present(nextViewController, animated: true, completion: nil)
-        
+      let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
+      guard let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signUpNavigationVC") as? UINavigationController else { return }
+      nextViewController.modalPresentationStyle = .fullScreen
+      self.present(nextViewController, animated: true, completion: nil)
+      
     }
     
     @IBAction func loginButtonClicked(_ sender: Any) {
@@ -87,7 +98,7 @@ class LoginController: UIViewController, UITextFieldDelegate {
             .shared
             .session
             .request(LoginRouter.login(loginId: id, passsword: password))
-            .responseJSON { response in
+            .response { response in
                 
                 let statusCode = response.response?.statusCode
                 if statusCode == 200 {

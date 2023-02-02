@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Pretendard-ExtraBold.otf">
+            <string>Pretendard-ExtraBold</string>
+        </array>
+        <array key="Pretendard-Medium.otf">
+            <string>Pretendard-Medium</string>
+        </array>
+        <array key="Pretendard-Regular.otf">
+            <string>Pretendard-Regular</string>
+        </array>
+        <array key="Pretendard-SemiBold.otf">
+            <string>Pretendard-SemiBold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--User Info Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="userInfoVC" id="Y6W-OH-hqX" customClass="UserInfoController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rmo-P9-sqf">
+                                <rect key="frame" x="0.0" y="103" width="393" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Gub-hy-1Qm"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="viB-Uw-2qY">
+                                <rect key="frame" x="0.0" y="228.33333333333334" width="393" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="FDe-6F-5N0"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jz-dN-3Rn">
+                                <rect key="frame" x="20" y="244.33333333333334" width="69" height="20.000000000000028"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="gtn-B5-APQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
+                                <color key="tintColor" systemColor="tintColor"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="판매중인 글">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5iv-GT-Tin">
+                                <rect key="frame" x="85" y="119" width="50.333333333333343" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="epN-qQ-ziD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="16"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="가는 말이 고와야 오는 말이 곱다. 항상 말조심 하세요!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpH-cr-NbK">
+                                <rect key="frame" x="20" y="189" width="353" height="19.333333333333343"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lN6-My-HlS">
+                                <rect key="frame" x="343" y="144" width="30" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="Ffu-E6-d7G"/>
+                                    <constraint firstAttribute="height" constant="25" id="NUl-21-5mL"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-ExtraBold" family="Pretendard" pointSize="14"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="학점" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9JV-Mt-8KH">
+                                <rect key="frame" x="298" y="119" width="30" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="0CZ-JP-ffm"/>
+                                    <constraint firstAttribute="width" constant="30" id="3nd-bI-V22"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="graduationcap.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ru2-gU-veB">
+                                <rect key="frame" x="15" y="120" width="60" height="58.666666666666686"/>
+                                <color key="tintColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="4SM-36-9VD"/>
+                                    <constraint firstAttribute="height" constant="60" id="a4g-ff-O09"/>
+                                </constraints>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="message" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="APP-73-8ry">
+                                <rect key="frame" x="343" y="119.33333333333333" width="30" height="24.333333333333329"/>
+                                <color key="tintColor" red="0.34509803919999998" green="0.63921568630000003" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="8qF-St-nAm"/>
+                                    <constraint firstAttribute="width" constant="30" id="giC-wM-Prc"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mmu-No-zPB">
+                                <rect key="frame" x="104" y="244.33333333333334" width="86" height="20.000000000000028"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="PLc-PS-3Ds"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="판매 완료한 글">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOg-aq-wfu">
+                                <rect key="frame" x="298" y="144" width="30" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="Yme-XL-K5f"/>
+                                    <constraint firstAttribute="height" constant="25" id="bAI-ZO-AVu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-ExtraBold" family="Pretendard" pointSize="14"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ru2-gU-veB" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="1As-XV-6Ny"/>
+                            <constraint firstItem="4jz-dN-3Rn" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="1GA-52-rjZ"/>
+                            <constraint firstItem="APP-73-8ry" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="AAq-rL-hs1"/>
+                            <constraint firstItem="ru2-gU-veB" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="Eck-0s-XJb"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="APP-73-8ry" secondAttribute="trailing" constant="20" id="F6Z-6y-fse"/>
+                            <constraint firstItem="mmu-No-zPB" firstAttribute="top" secondItem="viB-Uw-2qY" secondAttribute="bottom" constant="15" id="LbT-6l-6Tw"/>
+                            <constraint firstItem="APP-73-8ry" firstAttribute="leading" secondItem="9JV-Mt-8KH" secondAttribute="trailing" constant="15" id="NAA-Ql-mzB"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="xpH-cr-NbK" secondAttribute="trailing" constant="20" id="OFy-cJ-jEz"/>
+                            <constraint firstItem="lN6-My-HlS" firstAttribute="leading" secondItem="vOg-aq-wfu" secondAttribute="trailing" constant="15" id="Oc3-VZ-vmZ"/>
+                            <constraint firstItem="Rmo-P9-sqf" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="U96-Ei-t9h"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="lN6-My-HlS" secondAttribute="trailing" constant="20" id="VEo-8E-ydv"/>
+                            <constraint firstItem="xpH-cr-NbK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="XDI-R2-0dv"/>
+                            <constraint firstItem="viB-Uw-2qY" firstAttribute="top" secondItem="xpH-cr-NbK" secondAttribute="bottom" constant="20" id="ZPm-Xy-P6j"/>
+                            <constraint firstAttribute="trailing" secondItem="viB-Uw-2qY" secondAttribute="trailing" id="bSE-WJ-d6S"/>
+                            <constraint firstAttribute="trailing" secondItem="Rmo-P9-sqf" secondAttribute="trailing" id="brX-sl-2wc"/>
+                            <constraint firstItem="lN6-My-HlS" firstAttribute="top" secondItem="APP-73-8ry" secondAttribute="bottom" id="ghr-zg-Htj"/>
+                            <constraint firstItem="mmu-No-zPB" firstAttribute="leading" secondItem="4jz-dN-3Rn" secondAttribute="trailing" constant="15" id="je0-i9-vKH"/>
+                            <constraint firstItem="vOg-aq-wfu" firstAttribute="top" secondItem="9JV-Mt-8KH" secondAttribute="bottom" id="ljA-Gc-Xkb"/>
+                            <constraint firstItem="5iv-GT-Tin" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="mCw-Sh-OG3"/>
+                            <constraint firstItem="5iv-GT-Tin" firstAttribute="leading" secondItem="ru2-gU-veB" secondAttribute="trailing" constant="10" id="pDL-4j-PY5"/>
+                            <constraint firstItem="Rmo-P9-sqf" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="ueJ-AU-Bx0"/>
+                            <constraint firstItem="9JV-Mt-8KH" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="x6P-IA-05V"/>
+                            <constraint firstItem="4jz-dN-3Rn" firstAttribute="top" secondItem="viB-Uw-2qY" secondAttribute="bottom" constant="15" id="xWb-3p-DMn"/>
+                            <constraint firstItem="xpH-cr-NbK" firstAttribute="top" secondItem="ru2-gU-veB" secondAttribute="bottom" constant="10" id="yja-2E-mK3"/>
+                            <constraint firstItem="viB-Uw-2qY" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="zCN-K5-oqh"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="w2M-ko-Q4D"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1052.6717557251909" y="-34.507042253521128"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="dCv-6A-WDw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gJl-85-8NX" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lKX-03-D9J">
+                        <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="3Mg-KS-nx9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l3g-LE-9Aa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="130.53435114503816" y="-34.507042253521128"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="graduationcap.circle" catalog="system" width="128" height="123"/>
+        <image name="message" catalog="system" width="128" height="116"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray5Color">
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tintColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

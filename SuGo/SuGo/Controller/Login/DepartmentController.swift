@@ -21,20 +21,8 @@ class DepartmentController: UIViewController {
   //MARK: Properties
     
   let sections = ["ㄱ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅍ", "ㅎ"] // 12
-  
-  let departments = [["간호학과", "건설환경공학", "건축학과", "경영학과", "경제금융학과", "공예디자인학과", "관현악과", "국악과", "국어국문학", "국제개발협력학과", "기계공학과"],
-                     ["도시부동산학과"],
-                     ["러시아어문학", "레저스포츠학과"],
-                     ["문화컨텐츠테크놀러지학과", "미디어SW학과"],
-                     ["바이오공학 및 마케팅", "법학"],
-                     ["사학", "산업공학과", "성악과", "소방행정학과(야)", "시스템반도체융복합학과", "식품영양학과", "신소재공학과"],
-                     ["아동가족복지학과", "연극과", "영어영문학", "영화영상과", "외식경영학과", "운동건강관리학과", "융합화학산업", "의류학과", "일어일문학"],
-                     ["작곡과", "전기공학과", "전자공학과", "전자재료공학", "정보보호학과", "정보통신공학과", "조소과", "중어중문학"],
-                     ["체육학과"],
-                     ["커뮤니케이션디자인학과", "컴퓨터SW학과", "클라우드융복합학과"],
-                     ["패션디자인학과", "피아노과"],
-                     ["행정학", "호텔경영학과", "화학공학과", "환경에너지공학", "회계학과", "회화과"]]
-    
+  let departments = UserDepartments().departments
+  let collation = UILocalizedIndexedCollation.current()
   let userInfo = UserInfo.shared
   var searchDepartments: [String] = []
   let searchController = UISearchController(searchResultsController: nil)
@@ -86,7 +74,7 @@ class DepartmentController: UIViewController {
               .shared
               .session
               .request(LoginRouter.join(loginId: id, email: email, password: password, department: department))
-              .responseJSON { response in
+              .response { response in
         
                 guard let statusCode = response.response?.statusCode, statusCode == 200 else {
                   self.customAlert(title: "이미 인증메일이 발송되었습니다.",
@@ -135,6 +123,7 @@ extension DepartmentController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return sections[section]
+    // sections[section]
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -225,7 +214,30 @@ extension DepartmentController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 60.0
   }
-    
+  
+  func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+    return stride(from: 0, to: sections.count, by: 1).map { sections[$0] }
+  }
+  
+  func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+    return index
+  }
+//  func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+//    let currentCollation = UILocalizedIndexedCollation.current() as UILocalizedIndexedCollation
+//    let sectionTitles = currentCollation.sectionTitles as NSArray
+//    return sectionTitles.object(at: section) as? String
+//  }
+//
+//  func sectionIndexTitlesForTableView(tableView: UITableView!) -> NSArray! {
+//    let currentCollation = UILocalizedIndexedCollation.current() as UILocalizedIndexedCollation
+//    return currentCollation.sectionIndexTitles as NSArray
+//  }
+//
+//  func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+//    let currentCollation = UILocalizedIndexedCollation.current() as UILocalizedIndexedCollation
+//    return currentCollation.section(forSectionIndexTitle: index)
+//  }
+//
 }
 
 //extension DepartmentController: UISearchResultsUpdating {

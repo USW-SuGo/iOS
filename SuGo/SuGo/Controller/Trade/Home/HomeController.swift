@@ -15,19 +15,20 @@ import Kingfisher
 
 class HomeController: UIViewController {
 
-    //MARK: IBOutlets
-    
-    @IBOutlet weak var searchView: UIView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var categoryButton: UIButton!
-    @IBOutlet weak var searchTextField: UITextField!
-    @IBOutlet weak var noSearchResultView: UIView!
-    @IBOutlet weak var noSearchResultLabel: UILabel!
-    @IBOutlet weak var showHomeButton: UIButton!
-    
-    //MARK: Properties
-    
+  //MARK: IBOutlets
+  
+  @IBOutlet weak var searchView: UIView!
+  @IBOutlet weak var collectionView: UICollectionView!
+  @IBOutlet weak var categoryButton: UIButton!
+  @IBOutlet weak var searchTextField: UITextField!
+  @IBOutlet weak var noSearchResultView: UIView!
+  @IBOutlet weak var noSearchResultLabel: UILabel!
+  @IBOutlet weak var showHomeButton: UIButton!
+  
+  //MARK: Properties
+  
   let keychain = KeychainSwift()
+  let productContents = ProductContents()
   var homeProductContents = [ProductContents]()
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   let categorySelect = CategorySelect.shared
@@ -53,8 +54,6 @@ class HomeController: UIViewController {
     customRightBarButtons()
     customBackButton()
     searchViewDesign()
-    print(keychain.get("AccessToken"))
-    
   }
     
   override func viewWillAppear(_ animated: Bool) {
@@ -114,16 +113,16 @@ class HomeController: UIViewController {
       .session
       .request(PageRouter.myPage(page: 0, size: 10))
       .validate()
-      .responseJSON { response in
-        if response.response?.statusCode == 200 {
-          let postingView = UIStoryboard(name: "PostingView", bundle: nil)
-          guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
-          postingNavigationController.modalPresentationStyle = .fullScreen
-          self.present(postingNavigationController, animated: true)
-        } else {
+      .response { response in
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else {
           self.keychain.clear()
           self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: true)
-      }
+          return
+        }
+        let postingView = UIStoryboard(name: "PostingView", bundle: nil)
+        guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
+        postingNavigationController.modalPresentationStyle = .fullScreen
+        self.present(postingNavigationController, animated: true)
     }
   }
     
@@ -137,20 +136,20 @@ class HomeController: UIViewController {
       self.navigationController?.pushViewController(nextViewController, animated: true)
   }
   
-  private func presentViewController(storyboard: String,
-                                     identifier: String,
-                                     fullScreen: Bool) {
-      let nextStoryboard = UIStoryboard(name: storyboard, bundle: nil)
-      let nextViewController = nextStoryboard.instantiateViewController(withIdentifier: identifier)
-      if fullScreen {
-          nextViewController.modalPresentationStyle = .fullScreen
-      }
-      self.present(nextViewController, animated: true)
+  func presentViewController(storyboard: String,
+                             identifier: String,
+                             fullScreen: Bool) {
+    let nextStoryboard = UIStoryboard(name: storyboard, bundle: nil)
+    let nextViewController = nextStoryboard.instantiateViewController(withIdentifier: identifier)
+    if fullScreen {
+        nextViewController.modalPresentationStyle = .fullScreen
+    }
+    self.present(nextViewController, animated: true)
   }
     
   //MARK: API Functions
   
-  private func callGetMainPage() {
+  func callGetMainPage() {
     if page == 0 {
       homeProductContents.removeAll()
     }
@@ -214,67 +213,12 @@ class HomeController: UIViewController {
   // 이 부분을 모델로 뺄 수 없을지 고민해보자.
   private func jsonToCollectionViewData(json: JSON) {
     for i in 0..<json.count {
-      let jsonImages = json[i]["imageLink"].stringValue
-      var images = jsonImages.components(separatedBy: ", ").map({String($0)})
-      
-      // when get data it is stringValue, so split use ','
-      if images.count == 1 {
-          images[0] = String(images[0].dropFirst())
-          images[0] = String(images[0].dropLast())
-      } else {
-          images[0] = String(images[0].dropFirst())
-          images[images.count - 1] = String(images[images.count - 1].dropLast())
-      }
-          
-          // localDateTime to yyyy-mm-dd to 오늘 / 어제 / n일 전 등
-      let postDate = json[i]["updatedAt"].stringValue.components(separatedBy: "T")[0]
-      let dateFormatter = DateFormatter()
-      dateFormatter.dateFormat = "yyyy-MM-dd"
-      let startDate = dateFormatter.date(from: postDate) ?? nil
-      let interval = Date().timeIntervalSince(startDate ?? Date())
-      let intervalDays = Int((interval) / 86400)
-      var updatedAt = ""
-  
-      if intervalDays < 1 {
-          updatedAt = "오늘"
-      } else if intervalDays == 1 {
-          updatedAt = "어제"
-      } else if intervalDays < 7 {
-          updatedAt = "\(intervalDays)일 전"
-      } else if intervalDays < 30 {
-          updatedAt = "\(intervalDays / 7)주 전"
-      } else {
-          updatedAt = "\(intervalDays / 30)달 전"
-      }
-          
-      let getData = ProductContents(productIndex: json[i]["productPostId"].intValue,
-                                    imageLink: images,
-                                    contactPlace: json[i]["contactPlace"].stringValue,
-                                    updatedAt: updatedAt,
-                                    title: json[i]["title"].stringValue,
-                                    price: decimalWon(price: json[i]["price"].intValue),
-                                    nickname: json[i]["nickname"].stringValue,
-                                    category: json[i]["category"].stringValue,
-                                    status: json[i]["status"].boolValue)
-      homeProductContents.append(getData)
-      }
+      homeProductContents.append(productContents.makeCollectionViewData(i: i, json: json))
+    }
     print(homeProductContents)
     self.collectionView.reloadData()
   }
     
-    // call viewWillAppear or when user choose category
-   
-    
-    // it will be infinite scroll
-    
-  func decimalWon(price: Int) -> String {
-    let numberFormatter = NumberFormatter()
-    numberFormatter.numberStyle = .decimal
-    let result = numberFormatter.string(from: NSNumber(value: price))! + "원"
-    
-    return result
-  }
-
   //MARK: Button Actions
   
   @IBAction func showHomeButtonClicked(_ sender: Any) {
@@ -295,46 +239,46 @@ class HomeController: UIViewController {
     getSearchData(searchData: searchData, category: category)
   }
     
-    @IBAction func categoryButtonClicked(_ sender: Any) {
-        let bottomSheetView = UIStoryboard(name: "HomeBottomSheetView", bundle: nil)
-        let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "homeBottomSheetVC") as! HomeBottomSheetController
-        let bottomSheet = MDCBottomSheetController(contentViewController: nextVC)
-        bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 330
-        bottomSheet.dismissOnDraggingDownSheet = true
-        present(bottomSheet, animated: true)
+  @IBAction func categoryButtonClicked(_ sender: Any) {
+    let bottomSheetView = UIStoryboard(name: "HomeBottomSheetView", bundle: nil)
+    let nextVC = bottomSheetView.instantiateViewController(withIdentifier: "homeBottomSheetVC") as! HomeBottomSheetController
+    let bottomSheet = MDCBottomSheetController(contentViewController: nextVC)
+    bottomSheet.mdc_bottomSheetPresentationController?.preferredSheetHeight = 330
+    bottomSheet.dismissOnDraggingDownSheet = true
+    present(bottomSheet, animated: true)
+  }
+  
+  //MARK: Design Functions
+  
+  // when user choose category
+  private func customCategoryButton(category: String) {
+    if category == "" {
+        categoryButton.setTitle("카테고리", for: .normal)
+    } else {
+        categoryButton.setTitle(category, for: .normal)
     }
-    
-    //MARK: Design Functions
-    
-    // when user choose category
-    private func customCategoryButton(category: String) {
-        if category == "" {
-            categoryButton.setTitle("카테고리", for: .normal)
-        } else {
-            categoryButton.setTitle(category, for: .normal)
-        }
-    }
-    
-    // navigation bar's buttons custom
-    private func customLeftBarButton() {
-        let sideMenuButton = self.navigationItem.makeSFSymbolButton(self,
-                                                                    action: #selector(sideMenuButtonClicked),
-                                                                    symbolName: "sidebar.left")
-        self.navigationItem.leftBarButtonItem = sideMenuButton
-    }
-    
-    private func customRightBarButtons() {
-        let mapButton = self.navigationItem.makeSFSymbolButton(self,
-                                                                action: #selector(mapButtonClicked),
-                                                                symbolName: "mappin.and.ellipse")
-        let postingButton = self.navigationItem.makeSFSymbolButton(self,
-                                                                action: #selector(postingButtonclicked),
-                                                                symbolName: "plus")
-        let messageButton = self.navigationItem.makeSFSymbolButton(self,
-                                               action: #selector(messageButtonClicked),
-                                               symbolName: "ellipsis.message")
-        self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
-    }
+  }
+  
+  // navigation bar's buttons custom
+  private func customLeftBarButton() {
+    let sideMenuButton = self.navigationItem.makeSFSymbolButton(self,
+                                                                action: #selector(sideMenuButtonClicked),
+                                                                symbolName: "sidebar.left")
+    self.navigationItem.leftBarButtonItem = sideMenuButton
+  }
+  
+  private func customRightBarButtons() {
+    let mapButton = self.navigationItem.makeSFSymbolButton(self,
+                                                            action: #selector(mapButtonClicked),
+                                                            symbolName: "mappin.and.ellipse")
+    let postingButton = self.navigationItem.makeSFSymbolButton(self,
+                                                            action: #selector(postingButtonclicked),
+                                                            symbolName: "plus")
+    let messageButton = self.navigationItem.makeSFSymbolButton(self,
+                                           action: #selector(messageButtonClicked),
+                                           symbolName: "ellipsis.message")
+    self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
+  }
     
   private func customBackButton() {
     let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
@@ -357,77 +301,6 @@ class HomeController: UIViewController {
     showHomeButton.layer.borderWidth = 0.2
   }
     
-}
-
-extension HomeController: UICollectionViewDelegate, UICollectionViewDataSource {
-  
-  func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-    let lastIndex = homeProductContents.count - 3
-    if indexPath.row == lastIndex {
-      page += 1
-      if !lastPage {
-        callGetMainPage()
-      }
-    }
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return homeProductContents.count
-  }
-  
-  func collectionView(_ collectionView: UICollectionView,
-                      cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCell",
-                                                  for: indexPath) as! HomeCollectionViewCell
-    if homeProductContents.count > 0 {
-      if let url = URL(string: homeProductContents[indexPath.row].imageLink[0]) {
-//        let processor = DownsamplingImageProcessor(size: CGSize(width: cell.image.frame.width,
-//                                                                  height: cell.image.frame.width * 1.33))
-        cell.image.kf.indicatorType = .activity
-        cell.image.kf.setImage(with: url,
-                               placeholder: nil,
-                               options: [
-                                .transition(.fade(0.1)),
-//                                .processor(processor),
-                                .cacheOriginalImage
-                                    ],
-                               progressBlock: nil)
-        
-        }
-      cell.image.contentMode = .scaleAspectFill
-      cell.backgroundColor = .white
-      cell.placeUpdateCategoryLabel.text =
-      "\(homeProductContents[indexPath.row].contactPlace) | \(homeProductContents[indexPath.row].updatedAt) | \(homeProductContents[indexPath.row].category)"
-      cell.nicknameLabel.text = "\(homeProductContents[indexPath.row].nickname)"
-      cell.priceLabel.text = "\(homeProductContents[indexPath.row].price)"
-      cell.priceLabel.textColor = colorLiteralGreen
-      cell.titleLabel.text = "\(homeProductContents[indexPath.row].title)"
-    }
-    return cell
-  }
-  
-  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      AlamofireManager
-        .shared
-        .session
-        .request(PostRouter.getDetailPost(productIndex: homeProductContents[indexPath.row].productIndex))
-        .validate()
-        .responseJSON { response in
-          // if users have token and refreshToken still alive
-          print(JSON(response.data ?? ""))
-        if response.response?.statusCode == 200 {
-            let postViewStoryboard = UIStoryboard(name: "PostView", bundle: nil)
-            let nextViewController =
-            postViewStoryboard.instantiateViewController(withIdentifier: "postVC") as! PostController
-            nextViewController.productPostId = self.homeProductContents[indexPath.row].productIndex
-            self.navigationController?.pushViewController(nextViewController, animated: true)
-        // else show loginPage
-        } else {
-            self.keychain.clear()
-            self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: false)
-        }
-      }
-    }
 }
 
 extension HomeController: UICollectionViewDelegateFlowLayout{

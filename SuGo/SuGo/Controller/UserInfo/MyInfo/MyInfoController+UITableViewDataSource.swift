@@ -65,7 +65,6 @@ extension MyInfoController: UITableViewDataSource {
     case 2:
       let cell = tableView.dequeueReusableCell(withIdentifier: "likePostingCell",
                                                       for: indexPath) as! LikePostingCell
-      print(userLikePosting)
       if userLikePosting.count > 0 {
         if let url = URL(string: userLikePosting[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity
@@ -78,6 +77,7 @@ extension MyInfoController: UITableViewDataSource {
                                         progressBlock: nil)
         }
         cell.productImage.contentMode = .scaleAspectFill
+        cell.productImage.layer.cornerRadius = 6.0
         cell.placeUpdateCategoryLabel.text = "\(userLikePosting[indexPath.row].contactPlace) | \(userLikePosting[indexPath.row].updatedAt) | \(userLikePosting[indexPath.row].category)"
         cell.titleLabel.text = userLikePosting[indexPath.row].title
         cell.priceLabel.text = userLikePosting[indexPath.row].decimalWon

@@ -43,6 +43,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="비밀번호 찾기"/>
                                 <connections>
+                                    <action selector="findPasswordButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="xa0-3q-UjA"/>
                                     <action selector="signUpButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Y81-m3-PwK"/>
                                 </connections>
                             </button>
@@ -173,7 +174,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="아이디 찾기"/>
                                 <connections>
-                                    <action selector="signUpButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="amT-s6-tbW"/>
+                                    <action selector="findIdButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="zwG-6c-4xu"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiF-IG-o2x">

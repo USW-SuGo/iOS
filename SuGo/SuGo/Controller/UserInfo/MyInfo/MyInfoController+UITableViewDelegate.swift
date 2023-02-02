@@ -31,28 +31,33 @@ extension MyInfoController: UITableViewDelegate {
         userPostingPage += 1
         if !userPostingLastPage {
           print("infinite scroll work")
-          getMyPage(page: userPostingPage, size: 10)
+          getMyPage(page: userPostingPage, size: 10, posting: "myPosting")
         }
       }
     } else if tableView.tag == 2 {
       let lastIndex = userLikePosting.count - 2
       if indexPath.row == lastIndex {
-        userLikePostingPage += 1
-        if !userLikePostingLastPage {
-          getLikePosting(page: userLikePostingPage, size: 10)
+//        userLikePostingPage += 1
+//        if !userLikePostingLastPage {
+//          getMyPage(page: userLikePostingPage, size: 10, posting: "likePosting") }
         }
       }
     }
-  }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     if tableView.tag == 1 {
       let postView = UIStoryboard(name: "PostView", bundle: nil)
       guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
-              as? PostController
-      else { return }
+              as? PostController else { return }
       postController.productPostId = userPosting[indexPath.row].productIndex
+      navigationController?.pushViewController(postController, animated: true)
+    } else if tableView.tag == 2 {
+      let postView = UIStoryboard(name: "PostView", bundle: nil)
+      guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
+              as? PostController else { return }
+      postController.productPostId = userLikePosting[indexPath.row].productIndex
       navigationController?.pushViewController(postController, animated: true)
     }
   }
+  
 }

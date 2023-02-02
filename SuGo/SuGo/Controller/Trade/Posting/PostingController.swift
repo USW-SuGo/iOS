@@ -28,8 +28,8 @@ class PostingController: UIViewController {
   @IBOutlet weak var placeButton: UIButton!
   @IBOutlet weak var imageButton: UIButton!
   @IBOutlet weak var categoryButton: UIButton!
-
   @IBOutlet weak var photoCount: UILabel!
+  
   //MARK: Properties
   
   var phAssetImages = [PHAsset]()
@@ -131,25 +131,30 @@ class PostingController: UIViewController {
                                     resizeMode: PHImageRequestOptionsResizeMode,
                                     imageArray: inout [UIImage]) {
     
-    PHImageRequestOptions().deliveryMode = deliveryMode
-    PHImageRequestOptions().isSynchronous = isSynchronous
+    let imageOption = PHImageRequestOptions()
     // 이미지 요청을 동기적으로 처리할 지 여부
     // 동기처리를 true로 해놓을 경우 opportunistic으로 deliveryMode를 설정해도 의미 없음.
+    imageOption.deliveryMode = deliveryMode
+    imageOption.isSynchronous = isSynchronous
     
+    // iCloud에 저장된 이미지를 요구할때, 다운로드할 수 있는지 여부를 결정
+    imageOption.isNetworkAccessAllowed = true
+
     var image: UIImage?
     
     // UIImage Resize
-    PHImageRequestOptions().resizeMode = resizeMode
+    imageOption.resizeMode = resizeMode
     // iCloud에 저장 되어있는 사진 업로드 시 문제 해결 해야함.
     PHImageManager.default().requestImage(for: phAssetImages[index],
                                           targetSize: CGSize(width: phAssetImages[index].pixelWidth,
                                                              height: phAssetImages[index].pixelHeight),
                                           contentMode: .aspectFill,
-                                          options: PHImageRequestOptions()) { (result, info) in
+                                          options: imageOption) { (result, info) in
       guard result != nil else { return }
       image = result
     }
-    guard let data = image?.jpegData(compressionQuality: 0.9) else { return }
+    // error 체크 필요
+    guard let data = image?.jpegData(compressionQuality: 1.0) else { return }
     guard let appendImage = UIImage(data: data) else { return }
     imageArray.append(appendImage)
   }
@@ -177,37 +182,38 @@ class PostingController: UIViewController {
       "category" : category
     ]
     
+    // 게시글을 수정했을 경우 하나의 화면을 더 좋게 사용할 방법이 없을까..
     if modify {
       guard let productPostId = modifyData.productIndex else { return }
       parameters.updateValue(productPostId, forKey: "productPostId")
       method = .put
     }
-      
+    
     // MultipartFormData - 이미지 파일 & 글 전송 logic
     // png = 원본 , jpeg = 압축하는 형태 --> jpeg로 변환 후 전송
     AF.upload(multipartFormData: { multipartFormData in
         
-        for (key, value) in parameters {
-            multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+      for (key, value) in parameters {
+          multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
+      }
+      
+      for i in 0..<self.uploadImages.count {
+          multipartFormData.append(self.uploadImages[i].jpegData(compressionQuality: 1)!,
+                                  withName: "multipartFileList",
+                                  fileName: "\(self.titleTextField.text ?? "")+\(i)",
+                                  mimeType: "image/jpeg")
         }
-        
-        for i in 0..<self.uploadImages.count {
-            multipartFormData.append(self.uploadImages[i].jpegData(compressionQuality: 1)!,
-                                    withName: "multipartFileList",
-                                    fileName: "\(self.titleTextField.text ?? "")+\(i)",
-                                    mimeType: "image/jpeg")
-        }
-    },
-              to: url,
-              usingThreshold: UInt64.init(),
-              method: method,
-              headers: header).responseJSON { response in
+      },
+        to: url,
+        usingThreshold: UInt64.init(),
+        method: method,
+        headers: header).responseJSON { response in
       print("modify - \(modify)")
       print("method - \(method)")
       print(JSON(response.data ?? ""))
       self.modifyData.productIndex = nil
     }
-      self.dismiss(animated: true)
+    self.dismiss(animated: true)
   }
   
   private func textDelegates() {
@@ -223,32 +229,30 @@ class PostingController: UIViewController {
   
   //MARK: Button Actions
   
-  @objc func finishButtonClicked() { // 조건 추가 필요.
-    let title = titleTextField.text?.count ?? 0
-    let content = contentTextView.text.count
-    let price = priceTextField.text?.count ?? 0
-    let category = categorySelect.postCategory
-    // text or place 모두 선택 되었을 시 함수 실행
-    // 이후에 거래장소도 추가
-  
-    if title > 0 && content > 0  && contentTextView.text != textViewPlaceHolder && price > 0 && category != "" {
-      
-      var modify = false
-      if modifyData.productIndex != nil {
-        modify = true
-      }
-      
-      postContent(title: titleTextField.text ?? "",
-                  content: contentTextView.text ?? "",
-                  priceText: priceTextField.text ?? "",
-                  contactPlace: contactPlace,
-                  category: categorySelect.postCategory,
-                  modify: modify)
-
-    } else {
-        customAlert(title: "모두 입력해주세요 !",
-                    message: "입력되지 않은 정보가 있어요 !")
+  @objc func finishButtonClicked() {
+        
+    guard let title = titleTextField.text, title != "",
+          let content = contentTextView.text, content != textViewPlaceHolder, content.count > 10,
+          let price = priceTextField.text, price != "",
+          contactPlace != "",
+          categorySelect.postCategory != ""
+    else {
+      customAlert(title: "모두 입력해주세요 !",
+                  message: "입력되지 않은 정보가 있어요 !")
+      return
     }
+  
+    var modify = false
+    if modifyData.productIndex != nil {
+      modify = true
+    }
+    
+    postContent(title: title,
+                content: content,
+                priceText: price,
+                contactPlace: contactPlace,
+                category: categorySelect.postCategory,
+                modify: modify)
   }
     
   
@@ -341,12 +345,9 @@ class PostingController: UIViewController {
     contentTextView.layer.cornerRadius = 6.0
     contentTextView.text = textViewPlaceHolder
     contentTextView.textColor = .lightGray
-//        contentTextView.layer.borderColor = UIColor.black.cgColor
-//        contentTextView.layer.borderWidth = 1.0
     placeButton.layer.cornerRadius = 6.0
     placeButton.layer.borderColor = colorLiteralGreen.cgColor
     placeButton.layer.borderWidth = 1.0
-
     imageButton.layer.cornerRadius = 5.0
     imageButton.layer.borderColor = UIColor.darkGray.cgColor
     imageButton.layer.borderWidth = 1.0
@@ -380,28 +381,18 @@ extension PostingController: UITextFieldDelegate {
 
 extension PostingController: UITextViewDelegate {
   
-//  func textViewDidChange(_ textView: UITextView) {
-//    let size = CGSize(width: view.frame.width, height: .infinity)
-//    let estimatedSize = textView.sizeThatFits(size)
-//    textView.constraints.forEach { constraint in
-//      if constraint.firstAttribute == .height {
-//        constraint.constant = estimatedSize.height
-//      }
-//    }
-//  }
-  
   func textViewDidBeginEditing(_ textView: UITextView) {
-      if contentTextView.text == textViewPlaceHolder {
-          contentTextView.text = nil
-          contentTextView.textColor = .black
-      }
+    if contentTextView.text == textViewPlaceHolder {
+        contentTextView.text = nil
+        contentTextView.textColor = .black
+    }
   }
   
   func textViewDidEndEditing(_ textView: UITextView) {
-      if contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-          contentTextView.text = textViewPlaceHolder
-          contentTextView.textColor = .lightGray
-      }
+    if contentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        contentTextView.text = textViewPlaceHolder
+        contentTextView.textColor = .lightGray
+    }
   }
   
 }

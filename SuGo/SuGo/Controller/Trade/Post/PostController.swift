@@ -141,8 +141,11 @@ class PostController: UIViewController {
                encoding: JSONEncoding.default,
                headers: header,
                interceptor: BaseInterceptor()).validate().response { response in
-      guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+      guard let statusCode = response.response?.statusCode, statusCode == 200 else {
+        self.customAlert(title: "자신의 게시물이에요!", message: "자신의 게시물은 좋아요할 수 없어요!")
+        return }
       guard let responseData = response.data else { return }
+      
       JSON(responseData)["Like"].boolValue ?
       self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal) :
       self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -175,6 +178,12 @@ class PostController: UIViewController {
   }
   
   //MARK: Design Functions
+  
+  private func customAlert(title: String, message: String) {
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "확인", style: .default))
+    self.present(alert, animated: true, completion: nil)
+  }
     
   private func customBackButton() {
     let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)

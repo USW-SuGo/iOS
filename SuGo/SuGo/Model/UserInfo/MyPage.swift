@@ -10,13 +10,21 @@ import SwiftyJSON
 
 struct MyPage {
     
-    var userIndex: String = ""
-    var userEmail: String = ""
-    var userNickname: String = ""
-    var userMannerGrade: String = ""
-    var userEvaluationCount: Int = 0
-    var userTradeCount: Int = 0
-    
+  var userIndex: String = ""
+  var userEmail: String = ""
+  var userNickname: String = ""
+  var userMannerGrade: String = ""
+  var userEvaluationCount: Int = 0
+  var userTradeCount: Int = 0
+  
+  mutating func updateMyPage(json: JSON) {
+    self.userIndex = json["id"].stringValue
+    self.userEmail = json["email"].stringValue
+    self.userNickname = json["nickname"].stringValue
+    self.userMannerGrade = json["mannerGrade"].stringValue
+    self.userEvaluationCount = json["countMannerEvaluation"].intValue
+    self.userTradeCount = json["countTradeAttempt"].intValue
+  }
 }
 
 struct MyPagePosting: PostProtocol {
@@ -46,7 +54,7 @@ struct MyPagePosting: PostProtocol {
                         status: json["status"].boolValue,
                         imageLink: json["imageLink"].stringValue,
                         contactPlace: json["contactPlace"].stringValue,
-                        updatedAt: customUpdateAt(day: intervalDays))
+                        updatedAt: dayToUpdateAt(day: intervalDays))
   }
   
   func decimalWon(price: Int) -> String {
@@ -57,8 +65,8 @@ struct MyPagePosting: PostProtocol {
     return result
   }
   
-  func customUpdateAt(day: Int) -> String {
-    switch day{
+  func dayToUpdateAt(day: Int) -> String {
+    switch day {
     case 0:
       return "오늘"
     case 1:

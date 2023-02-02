@@ -43,9 +43,9 @@ class MyInfoController: UIViewController {
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   let keychain = KeychainSwift()
   var myPage = MyPage()
+  var myPagePosting = MyPagePosting()
   var userPosting: [MyPagePosting] = []
   var userLikePosting: [MyPagePosting] = []
-  var myPagePosting = MyPagePosting()
   let modifyData = ModifyProduct.shared
   var userPostingPage = 0
   var userPostingLastPage = false
@@ -78,18 +78,13 @@ class MyInfoController: UIViewController {
   @objc
   private func callRefresh() {
     tableView.refreshControl?.beginRefreshing()
-    userPostingPage = 0
-    userPostingLastPage = false
-    userPosting.removeAll()
-    userLikePostingPage = 0
-    userLikePostingLastPage = false
-    userLikePosting.removeAll()
+    initializeModels()
     
     switch tableView.tag{
     case 1, 3:
-      getMyPage(page: userPostingPage, size: 10)
+      getMyPage(page: userPostingPage, size: 10, posting: "myPosting")
     case 2, 4:
-      getLikePosting(page: userLikePostingPage, size: 10)
+      getMyPage(page: userLikePostingPage, size: 10, posting: "likePosting")
     default:
       tableView.refreshControl?.endRefreshing()
       return
@@ -103,54 +98,60 @@ class MyInfoController: UIViewController {
     tableView.estimatedRowHeight = UITableView.automaticDimension
     myPostButton.setTitleColor(.black, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
+    initializeModels()
+    getMyPage(page: userPostingPage, size: 10, posting: "myPosting")
+    print(tableView.tag)
+  }
+  
+  private func initializeModels() {
     userPostingPage = 0
     userPostingLastPage = false
     userPosting.removeAll()
     userLikePostingPage = 0
     userPostingLastPage = false
     userLikePosting.removeAll()
-    getMyPage(page: userPostingPage, size: 10)
-    print(tableView.tag)
   }
   
-  func getMyPage(page: Int, size: Int) {
+  // 나중에 내 게시물이랑 좋아요 누른 게시물 비동기 처리해서 한번에 받아오면 좋을듯.
+  func getMyPage(page: Int, size: Int, posting: String) {
     AlamofireManager
       .shared
       .session
       .request(PageRouter.myPage(page: page, size: size))
       .validate()
       .response { response in
-        guard let statusCode = response.response?.statusCode, statusCode == 200 else {
+        guard let statusCode = response.response?.statusCode,
+                statusCode == 200,
+              let responseData = response.data
+        else {
           self.designGuestView()
           return
         }
         // 초기화만 된 상태일 경우 메소드 호출
         if self.myPage.userIndex == "" {
-            self.updateMyPage(json: JSON(response.data ?? ""))
+            self.updateMyPage(json: JSON(responseData))
         }
-        self.updateUserPosting(json: JSON(response.data ?? "")["myPosting"])
+        print("page: \(page), size: \(size), count: \(JSON(responseData)[posting].count)")
+        posting == "myPosting" ?
+        self.updateUserPosting(json: JSON(responseData)[posting]) :
+        self.updateUserLikePosting(json: JSON(responseData)[posting])
     }
   }
   
-  func getLikePosting(page: Int, size: Int) {
-    AlamofireManager
-      .shared
-      .session
-      .request(PageRouter.myPage(page: page, size: size))
-      .validate()
-      .response { response in
-        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-        self.updateUserLikePosting(json: JSON(response.data ?? "")["likePosting"])
-      }
-  }
+//  func getLikePosting(page: Int, size: Int) {
+//    AlamofireManager
+//      .shared
+//      .session
+//      .request(PageRouter.myPage(page: page, size: size))
+//      .validate()
+//      .response { response in
+//        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+//        self.updateUserLikePosting(json: JSON(response.data ?? "")["likePosting"])
+//      }
+//  }
   
   private func updateMyPage(json: JSON) {
-    myPage.userIndex = json["id"].stringValue
-    myPage.userEmail = json["email"].stringValue
-    myPage.userNickname = json["nickname"].stringValue
-    myPage.userMannerGrade = json["mannerGrade"].stringValue
-    myPage.userEvaluationCount = json["countMannerEvaluation"].intValue
-    myPage.userTradeCount = json["countTradeAttempt"].intValue
+    myPage.updateMyPage(json: json)
     designLoginView()
   }
   
@@ -160,12 +161,13 @@ class MyInfoController: UIViewController {
       tableView.reloadData()
       return
     }
+    print(json.count)
     tableView.tag = 1
     if json.count < 10 {
       userPostingLastPage = true
     }
-    for _ in 0..<json.count {
-      userPosting.append(myPagePosting.jsonToMyPagePosting(json: json))
+    for i in 0..<json.count {
+      userPosting.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
     tableView.reloadData()
   }
@@ -176,34 +178,16 @@ class MyInfoController: UIViewController {
       tableView.reloadData()
       return
     }
+    print(json.count)
     tableView.tag = 2
     if json.count < 10 {
       userLikePostingLastPage = true
     }
-    for _ in 0..<json.count {
-      userLikePosting.append(myPagePosting.jsonToMyPagePosting(json: json))
+    for i in 0..<json.count {
+      userLikePosting.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
     tableView.reloadData()
   }
-  
-//  private func jsonAppendToArray(json: JSON, posting: inout Array<MyPagePosting>) {
-//    let postDate = json["updatedAt"].stringValue.components(separatedBy: "T")[0]
-//    let dateFormatter = DateFormatter()
-//    dateFormatter.dateFormat = "yyyy-MM-dd"
-//    let startDate = dateFormatter.date(from: postDate) ?? nil
-//    let interval = Date().timeIntervalSince(startDate ?? Date())
-//    let intervalDays = Int((interval) / 86400)
-//    let getData = MyPagePosting(productIndex: json["productPostId"].intValue,
-//                                title: json["title"].stringValue,
-//                                price: json["price"].stringValue,
-//                                decimalWon: decimalWon(price: json["price"].intValue),
-//                                category: json["category"].stringValue,
-//                                status: json["status"].boolValue,
-//                                imageLink: json["imageLink"].stringValue,
-//                                contactPlace: json["contactPlace"].stringValue,
-//                                updatedAt: customUpdateAt(day: intervalDays))
-//    posting.append(getData)
-//  }
     
   // 로직 확인 필요
   private func deletePost(indexPath: IndexPath) {
@@ -217,7 +201,7 @@ class MyInfoController: UIViewController {
         self.userPosting.removeAll()
         self.userPostingPage = 0
         self.userPostingLastPage = false
-        self.getMyPage(page: self.userPostingPage, size: 10)
+        self.getMyPage(page: self.userPostingPage, size: 10, posting: "myPosting")
       }
   }
   
@@ -231,7 +215,6 @@ class MyInfoController: UIViewController {
   }
     
   //MARK: Button Actions
-  
   
   @IBAction func test(_ sender: Any) {
     let url = "https://api.sugo-diger.com/user/password"
@@ -254,7 +237,6 @@ class MyInfoController: UIViewController {
                parameters: parameter,
                encoding: JSONEncoding.default,
                headers: header).response { response in
-      print(JSON(response.data))
     }
   }
   
@@ -280,9 +262,10 @@ class MyInfoController: UIViewController {
       tableView.reloadData()
       return
     }
-    getLikePosting(page: userLikePostingPage, size: 10)
+    getMyPage(page: userLikePostingPage, size: 10, posting: "likePosting")
   }
   
+  // 게시글 수정은 API 수정 될 예정. 로직도 수정해야 함.
   @objc func modifyButtonClicked(sender: UIButton) {
     let indexPath = IndexPath(row: sender.tag, section: 0)
     let postingView = UIStoryboard(name: "PostingView", bundle: nil)
@@ -290,7 +273,6 @@ class MyInfoController: UIViewController {
     modifyData.title = userPosting[indexPath.row].title
     modifyData.category = userPosting[indexPath.row].category
     modifyData.price = userPosting[indexPath.row].price
-    print(userPosting[indexPath.row].productIndex)
     guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
     postingNavigationController.modalPresentationStyle = .fullScreen
     postingNavigationController.navigationBar.topItem?.title = "게시글 수정"
@@ -395,4 +377,3 @@ class MyInfoController: UIViewController {
   }
   
 }
-

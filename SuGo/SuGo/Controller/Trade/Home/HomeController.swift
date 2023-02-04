@@ -27,6 +27,7 @@ class HomeController: UIViewController {
   
   //MARK: Properties
   
+  var contentOffset: CGPoint?
   let keychain = KeychainSwift()
   let productContents = ProductContents()
   var homeProductContents = [ProductContents]()
@@ -40,7 +41,7 @@ class HomeController: UIViewController {
     return refreshControl
   }()
     
-    //MARK: Life Cycle
+  //MARK: Life Cycle
     
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -50,21 +51,31 @@ class HomeController: UIViewController {
                                            selector: #selector(homeBottomDismissObserver),
                                            name: NSNotification.Name("homeBottomDismiss"),
                                            object: nil)
+    callGetMainPage()
+    customCategoryButton(category: categorySelect.homeCategory)
     customLeftBarButton()
     customRightBarButtons()
     customBackButton()
     searchViewDesign()
   }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    contentOffset = collectionView.contentOffset
+  }
     
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     print("Home - viewWillAppear")
-    if searchTextField.text == "" {
-      page = 0
-      lastPage = false
-      callGetMainPage()
-      customCategoryButton(category: categorySelect.homeCategory)
+    if let contentOffset = contentOffset {
+      collectionView.contentOffset = contentOffset
     }
+//    if searchTextField.text == "" {
+//      page = 0
+//      lastPage = false
+//      callGetMainPage()
+//      customCategoryButton(category: categorySelect.homeCategory)
+//    }
   }
     
   //MARK: Functions
@@ -192,8 +203,9 @@ class HomeController: UIViewController {
       .responseData { response in
               
         if response.response?.statusCode == 200 {
-            self.updateSearchPage(json: JSON(response.data ?? ""),
-                                  searchData: searchData)
+          self.homeProductContents.removeAll()
+          self.updateSearchPage(json: JSON(response.data ?? ""),
+                                searchData: searchData)
         } else {
             self.keychain.clear()
             self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: true)
@@ -213,7 +225,7 @@ class HomeController: UIViewController {
   // 이 부분을 모델로 뺄 수 없을지 고민해보자.
   private func jsonToCollectionViewData(json: JSON) {
     for i in 0..<json.count {
-      homeProductContents.append(productContents.makeCollectionViewData(i: i, json: json))
+      homeProductContents.append(productContents.jsonToProductContents(json: json[i]))
     }
     print(homeProductContents)
     self.collectionView.reloadData()
@@ -229,13 +241,13 @@ class HomeController: UIViewController {
 //        collectionView.reloadData()
   }
     
+  // 검색 후
   @IBAction func searchButtonclicked(_ sender: Any) {
     let searchData = searchTextField.text ?? ""
     var category = categorySelect.homeCategory
     if category == "전체" {
         category = ""
     }
-    homeProductContents.removeAll()
     getSearchData(searchData: searchData, category: category)
   }
     
@@ -398,5 +410,6 @@ class HomeCollectionViewCell: UICollectionViewCell {
     priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
     priceLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
   }
+  
 }
 

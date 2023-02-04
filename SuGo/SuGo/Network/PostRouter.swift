@@ -29,14 +29,15 @@ enum PostRouter: URLRequestConvertible {
     
     
     var baseURL: URL {
-        return URL(string: API.BASE_URL + "/post")!
+      return URL(string: API.BASE_URL + "/post")!
     }
+  
     
     var method: HTTPMethod {
         switch self {
         case .postContent, .upPost:
           return .post
-        case .mainPage, .getDetailPost, .searchContent:
+        case .mainPage, .searchContent, .getDetailPost:
           return .get
         case .deletePost:
           return .delete
@@ -49,8 +50,10 @@ enum PostRouter: URLRequestConvertible {
         return "/content"
       case .mainPage:
         return "/all"
-      case .getDetailPost, .deletePost:
-        return "/"
+      case .getDetailPost(let productIndex):
+        return "/\(productIndex)"
+      case .deletePost:
+        return "/productPostId"
       case .searchContent:
         return "/search"
       case .upPost:
@@ -62,30 +65,31 @@ enum PostRouter: URLRequestConvertible {
       switch self{
       case .postContent(let title, let content, let price, let contactPlace, let category):
         return [
-            "title" : title,
-            "content" : content,
-            "price" : price,
-            "contactPlace" : contactPlace,
-            "category" : category
+          "title" : title,
+          "content" : content,
+          "price" : price,
+          "contactPlace" : contactPlace,
+          "category" : category
         ]
-          
+        
       case .mainPage(let page, let size, let category):
         return [
-            "page" : page,
-            "size" : size,
-            "category" : category
+          "page" : page,
+          "size" : size,
+          "category" : category
         ]
-      
-      case .getDetailPost(let productIndex),
-           .deletePost(let productIndex),
-           .upPost(let productIndex):
+        
+      case .deletePost(let productIndex),
+          .upPost(let productIndex):
         return ["productPostId" : productIndex]
-          
+        
       case .searchContent(let value, let category):
         return [
-            "value" : value,
-            "category" : category
+          "value" : value,
+          "category" : category
         ]
+      case .getDetailPost(_):
+        return [:]
       }
     }
     
@@ -101,14 +105,15 @@ enum PostRouter: URLRequestConvertible {
   }
   
   func asURLRequest() throws -> URLRequest {
-      
+          
     let url = baseURL.appendingPathComponent(path)
     
     var request = URLRequest(url: url)
-    
+
     request.method = method
     request.headers = headers
-      
+    
+    
     if request.method == .post || request.method == .delete {
       request = try JSONEncoding.default.encode(request, with: parameters)
     } else if request.method == .get {

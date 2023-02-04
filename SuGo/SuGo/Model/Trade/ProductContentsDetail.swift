@@ -25,7 +25,10 @@ struct ProductContentsDetail: PostProtocol {
   var userLikeStatus: Bool = false
   var myIndex: Int = 0
   
-  mutating func jsonToProductContentsDetail(json: JSON) {
+  init() {
+  }
+  
+  init(json: JSON) {
     self.productIndex = json["productPostId"].intValue
     self.contactPlace = json["contactPlace"].stringValue
     self.title = json["title"].stringValue
@@ -35,29 +38,17 @@ struct ProductContentsDetail: PostProtocol {
     self.content = json["content"].stringValue
     self.userIndex = json["writerId"].intValue
     self.userLikeStatus = json["userLikeStatus"].boolValue
-    
-    let jsonImages = json["imageLink"].stringValue
-    var images = jsonImages.components(separatedBy: ", ").map({String($0)})
+    self.imageLink = imagesFromJsonString(json["imageLink"].stringValue)
+    self.updatedAt = dayToUpdateAt(dateString: json["updateAt"].stringValue)
+    self.myIndex = 1
+  }
 
-    // JSON으로 내려받을 때 stringValue로 떨어지기에, 콤마로 스플릿 후 데이터 일부 수정
+  func imagesFromJsonString(_ jsonImageString: String) -> [String] {
+    let images = jsonImageString.components(separatedBy: ", ").map { String($0) }
     if images.count == 1 {
-        images[0] = String(images[0].dropFirst())
-        images[0] = String(images[0].dropLast())
-    } else {
-        images[0] = String(images[0].dropFirst())
-        images[images.count - 1] = String(images[images.count - 1].dropLast())
+      return [String(images[0].dropFirst().dropLast())]
     }
-
-    self.imageLink = images
-
-    let postDate = json["updatedAt"].stringValue.components(separatedBy: "T")[0]
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd"
-    let startDate = dateFormatter.date(from: postDate) ?? nil
-    let interval = Date().timeIntervalSince(startDate ?? Date())
-    let intervalDays = Int((interval) / 86400)
-
-    self.updatedAt = dayToUpdateAt(day: intervalDays)
+    return [String(images[0].dropFirst())] + images[1..<images.count - 1] + [String(images[images.count - 1].dropLast())]
   }
   
   func decimalWon(price: Int) -> String {
@@ -68,18 +59,24 @@ struct ProductContentsDetail: PostProtocol {
     return result
   }
   
-  func dayToUpdateAt(day: Int) -> String {
-    switch day {
+  func dayToUpdateAt(dateString: String) -> String {
+    let postDate = dateString.components(separatedBy: "T")[0]
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    let startDate = dateFormatter.date(from: postDate)
+    let date = Int((Date().timeIntervalSince(startDate ?? Date())) / 86400)
+    
+    switch date {
     case 0:
       return "오늘"
     case 1:
       return "어제"
     case 2..<7:
-      return "\(day)일 전"
+      return "\(date)일 전"
     case 7..<30:
-      return "\(day / 7)주 전"
+      return "\(date / 7)주 전"
     case 30...:
-      return "\(day / 30)달 전"
+      return "\(date / 30)달 전"
     default:
       print("default")
       return ""

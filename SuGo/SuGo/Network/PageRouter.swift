@@ -31,8 +31,8 @@ enum PageRouter: URLRequestConvertible {
         switch self {
         case .myPage:
             return "/user"
-        case .userPage:
-            return "/user/"
+        case .userPage(let userId, _, _):
+            return "/user/\(userId)/"
         }
     }
     
@@ -43,9 +43,8 @@ enum PageRouter: URLRequestConvertible {
                 "page" : page,
                 "size" : size
             ]
-        case .userPage(let userId, let page, let size):
+        case .userPage(_, let page, let size):
             return [
-                "userId" : userId,
                 "page" : page,
                 "size" : size
             ]

@@ -31,7 +31,7 @@ extension MyInfoController: UITableViewDelegate {
         userPostingPage += 1
         if !userPostingLastPage {
           print("infinite scroll work")
-          getMyPage(page: userPostingPage, size: 10, posting: "myPosting")
+          getMyPage(page: userPostingPage, size: 10, posting: "myPostings")
         }
       }
     } else if tableView.tag == 2 {

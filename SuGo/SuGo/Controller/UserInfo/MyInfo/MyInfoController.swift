@@ -51,6 +51,7 @@ class MyInfoController: UIViewController {
   var userPostingLastPage = false
   var userLikePostingPage = 0
   var userLikePostingLastPage = false
+  
   private lazy var refresh: UIRefreshControl = {
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(callRefresh), for: .valueChanged)
@@ -82,9 +83,9 @@ class MyInfoController: UIViewController {
     
     switch tableView.tag{
     case 1, 3:
-      getMyPage(page: userPostingPage, size: 10, posting: "myPosting")
+      getMyPage(page: userPostingPage, size: 10, posting: "myPostings")
     case 2, 4:
-      getMyPage(page: userLikePostingPage, size: 10, posting: "likePosting")
+      getMyPage(page: userLikePostingPage, size: 10, posting: "likePostings")
     default:
       tableView.refreshControl?.endRefreshing()
       return
@@ -99,7 +100,7 @@ class MyInfoController: UIViewController {
     myPostButton.setTitleColor(.black, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
     initializeModels()
-    getMyPage(page: userPostingPage, size: 10, posting: "myPosting")
+    getMyPage(page: userPostingPage, size: 10, posting: "myPostings")
     print(tableView.tag)
   }
   
@@ -137,18 +138,6 @@ class MyInfoController: UIViewController {
         self.updateUserLikePosting(json: JSON(responseData)[posting])
     }
   }
-  
-//  func getLikePosting(page: Int, size: Int) {
-//    AlamofireManager
-//      .shared
-//      .session
-//      .request(PageRouter.myPage(page: page, size: size))
-//      .validate()
-//      .response { response in
-//        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-//        self.updateUserLikePosting(json: JSON(response.data ?? "")["likePosting"])
-//      }
-//  }
   
   private func updateMyPage(json: JSON) {
     myPage.updateMyPage(json: json)
@@ -201,7 +190,7 @@ class MyInfoController: UIViewController {
         self.userPosting.removeAll()
         self.userPostingPage = 0
         self.userPostingLastPage = false
-        self.getMyPage(page: self.userPostingPage, size: 10, posting: "myPosting")
+        self.getMyPage(page: self.userPostingPage, size: 10, posting: "myPostings")
       }
   }
   
@@ -262,7 +251,7 @@ class MyInfoController: UIViewController {
       tableView.reloadData()
       return
     }
-    getMyPage(page: userLikePostingPage, size: 10, posting: "likePosting")
+    getMyPage(page: userLikePostingPage, size: 10, posting: "likePostings")
   }
   
   // 게시글 수정은 API 수정 될 예정. 로직도 수정해야 함.

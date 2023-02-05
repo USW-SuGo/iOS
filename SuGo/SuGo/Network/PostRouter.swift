@@ -53,7 +53,7 @@ enum PostRouter: URLRequestConvertible {
       case .getDetailPost(let productIndex):
         return "/\(productIndex)"
       case .deletePost:
-        return "/productPostId"
+        return ""
       case .searchContent:
         return "/search"
       case .upPost:

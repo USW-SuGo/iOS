@@ -23,7 +23,7 @@ struct UserPage {
     self.userIndex = json["userId"].intValue
     self.userEmail = json["email"].stringValue
     self.userNickname = json["nickname"].stringValue
-    self.userMannerGrade = json["mannerGrade"].stringValue
+    self.userMannerGrade = String(json["mannerGrade"].doubleValue)
     self.userEvaluationCount = json["countMannerEvaluation"].stringValue
     self.userTradeCount = json["countTradeAttempt"].stringValue
   }

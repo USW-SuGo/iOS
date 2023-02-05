@@ -38,7 +38,7 @@ class PostController: UIViewController {
   var alamofireSource: [AlamofireSource] = []
   var indexDelegate: MessageRoomIndex?
     
-  //MARK: Functions
+  //MARK: Life Cycle
     
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -81,10 +81,14 @@ class PostController: UIViewController {
     
   //MARK: API Functions
   
+  // user identifier -> NullPointerException
+  // 현재 유저 자신의 인덱스를 받아올 수 없음.
+  
   private func getMyIndex() {
     let url = API.BASE_URL + "/user/identifier"
     guard let accessToken = KeychainSwift().get("AccessToken") else { return }
     let header: HTTPHeaders = ["Authorization" : accessToken]
+    print(accessToken)
     
     AF.request(url,
                method: .get,
@@ -94,6 +98,7 @@ class PostController: UIViewController {
       guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
       guard let data = response.data else { return }
       self.productContentsDetail.myIndex = JSON(data)["userId"].intValue
+      print(self.productContentsDetail)
     }
   }
     
@@ -113,7 +118,7 @@ class PostController: UIViewController {
       guard json != "" else {
         self.navigationController?.popViewController(animated: true)
         return }
-      productContentsDetail.jsonToProductContentsDetail(json: json)
+      productContentsDetail = ProductContentsDetail(json: json)
       for i in 0..<productContentsDetail.imageLink.count {
           alamofireSource.append(AlamofireSource(urlString: productContentsDetail.imageLink[i])!)
       }
@@ -125,8 +130,9 @@ class PostController: UIViewController {
   
   @IBAction func userInfoButtonClicked(_ sender: Any) {
     let userInfoView = UIStoryboard(name: "UserInfoView", bundle: nil)
-    let userInfoController = userInfoView.instantiateViewController(withIdentifier: "userInfoVC")
-    present(userInfoController, animated: true)
+    guard let userInfoController = userInfoView.instantiateViewController(withIdentifier: "userInfoVC") as? UserInfoController else { return }
+    userInfoController.userId = productContentsDetail.userIndex
+    self.navigationController?.pushViewController(userInfoController, animated: true)
   }
   
   @IBAction func likeButtonClicked(_ sender: Any) {

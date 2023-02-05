@@ -44,11 +44,8 @@ struct ProductContentsDetail: PostProtocol {
   }
 
   func imagesFromJsonString(_ jsonImageString: String) -> [String] {
-    let images = jsonImageString.components(separatedBy: ", ").map { String($0) }
-    if images.count == 1 {
-      return [String(images[0].dropFirst().dropLast())]
-    }
-    return [String(images[0].dropFirst())] + images[1..<images.count - 1] + [String(images[images.count - 1].dropLast())]
+    let images = jsonImageString.components(separatedBy: ",").map { String($0) }
+    return images
   }
   
   func decimalWon(price: Int) -> String {

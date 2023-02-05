@@ -46,6 +46,7 @@ struct MyPagePosting: PostProtocol {
     let startDate = dateFormatter.date(from: postDate) ?? nil
     let interval = Date().timeIntervalSince(startDate ?? Date())
     let intervalDays = Int((interval) / 86400)
+    print("productPostId : \(json["productPostId"].intValue)")
     return MyPagePosting(productIndex: json["productPostId"].intValue,
                         title: json["title"].stringValue,
                         price: json["price"].stringValue,

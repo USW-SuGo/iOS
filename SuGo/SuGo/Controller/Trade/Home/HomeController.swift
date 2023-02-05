@@ -59,11 +59,6 @@ class HomeController: UIViewController {
     searchViewDesign()
   }
   
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    contentOffset = collectionView.contentOffset
-  }
-    
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     print("Home - viewWillAppear")
@@ -77,6 +72,13 @@ class HomeController: UIViewController {
 //      customCategoryButton(category: categorySelect.homeCategory)
 //    }
   }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    contentOffset = collectionView.contentOffset
+  }
+    
+
     
   //MARK: Functions
   
@@ -179,12 +181,12 @@ class HomeController: UIViewController {
       .request(PostRouter.mainPage(page: page,
                                    size: size,
                                    category: category))
-      .responseData { response in
-        guard let data = response.data else { return }
-        if JSON(data).count < 10 {
+      .response { response in
+        guard let responseData = response.data else { return }
+        if JSON(responseData).count < 10 {
           self.lastPage = true
         }
-        self.updateMainPage(json: JSON(data))
+        self.updateMainPage(json: JSON(responseData))
     }
   }
   
@@ -227,7 +229,6 @@ class HomeController: UIViewController {
     for i in 0..<json.count {
       homeProductContents.append(productContents.jsonToProductContents(json: json[i]))
     }
-    print(homeProductContents)
     self.collectionView.reloadData()
   }
     

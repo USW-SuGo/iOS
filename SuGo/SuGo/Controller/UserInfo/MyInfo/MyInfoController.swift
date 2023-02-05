@@ -113,7 +113,7 @@ class MyInfoController: UIViewController {
     userLikePosting.removeAll()
   }
   
-  // 나중에 내 게시물이랑 좋아요 누른 게시물 비동기 처리해서 한번에 받아오면 좋을듯.
+  // 나중에 내 게시물이랑 좋아요 누른 게시물 비동기 처리해서 한번에 받아오면 좋을듯. 데이터를 받은 후에 좋아요 누른 글로 넘어가려고 하니 딜레이가 좀 있음.. 수정 필요해보인다.
   func getMyPage(page: Int, size: Int, posting: String) {
     AlamofireManager
       .shared
@@ -133,7 +133,7 @@ class MyInfoController: UIViewController {
             self.updateMyPage(json: JSON(responseData))
         }
         print("page: \(page), size: \(size), count: \(JSON(responseData)[posting].count)")
-        posting == "myPosting" ?
+        posting == "myPostings" ?
         self.updateUserPosting(json: JSON(responseData)[posting]) :
         self.updateUserLikePosting(json: JSON(responseData)[posting])
     }
@@ -145,16 +145,17 @@ class MyInfoController: UIViewController {
   }
   
   private func updateUserPosting(json: JSON) {
-    guard json.count > 0 else {
-      tableView.tag = 3
-      tableView.reloadData()
+    guard json.count > 0// 만약 게시글이 30개라면?
+    else {
+      guard userPosting.count > 0 else {
+        tableView.tag = 3
+        tableView.reloadData()
+        return
+      }
       return
     }
-    print(json.count)
     tableView.tag = 1
-    if json.count < 10 {
-      userPostingLastPage = true
-    }
+    if json.count < 10 {  userPostingLastPage = true }
     for i in 0..<json.count {
       userPosting.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
@@ -162,6 +163,7 @@ class MyInfoController: UIViewController {
   }
   
   private func updateUserLikePosting(json: JSON) {
+    print("UserLikePosting Button Clicked")
     guard json.count > 0 else {
       tableView.tag = 4
       tableView.reloadData()
@@ -169,9 +171,7 @@ class MyInfoController: UIViewController {
     }
     print(json.count)
     tableView.tag = 2
-    if json.count < 10 {
-      userLikePostingLastPage = true
-    }
+    if json.count < 10 { userLikePostingLastPage = true }
     for i in 0..<json.count {
       userLikePosting.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
@@ -195,10 +195,10 @@ class MyInfoController: UIViewController {
   }
   
   private func registerXib() {
-    let userPostingXib = UINib(nibName: "UserPostingCell", bundle: nil)
-    tableView.register(userPostingXib, forCellReuseIdentifier: "userPostingCell")
-    let likePostingXib = UINib(nibName: "LikePostingCell", bundle: nil)
-    tableView.register(likePostingXib, forCellReuseIdentifier: "likePostingCell")
+    let userPostingXib = UINib(nibName: "MyPostingCell", bundle: nil)
+    tableView.register(userPostingXib, forCellReuseIdentifier: "myPostingCell")
+    let likePostingXib = UINib(nibName: "UserPostingCell", bundle: nil)
+    tableView.register(likePostingXib, forCellReuseIdentifier: "userPostingCell")
     let emptyPostingXib = UINib(nibName: "EmptyPostingCell", bundle: nil)
     tableView.register(emptyPostingXib, forCellReuseIdentifier: "emptyPostingCell")
   }

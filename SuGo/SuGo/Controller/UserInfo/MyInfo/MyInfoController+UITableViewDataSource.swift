@@ -28,8 +28,8 @@ extension MyInfoController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     switch tableView.tag {
     case 1:
-      let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
-                                               for: indexPath) as! UserPostingCell
+      let cell = tableView.dequeueReusableCell(withIdentifier: "myPostingCell",
+                                               for: indexPath) as! MyPostingCell
       if userPosting.count > 0 { // indexPath out of range 방지 위함.
         if let url = URL(string: userPosting[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity
@@ -63,8 +63,8 @@ extension MyInfoController: UITableViewDataSource {
       }
       return cell
     case 2:
-      let cell = tableView.dequeueReusableCell(withIdentifier: "likePostingCell",
-                                                      for: indexPath) as! LikePostingCell
+      let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
+                                                      for: indexPath) as! UserPostingCell
       if userLikePosting.count > 0 {
         if let url = URL(string: userLikePosting[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity

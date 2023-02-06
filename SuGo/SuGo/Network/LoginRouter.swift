@@ -6,7 +6,9 @@
 //
 
 import Foundation
+
 import Alamofire
+import KeychainSwift
 
 enum LoginRouter: URLRequestConvertible {
         
@@ -17,6 +19,8 @@ enum LoginRouter: URLRequestConvertible {
   case checkAuthNumber(userId: Int, payload: String)
   case findId(email: String)
   case findPassword(loginId: String, email: String)
+  case changePassword(prePassword: String, newPassword: String)
+  case deleteAccount(loginId: String, email: String, password: String)
   
   var baseURL: URL {
     return URL(string: API.BASE_URL + "/user")!
@@ -26,6 +30,10 @@ enum LoginRouter: URLRequestConvertible {
     switch self {
     case .checkEmail, .checkLoginId, .join, .login, .checkAuthNumber, .findId, .findPassword:
       return .post
+    case .changePassword:
+      return .put
+    case .deleteAccount:
+      return .delete
     }
   }
 
@@ -45,6 +53,10 @@ enum LoginRouter: URLRequestConvertible {
       return "/find-id"
     case .findPassword:
       return "/find-pw"
+    case .changePassword:
+      return "/password"
+    case .deleteAccount:
+      return ""
     }
   }
   
@@ -81,15 +93,31 @@ enum LoginRouter: URLRequestConvertible {
         "loginId" : loginId,
         "email" : email
       ]
+    case .changePassword(let prePassword, let newPassword):
+      return [
+        "prePassword" : prePassword,
+        "newPassword" : newPassword
+      ]
+    case .deleteAccount(let loginId, let email, let password):
+      return [
+        "loginId" : loginId,
+        "email" : email,
+        "password" : password
+      ]
     }
   }
   
   var headers: HTTPHeaders {
     switch self{
-    case .checkEmail, .checkLoginId, .join, .login, .checkAuthNumber, .findId, .findPassword:
+    case .checkEmail, .checkLoginId, .join, .login, .checkAuthNumber,
+        .findId, .findPassword:
       return [
           .contentType("application/json"),
           .accept("application/json")
+      ]
+    case .changePassword, .deleteAccount:
+      return [
+        .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
       ]
     }
   }

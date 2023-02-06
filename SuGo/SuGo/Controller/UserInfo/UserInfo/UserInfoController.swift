@@ -30,17 +30,22 @@ class UserInfoController: UIViewController {
   var userSalePosting: [UserPagePosting] = []
   var salePostingPage = 0
   var salePostingLastPage = false
+  var userSoldOutPosting: [UserPagePosting] = []
+  var soldOutPostingPage = 0
+  var soldOutPostingLastPage = false
   
   //MARK: Life Cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    customBackButton()
+    registerXib()
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = UITableView.automaticDimension
-    registerXib()
     if let userId = userId {
       getUserPage(userId: userId, page: 0, size: 10)
     }
+    tableView.tag = 1
     print("userId: \(userId ?? 1123131313)")
   }
   
@@ -70,6 +75,7 @@ class UserInfoController: UIViewController {
         self.userPage = UserPage(json: JSON(responseData))
         self.updateUserPage()
         self.updateUserSalePosting(json: JSON(responseData)["myPostings"])
+        self.updateUserSoldOutPosting(json: JSON(responseData)["closePostings"])
         print(self.userPage)
       }
   }
@@ -83,16 +89,31 @@ class UserInfoController: UIViewController {
     tableView.reloadData()
   }
   
+  private func updateUserSoldOutPosting(json: JSON) {
+    if json.count < 10 { soldOutPostingLastPage = true }
+    for i in 0..<json.count {
+      userPagePosting = UserPagePosting(json: json[i])
+      userSoldOutPosting.append(userPagePosting)
+    }
+    print(userSoldOutPosting)
+  }
+  
   //MARK: Button Actions
   
   @IBAction func salePostButtonClicked(_ sender: Any) {
+    tableView.tag = 1
+    tableView.reloadData()
     salePostButton.setTitleColor(.black, for: .normal)
     soldOutButtonClicked.setTitleColor(.lightGray, for: .normal)
+    print(userSalePosting)
   }
   
   @IBAction func soldOutButtonClicked(_ sender: Any) {
+    tableView.tag = 2
+    tableView.reloadData()
     salePostButton.setTitleColor(.lightGray, for: .normal)
     soldOutButtonClicked.setTitleColor(.black, for: .normal)
+    print(userSoldOutPosting)
   }
   
   //MARK: Design Functions
@@ -102,7 +123,11 @@ class UserInfoController: UIViewController {
     userMannerGradeLabel.text = userPage.userMannerGrade
     userTradeCountLabel.text = userPage.userTradeCount
   }
-
   
+  private func customBackButton() {
+    let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    backButtonItem.tintColor = .darkGray
+    self.navigationItem.backBarButtonItem = backButtonItem
+  }
   
 }

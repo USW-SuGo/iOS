@@ -23,7 +23,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--User Info Controller-->
+        <!--프로필-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="userInfoVC" id="Y6W-OH-hqX" customClass="UserInfoController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -45,6 +45,13 @@
                                     <constraint firstAttribute="height" constant="1" id="FDe-6F-5N0"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VTB-Ey-qqO">
+                                <rect key="frame" x="0.0" y="279.33333333333331" width="393" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="VkO-Mb-WRL"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jz-dN-3Rn">
                                 <rect key="frame" x="20" y="244.33333333333334" width="69" height="20.000000000000028"/>
                                 <constraints>
@@ -56,6 +63,9 @@
                                 <state key="normal" title="판매중인 글">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="salePostButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="pdl-qo-DnS"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserID" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5iv-GT-Tin">
                                 <rect key="frame" x="85" y="119" width="50.333333333333343" height="60"/>
@@ -116,8 +126,11 @@
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="판매 완료한 글">
-                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="soldOutButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="1P7-SJ-ddz"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOg-aq-wfu">
                                 <rect key="frame" x="298" y="144" width="30" height="25"/>
@@ -129,15 +142,29 @@
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="DZq-b5-FPd">
+                                <rect key="frame" x="0.0" y="280.33333333333331" width="393" height="537.66666666666674"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Y6W-OH-hqX" id="lWc-qV-Zli"/>
+                                    <outlet property="delegate" destination="Y6W-OH-hqX" id="168-Fx-Ljf"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="ru2-gU-veB" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="1As-XV-6Ny"/>
                             <constraint firstItem="4jz-dN-3Rn" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="1GA-52-rjZ"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="DZq-b5-FPd" secondAttribute="trailing" id="4xy-Xx-T7h"/>
+                            <constraint firstItem="DZq-b5-FPd" firstAttribute="top" secondItem="VTB-Ey-qqO" secondAttribute="bottom" id="5zZ-Kb-SlC"/>
+                            <constraint firstItem="VTB-Ey-qqO" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="6pe-uR-k4U"/>
                             <constraint firstItem="APP-73-8ry" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="AAq-rL-hs1"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="DZq-b5-FPd" secondAttribute="bottom" id="AC4-Wz-trm"/>
+                            <constraint firstItem="VTB-Ey-qqO" firstAttribute="top" secondItem="4jz-dN-3Rn" secondAttribute="bottom" constant="15" id="CEd-7Q-iIe"/>
                             <constraint firstItem="ru2-gU-veB" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="Eck-0s-XJb"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="APP-73-8ry" secondAttribute="trailing" constant="20" id="F6Z-6y-fse"/>
+                            <constraint firstItem="DZq-b5-FPd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Gap-jt-nkl"/>
                             <constraint firstItem="mmu-No-zPB" firstAttribute="top" secondItem="viB-Uw-2qY" secondAttribute="bottom" constant="15" id="LbT-6l-6Tw"/>
                             <constraint firstItem="APP-73-8ry" firstAttribute="leading" secondItem="9JV-Mt-8KH" secondAttribute="trailing" constant="15" id="NAA-Ql-mzB"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="xpH-cr-NbK" secondAttribute="trailing" constant="20" id="OFy-cJ-jEz"/>
@@ -153,6 +180,7 @@
                             <constraint firstItem="vOg-aq-wfu" firstAttribute="top" secondItem="9JV-Mt-8KH" secondAttribute="bottom" id="ljA-Gc-Xkb"/>
                             <constraint firstItem="5iv-GT-Tin" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="mCw-Sh-OG3"/>
                             <constraint firstItem="5iv-GT-Tin" firstAttribute="leading" secondItem="ru2-gU-veB" secondAttribute="trailing" constant="10" id="pDL-4j-PY5"/>
+                            <constraint firstAttribute="trailing" secondItem="VTB-Ey-qqO" secondAttribute="trailing" id="sFk-tq-8uK"/>
                             <constraint firstItem="Rmo-P9-sqf" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="ueJ-AU-Bx0"/>
                             <constraint firstItem="9JV-Mt-8KH" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="x6P-IA-05V"/>
                             <constraint firstItem="4jz-dN-3Rn" firstAttribute="top" secondItem="viB-Uw-2qY" secondAttribute="bottom" constant="15" id="xWb-3p-DMn"/>
@@ -160,7 +188,15 @@
                             <constraint firstItem="viB-Uw-2qY" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="zCN-K5-oqh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="w2M-ko-Q4D"/>
+                    <navigationItem key="navigationItem" title="프로필" id="w2M-ko-Q4D"/>
+                    <connections>
+                        <outlet property="salePostButton" destination="4jz-dN-3Rn" id="t3z-hn-b8f"/>
+                        <outlet property="soldOutButtonClicked" destination="mmu-No-zPB" id="H9V-w3-knH"/>
+                        <outlet property="tableView" destination="DZq-b5-FPd" id="qkO-cM-8Hy"/>
+                        <outlet property="userMannerGradeLabel" destination="vOg-aq-wfu" id="V0O-5L-evk"/>
+                        <outlet property="userNicknameLabel" destination="5iv-GT-Tin" id="yeV-Zc-03R"/>
+                        <outlet property="userTradeCountLabel" destination="lN6-My-HlS" id="eE1-96-DOY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

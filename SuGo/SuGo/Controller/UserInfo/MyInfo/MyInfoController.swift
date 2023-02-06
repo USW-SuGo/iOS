@@ -64,6 +64,7 @@ class MyInfoController: UIViewController {
     super.viewDidLoad()
     tableView.refreshControl = refresh
     tableView.separatorStyle = .none
+    customRightBarButton()
     customBackButton()
     registerXib()
   }
@@ -194,6 +195,45 @@ class MyInfoController: UIViewController {
       }
   }
   
+  private func upPost(productIndex: Int) {
+    AlamofireManager
+      .shared
+      .session
+      .request(PostRouter.upPost(productIndex: productIndex))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else {
+          let alertController = UIAlertController(title: "이미 올리셨어요!",
+                                        message: "게시글은 하루에 한 개만 올릴 수 있어요.",
+                                        preferredStyle: .alert)
+          let confirmAction = UIAlertAction(title: "확인", style: .default)
+          alertController.addAction(confirmAction)
+          self.present(alertController, animated: true)
+          return
+        }
+        let alertController = UIAlertController(title: "게시글을 올렸어요!",
+                                      message: "제일 위로 게시글이 올라갔어요!",
+                                      preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default)
+        alertController.addAction(confirmAction)
+        self.present(alertController, animated: true)
+      }
+  }
+  
+  private func changeSaleStatus(productIndex: Int) {
+    AlamofireManager
+      .shared
+      .session
+      .request(PostRouter.changeSaleStatus(productIndex: productIndex))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200,
+              let responseData = response.data else { return }
+        print(JSON(responseData))
+      }
+  }
+  
   private func registerXib() {
     let userPostingXib = UINib(nibName: "MyPostingCell", bundle: nil)
     tableView.register(userPostingXib, forCellReuseIdentifier: "myPostingCell")
@@ -270,28 +310,7 @@ class MyInfoController: UIViewController {
   
   @objc func upPostButtonClicked(sender: UIButton) {
     let indexPath = IndexPath(row: sender.tag, section: 0)
-    AlamofireManager
-      .shared
-      .session
-      .request(PostRouter.upPost(productIndex: userPosting[indexPath.row].productIndex))
-      .validate()
-      .response { response in
-        guard let statusCode = response.response?.statusCode, statusCode == 200 else {
-          let alertController = UIAlertController(title: "이미 올리셨어요!",
-                                        message: "게시글은 하루에 한 개만 올릴 수 있어요.",
-                                        preferredStyle: .alert)
-          let confirmAction = UIAlertAction(title: "확인", style: .default)
-          alertController.addAction(confirmAction)
-          self.present(alertController, animated: true)
-          return
-        }
-        let alertController = UIAlertController(title: "게시글을 올렸어요!",
-                                      message: "제일 위로 게시글이 올라갔어요!",
-                                      preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default)
-        alertController.addAction(confirmAction)
-        self.present(alertController, animated: true)
-      }
+    upPost(productIndex: userPosting[indexPath.row].productIndex)
   }
 
   @objc func kebabMenuClicked(_ sender: UIButton) {
@@ -299,26 +318,58 @@ class MyInfoController: UIViewController {
     let indexPath = IndexPath(row: sender.tag, section: 0)
     print(indexPath)
     let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    let changeSaleStatusAction = UIAlertAction(title: "판매 완료로 변경하기", style: .default) { _ in
+      self.changeSaleStatusAlert(title: "판매 상태를 바꾸시겠어요?",
+                                 message: "확인을 누르시면, 글의 상태가 판매 완료로 변경되요!",
+                                 indexPath: indexPath)
+    }
     let deleteAction = UIAlertAction(title: "게시글 삭제", style: .destructive) { alert in
-      self.customAlert(title: "게시글을 정말 삭제하시겠어요?", message: "", indexPath: indexPath)
+      self.deleteAlert(title: "게시글을 정말 삭제하시겠어요?", message: "", indexPath: indexPath)
     }
     let cancelAction = UIAlertAction(title: "닫기", style: .cancel)
+    actionSheetController.addAction(changeSaleStatusAction)
     actionSheetController.addAction(deleteAction)
     actionSheetController.addAction(cancelAction)
     present(actionSheetController, animated: true)
   }
+  
+  @objc func settingButtonClicked(_ sender: UIButton) {
+    let settingView = UIStoryboard(name: "SettingView", bundle: nil)
+    guard let settingContrller = settingView.instantiateViewController(withIdentifier: "settingVC")
+            as? SettingController
+    else {return}
+    self.navigationController?.pushViewController(settingContrller, animated: true)
+  }
     
   //MARK: Design Functions
   
-  private func customAlert(title: String, message: String, indexPath: IndexPath) {
+  private func customRightBarButton() {
+    let settingButton = self.navigationItem.makeSFSymbolButton(self,
+                                                               action: #selector(settingButtonClicked),
+                                                               symbolName: "gearshape")
+    self.navigationItem.rightBarButtonItem = settingButton
+  }
+  
+  private func deleteAlert(title: String, message: String, indexPath: IndexPath) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { alert in
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
       self.deletePost(indexPath: indexPath)
     }
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
     alert.addAction(deleteAction)
     alert.addAction(cancelAction)
-    self.present(alert, animated: true, completion: nil)
+    self.present(alert, animated: true)
+  }
+  
+  private func changeSaleStatusAlert(title: String, message: String, indexPath: IndexPath) {
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let changeAction = UIAlertAction(title: "변경", style: .default) { _ in
+      self.changeSaleStatus(productIndex: self.userPosting[indexPath.row].productIndex)
+    }
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+    alert.addAction(changeAction)
+    alert.addAction(cancelAction)
+    self.present(alert, animated: true)
   }
 
   private func customBackButton() {

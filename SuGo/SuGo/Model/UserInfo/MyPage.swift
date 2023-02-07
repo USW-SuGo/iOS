@@ -17,7 +17,9 @@ struct MyPage {
   var userEvaluationCount: Int = 0
   var userTradeCount: Int = 0
   
-  mutating func updateMyPage(json: JSON) {
+  init() { }
+  
+  init(json: JSON) {
     self.userIndex = json["id"].stringValue
     self.userEmail = json["email"].stringValue
     self.userNickname = json["nickname"].stringValue
@@ -25,9 +27,10 @@ struct MyPage {
     self.userEvaluationCount = json["countMannerEvaluation"].intValue
     self.userTradeCount = json["countTradeAttempt"].intValue
   }
+  
 }
 
-struct MyPagePosting: PostProtocol {
+struct MyPagePost: PostProtocol {
     
   var productIndex: Int = 0
   var title: String = ""
@@ -39,7 +42,7 @@ struct MyPagePosting: PostProtocol {
   var contactPlace: String = ""
   var updatedAt: String = ""
   
-  mutating func jsonToMyPagePosting(json: JSON) -> MyPagePosting {
+  mutating func jsonToMyPagePosting(json: JSON) -> MyPagePost {
     let postDate = json["updatedAt"].stringValue.components(separatedBy: "T")[0]
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -47,7 +50,7 @@ struct MyPagePosting: PostProtocol {
     let interval = Date().timeIntervalSince(startDate ?? Date())
     let intervalDays = Int((interval) / 86400)
     print("productPostId : \(json["productPostId"].intValue)")
-    return MyPagePosting(productIndex: json["productPostId"].intValue,
+    return MyPagePost(productIndex: json["productPostId"].intValue,
                         title: json["title"].stringValue,
                         price: json["price"].stringValue,
                         decimalWon: decimalWon(price: json["price"].intValue),

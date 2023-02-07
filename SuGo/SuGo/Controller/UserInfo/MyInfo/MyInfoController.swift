@@ -43,14 +43,14 @@ class MyInfoController: UIViewController {
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   let keychain = KeychainSwift()
   var myPage = MyPage()
-  var myPagePosting = MyPagePosting()
-  var userPosting: [MyPagePosting] = []
-  var userLikePosting: [MyPagePosting] = []
+  var myPagePosting = MyPagePost()
+  var myPost: [MyPagePost] = []
+  var likePost: [MyPagePost] = []
   let modifyData = ModifyProduct.shared
-  var userPostingPage = 0
-  var userPostingLastPage = false
-  var userLikePostingPage = 0
-  var userLikePostingLastPage = false
+  var myPostPage = 0
+  var myPostLastPage = false
+  var likePostPage = 0
+  var likePostLastPage = false
   
   private lazy var refresh: UIRefreshControl = {
     let refreshControl = UIRefreshControl()
@@ -84,9 +84,9 @@ class MyInfoController: UIViewController {
     
     switch tableView.tag{
     case 1, 3:
-      getMyPage(page: userPostingPage, size: 10, posting: "myPostings")
+      getMyPost(page: myPostPage, size: 10)
     case 2, 4:
-      getMyPage(page: userLikePostingPage, size: 10, posting: "likePostings")
+      getLikePost(page: likePostPage, size: 10)
     default:
       tableView.refreshControl?.endRefreshing()
       return
@@ -101,25 +101,26 @@ class MyInfoController: UIViewController {
     myPostButton.setTitleColor(.black, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
     initializeModels()
-    getMyPage(page: userPostingPage, size: 10, posting: "myPostings")
+    getMyPage()
+    getMyPost(page: myPostPage, size: 10)
     print(tableView.tag)
   }
   
   private func initializeModels() {
-    userPostingPage = 0
-    userPostingLastPage = false
-    userPosting.removeAll()
-    userLikePostingPage = 0
-    userPostingLastPage = false
-    userLikePosting.removeAll()
+    myPostPage = 0
+    myPostLastPage = false
+    myPost.removeAll()
+    likePostPage = 0
+    likePostLastPage = false
+    likePost.removeAll()
   }
   
   // 나중에 내 게시물이랑 좋아요 누른 게시물 비동기 처리해서 한번에 받아오면 좋을듯. 데이터를 받은 후에 좋아요 누른 글로 넘어가려고 하니 딜레이가 좀 있음.. 수정 필요해보인다.
-  func getMyPage(page: Int, size: Int, posting: String) {
+  func getMyPage() {
     AlamofireManager
       .shared
       .session
-      .request(PageRouter.myPage(page: page, size: size))
+      .request(PageRouter.myPage)
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode,
@@ -129,26 +130,49 @@ class MyInfoController: UIViewController {
           self.designGuestView()
           return
         }
-        // 초기화만 된 상태일 경우 메소드 호출
-        if self.myPage.userIndex == "" {
-            self.updateMyPage(json: JSON(responseData))
-        }
-        print("page: \(page), size: \(size), count: \(JSON(responseData)[posting].count)")
-        posting == "myPostings" ?
-        self.updateUserPosting(json: JSON(responseData)[posting]) :
-        self.updateUserLikePosting(json: JSON(responseData)[posting])
+        self.updateMyPage(json: JSON(responseData))
     }
   }
   
+  func getMyPost(page: Int, size: Int) {
+    AlamofireManager
+      .shared
+      .session
+      .request(PostRouter.getMyPost(page: page, size: size))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200,
+              let responseData = response.data
+        else { return }
+        self.updateMyPost(json: JSON(responseData))
+      }
+  }
+  
+  func getLikePost(page: Int, size: Int) {
+    AlamofireManager
+      .shared
+      .session
+      .request(LikePostRouter.getLikePost(page: page, size: size))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200,
+              let responseData = response.data
+        else { return }
+        self.updateLikePost(json: JSON(responseData))
+      }
+  }
+  
   private func updateMyPage(json: JSON) {
-    myPage.updateMyPage(json: json)
+    myPage = MyPage(json: json)
     designLoginView()
   }
   
-  private func updateUserPosting(json: JSON) {
+  private func updateMyPost(json: JSON) {
     guard json.count > 0// 만약 게시글이 30개라면?
     else {
-      guard userPosting.count > 0 else {
+      guard myPost.count > 0 else {
         tableView.tag = 3
         tableView.reloadData()
         return
@@ -156,14 +180,14 @@ class MyInfoController: UIViewController {
       return
     }
     tableView.tag = 1
-    if json.count < 10 {  userPostingLastPage = true }
+    if json.count < 10 {  myPostLastPage = true }
     for i in 0..<json.count {
-      userPosting.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
+      myPost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
     tableView.reloadData()
   }
   
-  private func updateUserLikePosting(json: JSON) {
+  private func updateLikePost(json: JSON) {
     print("UserLikePosting Button Clicked")
     guard json.count > 0 else {
       tableView.tag = 4
@@ -172,9 +196,9 @@ class MyInfoController: UIViewController {
     }
     print(json.count)
     tableView.tag = 2
-    if json.count < 10 { userLikePostingLastPage = true }
+    if json.count < 10 { likePostLastPage = true }
     for i in 0..<json.count {
-      userLikePosting.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
+      likePost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
     tableView.reloadData()
   }
@@ -184,14 +208,14 @@ class MyInfoController: UIViewController {
     AlamofireManager
       .shared
       .session
-      .request(PostRouter.deletePost(productIndex: userPosting[indexPath.row].productIndex))
+      .request(PostRouter.deletePost(productIndex: myPost[indexPath.row].productIndex))
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-        self.userPosting.removeAll()
-        self.userPostingPage = 0
-        self.userPostingLastPage = false
-        self.getMyPage(page: self.userPostingPage, size: 10, posting: "myPostings")
+        self.myPost.removeAll()
+        self.myPostPage = 0
+        self.myPostLastPage = false
+        self.getMyPost(page: self.myPostPage, size: 10)
       }
   }
   
@@ -273,7 +297,7 @@ class MyInfoController: UIViewController {
   @IBAction func myPostButtonClicked(_ sender: Any) {
     myPostButton.setTitleColor(.black, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
-    guard userPosting.count == 0 else {
+    guard myPost.count == 0 else {
       tableView.tag = 1
       tableView.reloadData()
       return
@@ -286,22 +310,22 @@ class MyInfoController: UIViewController {
     // 카운트가 0이면 api 호출하기
     myPostButton.setTitleColor(.lightGray, for: .normal)
     likePostButton.setTitleColor(.black, for: .normal)
-    guard userLikePosting.count == 0 else {
+    guard likePost.count == 0 else {
       tableView.tag = 2
       tableView.reloadData()
       return
     }
-    getMyPage(page: userLikePostingPage, size: 10, posting: "likePostings")
+    getLikePost(page: likePostPage, size: 10)
   }
   
   // 게시글 수정은 API 수정 될 예정. 로직도 수정해야 함.
   @objc func modifyButtonClicked(sender: UIButton) {
     let indexPath = IndexPath(row: sender.tag, section: 0)
     let postingView = UIStoryboard(name: "PostingView", bundle: nil)
-    modifyData.productIndex = userPosting[indexPath.row].productIndex
-    modifyData.title = userPosting[indexPath.row].title
-    modifyData.category = userPosting[indexPath.row].category
-    modifyData.price = userPosting[indexPath.row].price
+    modifyData.productIndex = myPost[indexPath.row].productIndex
+    modifyData.title = myPost[indexPath.row].title
+    modifyData.category = myPost[indexPath.row].category
+    modifyData.price = myPost[indexPath.row].price
     guard let postingNavigationController = postingView.instantiateViewController(withIdentifier: "postingNavigationVC") as? UINavigationController else { return }
     postingNavigationController.modalPresentationStyle = .fullScreen
     postingNavigationController.navigationBar.topItem?.title = "게시글 수정"
@@ -310,7 +334,7 @@ class MyInfoController: UIViewController {
   
   @objc func upPostButtonClicked(sender: UIButton) {
     let indexPath = IndexPath(row: sender.tag, section: 0)
-    upPost(productIndex: userPosting[indexPath.row].productIndex)
+    upPost(productIndex: myPost[indexPath.row].productIndex)
   }
 
   @objc func kebabMenuClicked(_ sender: UIButton) {
@@ -364,7 +388,7 @@ class MyInfoController: UIViewController {
   private func changeSaleStatusAlert(title: String, message: String, indexPath: IndexPath) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
     let changeAction = UIAlertAction(title: "변경", style: .default) { _ in
-      self.changeSaleStatus(productIndex: self.userPosting[indexPath.row].productIndex)
+      self.changeSaleStatus(productIndex: self.myPost[indexPath.row].productIndex)
     }
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
     alert.addAction(changeAction)

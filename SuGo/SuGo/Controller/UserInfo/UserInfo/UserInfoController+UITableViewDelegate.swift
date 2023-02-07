@@ -21,7 +21,7 @@ extension UserInfoController: UITableViewDelegate {
       guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
               as? PostController
       else { return }
-      postController.productPostId = userSalePosting[indexPath.row].productIndex
+      postController.productPostId = userSalePost[indexPath.row].productIndex
       self.navigationController?.pushViewController(postController, animated: true)
     default: return
     }
@@ -30,12 +30,12 @@ extension UserInfoController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     if tableView.tag == 1 {
-      let lastIndex = userSalePosting.count - 2
+      let lastIndex = userSalePost.count - 2
       guard let userId = userId,
               indexPath.row == lastIndex,
-              !salePostingLastPage else { return }
-      salePostingPage += 1
-      getUserPage(userId: userId, page: salePostingPage, size: 10)
+              !salePostLastPage else { return }
+      salePostPage += 1
+      getUserPage(userId: userId, page: salePostPage, size: 10)
     }
   }
 }

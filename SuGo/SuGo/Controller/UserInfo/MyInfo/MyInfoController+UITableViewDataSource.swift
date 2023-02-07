@@ -13,9 +13,9 @@ extension MyInfoController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch tableView.tag {
     case 1:
-      return userPosting.count
+      return myPost.count
     case 2:
-      return userLikePosting.count
+      return likePost.count
     case 3:
       return 1
     case 4:
@@ -30,8 +30,8 @@ extension MyInfoController: UITableViewDataSource {
     case 1:
       let cell = tableView.dequeueReusableCell(withIdentifier: "myPostingCell",
                                                for: indexPath) as! MyPostingCell
-      if userPosting.count > 0 { // indexPath out of range 방지 위함.
-        if let url = URL(string: userPosting[indexPath.row].imageLink) {
+      if myPost.count > 0 { // indexPath out of range 방지 위함.
+        if let url = URL(string: myPost[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity
           cell.productImage.kf.setImage(with: url,
                                         placeholder: nil,
@@ -43,10 +43,10 @@ extension MyInfoController: UITableViewDataSource {
         }
         cell.productImage.contentMode = .scaleAspectFill
         cell.productImage.layer.cornerRadius = 6.0
-        cell.titleLabel.text = userPosting[indexPath.row].title
+        cell.titleLabel.text = myPost[indexPath.row].title
         cell.nicknameLabel.text = "내가 쓴 글"
-        cell.placeUpdateCategoryLabel.text = "\(userPosting[indexPath.row].contactPlace) | \(userPosting[indexPath.row].updatedAt) | \(userPosting[indexPath.row].category)"
-        cell.priceLabel.text = userPosting[indexPath.row].decimalWon
+        cell.placeUpdateCategoryLabel.text = "\(myPost[indexPath.row].contactPlace) | \(myPost[indexPath.row].updatedAt) | \(myPost[indexPath.row].category)"
+        cell.priceLabel.text = myPost[indexPath.row].decimalWon
         cell.kebabMenuButton.tag = indexPath.row
         cell.kebabMenuButton.addTarget(self,
                                        action: #selector(kebabMenuClicked),
@@ -65,8 +65,8 @@ extension MyInfoController: UITableViewDataSource {
     case 2:
       let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
                                                       for: indexPath) as! UserPostingCell
-      if userLikePosting.count > 0 {
-        if let url = URL(string: userLikePosting[indexPath.row].imageLink) {
+      if likePost.count > 0 {
+        if let url = URL(string: likePost[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity
           cell.productImage.kf.setImage(with: url,
                                         placeholder: nil,
@@ -78,9 +78,9 @@ extension MyInfoController: UITableViewDataSource {
         }
         cell.productImage.contentMode = .scaleAspectFill
         cell.productImage.layer.cornerRadius = 6.0
-        cell.placeUpdateCategoryLabel.text = "\(userLikePosting[indexPath.row].contactPlace) | \(userLikePosting[indexPath.row].updatedAt) | \(userLikePosting[indexPath.row].category)"
-        cell.titleLabel.text = userLikePosting[indexPath.row].title
-        cell.priceLabel.text = userLikePosting[indexPath.row].decimalWon
+        cell.placeUpdateCategoryLabel.text = "\(likePost[indexPath.row].contactPlace) | \(likePost[indexPath.row].updatedAt) | \(likePost[indexPath.row].category)"
+        cell.titleLabel.text = likePost[indexPath.row].title
+        cell.priceLabel.text = likePost[indexPath.row].decimalWon
         cell.selectionStyle = .none
       }
       return cell

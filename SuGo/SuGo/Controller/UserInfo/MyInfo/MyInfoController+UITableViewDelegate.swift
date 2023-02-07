@@ -31,9 +31,9 @@ extension MyInfoController: UITableViewDelegate {
     
     switch tableView.tag {
     case 1:
-      postController.productPostId = userPosting[indexPath.row].productIndex
+      postController.productPostId = myPost[indexPath.row].productIndex
     case 2:
-      postController.productPostId = userLikePosting[indexPath.row].productIndex
+      postController.productPostId = likePost[indexPath.row].productIndex
     default:
       return
     }
@@ -43,22 +43,22 @@ extension MyInfoController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
     if tableView.tag == 1 {
-      let lastIndex = userPosting.count - 2
+      let lastIndex = myPost.count - 2
       if indexPath.row == lastIndex {
-        userPostingPage += 1
-        if !userPostingLastPage {
+        myPostPage += 1
+        if !myPostLastPage {
           print("infinite scroll work")
-          getMyPage(page: userPostingPage, size: 10, posting: "myPostings")
+          getMyPost(page: myPostPage, size: 10)
         }
       }
     } else if tableView.tag == 2 {
-      let lastIndex = userLikePosting.count - 2
+      let lastIndex = likePost.count - 2
       if indexPath.row == lastIndex {
-        userLikePostingPage += 1
-        if !userLikePostingLastPage {
-          getMyPage(page: userLikePostingPage, size: 10, posting: "likePostings") }
+        likePostPage += 1
+        if !likePostLastPage {
+          getLikePost(page: likePostPage, size: 10)
         }
       }
     }
-  
+  }
 }

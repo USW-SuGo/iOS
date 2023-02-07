@@ -12,9 +12,9 @@ extension UserInfoController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch tableView.tag {
     case 1:
-      return userSalePosting.count
+      return userSalePost.count
     case 2:
-      return userSoldOutPosting.count
+      return userSoldOutPost.count
     default: return 1
     }
   }
@@ -24,8 +24,8 @@ extension UserInfoController: UITableViewDataSource {
     case 1:
       let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
                                                       for: indexPath) as! UserPostingCell
-      if userSalePosting.count > 0 {
-        if let url = URL(string: userSalePosting[indexPath.row].imageLink) {
+      if userSalePost.count > 0 {
+        if let url = URL(string: userSalePost[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity
           cell.productImage.kf.setImage(with: url,
                                         placeholder: nil,
@@ -38,17 +38,17 @@ extension UserInfoController: UITableViewDataSource {
         cell.productImage.contentMode = .scaleAspectFill
         cell.productImage.layer.cornerRadius = 6.0
         cell.placeUpdateCategoryLabel.text =
-        "\(userSalePosting[indexPath.row].contactPlace) | \(userSalePosting[indexPath.row].updatedAt) | \(userSalePosting[indexPath.row].category)"
-        cell.titleLabel.text = userSalePosting[indexPath.row].title
-        cell.priceLabel.text = userSalePosting[indexPath.row].price
+        "\(userSalePost[indexPath.row].contactPlace) | \(userSalePost[indexPath.row].updatedAt) | \(userSalePost[indexPath.row].category)"
+        cell.titleLabel.text = userSalePost[indexPath.row].title
+        cell.priceLabel.text = userSalePost[indexPath.row].price
         cell.selectionStyle = .none
       }
       return cell
     case 2:
       let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
                                                       for: indexPath) as! UserPostingCell
-      if userSoldOutPosting.count > 0 {
-        if let url = URL(string: userSoldOutPosting[indexPath.row].imageLink) {
+      if userSoldOutPost.count > 0 {
+        if let url = URL(string: userSoldOutPost[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity
           cell.productImage.kf.setImage(with: url,
                                         placeholder: nil,
@@ -61,9 +61,9 @@ extension UserInfoController: UITableViewDataSource {
         cell.productImage.contentMode = .scaleAspectFill
         cell.productImage.layer.cornerRadius = 6.0
         cell.placeUpdateCategoryLabel.text =
-        "\(userSoldOutPosting[indexPath.row].contactPlace) | \(userSoldOutPosting[indexPath.row].updatedAt) | \(userSoldOutPosting[indexPath.row].category)"
-        cell.titleLabel.text = userSoldOutPosting[indexPath.row].title
-        cell.priceLabel.text = userSoldOutPosting[indexPath.row].price
+        "\(userSoldOutPost[indexPath.row].contactPlace) | \(userSoldOutPost[indexPath.row].updatedAt) | \(userSoldOutPost[indexPath.row].category)"
+        cell.titleLabel.text = userSoldOutPost[indexPath.row].title
+        cell.priceLabel.text = userSoldOutPost[indexPath.row].price
         cell.selectionStyle = .none
       }
       return cell

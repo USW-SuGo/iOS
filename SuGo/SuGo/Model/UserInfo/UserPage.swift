@@ -29,7 +29,7 @@ struct UserPage {
   }
 }
 
-struct UserPagePosting {
+struct UserPagePost {
   var productIndex: Int = 0
   var title: String = ""
   var price: String = ""

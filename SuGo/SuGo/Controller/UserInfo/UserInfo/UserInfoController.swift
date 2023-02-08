@@ -21,8 +21,21 @@ class UserInfoController: UIViewController {
   @IBOutlet weak var userTradeCountLabel: UILabel!
   @IBOutlet weak var salePostButton: UIButton!
   @IBOutlet weak var soldOutButtonClicked: UIButton!
+  @IBOutlet weak var seperateLine: UIView!
   
   //MARK: Properties
+  
+  let noPostLabel: UILabel = {
+    let noPostLabel = UILabel()
+    noPostLabel.numberOfLines = 0
+    noPostLabel.text =
+    """
+                아직 판매중인 상품이 없어요!
+    해당 유저가 아직 상품을 판매중이지 않습니다.
+    """
+    noPostLabel.font = UIFont(name: "Pretendard-regular", size: 18)
+    return noPostLabel
+  }()
   
   var userId: Int?
   var userPage = UserPage()
@@ -38,6 +51,8 @@ class UserInfoController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setUpSubViews()
+    setUpConstraints()
     customBackButton()
     registerXib()
     tableView.rowHeight = UITableView.automaticDimension
@@ -47,12 +62,21 @@ class UserInfoController: UIViewController {
       getUserPost(userId: userId, page: salePostPage, size: 10)
       getUserSoldOutPost(userId: userId, page: salePostPage, size: 10)
     }
-    tableView.tag = 1
+//    self.view.addSubview(noPostLabel)
+    tableView.isHidden = true
+//    tableView.tag = 1
     print("userId: \(userId ?? 1123131313)")
   }
   
   //MARK: Functions
   
+  
+//  func testAutolayout() {
+//    noPostLabel.addSubview(contentView)
+//
+//
+//  }
+//
   private func registerXib() {
     let userPostingXib = UINib(nibName: "MyPostingCell", bundle: nil)
     tableView.register(userPostingXib, forCellReuseIdentifier: "myPostingCell")
@@ -108,6 +132,8 @@ class UserInfoController: UIViewController {
       }
   }
   
+  // sale / soldOut 게시물 없을 경우 분기처리 필요.
+  
   private func updateUserSalePosting(json: JSON) {
     if json.count < 10 { salePostLastPage = true }
     for i in 0..<json.count {
@@ -120,6 +146,7 @@ class UserInfoController: UIViewController {
   private func updateUserSoldOutPosting(json: JSON) {
     if json.count < 10 { soldOutPostLastPage = true }
     for i in 0..<json.count {
+      print(json[i])
       userPagePost = UserPagePost(json: json[i])
       userSoldOutPost.append(userPagePost)
     }
@@ -145,6 +172,22 @@ class UserInfoController: UIViewController {
   }
   
   //MARK: Design Functions
+  
+  private func setUpSubViews() {
+    self.view.addSubview(noPostLabel)
+  }
+  
+  private func setUpConstraints() {
+    let topConstant = (seperateLine.frame.minY + view.frame.minY) / 2
+    print("seperateLine : \(seperateLine.frame.minY)")
+    print("view : \(view.frame.minY)")
+    print(topConstant)
+    noPostLabel.translatesAutoresizingMaskIntoConstraints = false
+    noPostLabel.topAnchor.constraint(equalTo: seperateLine.topAnchor, constant: topConstant).isActive = true
+    noPostLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    noPostLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+  }
+  
   
   private func updateUserPage() {
     userNicknameLabel.text = userPage.userNickname

@@ -15,13 +15,16 @@ extension UserInfoController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let postView = UIStoryboard(name: "PostView", bundle: nil)
+    guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
+            as? PostController
+    else { return }
     switch tableView.tag {
     case 1:
-      let postView = UIStoryboard(name: "PostView", bundle: nil)
-      guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
-              as? PostController
-      else { return }
       postController.productPostId = userSalePost[indexPath.row].productIndex
+      self.navigationController?.pushViewController(postController, animated: true)
+    case 2:
+      postController.productPostId = userSoldOutPost[indexPath.row].productIndex
       self.navigationController?.pushViewController(postController, animated: true)
     default: return
     }
@@ -29,13 +32,24 @@ extension UserInfoController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    if tableView.tag == 1 {
+    
+    switch tableView.tag {
+    case 1:
       let lastIndex = userSalePost.count - 2
       guard let userId = userId,
               indexPath.row == lastIndex,
               !salePostLastPage else { return }
       salePostPage += 1
       getUserPage(userId: userId, page: salePostPage, size: 10)
+    case 2:
+      let lastIndex = userSoldOutPost.count - 2
+      guard let userId = userId,
+            indexPath.row == lastIndex,
+            !soldOutPostLastPage else { return }
+      soldOutPostPage += 1
+      getUserSoldOutPost(userId: userId, page: soldOutPostPage, size: 10)
+    default: return
     }
   }
+  
 }

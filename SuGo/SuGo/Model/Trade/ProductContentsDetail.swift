@@ -44,7 +44,7 @@ struct ProductContentsDetail: PostProtocol {
   }
 
   func imagesFromJsonString(_ jsonImageString: String) -> [String] {
-    let images = jsonImageString.components(separatedBy: ",").map { String($0) }
+    let images = jsonImageString.components(separatedBy: ", ").map { String($0) }
     return images
   }
   

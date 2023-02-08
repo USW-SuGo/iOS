@@ -114,13 +114,22 @@ class PostController: UIViewController {
     }
   }
     
+//  {"productPostId":190,"writerId":32,"imageLink":"https://diger-usw-sugo-s3.s3.ap-northeast-2.amazonaws.com/post-resources/190/57FBAF52-F84E-4637-8A83-292B5210B49F.jpeg, https://diger-usw-sugo-s3.s3.ap-northeast-2.amazonaws.com/post-resources/190/847D9446-63FC-4100-9D17-2651839FEE64.jpeg, https://diger-usw-sugo-s3.s3.ap-northeast-2.amazonaws.com/post-resources/190/51EA695B-E1F5-4FE5-B696-CF8367EC0750.jpeg","contactPlace":"체대","updatedAt":"2023-02-08T17:40:11","title":"test33333차","content":"제발될제발되라제발되라","price":123131312,"nickname":"정보보호학과-1","category":"서적","status":true,"userLikeStatus":false}
+
+//  {"productPostId":139,"writerId":32,"imageLink":"https://s3.ap-northeast-2.amazonaws.com/diger-usw-sugo-s3/post-resources/139/010101010010","contactPlace":"IT","updatedAt":"2023-02-06T00:15:08","title":"01010101001","content":"ㅂ디ㅏㅂㅈ드ㅏㅣㅂㄷ즤ㅏㅂㅈ듸ㅏㅂ","price":230139201,"nickname":"정보보호학과-1","category":"전자기기","status":true,"userLikeStatus":false}
+//
+  
     private func updatePost(json: JSON) {
       guard json != "" else {
         self.navigationController?.popViewController(animated: true)
         return }
       productContentsDetail = ProductContentsDetail(json: json)
       for i in 0..<productContentsDetail.imageLink.count {
-          alamofireSource.append(AlamofireSource(urlString: productContentsDetail.imageLink[i])!)
+        let imageLink = productContentsDetail.imageLink[i]
+        guard let image = AlamofireSource(urlString: imageLink) else {
+          print(imageLink)
+          return }
+        alamofireSource.append(image)
       }
       setSlideShow()
       updateDesign()

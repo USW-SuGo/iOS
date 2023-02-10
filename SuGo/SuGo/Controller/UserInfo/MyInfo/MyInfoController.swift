@@ -24,6 +24,9 @@ import SwiftyJSON
 // 3-1. 로그인
 // 3-2. 비 로그인 분기처리  
 
+
+// tag 1 - 판매 중 / 2 - 판매완료 / 3 - 좋아요 누른 글
+// else label -> isHidden false
 class MyInfoController: UIViewController {
 
   //MARK: IBOutlets
@@ -35,20 +38,37 @@ class MyInfoController: UIViewController {
   @IBOutlet weak var userEvaluationCountLabel: UILabel!
   @IBOutlet weak var userTradeCountLabel: UILabel!
   @IBOutlet weak var myPostButton: UIButton!
+  @IBOutlet weak var soldOutPostButton: UIButton!
   @IBOutlet weak var likePostButton: UIButton!
   @IBOutlet weak var guestLabel: UILabel!
   
   //MARK: Properties
+  
+  let noPostLabel: UILabel = {
+    let noPostLabel = UILabel()
+    noPostLabel.numberOfLines = 0
+    noPostLabel.text =
+    """
+                아직 판매 중인 상품이 없어요!
+    해당 유저가 아직 상품을 판매 중이지 않습니다.
+    """
+    noPostLabel.font = UIFont(name: "Pretendard-regular", size: 17)
+    noPostLabel.textColor = UIColor.darkGray
+    return noPostLabel
+  }()
   
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   let keychain = KeychainSwift()
   var myPage = MyPage()
   var myPagePosting = MyPagePost()
   var myPost: [MyPagePost] = []
+  var mySoldOutPost: [MyPagePost] = []
   var likePost: [MyPagePost] = []
   let modifyData = ModifyProduct.shared
   var myPostPage = 0
   var myPostLastPage = false
+  var mySoldOutPage = 0
+  var mySoldOutLastPage = false
   var likePostPage = 0
   var likePostLastPage = false
   
@@ -62,8 +82,7 @@ class MyInfoController: UIViewController {
     
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.refreshControl = refresh
-    tableView.separatorStyle = .none
+    initializeMyInfo()
     customRightBarButton()
     customBackButton()
     registerXib()
@@ -72,7 +91,7 @@ class MyInfoController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     print("My Info View Will Appear")
-    initializeMyInfo()
+//    initializeMyInfo()
   }
   
   //MARK: Functions
@@ -96,6 +115,8 @@ class MyInfoController: UIViewController {
   }
   
   private func initializeMyInfo() {
+    tableView.refreshControl = refresh
+    tableView.separatorStyle = .none
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = UITableView.automaticDimension
     myPostButton.setTitleColor(.black, for: .normal)
@@ -103,7 +124,8 @@ class MyInfoController: UIViewController {
     initializeModels()
     getMyPage()
     getMyPost(page: myPostPage, size: 10)
-    print(tableView.tag)
+    getMySoldOutPost(page: mySoldOutPage, size: 10)
+    getLikePost(page: likePostPage, size: 10)
   }
   
   private func initializeModels() {
@@ -149,6 +171,17 @@ class MyInfoController: UIViewController {
       }
   }
   
+  func getMySoldOutPost(page: Int, size: Int) {
+    AlamofireManager
+      .shared
+      .session
+      .request(PostRouter.getMySoldOutPost(page: page, size: size))
+      .validate()
+      .response { response in
+        // do SOMething
+      }
+  }
+  
   func getLikePost(page: Int, size: Int) {
     AlamofireManager
       .shared
@@ -173,13 +206,12 @@ class MyInfoController: UIViewController {
     guard json.count > 0// 만약 게시글이 30개라면?
     else {
       guard myPost.count > 0 else {
-        tableView.tag = 3
-        tableView.reloadData()
+//        tableView.tag = 3
+//        tableView.reloadData()
         return
       }
       return
     }
-    tableView.tag = 1
     if json.count < 10 {  myPostLastPage = true }
     for i in 0..<json.count {
       myPost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
@@ -187,20 +219,27 @@ class MyInfoController: UIViewController {
     tableView.reloadData()
   }
   
+  private func updateMySoldOutPost(json: JSON) {
+    guard json.count > 0 else { return }
+    if json.count < 10 { mySoldOutLastPage = true }
+    for i in 0..<json.count {
+      mySoldOutPost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
+    }
+  }
+  
   private func updateLikePost(json: JSON) {
     print("UserLikePosting Button Clicked")
     guard json.count > 0 else {
-      tableView.tag = 4
-      tableView.reloadData()
+//      tableView.tag = 4
+//      tableView.reloadData()
       return
     }
     print(json.count)
-    tableView.tag = 2
     if json.count < 10 { likePostLastPage = true }
     for i in 0..<json.count {
       likePost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
-    tableView.reloadData()
+//    tableView.reloadData()
   }
     
   // 로직 확인 필요
@@ -269,53 +308,38 @@ class MyInfoController: UIViewController {
     
   //MARK: Button Actions
   
-  @IBAction func test(_ sender: Any) {
-    let url = "https://api.sugo-diger.com/user/password"
-    // "id" : "userindex"
-    // "password" : "password"
-    // .put
-    // authorization
-    
-    let parameter: Parameters = [
-      "id" : myPage.userIndex,
-      "password" : "1q2w3e4r!"
-    ]
-    
-    let header: HTTPHeaders = [
-      "Authorization" : String(keychain.get("AccessToken") ?? "")
-    ]
-      
-    AF.request(url,
-               method: .put,
-               parameters: parameter,
-               encoding: JSONEncoding.default,
-               headers: header).response { response in
-    }
-  }
-  
-  
   @IBAction func myPostButtonClicked(_ sender: Any) {
     myPostButton.setTitleColor(.black, for: .normal)
+    soldOutPostButton.setTitleColor(.lightGray, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
-    guard myPost.count == 0 else {
-      tableView.tag = 1
-      tableView.reloadData()
-      return
-    }
-    tableView.tag = 3
+    
+//    guard myPost.count > 0 else {
+//      return
+//    }
+    tableView.tag = 1
+    tableView.reloadData()
+
+  }
+  
+  @IBAction func soldOutPostButtonClicked(_ sender: Any) {
+    myPostButton.setTitleColor(.lightGray, for: .normal)
+    soldOutPostButton.setTitleColor(.black, for: .normal)
+    likePostButton.setTitleColor(.lightGray, for: .normal)
+    tableView.tag = 2
     tableView.reloadData()
   }
   
   @IBAction func likePostButtonClicked(_ sender: Any) {
-    // 카운트가 0이면 api 호출하기
     myPostButton.setTitleColor(.lightGray, for: .normal)
+    soldOutPostButton.setTitleColor(.lightGray, for: .normal)
     likePostButton.setTitleColor(.black, for: .normal)
-    guard likePost.count == 0 else {
-      tableView.tag = 2
-      tableView.reloadData()
-      return
-    }
-    getLikePost(page: likePostPage, size: 10)
+    tableView.tag = 3
+    tableView.reloadData()
+//    guard likePost.count > 0 else {
+//      tableView.tag = 2
+//      tableView.reloadData()
+//      return
+//    }
   }
   
   // 게시글 수정은 API 수정 될 예정. 로직도 수정해야 함.
@@ -405,6 +429,7 @@ class MyInfoController: UIViewController {
   private func designLoginView() {
     tableView.isHidden = false
     myPostButton.isHidden = false
+    soldOutPostButton.isHidden = false
     likePostButton.isHidden = false
     
     guestLabel.text = ""
@@ -426,6 +451,7 @@ class MyInfoController: UIViewController {
   private func designGuestView() {
     tableView.isHidden = true
     myPostButton.isHidden = true
+    soldOutPostButton.isHidden = true
     likePostButton.isHidden = true
     
     userImage.tintColor = .lightGray

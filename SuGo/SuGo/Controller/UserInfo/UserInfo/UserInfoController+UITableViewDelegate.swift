@@ -40,7 +40,9 @@ extension UserInfoController: UITableViewDelegate {
               indexPath.row == lastIndex,
               !salePostLastPage else { return }
       salePostPage += 1
-      getUserPage(userId: userId, page: salePostPage, size: 10)
+      print("salePostPage : \(salePostPage)")
+      print("willDisplayCalled")
+      getUserPost(userId: userId, page: salePostPage, size: 10)
     case 2:
       let lastIndex = userSoldOutPost.count - 2
       guard let userId = userId,

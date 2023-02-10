@@ -30,10 +30,11 @@ class UserInfoController: UIViewController {
     noPostLabel.numberOfLines = 0
     noPostLabel.text =
     """
-                아직 판매중인 상품이 없어요!
-    해당 유저가 아직 상품을 판매중이지 않습니다.
+                아직 판매 중인 상품이 없어요!
+    해당 유저가 아직 상품을 판매 중이지 않습니다.
     """
-    noPostLabel.font = UIFont(name: "Pretendard-regular", size: 18)
+    noPostLabel.font = UIFont(name: "Pretendard-regular", size: 17)
+    noPostLabel.textColor = UIColor.darkGray
     return noPostLabel
   }()
   
@@ -51,6 +52,7 @@ class UserInfoController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    setUpNavigationTitle()
     setUpSubViews()
     setUpConstraints()
     customBackButton()
@@ -58,25 +60,16 @@ class UserInfoController: UIViewController {
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = UITableView.automaticDimension
     if let userId = userId {
-      getUserPage(userId: userId, page: 0, size: 10)
+      getUserPage(userId: userId)
       getUserPost(userId: userId, page: salePostPage, size: 10)
       getUserSoldOutPost(userId: userId, page: salePostPage, size: 10)
     }
-//    self.view.addSubview(noPostLabel)
-    tableView.isHidden = true
-//    tableView.tag = 1
+    tableView.tag = 1
     print("userId: \(userId ?? 1123131313)")
   }
   
   //MARK: Functions
-  
-  
-//  func testAutolayout() {
-//    noPostLabel.addSubview(contentView)
-//
-//
-//  }
-//
+
   private func registerXib() {
     let userPostingXib = UINib(nibName: "MyPostingCell", bundle: nil)
     tableView.register(userPostingXib, forCellReuseIdentifier: "myPostingCell")
@@ -88,7 +81,7 @@ class UserInfoController: UIViewController {
  
   //MARK: API Functions
   // 데이터 받아온 후에 Model에서 Initialize -> return instance()
-  func getUserPage(userId: Int, page: Int, size: Int) {
+  func getUserPage(userId: Int) {
     AlamofireManager
       .shared
       .session
@@ -121,7 +114,7 @@ class UserInfoController: UIViewController {
     AlamofireManager
       .shared
       .session
-      .request(PostRouter.getSoldOutPost(userId: userId, page: page, size: size))
+      .request(PostRouter.getUserSoldOutPost(userId: userId, page: page, size: size))
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode,
@@ -135,6 +128,16 @@ class UserInfoController: UIViewController {
   // sale / soldOut 게시물 없을 경우 분기처리 필요.
   
   private func updateUserSalePosting(json: JSON) {
+    guard json.count > 0// 만약 게시글이 30개라면?
+    else {
+      guard userSalePost.count > 0 else {
+        tableView.isHidden = true
+        tableView.tag = 0
+        tableView.reloadData()
+        return
+      }
+      return
+    }
     if json.count < 10 { salePostLastPage = true }
     for i in 0..<json.count {
       userPagePost = UserPagePost(json: json[i])
@@ -144,6 +147,13 @@ class UserInfoController: UIViewController {
   }
   
   private func updateUserSoldOutPosting(json: JSON) {
+    guard json.count > 0 else{
+//      guard userSoldOutPost.count > 0 else {
+//        return
+//      }
+      return
+    }
+    noPostLabel.isHidden = true
     if json.count < 10 { soldOutPostLastPage = true }
     for i in 0..<json.count {
       print(json[i])
@@ -156,32 +166,55 @@ class UserInfoController: UIViewController {
   //MARK: Button Actions
   
   @IBAction func salePostButtonClicked(_ sender: Any) {
-    tableView.tag = 1
-    tableView.reloadData()
     salePostButton.setTitleColor(.black, for: .normal)
     soldOutButtonClicked.setTitleColor(.lightGray, for: .normal)
-    print(userSalePost)
+    
+    guard userSalePost.count > 0 else {
+      tableView.isHidden = true
+      noPostLabel.isHidden = false
+      return
+    }
+    noPostLabel.isHidden = true
+    tableView.isHidden = false
+    tableView.tag = 1
+    tableView.reloadData()
+
   }
   
   @IBAction func soldOutButtonClicked(_ sender: Any) {
-    tableView.tag = 2
-    tableView.reloadData()
     salePostButton.setTitleColor(.lightGray, for: .normal)
     soldOutButtonClicked.setTitleColor(.black, for: .normal)
-    print(userSoldOutPost)
+
+    guard userSoldOutPost.count > 0 else {
+      tableView.isHidden = true
+      noPostLabel.isHidden = false
+      noPostLabel.text =
+      """
+                   아직 판매완료된 상품이 없어요!
+      해당 유저의 상품 중 판매완료된 상품이 없습니다.
+      """
+      return
+    }
+    noPostLabel.isHidden = true
+    tableView.isHidden = false
+    tableView.tag = 2
+    tableView.reloadData()
   }
   
   //MARK: Design Functions
   
+  private func setUpNavigationTitle() {
+    let font = UIFont(name: "Pretendard-medium", size: 17) ?? UIFont.systemFont(ofSize: 17)
+    self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font : font]
+  }
+  
   private func setUpSubViews() {
     self.view.addSubview(noPostLabel)
+    noPostLabel.isHidden = true
   }
   
   private func setUpConstraints() {
     let topConstant = (seperateLine.frame.minY + view.frame.minY) / 2
-    print("seperateLine : \(seperateLine.frame.minY)")
-    print("view : \(view.frame.minY)")
-    print(topConstant)
     noPostLabel.translatesAutoresizingMaskIntoConstraints = false
     noPostLabel.topAnchor.constraint(equalTo: seperateLine.topAnchor, constant: topConstant).isActive = true
     noPostLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

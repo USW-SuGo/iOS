@@ -27,8 +27,9 @@ enum PostRouter: URLRequestConvertible {
   case upPost(productIndex: Int)
   case changeSaleStatus(productIndex: Int)
   case getMyPost(page: Int, size: Int)
+  case getMySoldOutPost(page: Int, size: Int)
   case getUserPost(userId: Int, page: Int, size: Int)
-  case getSoldOutPost(userId: Int, page: Int, size: Int)
+  case getUserSoldOutPost(userId: Int, page: Int, size: Int)
     
   var baseURL: URL {
     return URL(string: API.BASE_URL + "/post")!
@@ -39,7 +40,8 @@ enum PostRouter: URLRequestConvertible {
       switch self {
       case .postContent, .upPost, .changeSaleStatus:
         return .post
-      case .mainPage, .searchContent, .getDetailPost, .getMyPost, .getUserPost, .getSoldOutPost:
+      case .mainPage, .searchContent, .getDetailPost, .getMyPost, .getMySoldOutPost,
+          .getUserPost, .getUserSoldOutPost:
         return .get
       case .deletePost:
         return .delete
@@ -64,10 +66,12 @@ enum PostRouter: URLRequestConvertible {
       return "/close"
     case .getMyPost:
       return "/my-post"
+    case .getMySoldOutPost:
+      return "/close-post"
     case .getUserPost(let userId, _, _):
       return "/my-post/\(userId)"
-    case .getSoldOutPost(let userId, _, _):
-      return "/clost-post/\(userId)"
+    case .getUserSoldOutPost(let userId, _, _):
+      return "/close-post/\(userId)"
     }
   }
   
@@ -100,8 +104,9 @@ enum PostRouter: URLRequestConvertible {
     case .getDetailPost(_):
       return [:]
     case .getMyPost(let page, let size),
+        .getMySoldOutPost(let page, let size),
         .getUserPost(_, let page, let size),
-        .getSoldOutPost(_, let page, let size):
+        .getUserSoldOutPost(_, let page, let size):
       return [
         "page" : page,
         "size" : size
@@ -113,7 +118,7 @@ enum PostRouter: URLRequestConvertible {
     switch self {
     case .postContent, .getDetailPost, .searchContent,
         .deletePost, .upPost, .changeSaleStatus,
-        .getMyPost, .getUserPost, .getSoldOutPost:
+        .getMyPost, .getMySoldOutPost, .getUserPost, .getUserSoldOutPost:
       return [
           .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
       ]

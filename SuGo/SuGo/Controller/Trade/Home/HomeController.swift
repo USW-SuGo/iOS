@@ -27,6 +27,7 @@ class HomeController: UIViewController {
   
   //MARK: Properties
   
+
   var contentOffset: CGPoint?
   let keychain = KeychainSwift()
   let productContents = ProductContents()
@@ -40,17 +41,26 @@ class HomeController: UIViewController {
     refreshControl.addTarget(self, action: #selector(callRefresh), for: .valueChanged)
     return refreshControl
   }()
+  
+  let homeTitle: UILabel = {
+    let homeTitle = UILabel()
+    homeTitle.text = "SUGO"
+    homeTitle.font = UIFont(name: "Pretendard-bold", size: 22)
+    return homeTitle
+  }()
     
   //MARK: Life Cycle
     
   override func viewDidLoad() {
     super.viewDidLoad()
+
     print("Home - viewDidLoad")
     collectionView.refreshControl = refresh
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(homeBottomDismissObserver),
                                            name: NSNotification.Name("homeBottomDismiss"),
                                            object: nil)
+    customTitleView()
     callGetMainPage()
     customCategoryButton(category: categorySelect.homeCategory)
     customLeftBarButton()
@@ -77,7 +87,6 @@ class HomeController: UIViewController {
     super.viewWillDisappear(animated)
     contentOffset = collectionView.contentOffset
   }
-    
 
     
   //MARK: Functions
@@ -124,7 +133,7 @@ class HomeController: UIViewController {
     AlamofireManager
       .shared
       .session
-      .request(PageRouter.myPage(page: 0, size: 10))
+      .request(PageRouter.myPage)
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else {
@@ -263,6 +272,11 @@ class HomeController: UIViewController {
   
   //MARK: Design Functions
   
+  private func customTitleView() {
+    homeTitle.textColor = colorLiteralGreen
+    navigationItem.titleView = homeTitle
+  }
+  
   // when user choose category
   private func customCategoryButton(category: String) {
     if category == "" {
@@ -282,14 +296,14 @@ class HomeController: UIViewController {
   
   private func customRightBarButtons() {
     let mapButton = self.navigationItem.makeSFSymbolButton(self,
-                                                            action: #selector(mapButtonClicked),
-                                                            symbolName: "mappin.and.ellipse")
+                                                          action: #selector(mapButtonClicked),
+                                                          symbolName: "mappin.and.ellipse")
     let postingButton = self.navigationItem.makeSFSymbolButton(self,
-                                                            action: #selector(postingButtonclicked),
-                                                            symbolName: "plus")
+                                                               action: #selector(postingButtonclicked),
+                                                               symbolName: "plus")
     let messageButton = self.navigationItem.makeSFSymbolButton(self,
-                                           action: #selector(messageButtonClicked),
-                                           symbolName: "ellipsis.message")
+                                                               action: #selector(messageButtonClicked),
+                                                               symbolName: "ellipsis.message")
     self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
   }
     

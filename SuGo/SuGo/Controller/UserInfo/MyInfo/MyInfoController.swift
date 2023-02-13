@@ -99,20 +99,25 @@ class MyInfoController: UIViewController {
   @objc
   private func callRefresh() {
     tableView.refreshControl?.beginRefreshing()
-    initializeModels()
     switch tableView.tag {
     case 1:
-      myPostPage = 0
-      myPostLastPage = false
-//      getMyPost(page: myPostPage, size: 10)
+      initializePostData(page: &myPostPage,
+                         lastPage: &myPostLastPage,
+                         post: &myPost)
+      getPost(api: PostRouter.getMyPost(page: myPostPage, size: 10),
+              updatePost: updateMyPost)
     case 2:
-      mySoldOutPage = 0
-      mySoldOutLastPage = false
-      getMySoldOutPost(page: mySoldOutPage, size: 10)
+      initializePostData(page: &mySoldOutPage,
+                         lastPage: &mySoldOutLastPage,
+                         post: &mySoldOutPost)
+      getPost(api: PostRouter.getMySoldOutPost(page: mySoldOutPage, size: 10),
+              updatePost: updateMySoldOutPost)
     case 3:
-      likePostPage = 0
-      likePostLastPage = false
-      getLikePost(page: likePostPage, size: 10)
+      initializePostData(page: &likePostPage,
+                         lastPage: &likePostLastPage,
+                         post: &likePost)
+      getPost(api: LikePostRouter.getLikePost(page: likePostPage, size: 10),
+              updatePost: updateLikePost)
     default:
       tableView.refreshControl?.endRefreshing()
       return
@@ -125,22 +130,18 @@ class MyInfoController: UIViewController {
     tableView.separatorStyle = .none
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = UITableView.automaticDimension
-    myPostButton.setTitleColor(.black, for: .normal)
-    likePostButton.setTitleColor(.lightGray, for: .normal)
-    initializeModels()
     getMyPage()
     callGetPost()
-    // 아래 코드 없을 경우 데이터 출력 안됨.
     tableView.tag = 1
   }
   
-  private func initializeModels() {
-    myPostPage = 0
-    myPostLastPage = false
-    myPost.removeAll()
-    likePostPage = 0
-    likePostLastPage = false
-    likePost.removeAll()
+  // 게시물 데이터들을 초기화 해줌. 유저가 호출한 페이지 / 무한 스크롤 / 해당 포스트(판매 중 / 완료 / 좋아요)
+  func initializePostData(page: inout Int,
+                                  lastPage: inout Bool,
+                                  post: inout [MyPagePost]) {
+    page = 0
+    lastPage = false
+    post.removeAll()
   }
   
   func callGetPost() {
@@ -151,6 +152,7 @@ class MyInfoController: UIViewController {
     getPost(api: LikePostRouter.getLikePost(page: likePostPage, size: 10),
             updatePost: updateLikePost)
   }
+  
   // 나중에 내 게시물이랑 좋아요 누른 게시물 비동기 처리해서 한번에 받아오면 좋을듯. 데이터를 받은 후에 좋아요 누른 글로 넘어가려고 하니 딜레이가 좀 있음.. 수정 필요해보인다.
   func getMyPage() {
     AlamofireManager
@@ -170,7 +172,11 @@ class MyInfoController: UIViewController {
     }
   }
   
-  // capture error occured
+  private func updateMyPage(json: JSON) {
+    myPage = MyPage(json: json)
+    designLoginView()
+  }
+
   func getPost(api: URLRequestConvertible, updatePost: @escaping (JSON) -> ()) {
     var json: JSON = JSON.null
     AlamofireManager
@@ -188,63 +194,16 @@ class MyInfoController: UIViewController {
       }
   }
   
-  func getMyPost(page: Int, size: Int, operation: @escaping (JSON) -> ())  {
-    var responseData: JSON = JSON.null
-    AlamofireManager
-      .shared
-      .session
-      .request(PostRouter.getMyPost(page: page, size: size))
-      .validate()
-      .response { response in
-        guard let statusCode = response.response?.statusCode,
-              statusCode == 200
-        else { return }
-        responseData = JSON(response.data ?? "")
-        operation(responseData)
-      }
-  }
-  
-  func getMySoldOutPost(page: Int, size: Int) {
-    AlamofireManager
-      .shared
-      .session
-      .request(PostRouter.getMySoldOutPost(page: page, size: size))
-      .validate()
-      .response { response in
-        guard let statusCode = response.response?.statusCode,
-              statusCode == 200,
-              let responseData = response.data
-        else { return }
-        self.updateMySoldOutPost(json: JSON(responseData))
-      }
-  }
-  
-  func getLikePost(page: Int, size: Int) {
-    AlamofireManager
-      .shared
-      .session
-      .request(LikePostRouter.getLikePost(page: page, size: size))
-      .validate()
-      .response { response in
-        guard let statusCode = response.response?.statusCode,
-              statusCode == 200,
-              let responseData = response.data
-        else { return }
-        self.updateLikePost(json: JSON(responseData))
-      }
-  }
-  
-  private func updateMyPost(json: JSON) {
-    print("updateMyPost Called")
-    print(json)
-    guard json.count > 0// 만약 게시글이 30개라면?
-    else {
+  //판매 중
+  func updateMyPost(json: JSON) {
+    guard json.count > 0 else { // 만약 게시글이 30개라면?
       guard myPost.count > 0 else { // 게시글이 아예 없을 경우.
+        // 테이블뷰 가리고 유저에게 알림
         return
       }
       return
     }
-    if json.count < 10 {  myPostLastPage = true }
+    if json.count < 10 {  myPostLastPage = true } // 10개 미만으로 떨어질 경우 lastPage
     for i in 0..<json.count {
       myPost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
@@ -252,17 +211,23 @@ class MyInfoController: UIViewController {
   }
   
   // 판매 완료
-  private func updateMySoldOutPost(json: JSON) {
-    guard json.count > 0 else { return }
+  func updateMySoldOutPost(json: JSON) {
+    guard json.count > 0 else {
+      // 유저에게 알림이 여기서 필요하지 않음. 왜?
+      // 판매 중 탭은 디폴트 탭이기에 바로 체크를 해주어야 하지만
+      // 다른 탭에서 체크를 할 경우 디폴트 탭에 데이터가 있음에도 테이블뷰가 가려질 것임.
+      return }
     if json.count < 10 { mySoldOutLastPage = true }
     for i in 0..<json.count {
       mySoldOutPost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
+    // tableView reloadData가 필요 없는 이유
+    // 마이페이지 클릭 시 -> 모든 데이터 받아옴
+    // 유저가 다른 탭으로 변경할 경우 reloadData 호출함.
   }
   
   // 좋아요 누른 글
-  private func updateLikePost(json: JSON) {
-    print("UserLikePosting Button Clicked")
+  func updateLikePost(json: JSON) {
     guard json.count > 0 else {
       return
     }
@@ -270,18 +235,7 @@ class MyInfoController: UIViewController {
     for i in 0..<json.count {
       likePost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
-//    tableView.reloadData()
   }
-  
-  private func updateMyPage(json: JSON) {
-    myPage = MyPage(json: json)
-    designLoginView()
-  }
-  
-  // 판매 중
-
-  
- 
     
   // 로직 확인 필요
   private func deletePost(indexPath: IndexPath) {

@@ -15,11 +15,9 @@ extension MyInfoController: UITableViewDataSource {
     case 1:
       return myPost.count
     case 2:
-      return likePost.count
+      return mySoldOutPost.count
     case 3:
-      return 1
-    case 4:
-      return 1
+      return likePost.count
     default:
       return 1
     }
@@ -63,6 +61,30 @@ extension MyInfoController: UITableViewDataSource {
       }
       return cell
     case 2:
+      
+      let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
+                                                      for: indexPath) as! UserPostingCell
+      if mySoldOutPost.count > 0 {
+        if let url = URL(string: mySoldOutPost[indexPath.row].imageLink) {
+          cell.productImage.kf.indicatorType = .activity
+          cell.productImage.kf.setImage(with: url,
+                                        placeholder: nil,
+                                        options: [
+                                          .transition(.fade(0.1)),
+                                          .cacheOriginalImage
+                                        ],
+                                        progressBlock: nil)
+        }
+        cell.productImage.contentMode = .scaleAspectFill
+        cell.productImage.layer.cornerRadius = 6.0
+        cell.placeUpdateCategoryLabel.text =
+        "\(mySoldOutPost[indexPath.row].contactPlace) | \(mySoldOutPost[indexPath.row].updatedAt) | \(mySoldOutPost[indexPath.row].category)"
+        cell.titleLabel.text = mySoldOutPost[indexPath.row].title
+        cell.priceLabel.text = mySoldOutPost[indexPath.row].decimalWon
+        cell.selectionStyle = .none
+      }
+      return cell
+    case 3:
       let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
                                                       for: indexPath) as! UserPostingCell
       if likePost.count > 0 {
@@ -83,22 +105,6 @@ extension MyInfoController: UITableViewDataSource {
         cell.priceLabel.text = likePost[indexPath.row].decimalWon
         cell.selectionStyle = .none
       }
-      return cell
-    case 3:
-      guard let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
-                                                     for: indexPath) as? EmptyPostingCell else
-      { return UITableViewCell() }
-      cell.titleLabel.text = "아직 작성한 게시글이 없습니다."
-      cell.explanationLabel.text = "거래하고 싶은 물품들을 수고에 올려보세요!"
-      cell.selectionStyle = .none
-      return cell
-    case 4:
-      guard let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
-                                                     for: indexPath) as? EmptyPostingCell else
-      { return UITableViewCell() }
-      cell.titleLabel.text = "아직 좋아요 누른 글이 없습니다."
-      cell.explanationLabel.text = "관심가는 상품에 좋아요를 눌러보세요!"
-      cell.selectionStyle = .none
       return cell
     default:
       return UITableViewCell()

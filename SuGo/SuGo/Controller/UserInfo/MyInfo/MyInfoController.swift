@@ -100,17 +100,23 @@ class MyInfoController: UIViewController {
   private func callRefresh() {
     tableView.refreshControl?.beginRefreshing()
     initializeModels()
-    
-    switch tableView.tag{
-    case 1, 3:
-      getMyPost(page: myPostPage, size: 10)
-    case 2, 4:
+    switch tableView.tag {
+    case 1:
+      myPostPage = 0
+      myPostLastPage = false
+//      getMyPost(page: myPostPage, size: 10)
+    case 2:
+      mySoldOutPage = 0
+      mySoldOutLastPage = false
+      getMySoldOutPost(page: mySoldOutPage, size: 10)
+    case 3:
+      likePostPage = 0
+      likePostLastPage = false
       getLikePost(page: likePostPage, size: 10)
     default:
       tableView.refreshControl?.endRefreshing()
       return
     }
-    
     tableView.refreshControl?.endRefreshing()
   }
   
@@ -123,9 +129,9 @@ class MyInfoController: UIViewController {
     likePostButton.setTitleColor(.lightGray, for: .normal)
     initializeModels()
     getMyPage()
-    getMyPost(page: myPostPage, size: 10)
-    getMySoldOutPost(page: mySoldOutPage, size: 10)
-    getLikePost(page: likePostPage, size: 10)
+    callGetPost()
+    // 아래 코드 없을 경우 데이터 출력 안됨.
+    tableView.tag = 1
   }
   
   private func initializeModels() {
@@ -137,6 +143,14 @@ class MyInfoController: UIViewController {
     likePost.removeAll()
   }
   
+  func callGetPost() {
+    getPost(api: PostRouter.getMyPost(page: myPostPage, size: 10),
+            updatePost: updateMyPost)
+    getPost(api: PostRouter.getMySoldOutPost(page: mySoldOutPage, size: 10),
+            updatePost: updateMySoldOutPost)
+    getPost(api: LikePostRouter.getLikePost(page: likePostPage, size: 10),
+            updatePost: updateLikePost)
+  }
   // 나중에 내 게시물이랑 좋아요 누른 게시물 비동기 처리해서 한번에 받아오면 좋을듯. 데이터를 받은 후에 좋아요 누른 글로 넘어가려고 하니 딜레이가 좀 있음.. 수정 필요해보인다.
   func getMyPage() {
     AlamofireManager
@@ -156,7 +170,26 @@ class MyInfoController: UIViewController {
     }
   }
   
-  func getMyPost(page: Int, size: Int) {
+  // capture error occured
+  func getPost(api: URLRequestConvertible, updatePost: @escaping (JSON) -> ()) {
+    var json: JSON = JSON.null
+    AlamofireManager
+      .shared
+      .session
+      .request(api)
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200,
+              let responseData = response.data
+        else { return }
+        json = JSON(responseData)
+        updatePost(json)
+      }
+  }
+  
+  func getMyPost(page: Int, size: Int, operation: @escaping (JSON) -> ())  {
+    var responseData: JSON = JSON.null
     AlamofireManager
       .shared
       .session
@@ -164,10 +197,10 @@ class MyInfoController: UIViewController {
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode,
-              statusCode == 200,
-              let responseData = response.data
+              statusCode == 200
         else { return }
-        self.updateMyPost(json: JSON(responseData))
+        responseData = JSON(response.data ?? "")
+        operation(responseData)
       }
   }
   
@@ -178,7 +211,11 @@ class MyInfoController: UIViewController {
       .request(PostRouter.getMySoldOutPost(page: page, size: size))
       .validate()
       .response { response in
-        // do SOMething
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200,
+              let responseData = response.data
+        else { return }
+        self.updateMySoldOutPost(json: JSON(responseData))
       }
   }
   
@@ -197,17 +234,12 @@ class MyInfoController: UIViewController {
       }
   }
   
-  private func updateMyPage(json: JSON) {
-    myPage = MyPage(json: json)
-    designLoginView()
-  }
-  
   private func updateMyPost(json: JSON) {
+    print("updateMyPost Called")
+    print(json)
     guard json.count > 0// 만약 게시글이 30개라면?
     else {
-      guard myPost.count > 0 else {
-//        tableView.tag = 3
-//        tableView.reloadData()
+      guard myPost.count > 0 else { // 게시글이 아예 없을 경우.
         return
       }
       return
@@ -219,6 +251,7 @@ class MyInfoController: UIViewController {
     tableView.reloadData()
   }
   
+  // 판매 완료
   private func updateMySoldOutPost(json: JSON) {
     guard json.count > 0 else { return }
     if json.count < 10 { mySoldOutLastPage = true }
@@ -227,20 +260,28 @@ class MyInfoController: UIViewController {
     }
   }
   
+  // 좋아요 누른 글
   private func updateLikePost(json: JSON) {
     print("UserLikePosting Button Clicked")
     guard json.count > 0 else {
-//      tableView.tag = 4
-//      tableView.reloadData()
       return
     }
-    print(json.count)
     if json.count < 10 { likePostLastPage = true }
     for i in 0..<json.count {
       likePost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
 //    tableView.reloadData()
   }
+  
+  private func updateMyPage(json: JSON) {
+    myPage = MyPage(json: json)
+    designLoginView()
+  }
+  
+  // 판매 중
+
+  
+ 
     
   // 로직 확인 필요
   private func deletePost(indexPath: IndexPath) {
@@ -254,7 +295,7 @@ class MyInfoController: UIViewController {
         self.myPost.removeAll()
         self.myPostPage = 0
         self.myPostLastPage = false
-        self.getMyPost(page: self.myPostPage, size: 10)
+//        self.getMyPost(page: self.myPostPage, size: 10)
       }
   }
   
@@ -312,10 +353,6 @@ class MyInfoController: UIViewController {
     myPostButton.setTitleColor(.black, for: .normal)
     soldOutPostButton.setTitleColor(.lightGray, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
-    
-//    guard myPost.count > 0 else {
-//      return
-//    }
     tableView.tag = 1
     tableView.reloadData()
 
@@ -335,11 +372,6 @@ class MyInfoController: UIViewController {
     likePostButton.setTitleColor(.black, for: .normal)
     tableView.tag = 3
     tableView.reloadData()
-//    guard likePost.count > 0 else {
-//      tableView.tag = 2
-//      tableView.reloadData()
-//      return
-//    }
   }
   
   // 게시글 수정은 API 수정 될 예정. 로직도 수정해야 함.
@@ -364,7 +396,6 @@ class MyInfoController: UIViewController {
   @objc func kebabMenuClicked(_ sender: UIButton) {
     // 삭제, 거래완료처리, 게시글 끌어올리기
     let indexPath = IndexPath(row: sender.tag, section: 0)
-    print(indexPath)
     let actionSheetController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     let changeSaleStatusAction = UIAlertAction(title: "판매 완료로 변경하기", style: .default) { _ in
       self.changeSaleStatusAlert(title: "판매 상태를 바꾸시겠어요?",

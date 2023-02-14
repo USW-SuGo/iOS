@@ -41,6 +41,7 @@ class MyInfoController: UIViewController {
   @IBOutlet weak var soldOutPostButton: UIButton!
   @IBOutlet weak var likePostButton: UIButton!
   @IBOutlet weak var guestLabel: UILabel!
+  @IBOutlet weak var seperateLine: UIView!
   
   //MARK: Properties
   
@@ -49,8 +50,9 @@ class MyInfoController: UIViewController {
     noPostLabel.numberOfLines = 0
     noPostLabel.text =
     """
-                아직 판매 중인 상품이 없어요!
-    해당 유저가 아직 상품을 판매 중이지 않습니다.
+               판매중인 물건이 없습니다.
+    
+    판매하고 싶은 상품을 수고에 올려보세요 !
     """
     noPostLabel.font = UIFont(name: "Pretendard-regular", size: 17)
     noPostLabel.textColor = UIColor.darkGray
@@ -82,7 +84,6 @@ class MyInfoController: UIViewController {
     
   override func viewDidLoad() {
     super.viewDidLoad()
-    initializeMyInfo()
     customRightBarButton()
     customBackButton()
     registerXib()
@@ -90,8 +91,8 @@ class MyInfoController: UIViewController {
     
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    initializeMyInfo()
     print("My Info View Will Appear")
-//    initializeMyInfo()
   }
   
   //MARK: Functions
@@ -107,6 +108,7 @@ class MyInfoController: UIViewController {
       getPost(api: PostRouter.getMyPost(page: myPostPage, size: 10),
               updatePost: updateMyPost)
     case 2:
+      print("Sold Out Post Refresh Called")
       initializePostData(page: &mySoldOutPage,
                          lastPage: &mySoldOutLastPage,
                          post: &mySoldOutPost)
@@ -122,10 +124,17 @@ class MyInfoController: UIViewController {
       tableView.refreshControl?.endRefreshing()
       return
     }
+    // 테이블뷰 리로드 데이터를 여기서 안할 경우 판매 중인 글에서 정상적으로 셀이 reload 되지 않음.
+    // 그러나 case2인 경우 reload가 안됨..
+    // getPost와 현재 함수의 코드가 비동기 처리가 되는듯함.
+    // 즉, 데이터를 다운받기 전에 reloadData가 진행되기에 당연히 reload 해도 안나오겠지.
+    //    tableView.reloadData()
     tableView.refreshControl?.endRefreshing()
   }
   
   private func initializeMyInfo() {
+    setUpSubViews()
+    setUpConstraints()
     tableView.refreshControl = refresh
     tableView.separatorStyle = .none
     tableView.rowHeight = UITableView.automaticDimension
@@ -145,10 +154,19 @@ class MyInfoController: UIViewController {
   }
   
   func callGetPost() {
+    initializePostData(page: &myPostPage,
+                       lastPage: &myPostLastPage,
+                       post: &myPost)
     getPost(api: PostRouter.getMyPost(page: myPostPage, size: 10),
             updatePost: updateMyPost)
+    initializePostData(page: &mySoldOutPage,
+                       lastPage: &mySoldOutLastPage,
+                       post: &mySoldOutPost)
     getPost(api: PostRouter.getMySoldOutPost(page: mySoldOutPage, size: 10),
             updatePost: updateMySoldOutPost)
+    initializePostData(page: &likePostPage,
+                       lastPage: &likePostLastPage,
+                       post: &likePost)
     getPost(api: LikePostRouter.getLikePost(page: likePostPage, size: 10),
             updatePost: updateLikePost)
   }
@@ -198,7 +216,17 @@ class MyInfoController: UIViewController {
   func updateMyPost(json: JSON) {
     guard json.count > 0 else { // 만약 게시글이 30개라면?
       guard myPost.count > 0 else { // 게시글이 아예 없을 경우.
-        // 테이블뷰 가리고 유저에게 알림
+        //MARK: 유저가 작성한 게시물이 없을 경우
+//        1. 테이블뷰 가리기
+//        2. 레이블 출력
+        tableView.isHidden = true
+        noPostLabel.text =
+        """
+                   판매중인 상품이 없습니다.
+        
+        판매하고 싶은 상품을 수고에 올려보세요 !
+        """
+        noPostLabel.isHidden = false
         return
       }
       return
@@ -213,9 +241,19 @@ class MyInfoController: UIViewController {
   // 판매 완료
   func updateMySoldOutPost(json: JSON) {
     guard json.count > 0 else {
-      // 유저에게 알림이 여기서 필요하지 않음. 왜?
-      // 판매 중 탭은 디폴트 탭이기에 바로 체크를 해주어야 하지만
-      // 다른 탭에서 체크를 할 경우 디폴트 탭에 데이터가 있음에도 테이블뷰가 가려질 것임.
+      // tableView가 가려지면 refreshCall을 못하네?
+      
+//      guard tableView.tag != 2 else {
+//        tableView.isHidden = true
+//        noPostLabel.text =
+//        """
+//                 판매완료한 상품이 없습니다.
+//
+//        판매하고 싶은 상품을 수고에 올려보세요 !
+//        """
+//        noPostLabel.isHidden = false
+//        return
+//      }
       return }
     if json.count < 10 { mySoldOutLastPage = true }
     for i in 0..<json.count {
@@ -224,6 +262,10 @@ class MyInfoController: UIViewController {
     // tableView reloadData가 필요 없는 이유
     // 마이페이지 클릭 시 -> 모든 데이터 받아옴
     // 유저가 다른 탭으로 변경할 경우 reloadData 호출함.
+    // ----------------------------------------
+    // 필요함 ㅋㅋ
+
+    tableView.reloadData()
   }
   
   // 좋아요 누른 글
@@ -235,6 +277,8 @@ class MyInfoController: UIViewController {
     for i in 0..<json.count {
       likePost.append(myPagePosting.jsonToMyPagePosting(json: json[i]))
     }
+
+    tableView.reloadData()
   }
     
   // 로직 확인 필요
@@ -246,10 +290,11 @@ class MyInfoController: UIViewController {
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-        self.myPost.removeAll()
-        self.myPostPage = 0
-        self.myPostLastPage = false
-//        self.getMyPost(page: self.myPostPage, size: 10)
+        self.initializePostData(page: &self.myPostPage,
+                                lastPage: &self.myPostLastPage,
+                                post: &self.myPost)
+        self.getPost(api: PostRouter.getMyPost(page: self.myPostPage, size: 10),
+                     updatePost: self.updateMyPost)
       }
   }
   
@@ -286,9 +331,13 @@ class MyInfoController: UIViewController {
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode,
-              statusCode == 200,
-              let responseData = response.data else { return }
-        print(JSON(responseData))
+              statusCode == 200
+        else { return }
+        self.initializePostData(page: &self.myPostPage,
+                                lastPage: &self.myPostLastPage,
+                                post: &self.myPost)
+        self.getPost(api: PostRouter.getMyPost(page: self.myPostPage, size: 10),
+                     updatePost: self.updateMyPost)
       }
   }
   
@@ -307,15 +356,40 @@ class MyInfoController: UIViewController {
     myPostButton.setTitleColor(.black, for: .normal)
     soldOutPostButton.setTitleColor(.lightGray, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
+    guard myPost.count > 0 else {
+      tableView.isHidden = true
+      noPostLabel.text =
+      """
+                 판매중인 상품이 없습니다.
+      
+      판매하고 싶은 상품을 수고에 올려보세요 !
+      """
+      noPostLabel.isHidden = false
+      return
+    }
+    noPostLabel.isHidden = true
+    tableView.isHidden = false
     tableView.tag = 1
     tableView.reloadData()
-
   }
   
   @IBAction func soldOutPostButtonClicked(_ sender: Any) {
     myPostButton.setTitleColor(.lightGray, for: .normal)
     soldOutPostButton.setTitleColor(.black, for: .normal)
     likePostButton.setTitleColor(.lightGray, for: .normal)
+    guard mySoldOutPost.count > 0 else {
+      tableView.isHidden = true
+      noPostLabel.text =
+      """
+               판매완료한 상품이 없습니다.
+      
+      판매하고 싶은 상품을 수고에 올려보세요 !
+      """
+      noPostLabel.isHidden = false
+      return
+    }
+    noPostLabel.isHidden = true
+    tableView.isHidden = false
     tableView.tag = 2
     tableView.reloadData()
   }
@@ -324,6 +398,19 @@ class MyInfoController: UIViewController {
     myPostButton.setTitleColor(.lightGray, for: .normal)
     soldOutPostButton.setTitleColor(.lightGray, for: .normal)
     likePostButton.setTitleColor(.black, for: .normal)
+    guard likePost.count > 0 else {
+      tableView.isHidden = true
+      noPostLabel.text =
+      """
+              좋아요 누른 상품이 없습니다.
+      
+      관심있는 상품을 좋아요로 기록해보세요 !
+      """
+      noPostLabel.isHidden = false
+      return
+    }
+    noPostLabel.isHidden = true
+    tableView.isHidden = false
     tableView.tag = 3
     tableView.reloadData()
   }
@@ -409,6 +496,19 @@ class MyInfoController: UIViewController {
     let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
     backButtonItem.tintColor = .darkGray
     self.navigationItem.backBarButtonItem = backButtonItem
+  }
+  
+  private func setUpSubViews() {
+    self.view.addSubview(noPostLabel)
+    noPostLabel.isHidden = true
+  }
+  
+  private func setUpConstraints() {
+    let topConstant = (seperateLine.frame.minY + view.frame.minY) / 2
+    noPostLabel.translatesAutoresizingMaskIntoConstraints = false
+    noPostLabel.topAnchor.constraint(equalTo: seperateLine.topAnchor, constant: topConstant).isActive = true
+    noPostLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    noPostLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
   }
   
   private func designLoginView() {

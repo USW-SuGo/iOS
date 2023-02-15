@@ -20,6 +20,13 @@ extension MyInfoController: UITableViewDelegate {
       return 138
     case 3:
       return 138
+    // seperate line - min.y
+    case 4:
+      return 350
+    case 5:
+      return 350
+    case 6:
+      return 350
     default:
       return UITableView.automaticDimension
     }

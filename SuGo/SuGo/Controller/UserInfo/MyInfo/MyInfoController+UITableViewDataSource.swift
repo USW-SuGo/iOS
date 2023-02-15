@@ -106,6 +106,18 @@ extension MyInfoController: UITableViewDataSource {
         cell.selectionStyle = .none
       }
       return cell
+    case 4:
+      let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
+                                                      for: indexPath) as! EmptyPostingCell
+      return cell
+    case 5:
+      let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
+                                                      for: indexPath) as! EmptyPostingCell
+      return cell
+    case 6:
+      let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
+                                                      for: indexPath) as! EmptyPostingCell
+      return cell
     default:
       return UITableViewCell()
     }

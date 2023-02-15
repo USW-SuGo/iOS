@@ -109,14 +109,23 @@ extension MyInfoController: UITableViewDataSource {
     case 4:
       let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
                                                       for: indexPath) as! EmptyPostingCell
+      cell.titleLabel.text = "판매중인 상품이 없습니다."
+      cell.explanationLabel.text = "판매하고 싶은 상품을 수고에 올려보세요!"
+      cell.selectionStyle = .none
       return cell
     case 5:
       let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
                                                       for: indexPath) as! EmptyPostingCell
+      cell.titleLabel.text = "판매완료된 상품이 없습니다."
+      cell.explanationLabel.text = "판매하고 싶은 상품을 수고에 올려보세요!"
+      cell.selectionStyle = .none
       return cell
     case 6:
       let cell = tableView.dequeueReusableCell(withIdentifier: "emptyPostingCell",
                                                       for: indexPath) as! EmptyPostingCell
+      cell.titleLabel.text = "좋아요 누른 글이 없습니다."
+      cell.explanationLabel.text = "관심가는 상품을 좋아요를 눌러 기록하세요!"
+      cell.selectionStyle = .none
       return cell
     default:
       return UITableViewCell()

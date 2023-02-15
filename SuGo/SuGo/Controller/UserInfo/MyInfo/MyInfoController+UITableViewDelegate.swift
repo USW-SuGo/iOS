@@ -20,13 +20,9 @@ extension MyInfoController: UITableViewDelegate {
       return 138
     case 3:
       return 138
-    // seperate line - min.y
-    case 4:
-      return 350
-    case 5:
-      return 350
-    case 6:
-      return 350
+    case 4, 5 ,6:
+      return view.frame.maxY - seperateLine.frame.maxY - 100
+//      return seperateLine.frame.minY - view.frame.minY
     default:
       return UITableView.automaticDimension
     }

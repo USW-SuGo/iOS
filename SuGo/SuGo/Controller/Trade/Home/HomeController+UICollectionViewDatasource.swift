@@ -16,7 +16,7 @@ extension HomeController: UICollectionViewDataSource {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCell",
                                                   for: indexPath) as! HomeCollectionViewCell
     if homeProductContents.count > 0 {
-      if let url = URL(string: homeProductContents[indexPath.row].imageLink[0]) {
+      if let url = URL(string: homeProductContents[indexPath.row].imageLink) {
 //        let processor = DownsamplingImageProcessor(size: CGSize(width: cell.image.frame.width,
 //                                                                  height: cell.image.frame.width * 1.33))
         cell.image.kf.indicatorType = .activity

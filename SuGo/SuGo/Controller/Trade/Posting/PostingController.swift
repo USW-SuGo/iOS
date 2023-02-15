@@ -196,11 +196,12 @@ class PostingController: UIViewController {
       for (key, value) in parameters {
           multipartFormData.append("\(value)".data(using: .utf8)!, withName: key)
       }
-      
+       
+//       UUID().uuidString + ".jpeg" / \(Int.random(in: 0..<999999999))
       for i in 0..<self.uploadImages.count {
           multipartFormData.append(self.uploadImages[i].jpegData(compressionQuality: 1)!,
                                   withName: "multipartFileList",
-                                  fileName: "\(self.titleTextField.text ?? "")+\(i)",
+                                 fileName: UUID().uuidString + ".jpeg",
                                   mimeType: "image/jpeg")
         }
       },
@@ -232,7 +233,7 @@ class PostingController: UIViewController {
   @objc func finishButtonClicked() {
         
     guard let title = titleTextField.text, title != "",
-          let content = contentTextView.text, content != textViewPlaceHolder, content.count > 10,
+          let content = contentTextView.text, content != textViewPlaceHolder, content.count > 8,
           let price = priceTextField.text, price != "",
           contactPlace != "",
           categorySelect.postCategory != ""

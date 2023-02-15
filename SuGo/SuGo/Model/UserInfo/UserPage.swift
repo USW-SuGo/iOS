@@ -1,51 +1,55 @@
 //
-//  Post.swift
+//  UserPage.swift
 //  SuGo
 //
-//  Created by 한지석 on 2022/10/14.
+//  Created by 한지석 on 2023/02/04.
 //
 
 import Foundation
 
-import Alamofire
 import SwiftyJSON
 
-struct ProductContentsDetail: PostProtocol {  
+struct UserPage {
+  var userIndex: Int = 0
+  var userEmail: String = ""
+  var userNickname: String = ""
+  var userMannerGrade: String = ""
+  var userEvaluationCount: String = ""
+  var userTradeCount: String = ""
   
+  init() {}
+  
+  init(json: JSON) {
+    self.userIndex = json["userId"].intValue
+    self.userEmail = json["email"].stringValue
+    self.userNickname = json["nickname"].stringValue
+    self.userMannerGrade = String(json["mannerGrade"].doubleValue)
+    self.userEvaluationCount = json["countMannerEvaluation"].stringValue
+    self.userTradeCount = json["countTradeAttempt"].stringValue
+  }
+}
+
+struct UserPagePost {
   var productIndex: Int = 0
-  var imageLink: [String] = [""]
-  var contactPlace: String = ""
-  var updatedAt: String = ""
   var title: String = ""
   var price: String = ""
-  var nickname: String = ""
   var category: String = ""
-  var content: String = ""
-  var userIndex: Int = 0
-  var userLikeStatus: Bool = false
-  var myIndex: Int = 0
+  var status: Bool = false
+  var imageLink: String = ""
+  var contactPlace: String = ""
+  var updatedAt: String = ""
   
-  init() {
-  }
+  init() {}
   
   init(json: JSON) {
     self.productIndex = json["productPostId"].intValue
-    self.contactPlace = json["contactPlace"].stringValue
     self.title = json["title"].stringValue
     self.price = decimalWon(price: json["price"].intValue)
-    self.nickname = json["nickname"].stringValue
     self.category = json["category"].stringValue
-    self.content = json["content"].stringValue
-    self.userIndex = json["writerId"].intValue
-    self.userLikeStatus = json["userLikeStatus"].boolValue
-    self.imageLink = imagesFromJsonString(json["imageLink"].stringValue)
+    self.status = json["status"].boolValue
+    self.imageLink = json["imageLink"].stringValue
+    self.contactPlace = json["contactPlace"].stringValue
     self.updatedAt = dayToUpdateAt(dateString: json["updateAt"].stringValue)
-    self.myIndex = 1
-  }
-
-  func imagesFromJsonString(_ jsonImageString: String) -> [String] {
-    let images = jsonImageString.components(separatedBy: ", ").map { String($0) }
-    return images
   }
   
   func decimalWon(price: Int) -> String {

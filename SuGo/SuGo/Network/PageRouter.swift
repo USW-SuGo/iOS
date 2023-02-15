@@ -12,8 +12,8 @@ import KeychainSwift
 
 enum PageRouter: URLRequestConvertible {
         
-    case myPage(page: Int, size: Int)
-    case userPage(userId: Int, page: Int, size: Int)
+    case myPage
+    case userPage(userId: Int)
 
     var baseURL: URL {
         return URL(string: API.BASE_URL)!
@@ -31,24 +31,15 @@ enum PageRouter: URLRequestConvertible {
         switch self {
         case .myPage:
             return "/user"
-        case .userPage:
-            return "/user/"
+        case .userPage(let userId):
+            return "/user/\(userId)/"
         }
     }
     
     var parameters: Parameters {
         switch self {
-        case .myPage(let page, let size):
-            return [
-                "page" : page,
-                "size" : size
-            ]
-        case .userPage(let userId, let page, let size):
-            return [
-                "userId" : userId,
-                "page" : page,
-                "size" : size
-            ]
+        case .myPage, .userPage : return [:]
+       
         }
     }
     

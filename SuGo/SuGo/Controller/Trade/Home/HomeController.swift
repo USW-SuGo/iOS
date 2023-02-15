@@ -27,6 +27,8 @@ class HomeController: UIViewController {
   
   //MARK: Properties
   
+
+  var contentOffset: CGPoint?
   let keychain = KeychainSwift()
   let productContents = ProductContents()
   var homeProductContents = [ProductContents]()
@@ -39,33 +41,53 @@ class HomeController: UIViewController {
     refreshControl.addTarget(self, action: #selector(callRefresh), for: .valueChanged)
     return refreshControl
   }()
+  
+  let homeTitle: UILabel = {
+    let homeTitle = UILabel()
+    homeTitle.text = "SUGO"
+    homeTitle.font = UIFont(name: "Pretendard-bold", size: 22)
+    return homeTitle
+  }()
     
-    //MARK: Life Cycle
+  //MARK: Life Cycle
     
   override func viewDidLoad() {
     super.viewDidLoad()
+
     print("Home - viewDidLoad")
     collectionView.refreshControl = refresh
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(homeBottomDismissObserver),
                                            name: NSNotification.Name("homeBottomDismiss"),
                                            object: nil)
+    customTitleView()
+    callGetMainPage()
+    customCategoryButton(category: categorySelect.homeCategory)
     customLeftBarButton()
     customRightBarButtons()
     customBackButton()
     searchViewDesign()
   }
-    
+  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     print("Home - viewWillAppear")
-    if searchTextField.text == "" {
-      page = 0
-      lastPage = false
-      callGetMainPage()
-      customCategoryButton(category: categorySelect.homeCategory)
+    if let contentOffset = contentOffset {
+      collectionView.contentOffset = contentOffset
     }
+//    if searchTextField.text == "" {
+//      page = 0
+//      lastPage = false
+//      callGetMainPage()
+//      customCategoryButton(category: categorySelect.homeCategory)
+//    }
   }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    contentOffset = collectionView.contentOffset
+  }
+
     
   //MARK: Functions
   
@@ -111,7 +133,7 @@ class HomeController: UIViewController {
     AlamofireManager
       .shared
       .session
-      .request(PageRouter.myPage(page: 0, size: 10))
+      .request(PageRouter.myPage)
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else {
@@ -168,12 +190,12 @@ class HomeController: UIViewController {
       .request(PostRouter.mainPage(page: page,
                                    size: size,
                                    category: category))
-      .responseData { response in
-        guard let data = response.data else { return }
-        if JSON(data).count < 10 {
+      .response { response in
+        guard let responseData = response.data else { return }
+        if JSON(responseData).count < 10 {
           self.lastPage = true
         }
-        self.updateMainPage(json: JSON(data))
+        self.updateMainPage(json: JSON(responseData))
     }
   }
   
@@ -192,8 +214,9 @@ class HomeController: UIViewController {
       .responseData { response in
               
         if response.response?.statusCode == 200 {
-            self.updateSearchPage(json: JSON(response.data ?? ""),
-                                  searchData: searchData)
+          self.homeProductContents.removeAll()
+          self.updateSearchPage(json: JSON(response.data ?? ""),
+                                searchData: searchData)
         } else {
             self.keychain.clear()
             self.presentViewController(storyboard: "LoginView", identifier: "loginVC", fullScreen: true)
@@ -213,9 +236,8 @@ class HomeController: UIViewController {
   // 이 부분을 모델로 뺄 수 없을지 고민해보자.
   private func jsonToCollectionViewData(json: JSON) {
     for i in 0..<json.count {
-      homeProductContents.append(productContents.makeCollectionViewData(i: i, json: json))
+      homeProductContents.append(productContents.jsonToProductContents(json: json[i]))
     }
-    print(homeProductContents)
     self.collectionView.reloadData()
   }
     
@@ -229,13 +251,13 @@ class HomeController: UIViewController {
 //        collectionView.reloadData()
   }
     
+  // 검색 후
   @IBAction func searchButtonclicked(_ sender: Any) {
     let searchData = searchTextField.text ?? ""
     var category = categorySelect.homeCategory
     if category == "전체" {
         category = ""
     }
-    homeProductContents.removeAll()
     getSearchData(searchData: searchData, category: category)
   }
     
@@ -249,6 +271,11 @@ class HomeController: UIViewController {
   }
   
   //MARK: Design Functions
+  
+  private func customTitleView() {
+    homeTitle.textColor = colorLiteralGreen
+    navigationItem.titleView = homeTitle
+  }
   
   // when user choose category
   private func customCategoryButton(category: String) {
@@ -269,14 +296,14 @@ class HomeController: UIViewController {
   
   private func customRightBarButtons() {
     let mapButton = self.navigationItem.makeSFSymbolButton(self,
-                                                            action: #selector(mapButtonClicked),
-                                                            symbolName: "mappin.and.ellipse")
+                                                          action: #selector(mapButtonClicked),
+                                                          symbolName: "mappin.and.ellipse")
     let postingButton = self.navigationItem.makeSFSymbolButton(self,
-                                                            action: #selector(postingButtonclicked),
-                                                            symbolName: "plus")
+                                                               action: #selector(postingButtonclicked),
+                                                               symbolName: "plus")
     let messageButton = self.navigationItem.makeSFSymbolButton(self,
-                                           action: #selector(messageButtonClicked),
-                                           symbolName: "ellipsis.message")
+                                                               action: #selector(messageButtonClicked),
+                                                               symbolName: "ellipsis.message")
     self.navigationItem.rightBarButtonItems = [mapButton, postingButton, messageButton]
   }
     
@@ -398,5 +425,6 @@ class HomeCollectionViewCell: UICollectionViewCell {
     priceLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20).isActive = true
     priceLabel.heightAnchor.constraint(equalToConstant: 18).isActive = true
   }
+  
 }
 

@@ -127,80 +127,83 @@ extension DepartmentController: UITableViewDataSource, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    switch section{
-    case 0:
-      return departments[0].count
-    case 1:
-      return departments[1].count
-    case 2:
-      return departments[2].count
-    case 3:
-      return departments[3].count
-    case 4:
-      return departments[4].count
-    case 5:
-      return departments[5].count
-    case 6:
-      return departments[6].count
-    case 7:
-      return departments[7].count
-    case 8:
-      return departments[8].count
-    case 9:
-      return departments[9].count
-    case 10:
-      return departments[10].count
-    case 11:
-      return departments[11].count
-    default:
-      return 0
-    }
+    return departments[section].count
+//    switch section{
+//    case 0:
+//      return departments[0].count
+//    case 1:
+//      return departments[1].count
+//    case 2:
+//      return departments[2].count
+//    case 3:
+//      return departments[3].count
+//    case 4:
+//      return departments[4].count
+//    case 5:
+//      return departments[5].count
+//    case 6:
+//      return departments[6].count
+//    case 7:
+//      return departments[7].count
+//    case 8:
+//      return departments[8].count
+//    case 9:
+//      return departments[9].count
+//    case 10:
+//      return departments[10].count
+//    case 11:
+//      return departments[11].count
+//    default:
+//      return 0
+//    }
     // searchMode ? searchDepartments.count : departments.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "departmentCell",
                                                for: indexPath) as! DepartmentCell
-    switch indexPath.section{
-    case 0:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[0][indexPath.row]
-    case 1:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[1][indexPath.row]
-    case 2:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[2][indexPath.row]
-    case 3:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[3][indexPath.row]
-    case 4:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[4][indexPath.row]
-    case 5:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[5][indexPath.row]
-    case 6:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[6][indexPath.row]
-    case 7:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[7][indexPath.row]
-    case 8:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[8][indexPath.row]
-    case 9:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[9][indexPath.row]
-    case 10:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[10][indexPath.row]
-    case 11:
-      cell.checkButton.image = UIImage(systemName: "circle")
-      cell.departmentLabel.text = departments[11][indexPath.row]
-    default:
-      break
-    }
+    cell.checkButton.image = UIImage(systemName: "circle")
+    cell.departmentLabel.text = departments[indexPath.section][indexPath.row]
+//    switch indexPath.section{
+//    case 0:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[0][indexPath.row]
+//    case 1:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[1][indexPath.row]
+//    case 2:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[2][indexPath.row]
+//    case 3:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[3][indexPath.row]
+//    case 4:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[4][indexPath.row]
+//    case 5:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[5][indexPath.row]
+//    case 6:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[6][indexPath.row]
+//    case 7:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[7][indexPath.row]
+//    case 8:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[8][indexPath.row]
+//    case 9:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[9][indexPath.row]
+//    case 10:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[10][indexPath.row]
+//    case 11:
+//      cell.checkButton.image = UIImage(systemName: "circle")
+//      cell.departmentLabel.text = departments[11][indexPath.row]
+//    default:
+//      break
+//    }
 
     return cell
   }
@@ -222,39 +225,8 @@ extension DepartmentController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
     return index
   }
-//  func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-//    let currentCollation = UILocalizedIndexedCollation.current() as UILocalizedIndexedCollation
-//    let sectionTitles = currentCollation.sectionTitles as NSArray
-//    return sectionTitles.object(at: section) as? String
-//  }
-//
-//  func sectionIndexTitlesForTableView(tableView: UITableView!) -> NSArray! {
-//    let currentCollation = UILocalizedIndexedCollation.current() as UILocalizedIndexedCollation
-//    return currentCollation.sectionIndexTitles as NSArray
-//  }
-//
-//  func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-//    let currentCollation = UILocalizedIndexedCollation.current() as UILocalizedIndexedCollation
-//    return currentCollation.section(forSectionIndexTitle: index)
-//  }
-//
-}
 
-//extension DepartmentController: UISearchResultsUpdating {
-//
-//    func filteredContentForSearchText(_ searchText: String) {
-//
-//        searchDepartments = departments.filter({ (department) -> Bool in
-//            return department.lowercased().contains(searchText.lowercased())
-//        })
-//
-//        tableView.reloadData()
-//    }
-//
-//    func updateSearchResults(for searchController: UISearchController) {
-//        filteredContentForSearchText(searchController.searchBar.text ?? "")
-//    }
-//}
+}
 
 class DepartmentCell: UITableViewCell {
     

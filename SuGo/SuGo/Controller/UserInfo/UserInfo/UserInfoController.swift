@@ -11,6 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 // push vc로 화면 띄워줘야 함.
+// 유저 정보에서는 새로고침을 구현하지 않음.
 class UserInfoController: UIViewController {
 
   //MARK: IBOutlets
@@ -41,9 +42,9 @@ class UserInfoController: UIViewController {
   var userId: Int?
   var userPage = UserPage()
   var userPagePost = UserPagePost()
-  var userSalePost: [UserPagePost] = []
-  var salePostPage = 0
-  var salePostLastPage = false
+  var userPost: [UserPagePost] = []
+  var postPage = 0
+  var postLastPage = false
   var userSoldOutPost: [UserPagePost] = []
   var soldOutPostPage = 0
   var soldOutPostLastPage = false
@@ -52,6 +53,12 @@ class UserInfoController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    initializeUserInfo()
+  }
+  
+  //MARK: Functions
+  
+  private func initializeUserInfo() {
     setUpNavigationTitle()
     setUpSubViews()
     setUpConstraints()
@@ -61,14 +68,15 @@ class UserInfoController: UIViewController {
     tableView.estimatedRowHeight = UITableView.automaticDimension
     if let userId = userId {
       getUserPage(userId: userId)
-      getUserPost(userId: userId, page: salePostPage, size: 10)
-      getUserSoldOutPost(userId: userId, page: salePostPage, size: 10)
+      getUserPost(userId: userId, page: postPage, size: 10)
+      getUserSoldOutPost(userId: userId, page: postPage, size: 10)
     }
     tableView.tag = 1
-    print("userId: \(userId ?? 1123131313)")
   }
   
-  //MARK: Functions
+  // A - B
+  // A가 쪽지를 삭제
+  // B는 쪽지 그대로 있어야 함.
 
   private func registerXib() {
     let userPostingXib = UINib(nibName: "MyPostingCell", bundle: nil)
@@ -110,6 +118,30 @@ class UserInfoController: UIViewController {
       }
   }
   
+  // 새로고침 없음.
+  private func updateUserSalePosting(json: JSON) {
+    guard json.count > 0// 만약 게시글이 30개라면?
+    else {
+      if tableView.tag == 1 && userPost.count == 0 {
+        noPostLabel.text =
+        """
+                    아직 판매 중인 상품이 없어요!
+        해당 유저가 아직 상품을 판매 중이지 않습니다.
+        """
+        noPostLabel.isHidden = false
+        tableView.isHidden = true
+        tableView.reloadData()
+      }
+      return
+    }
+    if json.count < 10 { postLastPage = true }
+    for i in 0..<json.count {
+      userPagePost = UserPagePost(json: json[i])
+      userPost.append(userPagePost)
+    }
+    tableView.reloadData()
+  }
+  
   func getUserSoldOutPost(userId: Int, page: Int, size: Int) {
     AlamofireManager
       .shared
@@ -121,46 +153,18 @@ class UserInfoController: UIViewController {
               statusCode == 200,
               let responseData = response.data else { return }
         self.updateUserSoldOutPosting(json: JSON(responseData))
-        // do somthing
       }
-  }
-  
-  // sale / soldOut 게시물 없을 경우 분기처리 필요.
-  
-  private func updateUserSalePosting(json: JSON) {
-    guard json.count > 0// 만약 게시글이 30개라면?
-    else {
-      guard userSalePost.count > 0 else {
-        tableView.isHidden = true
-        tableView.tag = 0
-        tableView.reloadData()
-        return
-      }
-      return
-    }
-    if json.count < 10 { salePostLastPage = true }
-    for i in 0..<json.count {
-      userPagePost = UserPagePost(json: json[i])
-      userSalePost.append(userPagePost)
-    }
-    tableView.reloadData()
   }
   
   private func updateUserSoldOutPosting(json: JSON) {
     guard json.count > 0 else{
-//      guard userSoldOutPost.count > 0 else {
-//        return
-//      }
       return
     }
-    noPostLabel.isHidden = true
     if json.count < 10 { soldOutPostLastPage = true }
     for i in 0..<json.count {
-      print(json[i])
       userPagePost = UserPagePost(json: json[i])
       userSoldOutPost.append(userPagePost)
     }
-    print(userSoldOutPost)
   }
   
   //MARK: Button Actions
@@ -169,14 +173,19 @@ class UserInfoController: UIViewController {
     salePostButton.setTitleColor(.black, for: .normal)
     soldOutButtonClicked.setTitleColor(.lightGray, for: .normal)
     
-    guard userSalePost.count > 0 else {
+    guard userPost.count > 0 else {
       tableView.isHidden = true
+      noPostLabel.text =
+      """
+                  아직 판매 중인 상품이 없어요!
+      해당 유저가 아직 상품을 판매 중이지 않습니다.
+      """
       noPostLabel.isHidden = false
       return
     }
     noPostLabel.isHidden = true
-    tableView.isHidden = false
     tableView.tag = 1
+    tableView.isHidden = false
     tableView.reloadData()
 
   }
@@ -196,8 +205,8 @@ class UserInfoController: UIViewController {
       return
     }
     noPostLabel.isHidden = true
-    tableView.isHidden = false
     tableView.tag = 2
+    tableView.isHidden = false
     tableView.reloadData()
   }
   

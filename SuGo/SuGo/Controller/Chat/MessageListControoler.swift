@@ -56,22 +56,31 @@ class MessageListControoler: UIViewController {
       .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
         self.jsonToTableViewData(json: JSON(response.data ?? ""))
-        print(JSON(response.data ?? ""))
       }
   }
   
   private func jsonToTableViewData(json: JSON) {
-    for i in 0..<json.count {
-      let message = MessageList(roomIndex: json[i]["noteId"].intValue,
-                                myIndex: json[i]["requestUserId"].intValue,
-                                oppositeIndex: json[i]["opponentUserId"].intValue,
-                                oppositeNickname: json[i]["opponentUserNickname"].stringValue,
-                                recentMessage: json[i]["recentContent"].stringValue,
-                                recentMessageTime: dateToString(localDateTime: json, index: i),
-                                newMessageCount: json[i]["requestUserUnreadCount"].intValue)
+
+    let messageJson = json[1]
+    for i in 0..<messageJson.count {
+      var myIndex = 0
+      var oppositeIndex = 0
+      if json[0]["requestUserId"].intValue == messageJson[i]["opponentUserId"].intValue {
+        myIndex = messageJson[i]["opponentUserId"].intValue
+        oppositeIndex = messageJson[i]["creatingUserId"].intValue
+      } else {
+        myIndex = messageJson[i]["creatingUserId"].intValue
+        oppositeIndex = messageJson[i]["opponentUserId"].intValue
+      }
+      let message = MessageList(roomIndex: messageJson[i]["noteId"].intValue,
+                                myIndex: myIndex,
+                                oppositeIndex: oppositeIndex,
+                                oppositeNickname: messageJson[i]["opponentUserNickname"].stringValue,
+                                recentMessage: messageJson[i]["recentContent"].stringValue,
+                                recentMessageTime: dateToString(localDateTime: messageJson, index: i),
+                                newMessageCount: messageJson[i]["requestUserUnreadCount"].intValue)
       messageList.append(message)
     }
-    print(messageList)
     tableView.reloadData()
   }
   
@@ -124,6 +133,8 @@ extension MessageListControoler: UITableViewDelegate, UITableViewDataSource {
     cell.userNicknameLabel.text = messageList[indexPath.row].oppositeNickname
     cell.recentMessageLabel.text = messageList[indexPath.row].recentMessage
     cell.recentMessageTimeLabel.text = messageList[indexPath.row].recentMessageTime
+    cell.layer.borderColor = UIColor.systemGray5.cgColor
+    cell.layer.borderWidth = 1.0
     return cell
   }
   

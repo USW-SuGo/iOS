@@ -8,18 +8,27 @@
 import UIKit
 
 import Alamofire
+import IQKeyboardManagerSwift
 import SwiftyJSON
 
 protocol MessageRoomIndex {
   func getIndex(roomIndex: Int, myIndex: Int, oppositeIndex: Int)
 }
 
+// 게시물 정보, 채팅방 형태
 class MessageRoomController: UIViewController {
 
   //MARK: IBOutlets
   
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var messageView: UIView!
+  @IBOutlet weak var messageTextView: UITextView!
+  @IBOutlet weak var messageTextViewHeight: NSLayoutConstraint!
+  @IBOutlet weak var messageViewHeight: NSLayoutConstraint!
   
+  @IBOutlet weak var sendButton: UIButton!
+  
+//  @IBOutlet weak var messageTextViewHeight: NSLayoutConstraint!
   //MARK: Properties
   
   var sendMessage = SendMessage()
@@ -27,36 +36,49 @@ class MessageRoomController: UIViewController {
   var messageRoom: [MessageRoom] = []
   var page = 0
   var lastPage = false
+  var messageHeight: CGFloat = 35
   private lazy var refresh: UIRefreshControl = {
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(callRefresh), for: .valueChanged)
     return refreshControl
   }()
   
-  // roomIndex: 6, oppositeIndex: 1, oppositeNickname: "정보보호학과-1", recentMessage: "ios\n", recentMessageTime: "11-20 19:49", newMessageCount: 0
-  
-//  "requestUserId": 2,
-//  "productPostId": 25,
-//  "noteContentId": 20,
-//  "message": "ios\n",
-//  "messageSenderId": 1,
-//  "messageReceiverId": 2,
-//  "messageCreatedAt": "2022-11-20T19:49:46",
-  
   //MARK: Life Cycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
+
+    IQKeyboardManager.shared.enable = false
+    IQKeyboardManager.shared.enableAutoToolbar = false
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    
+    customMessageTextView()
+    messageTextView.delegate = self
+    // 채팅 스크롤 안보이도록 설정
+    messageTextView.showsVerticalScrollIndicator = false
+    // 채팅 길게 작성 시 문장 단위로 넘어가지 않도록, 글자 단위로 넘어가도록 설정
+    messageTextView.textContainer.lineBreakMode = .byCharWrapping
+    
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 80
     tableView.refreshControl = refresh
     customRightBarButton()
-    initializeMessageRoom()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     print("view will appear")
     initializeMessageRoom()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    IQKeyboardManager.shared.enable = true
+    IQKeyboardManager.shared.enableAutoToolbar = true
+  }
+  
+  deinit {
+    NotificationCenter.default.removeObserver(self)
   }
   
   //MARK: Functions
@@ -88,7 +110,7 @@ class MessageRoomController: UIViewController {
       .session
       .request(MessageRouter.messageRoom(roomIndex: roomIndex, page: page, size: size))
       .validate()
-      .responseJSON { response in
+      .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
         self.jsonToTableViewData(json: JSON(response.data ?? ""))
       }
@@ -136,6 +158,29 @@ class MessageRoomController: UIViewController {
   
   //MARK: Design Functions
   
+  private func customMessageTextView() {
+    messageView.layer.cornerRadius = 6.0
+    sendButton.layer.cornerRadius = 15.0
+    
+  }
+  
+  @objc func keyboardWillShow(_ notification: Notification) {
+    guard let userInfo = notification.userInfo,
+          let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+    else { return }
+
+    let keyboardHeight = keyboardFrame.height
+    UIView.animate(withDuration: 0.25) {
+      self.view.frame.origin.y = -keyboardHeight
+    }
+}
+
+  @objc func keyboardWillHide(_ notification: Notification) {
+    UIView.animate(withDuration: 0.25) {
+        self.view.frame.origin.y = 0
+    }
+  }
+  
   private func customRightBarButton() {
     let sendButton = self.navigationItem.makeSFSymbolButton(self,
                                                             action: #selector(sendButtonClicked),
@@ -143,6 +188,37 @@ class MessageRoomController: UIViewController {
     self.navigationItem.rightBarButtonItem = sendButton
   }
 
+}
+
+extension MessageRoomController: UITextViewDelegate {
+  
+  func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+    messageTextViewHeight.constant = messageHeight
+    return true
+  }
+  
+  // 채팅창 max height == 100, 채팅 중에는 100까지 height 증가
+  func textViewDidChange(_ textView: UITextView) {
+    guard messageTextViewHeight.constant != 100 else {
+      return
+    }
+    messageTextView.sizeToFit()
+    let maxHeight: CGFloat = 100
+    let minHeight: CGFloat = 35
+    messageHeight = max(min(textView.contentSize.height, maxHeight), minHeight)
+    messageViewHeight.constant = messageHeight
+    messageTextViewHeight.constant = messageHeight
+    
+  }
+  
+  // 채팅 입력 완료 시 height 35
+  func textViewDidEndEditing(_ textView: UITextView) {
+    print(#function)
+    messageTextViewHeight.constant = 35
+    messageViewHeight.constant = 35
+    messageTextView.contentOffset = .zero
+  }
+  
 }
 
 extension MessageRoomController: MessageRoomIndex {
@@ -179,6 +255,7 @@ extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "messageRoomCell",
                                              for: indexPath) as! MessageRoomCell
+    
     if messageRoom[indexPath.row].myIndex == messageRoom[indexPath.row].senderIndex {
       cell.messageTypeLabel.text = "보낸 쪽지"
       cell.messageTypeLabel.textColor = .darkGray
@@ -208,7 +285,6 @@ class MessageRoomCell: UITableViewCell {
   }
   
   override func layoutSubviews() {
-    
   }
   
 }

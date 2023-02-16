@@ -12,7 +12,7 @@ extension UserInfoController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch tableView.tag {
     case 1:
-      return userSalePost.count
+      return userPost.count
     case 2:
       return userSoldOutPost.count
     default: return 1
@@ -24,8 +24,8 @@ extension UserInfoController: UITableViewDataSource {
     case 1:
       let cell = tableView.dequeueReusableCell(withIdentifier: "userPostingCell",
                                                       for: indexPath) as! UserPostingCell
-      if userSalePost.count > 0 {
-        if let url = URL(string: userSalePost[indexPath.row].imageLink) {
+      if userPost.count > 0 {
+        if let url = URL(string: userPost[indexPath.row].imageLink) {
           cell.productImage.kf.indicatorType = .activity
           cell.productImage.kf.setImage(with: url,
                                         placeholder: nil,
@@ -38,9 +38,9 @@ extension UserInfoController: UITableViewDataSource {
         cell.productImage.contentMode = .scaleAspectFill
         cell.productImage.layer.cornerRadius = 6.0
         cell.placeUpdateCategoryLabel.text =
-        "\(userSalePost[indexPath.row].contactPlace) | \(userSalePost[indexPath.row].updatedAt) | \(userSalePost[indexPath.row].category)"
-        cell.titleLabel.text = userSalePost[indexPath.row].title
-        cell.priceLabel.text = userSalePost[indexPath.row].price
+        "\(userPost[indexPath.row].contactPlace) | \(userPost[indexPath.row].updatedAt) | \(userPost[indexPath.row].category)"
+        cell.titleLabel.text = userPost[indexPath.row].title
+        cell.priceLabel.text = userPost[indexPath.row].price
         cell.selectionStyle = .none
       }
       return cell
@@ -70,6 +70,6 @@ extension UserInfoController: UITableViewDataSource {
     default:
       return UITableViewCell()
     }
-    
   }
+  
 }

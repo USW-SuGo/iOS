@@ -21,7 +21,7 @@ extension UserInfoController: UITableViewDelegate {
     else { return }
     switch tableView.tag {
     case 1:
-      postController.productPostId = userSalePost[indexPath.row].productIndex
+      postController.productPostId = userPost[indexPath.row].productIndex
       self.navigationController?.pushViewController(postController, animated: true)
     case 2:
       postController.productPostId = userSoldOutPost[indexPath.row].productIndex
@@ -35,14 +35,12 @@ extension UserInfoController: UITableViewDelegate {
     
     switch tableView.tag {
     case 1:
-      let lastIndex = userSalePost.count - 2
+      let lastIndex = userPost.count - 2
       guard let userId = userId,
               indexPath.row == lastIndex,
-              !salePostLastPage else { return }
-      salePostPage += 1
-      print("salePostPage : \(salePostPage)")
-      print("willDisplayCalled")
-      getUserPost(userId: userId, page: salePostPage, size: 10)
+              !postLastPage else { return }
+      postPage += 1
+      getUserPost(userId: userId, page: postPage, size: 10)
     case 2:
       let lastIndex = userSoldOutPost.count - 2
       guard let userId = userId,

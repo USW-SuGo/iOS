@@ -43,8 +43,8 @@ enum MessageRouter: URLRequestConvertible {
         return "/note/list"
       case .makeMessageRoom:
         return "/note"
-      case .messageRoom:
-        return "/note/"
+      case .messageRoom(let roomIndex, _, _):
+        return "/note-content/\(roomIndex)"
       case .sendMessage:
         return "/note-content/"
       }
@@ -57,9 +57,8 @@ enum MessageRouter: URLRequestConvertible {
         "page" : page,
         "size" : size
       ]
-    case .messageRoom(let roomIndex, let page, let size):
+    case .messageRoom(_, let page, let size):
       return [
-        "noteId" : roomIndex,
         "page" : page,
         "size" : size
       ]

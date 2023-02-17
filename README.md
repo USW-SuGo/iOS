@@ -1,4 +1,4 @@
-# SUGO(2022.09 ~ 진행중)
+# SUGO(2022.09 ~ 2022.11, 2023.01 ~ 진행중)
 <br>
 
 ![수고_소개](https://user-images.githubusercontent.com/49385546/204080556-74a0299b-6c49-4d05-96de-c876414a70b6.png)

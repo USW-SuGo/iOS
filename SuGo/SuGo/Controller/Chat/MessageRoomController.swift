@@ -55,16 +55,16 @@ class MessageRoomController: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     
     customMessageTextView()
+    
     messageTextView.delegate = self
     // 채팅 스크롤 안보이도록 설정
     messageTextView.showsVerticalScrollIndicator = false
     // 채팅 길게 작성 시 문장 단위로 넘어가지 않도록, 글자 단위로 넘어가도록 설정
     messageTextView.textContainer.lineBreakMode = .byCharWrapping
-    
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 80
     tableView.refreshControl = refresh
-    customRightBarButton()
+//    customRightBarButton()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -82,6 +82,14 @@ class MessageRoomController: UIViewController {
   }
   
   //MARK: Functions
+  
+  private func scrollToTop() {
+    let bottomRow = IndexPath(row: 9,
+                             section: 0)
+    self.tableView.scrollToRow(at: bottomRow,
+                               at: .bottom,
+                               animated: false)
+  }
   
   private func initializeMessageRoom() {
     page = 0
@@ -112,7 +120,7 @@ class MessageRoomController: UIViewController {
       .validate()
       .response { response in
         guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-        self.jsonToTableViewData(json: JSON(response.data ?? ""))
+        self.jsonToTableViewData(json: JSON(response.data ?? "")[1])
       }
   }
   
@@ -129,6 +137,7 @@ class MessageRoomController: UIViewController {
       messageRoom.append(message)
     }
     tableView.reloadData()
+    scrollToTop()
   }
   
   private func dateToString(localDateTime: JSON, index: Int) -> String {
@@ -143,6 +152,32 @@ class MessageRoomController: UIViewController {
   }
   
   //MARK: Button Actions
+  
+  @IBAction func sendButtonClicked(_ sender: Any) {
+    guard let message = messageTextView.text else { return }
+    AlamofireManager
+      .shared
+      .session
+      .request(MessageRouter.sendMessage(roomIndex: sendMessage.roomIndex,
+                                         message: message,
+                                         senderId: sendMessage.myIndex,
+                                         receiverId: sendMessage.oppositeIndex))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200 else { return }
+        print(JSON(response.data ?? ""))
+        self.messageTextView.text = ""
+        self.messageTextViewHeight.constant = 35
+        self.messageViewHeight.constant = 35
+        self.messageHeight = 35
+        self.initializeMessageRoom()
+      }
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+      view.endEditing(true)
+  }
   
   @objc
   private func sendButtonClicked() {
@@ -181,35 +216,39 @@ class MessageRoomController: UIViewController {
     }
   }
   
-  private func customRightBarButton() {
-    let sendButton = self.navigationItem.makeSFSymbolButton(self,
-                                                            action: #selector(sendButtonClicked),
-                                                            symbolName: "paperplane")
-    self.navigationItem.rightBarButtonItem = sendButton
-  }
+//  private func customRightBarButton() {
+//    let sendButton = self.navigationItem.makeSFSymbolButton(self,
+//                                                            action: #selector(sendButtonClicked),
+//                                                            symbolName: "paperplane")
+//    self.navigationItem.rightBarButtonItem = sendButton
+//  }
 
 }
 
 extension MessageRoomController: UITextViewDelegate {
   
   func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+    print(messageHeight)
     messageTextViewHeight.constant = messageHeight
+    messageViewHeight.constant = messageHeight
     return true
   }
   
   // 채팅창 max height == 100, 채팅 중에는 100까지 height 증가
+  // 5줄 입력 후 전체 삭제 시 재클릭 해도 107로 유지됨.
   func textViewDidChange(_ textView: UITextView) {
-    guard messageTextViewHeight.constant != 100 else {
+    print(textView.contentSize.height)
+    guard messageTextViewHeight.constant != 107 else {
       return
     }
     messageTextView.sizeToFit()
-    let maxHeight: CGFloat = 100
+    let maxHeight: CGFloat = 107
     let minHeight: CGFloat = 35
     messageHeight = max(min(textView.contentSize.height, maxHeight), minHeight)
     messageViewHeight.constant = messageHeight
     messageTextViewHeight.constant = messageHeight
-    
   }
+  
   
   // 채팅 입력 완료 시 height 35
   func textViewDidEndEditing(_ textView: UITextView) {
@@ -232,17 +271,17 @@ extension MessageRoomController: MessageRoomIndex {
 
 extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   
-  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-    let lastIndex = messageRoom.count - 2
-    if lastIndex == indexPath.row {
-      page += 1
-      if !lastPage {
-        getMessageRoom(roomIndex: sendMessage.roomIndex,
-                       page: page,
-                       size: 10)
-      }
-    }
-  }
+//  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//    let lastIndex = messageRoom.count - 2
+//    if lastIndex == indexPath.row {
+//      page += 1
+//      if !lastPage {
+//        getMessageRoom(roomIndex: sendMessage.roomIndex,
+//                       page: page,
+//                       size: 10)
+//      }
+//    }
+//  }
   
   func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
@@ -255,18 +294,18 @@ extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "messageRoomCell",
                                              for: indexPath) as! MessageRoomCell
-    
-    if messageRoom[indexPath.row].myIndex == messageRoom[indexPath.row].senderIndex {
-      cell.messageTypeLabel.text = "보낸 쪽지"
-      cell.messageTypeLabel.textColor = .darkGray
-    } else {
-      cell.messageTypeLabel.text = "받은 쪽지"
-      cell.messageTypeLabel.textColor = colorLiteralGreen
+    if messageRoom.count > 0 {
+      if messageRoom[indexPath.row].myIndex == messageRoom[indexPath.row].senderIndex {
+        cell.messageTypeLabel.text = "보낸 쪽지"
+        cell.messageTypeLabel.textColor = .darkGray
+      } else {
+        cell.messageTypeLabel.text = "받은 쪽지"
+        cell.messageTypeLabel.textColor = colorLiteralGreen
+      }
+      
+      cell.messageLabel.text = messageRoom[indexPath.row].message
+      cell.messageTimeLabel.text = messageRoom[indexPath.row].messageTime
     }
-    
-    cell.messageLabel.text = messageRoom[indexPath.row].message
-    cell.messageTimeLabel.text = messageRoom[indexPath.row].messageTime
-    
     return cell
   }
   

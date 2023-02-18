@@ -104,6 +104,9 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="hand.point.up.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="sendButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="4FB-Ly-0Ct"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemGray6Color"/>

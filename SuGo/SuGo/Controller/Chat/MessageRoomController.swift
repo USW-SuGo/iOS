@@ -37,6 +37,7 @@ class MessageRoomController: UIViewController {
   var page = 0
   var lastPage = false
   var messageHeight: CGFloat = 35
+  var indexPathRow = 0
   private lazy var refresh: UIRefreshControl = {
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(callRefresh), for: .valueChanged)
@@ -48,6 +49,7 @@ class MessageRoomController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    registerXib()
     IQKeyboardManager.shared.enable = false
     IQKeyboardManager.shared.enableAutoToolbar = false
     
@@ -83,12 +85,21 @@ class MessageRoomController: UIViewController {
   
   //MARK: Functions
   
+  private func registerXib() {
+    let messageRoomXib = UINib(nibName: "MessageRoomCell", bundle: nil)
+    tableView.register(messageRoomXib, forCellReuseIdentifier: "messageRoomCell")
+  }
+  
   private func scrollToTop() {
-    let bottomRow = IndexPath(row: 9,
-                             section: 0)
-    self.tableView.scrollToRow(at: bottomRow,
-                               at: .bottom,
-                               animated: false)
+    print(messageRoom.count)
+    if messageRoom.count > 0 {
+      let bottomRow = IndexPath(row: messageRoom.count - 1,
+                               section: 0)
+      // 채팅방 count 0일경우 작동 X
+      self.tableView.scrollToRow(at: bottomRow,
+                                 at: .bottom,
+                                 animated: false)
+    }
   }
   
   private func initializeMessageRoom() {
@@ -97,7 +108,7 @@ class MessageRoomController: UIViewController {
     messageRoom.removeAll()
     getMessageRoom(roomIndex: sendMessage.roomIndex,
                    page: page,
-                   size: 10)
+                   size: 20)
   }
   
   @objc
@@ -108,7 +119,7 @@ class MessageRoomController: UIViewController {
     messageRoom.removeAll()
     getMessageRoom(roomIndex: sendMessage.roomIndex,
                    page: page,
-                   size: 10)
+                   size: 20)
     tableView.refreshControl?.endRefreshing()
   }
   
@@ -128,16 +139,25 @@ class MessageRoomController: UIViewController {
     if json.count < 10 {
       lastPage = true
     }
+    var messageList: [MessageRoom] = []
     for i in 0..<json.count {
       let message = MessageRoom(myIndex: json[i]["requestUserId"].intValue,
                                     senderIndex: json[i]["messageSenderId"].intValue,
                                     receiverIndex: json[i]["messageReceiverId"].intValue,
                                     message: json[i]["message"].stringValue,
                                     messageTime: dateToString(localDateTime: json, index: i))
-      messageRoom.append(message)
+      messageList.append(message)
     }
+    messageList.reverse()
+    messageRoom = messageList + messageRoom
     tableView.reloadData()
-    scrollToTop()
+    if messageRoom.count <= 20 {
+      scrollToTop()
+    }
+    if messageRoom.count > 2039{
+      let newIndexPath = IndexPath(row: indexPathRow + messageList.count, section: 0)
+      tableView.scrollToRow(at: newIndexPath, at: .top, animated: false)
+    }
   }
   
   private func dateToString(localDateTime: JSON, index: Int) -> String {
@@ -223,6 +243,7 @@ class MessageRoomController: UIViewController {
 //    self.navigationItem.rightBarButtonItem = sendButton
 //  }
 
+
 }
 
 extension MessageRoomController: UITextViewDelegate {
@@ -271,17 +292,23 @@ extension MessageRoomController: MessageRoomIndex {
 
 extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   
-//  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-//    let lastIndex = messageRoom.count - 2
-//    if lastIndex == indexPath.row {
-//      page += 1
-//      if !lastPage {
-//        getMessageRoom(roomIndex: sendMessage.roomIndex,
-//                       page: page,
-//                       size: 10)
-//      }
-//    }
-//  }
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if indexPath.row == 1 {
+      page += 1
+      if !lastPage {
+        indexPathRow = indexPath.row
+        getMessageRoom(roomIndex: sendMessage.roomIndex, page: page, size: 20)
+        
+//        var indexPaths = [IndexPath]()
+//        for i in 0..<10 {
+//          indexPaths.append(IndexPath(row: i, section: 0))
+//        }
+//        tableView.insertRows(at: indexPaths, with: .none)
+
+      }
+      print(#function)
+    }
+  }
   
   func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
     return UITableView.automaticDimension
@@ -292,27 +319,35 @@ extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "messageRoomCell",
-                                             for: indexPath) as! MessageRoomCell
+    let cell = tableView.dequeueReusableCell(withIdentifier: "messageRoomCell", for: indexPath) as! MessageRoomCell
     if messageRoom.count > 0 {
-      if messageRoom[indexPath.row].myIndex == messageRoom[indexPath.row].senderIndex {
-        cell.messageTypeLabel.text = "보낸 쪽지"
-        cell.messageTypeLabel.textColor = .darkGray
-      } else {
-        cell.messageTypeLabel.text = "받은 쪽지"
-        cell.messageTypeLabel.textColor = colorLiteralGreen
-      }
-      
+//      let padding = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+//      let paddingFrame = cell.messageLabel.frame.inset(by: padding)
+//      cell.messageLabel.frame = paddingFrame
+      cell.messageLabel.layer.cornerRadius = 8.0
       cell.messageLabel.text = messageRoom[indexPath.row].message
-      cell.messageTimeLabel.text = messageRoom[indexPath.row].messageTime
     }
+//    let cell = tableView.dequeueReusableCell(withIdentifier: "messageRoomCell",
+//                                             for: indexPath) as! messageRoomTestCell
+//    if messageRoom.count > 0 {
+//      if messageRoom[indexPath.row].myIndex == messageRoom[indexPath.row].senderIndex {
+//        cell.messageTypeLabel.text = "보낸 쪽지"
+//        cell.messageTypeLabel.textColor = .darkGray
+//      } else {
+//        cell.messageTypeLabel.text = "받은 쪽지"
+//        cell.messageTypeLabel.textColor = colorLiteralGreen
+//      }
+//
+//      cell.messageLabel.text = messageRoom[indexPath.row].message
+//      cell.messageTimeLabel.text = messageRoom[indexPath.row].messageTime
+//    }
     return cell
   }
   
 }
 
 
-class MessageRoomCell: UITableViewCell {
+class messageRoomTestCell: UITableViewCell {
   
   @IBOutlet weak var messageTypeLabel: UILabel!
   @IBOutlet weak var messageLabel: UILabel!

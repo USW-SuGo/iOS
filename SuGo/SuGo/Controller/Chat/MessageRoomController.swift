@@ -56,8 +56,8 @@ class MessageRoomController: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     
+    tableView.refreshControl = refresh
     customMessageTextView()
-    
     messageTextView.delegate = self
     // 채팅 스크롤 안보이도록 설정
     messageTextView.showsVerticalScrollIndicator = false
@@ -65,8 +65,7 @@ class MessageRoomController: UIViewController {
     messageTextView.textContainer.lineBreakMode = .byCharWrapping
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 80
-    tableView.refreshControl = refresh
-//    customRightBarButton()
+    //    customRightBarButton()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -130,15 +129,19 @@ class MessageRoomController: UIViewController {
       .request(MessageRouter.messageRoom(roomIndex: roomIndex, page: page, size: size))
       .validate()
       .response { response in
-        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-        self.jsonToTableViewData(json: JSON(response.data ?? "")[1])
+        guard let statusCode = response.response?.statusCode,
+                statusCode == 200,
+              let responseData = response.data
+        else { return }
+        self.jsonToTableViewData(json: JSON(responseData)[1])
       }
   }
   
   private func jsonToTableViewData(json: JSON) {
-    if json.count < 10 {
+    if json.count < 20 { // 딱 20개라 다음 call이 호출된다면.
       lastPage = true
     }
+    print(json.count)
     var messageList: [MessageRoom] = []
     for i in 0..<json.count {
       let message = MessageRoom(myIndex: json[i]["requestUserId"].intValue,
@@ -151,10 +154,10 @@ class MessageRoomController: UIViewController {
     messageList.reverse()
     messageRoom = messageList + messageRoom
     tableView.reloadData()
-    if messageRoom.count <= 20 {
+    
+    if page == 0 {
       scrollToTop()
-    }
-    if messageRoom.count > 2039{
+    } else if page != 0 && json.count != 0{
       let newIndexPath = IndexPath(row: indexPathRow + messageList.count, section: 0)
       tableView.scrollToRow(at: newIndexPath, at: .top, animated: false)
     }
@@ -293,20 +296,13 @@ extension MessageRoomController: MessageRoomIndex {
 extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    
     if indexPath.row == 1 {
       page += 1
       if !lastPage {
         indexPathRow = indexPath.row
         getMessageRoom(roomIndex: sendMessage.roomIndex, page: page, size: 20)
-        
-//        var indexPaths = [IndexPath]()
-//        for i in 0..<10 {
-//          indexPaths.append(IndexPath(row: i, section: 0))
-//        }
-//        tableView.insertRows(at: indexPaths, with: .none)
-
       }
-      print(#function)
     }
   }
   
@@ -321,10 +317,8 @@ extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "messageRoomCell", for: indexPath) as! MessageRoomCell
     if messageRoom.count > 0 {
-//      let padding = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
-//      let paddingFrame = cell.messageLabel.frame.inset(by: padding)
-//      cell.messageLabel.frame = paddingFrame
-      cell.messageLabel.layer.cornerRadius = 8.0
+      cell.messageView.layer.cornerRadius = 12
+      cell.messageView.layer.masksToBounds = true
       cell.messageLabel.text = messageRoom[indexPath.row].message
     }
 //    let cell = tableView.dequeueReusableCell(withIdentifier: "messageRoomCell",
@@ -362,3 +356,4 @@ class messageRoomTestCell: UITableViewCell {
   }
   
 }
+ 

@@ -9,6 +9,7 @@ import UIKit
 
 class MessageRoomCell: UITableViewCell {
 
+  @IBOutlet weak var messageView: UIView!
   @IBOutlet weak var messageLabel: UILabel!
   
   override func awakeFromNib() {

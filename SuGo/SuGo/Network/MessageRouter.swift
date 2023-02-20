@@ -46,7 +46,7 @@ enum MessageRouter: URLRequestConvertible {
       case .messageRoom(let roomIndex, _, _):
         return "/note-content/\(roomIndex)"
       case .sendMessage:
-        return "/note-content/"
+        return "/note-content/text"
       }
   }
   

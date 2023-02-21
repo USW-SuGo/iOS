@@ -20,6 +20,10 @@ class MessageRoomController: UIViewController {
 
   //MARK: IBOutlets
   
+  @IBOutlet weak var priceLabel: UILabel!
+  @IBOutlet weak var titleLabel: UILabel!
+  @IBOutlet weak var productImage: UIImageView!
+  @IBOutlet weak var productView: UIView!
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var messageView: UIView!
   @IBOutlet weak var messageTextView: UITextView!
@@ -34,11 +38,13 @@ class MessageRoomController: UIViewController {
   var sendMessage = SendMessage()
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   var messageRoom: [MessageRoom] = []
+  var productContentDetail = ProductContentsDetail()
   var page = 0
   var lastPage = false
   var messageHeight: CGFloat = 35
   var indexPathRow = 0
   var contentOffset: CGPoint = CGPoint(x: 0, y: 0)
+  var productPostId = 0
   private lazy var refresh: UIRefreshControl = {
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(callRefresh), for: .valueChanged)
@@ -49,12 +55,12 @@ class MessageRoomController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
     registerXib()
     print(sendMessage.roomIndex)
     print(sendMessage.oppositeIndex)
     print(sendMessage.myIndex)
-
+    getDetailPost(productIndex: productPostId)
     
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -90,8 +96,10 @@ class MessageRoomController: UIViewController {
   //MARK: Functions
   
   private func registerXib() {
-    let messageRoomXib = UINib(nibName: "MessageRoomCell", bundle: nil)
-    tableView.register(messageRoomXib, forCellReuseIdentifier: "messageRoomCell")
+    let sendMessageXib = UINib(nibName: "SendMessageCell", bundle: nil)
+    tableView.register(sendMessageXib, forCellReuseIdentifier: "sendMessageCell")
+    let receiveMessageXib = UINib(nibName: "ReceiveMessageCell", bundle: nil)
+    tableView.register(receiveMessageXib, forCellReuseIdentifier: "receiveMessageCell")
   }
   
   private func scrollToTop() {
@@ -127,6 +135,39 @@ class MessageRoomController: UIViewController {
     tableView.refreshControl?.endRefreshing()
   }
   
+  func getDetailPost(productIndex: Int) {
+    AlamofireManager
+      .shared
+      .session
+      .request(PostRouter.getDetailPost(productIndex: productIndex))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200,
+              let responseData = response.data
+        else { return }
+        self.productContentDetail = ProductContentsDetail(json: JSON(responseData))
+        print(self.productContentDetail)
+        self.updatePost()
+      }
+  }
+  
+  func updatePost() {
+    guard let url = URL(string: productContentDetail.imageLink[0]) else { return }
+    do {
+      let image = UIImage(data: try Data(contentsOf: url))
+      DispatchQueue.main.async {
+        self.productImage.image = image
+        self.titleLabel.text = self.productContentDetail.title
+        self.priceLabel.text = self.productContentDetail.price
+      }
+    }
+    catch {
+      print("Error Occured!!")
+    }
+  }
+//case getDetailPost(productIndex: Int)
+  
   func getMessageRoom(roomIndex: Int, page: Int, size: Int) {
     AlamofireManager
       .shared
@@ -138,22 +179,24 @@ class MessageRoomController: UIViewController {
                 statusCode == 200,
               let responseData = response.data
         else { return }
-        self.jsonToTableViewData(json: JSON(responseData)[1])
+        self.jsonToTableViewData(json: JSON(responseData)[1],
+                                 requestUserId: JSON(responseData)[0]["requestUserId"].intValue)
       }
   }
   
-  private func jsonToTableViewData(json: JSON) {
+  private func jsonToTableViewData(json: JSON, requestUserId: Int) {
     if json.count < 20 { // 딱 20개라 다음 call이 호출된다면.
       lastPage = true
     }
+    print(requestUserId)
     print(json.count)
     var messageList: [MessageRoom] = []
     for i in 0..<json.count {
-      let message = MessageRoom(myIndex: json[i]["requestUserId"].intValue,
-                                    senderIndex: json[i]["messageSenderId"].intValue,
-                                    receiverIndex: json[i]["messageReceiverId"].intValue,
-                                    message: json[i]["message"].stringValue,
-                                    messageTime: dateToString(localDateTime: json[i]["createdAt"]))
+      let message = MessageRoom(myIndex: requestUserId,
+                                senderIndex: json[i]["senderId"].intValue,
+                                receiverIndex: json[i]["receiverId"].intValue,
+                                message: json[i]["message"].stringValue,
+                                messageTime: dateToString(localDateTime: json[i]["createdAt"]))
       messageList.append(message)
     }
     messageList.reverse()
@@ -175,7 +218,7 @@ class MessageRoomController: UIViewController {
       print("after : \(newIndexPath)")
       print(messageList.count)
     }
-    
+    print(messageRoom)
   }
   
   private func dateToString(localDateTime: JSON) -> String {

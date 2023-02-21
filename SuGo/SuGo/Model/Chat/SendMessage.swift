@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SendMessage {
+struct SendMessage {
   
   var roomIndex = 0
   var myIndex = 0

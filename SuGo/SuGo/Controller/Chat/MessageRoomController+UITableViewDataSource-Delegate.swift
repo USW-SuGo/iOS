@@ -31,19 +31,24 @@ extension MessageRoomController: UITableViewDataSource, UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "messageRoomCell", for: indexPath) as! MessageRoomCell
-    guard messageRoom.count > 0 else { return }
+    let sendMessageCell = tableView.dequeueReusableCell(withIdentifier: "sendMessageCell",
+                                                        for: indexPath) as! SendMessageCell
+    let receiveMessageCell = tableView.dequeueReusableCell(withIdentifier: "receiveMessageCell",
+                                                           for: indexPath) as! ReceiveMessageCell
+    guard messageRoom.count > 0 else { return UITableViewCell() }
     if messageRoom[indexPath.row].myIndex == messageRoom[indexPath.row].senderIndex { // 보낸 쪽지
-        cell.messageView.layer.cornerRadius = 12
-        cell.messageView.layer.masksToBounds = true
-        cell.messageLabel.text = messageRoom[indexPath.row].message
-        cell.messageTimeLabel.text = messageRoom[indexPath.row].messageTime
-      return cell
+      sendMessageCell.messageView.layer.cornerRadius = 12
+      sendMessageCell.messageView.layer.masksToBounds = true
+      sendMessageCell.messageLabel.text = messageRoom[indexPath.row].message
+      sendMessageCell.messageTimeLabel.text = messageRoom[indexPath.row].messageTime
+      return sendMessageCell
     } else { // 받은쪽지
-      
-      return cell
+      receiveMessageCell.messageView.layer.cornerRadius = 12
+      receiveMessageCell.messageView.layer.masksToBounds = true
+      receiveMessageCell.messageLabel.text = messageRoom[indexPath.row].message
+      receiveMessageCell.messageTimeLabel.text = messageRoom[indexPath.row].messageTime
+      return receiveMessageCell
     }
-
   }
   
 }

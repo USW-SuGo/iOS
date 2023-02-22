@@ -147,23 +147,42 @@ class MessageRoomController: UIViewController {
               let responseData = response.data
         else { return }
         self.productContentDetail = ProductContentsDetail(json: JSON(responseData))
-        print(self.productContentDetail)
+        // Alamofire
+//        AF.request(.GET, url).response {(request, response, data, error) in
+//        self.imageView.image = UIImage(data:data, scale:1)}
         self.updatePost()
       }
   }
-  
+  //
   func updatePost() {
+    // URL Session
+    // imageLink = ["이미지 주소", "이미지 주소", "이미지 주소"]
     guard let url = URL(string: productContentDetail.imageLink[0]) else { return }
-    do {
-      let image = UIImage(data: try Data(contentsOf: url))
-      DispatchQueue.main.async {
-        self.productImage.image = image
-        self.titleLabel.text = self.productContentDetail.title
-        self.priceLabel.text = self.productContentDetail.price
-      }
-    }
-    catch {
-      print("Error Occured!!")
+//    guard let url = URL(string: productContentDetail.imageLink[0]) else { return }
+//        do {
+//          let image = UIImage(data: try Data(contentsOf: url))
+//          DispatchQueue.main.async {
+//            self.productImage.image = image
+//            self.titleLabel.text = self.productContentDetail.title
+//            self.priceLabel.text = self.productContentDetail.price
+//          }
+//        }
+//        catch {
+//          print("Error Occured!!")
+//        }
+// Data(url) 별도의 데이터를 URL 데이터를 받아오는 작업(통신)
+      DispatchQueue.global().async {
+        do {
+          let image = UIImage(data: try Data(contentsOf: url))
+          DispatchQueue.main.async {
+            self.productImage.image = image
+            self.titleLabel.text = self.productContentDetail.title
+            self.priceLabel.text = self.productContentDetail.price
+          }
+        }
+        catch {
+          print("Error Occured!!")
+        }
     }
   }
 //case getDetailPost(productIndex: Int)

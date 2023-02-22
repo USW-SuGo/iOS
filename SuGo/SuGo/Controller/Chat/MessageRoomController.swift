@@ -55,13 +55,9 @@ class MessageRoomController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    customBackButton()
     registerXib()
-    print(sendMessage.roomIndex)
-    print(sendMessage.oppositeIndex)
-    print(sendMessage.myIndex)
     getDetailPost(productIndex: productPostId)
-    
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
@@ -176,6 +172,8 @@ class MessageRoomController: UIViewController {
           let image = UIImage(data: try Data(contentsOf: url))
           DispatchQueue.main.async {
             self.productImage.image = image
+            self.productImage.contentMode = .scaleAspectFill
+            self.productImage.layer.cornerRadius = 8.0
             self.titleLabel.text = self.productContentDetail.title
             self.priceLabel.text = self.productContentDetail.price
           }
@@ -254,6 +252,14 @@ class MessageRoomController: UIViewController {
   
   //MARK: Button Actions
   
+  @IBAction func productButtonClicked(_ sender: Any) {
+    let postView = UIStoryboard(name: "PostView", bundle: nil)
+    guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
+            as? PostController else { return }
+    postController.productPostId = productPostId
+    self.navigationController?.pushViewController(postController, animated: true)
+  }
+  
   @IBAction func sendButtonClicked(_ sender: Any) {
     guard let message = messageTextView.text else { return }
     AlamofireManager
@@ -294,6 +300,12 @@ class MessageRoomController: UIViewController {
   }
   
   //MARK: Design Functions
+  
+  private func customBackButton() {
+    let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+    backButtonItem.tintColor = .darkGray
+    self.navigationItem.backBarButtonItem = backButtonItem
+  }
   
   private func customMessageTextView() {
     messageView.layer.cornerRadius = 6.0

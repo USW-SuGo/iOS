@@ -21,6 +21,7 @@ enum LoginRouter: URLRequestConvertible {
   case findPassword(loginId: String, email: String)
   case changePassword(prePassword: String, newPassword: String)
   case deleteAccount(loginId: String, email: String, password: String)
+  case getMyIndex
   
   var baseURL: URL {
     return URL(string: API.BASE_URL + "/user")!
@@ -34,6 +35,8 @@ enum LoginRouter: URLRequestConvertible {
       return .put
     case .deleteAccount:
       return .delete
+    case .getMyIndex:
+      return .get
     }
   }
 
@@ -57,8 +60,12 @@ enum LoginRouter: URLRequestConvertible {
       return "/password"
     case .deleteAccount:
       return ""
+    case .getMyIndex:
+      return "/identifier"
     }
   }
+  
+
   
   var parameters: Parameters {
     switch self {
@@ -104,6 +111,7 @@ enum LoginRouter: URLRequestConvertible {
         "email" : email,
         "password" : password
       ]
+    case .getMyIndex: return [:]
     }
   }
   
@@ -115,7 +123,7 @@ enum LoginRouter: URLRequestConvertible {
           .contentType("application/json"),
           .accept("application/json")
       ]
-    case .changePassword, .deleteAccount:
+    case .changePassword, .deleteAccount, .getMyIndex:
       return [
         .authorization(String(KeychainSwift().get("AccessToken") ?? ""))
       ]
@@ -133,8 +141,13 @@ enum LoginRouter: URLRequestConvertible {
     
     request.method = method
     request.headers = headers
-    request = try JSONEncoding.default.encode(request, with: parameters)
-
+    
+    if request.method == .post || request.method == .put || request.method == .delete {
+      request = try JSONEncoding.default.encode(request, with: parameters)
+    } else if request.method == .get {
+      request = try URLEncoding.default.encode(request, with: parameters)
+    }
+    
     return request
   }
   

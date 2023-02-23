@@ -12,6 +12,12 @@
         <array key="Pretendard-Bold.otf">
             <string>Pretendard-Bold</string>
         </array>
+        <array key="Pretendard-Light.otf">
+            <string>Pretendard-Light</string>
+        </array>
+        <array key="Pretendard-Medium.otf">
+            <string>Pretendard-Medium</string>
+        </array>
         <array key="Pretendard-Regular.otf">
             <string>Pretendard-Regular</string>
         </array>
@@ -72,6 +78,13 @@
                                     <constraint firstAttribute="bottom" secondItem="YFw-g7-nCE" secondAttribute="bottom" constant="3" id="tdM-lX-13R"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HEO-kh-WcS">
+                                <rect key="frame" x="0.0" y="149" width="393" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="G2V-wg-MNc"/>
+                                </constraints>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0UI-13-hUl">
                                 <rect key="frame" x="0.0" y="59" width="393" height="90"/>
                                 <subviews>
@@ -100,45 +113,52 @@
                                         <color key="textColor" red="0.34509803919999998" green="0.63921568630000003" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tH6-wR-pp2">
-                                        <rect key="frame" x="0.0" y="0.0" width="393" height="90"/>
-                                        <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x6J-sw-t9C">
+                                        <rect key="frame" x="286" y="52" width="97" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="GAP-ub-eV6"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Pretendard-Light" family="Pretendard" pointSize="13"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="→ 게시물 확인하기">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
                                         <connections>
-                                            <action selector="productButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="D9d-NU-WAq"/>
+                                            <action selector="productButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Dch-Ei-H1U"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="→ 게시물 확인하기" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iyJ-lI-cy0">
-                                        <rect key="frame" x="293.33333333333331" y="65" width="89.666666666666686" height="15"/>
-                                        <fontDescription key="fontDescription" name="Pretendard-Regular" family="Pretendard" pointSize="12"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x9v-8p-flf">
+                                        <rect key="frame" x="90" y="55" width="80" height="25"/>
+                                        <color key="backgroundColor" red="0.34509803919999998" green="0.63921568630000003" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="GjL-Fn-4mR"/>
+                                            <constraint firstAttribute="height" constant="25" id="yFc-mv-RSw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="14"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="학점 주기">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="evaluateButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Pzb-e0-JNs"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="90" id="9VZ-c9-1qq"/>
-                                    <constraint firstAttribute="trailing" secondItem="tH6-wR-pp2" secondAttribute="trailing" id="CHK-i6-NLi"/>
                                     <constraint firstAttribute="bottom" secondItem="BND-30-vjl" secondAttribute="bottom" constant="10" id="Dy8-3B-q0K"/>
                                     <constraint firstAttribute="trailing" secondItem="1Hm-8B-YUL" secondAttribute="trailing" constant="5" id="E8k-7c-wUq"/>
                                     <constraint firstItem="1Hm-8B-YUL" firstAttribute="top" secondItem="0UI-13-hUl" secondAttribute="top" constant="10" id="ERf-OA-xm6"/>
+                                    <constraint firstAttribute="bottom" secondItem="x6J-sw-t9C" secondAttribute="bottom" id="Gnk-dG-ObC"/>
+                                    <constraint firstAttribute="trailing" secondItem="x6J-sw-t9C" secondAttribute="trailing" constant="10" id="HAq-ey-bgd"/>
                                     <constraint firstItem="w9f-lA-Qd1" firstAttribute="leading" secondItem="BND-30-vjl" secondAttribute="trailing" constant="10" id="I0R-ep-wP4"/>
-                                    <constraint firstItem="tH6-wR-pp2" firstAttribute="top" secondItem="0UI-13-hUl" secondAttribute="top" id="LZc-HE-Z2g"/>
-                                    <constraint firstAttribute="trailing" secondItem="iyJ-lI-cy0" secondAttribute="trailing" constant="10" id="Zbu-CE-u7G"/>
+                                    <constraint firstItem="x9v-8p-flf" firstAttribute="leading" secondItem="BND-30-vjl" secondAttribute="trailing" constant="10" id="U6Q-NV-k0t"/>
                                     <constraint firstItem="w9f-lA-Qd1" firstAttribute="top" secondItem="1Hm-8B-YUL" secondAttribute="bottom" constant="3" id="dgY-fq-FEw"/>
                                     <constraint firstItem="BND-30-vjl" firstAttribute="top" secondItem="0UI-13-hUl" secondAttribute="top" constant="10" id="geu-Pf-CPq"/>
-                                    <constraint firstAttribute="bottom" secondItem="iyJ-lI-cy0" secondAttribute="bottom" constant="10" id="jmv-SJ-4D0"/>
                                     <constraint firstItem="1Hm-8B-YUL" firstAttribute="leading" secondItem="BND-30-vjl" secondAttribute="trailing" constant="10" id="lKG-bw-3sA"/>
-                                    <constraint firstItem="tH6-wR-pp2" firstAttribute="leading" secondItem="0UI-13-hUl" secondAttribute="leading" id="pQu-IQ-rX3"/>
-                                    <constraint firstAttribute="bottom" secondItem="tH6-wR-pp2" secondAttribute="bottom" id="vx4-mD-RJv"/>
+                                    <constraint firstAttribute="bottom" secondItem="x9v-8p-flf" secondAttribute="bottom" constant="10" id="pac-iC-Iob"/>
                                     <constraint firstItem="BND-30-vjl" firstAttribute="leading" secondItem="0UI-13-hUl" secondAttribute="leading" constant="10" id="wKi-aO-IjK"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HEO-kh-WcS">
-                                <rect key="frame" x="0.0" y="149" width="393" height="1"/>
-                                <color key="backgroundColor" systemColor="systemGray5Color"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="1" id="G2V-wg-MNc"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -161,6 +181,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="evaluateButton" destination="x9v-8p-flf" id="5dU-hM-yi1"/>
                         <outlet property="messageTextView" destination="ltr-54-bbS" id="bCs-ri-eQv"/>
                         <outlet property="messageTextViewHeight" destination="IHN-FD-i98" id="NSB-YP-isa"/>
                         <outlet property="messageView" destination="ZEC-JA-fm9" id="uDS-ap-2SW"/>

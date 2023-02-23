@@ -70,7 +70,7 @@ class MessageRoomController: UIViewController {
     messageTextView.textContainer.lineBreakMode = .byCharWrapping
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 80
-    //    customRightBarButton()
+    customRightBarButtons()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -122,12 +122,7 @@ class MessageRoomController: UIViewController {
   @objc
   private func callRefresh() {
     tableView.refreshControl?.beginRefreshing()
-    page = 0
-    lastPage = false
-    messageRoom.removeAll()
-    getMessageRoom(roomIndex: sendMessage.roomIndex,
-                   page: page,
-                   size: 20)
+    initializeMessageRoom()
     tableView.refreshControl?.endRefreshing()
   }
   
@@ -143,16 +138,12 @@ class MessageRoomController: UIViewController {
               let responseData = response.data
         else { return }
         self.productContentDetail = ProductContentsDetail(json: JSON(responseData))
-        // Alamofire
-//        AF.request(.GET, url).response {(request, response, data, error) in
-//        self.imageView.image = UIImage(data:data, scale:1)}
         self.updatePost()
-      }
+    }
   }
   //
   func updatePost() {
-    // URL Session
-    // imageLink = ["이미지 주소", "이미지 주소", "이미지 주소"]
+    
     guard let url = URL(string: productContentDetail.imageLink[0]) else { return }
 //    guard let url = URL(string: productContentDetail.imageLink[0]) else { return }
 //        do {
@@ -167,7 +158,8 @@ class MessageRoomController: UIViewController {
 //          print("Error Occured!!")
 //        }
 // Data(url) 별도의 데이터를 URL 데이터를 받아오는 작업(통신)
-      DispatchQueue.global().async {
+      DispatchQueue.global().async { [weak self] in
+        guard let self = self else { return }
         do {
           let image = UIImage(data: try Data(contentsOf: url))
           DispatchQueue.main.async {
@@ -183,7 +175,6 @@ class MessageRoomController: UIViewController {
         }
     }
   }
-//case getDetailPost(productIndex: Int)
   
   func getMessageRoom(roomIndex: Int, page: Int, size: Int) {
     AlamofireManager
@@ -283,9 +274,7 @@ class MessageRoomController: UIViewController {
       }
   }
   
-  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-      view.endEditing(true)
-  }
+ 
   
   @objc
   private func sendButtonClicked() {
@@ -299,7 +288,34 @@ class MessageRoomController: UIViewController {
     present(sendMessageController, animated: true)
   }
   
+  @objc
+  private func refreshButtonClicked() {
+    initializeMessageRoom()
+  }
+  
+  @objc
+  private func userInfoButtonClicked() {
+    let userInfoView = UIStoryboard(name: "UserInfoView", bundle: nil)
+    guard let userInfoController = userInfoView.instantiateViewController(withIdentifier: "userInfoVC") as? UserInfoController else { return }
+    userInfoController.userId = productContentDetail.userIndex
+    self.navigationController?.pushViewController(userInfoController, animated: true)
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+      view.endEditing(true)
+  }
+  
   //MARK: Design Functions
+  
+  private func customRightBarButtons() {
+    let refreshButton = self.navigationItem.makeSFSymbolButton(self,
+                                                               action: #selector(refreshButtonClicked),
+                                                               symbolName: "arrow.counterclockwise")
+    let userInfoButton = self.navigationItem.makeSFSymbolButton(self,
+                                                                action: #selector(userInfoButtonClicked),
+                                                                symbolName: "person")
+    self.navigationItem.rightBarButtonItems = [refreshButton, userInfoButton]
+  }
   
   private func customBackButton() {
     let backButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)

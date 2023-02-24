@@ -29,10 +29,9 @@ class MessageRoomController: UIViewController {
   @IBOutlet weak var messageTextView: UITextView!
   @IBOutlet weak var messageTextViewHeight: NSLayoutConstraint!
   @IBOutlet weak var messageViewHeight: NSLayoutConstraint!
-  
   @IBOutlet weak var sendButton: UIButton!
+  @IBOutlet weak var evaluateButton: UIButton!
   
-//  @IBOutlet weak var messageTextViewHeight: NSLayoutConstraint!
   //MARK: Properties
   
   var sendMessage = SendMessage()
@@ -56,6 +55,7 @@ class MessageRoomController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     customBackButton()
+    evaluateButton.layer.cornerRadius = 6.0
     registerXib()
     getDetailPost(productIndex: productPostId)
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -141,22 +141,11 @@ class MessageRoomController: UIViewController {
         self.updatePost()
     }
   }
+  
   //
+  
   func updatePost() {
-    
     guard let url = URL(string: productContentDetail.imageLink[0]) else { return }
-//    guard let url = URL(string: productContentDetail.imageLink[0]) else { return }
-//        do {
-//          let image = UIImage(data: try Data(contentsOf: url))
-//          DispatchQueue.main.async {
-//            self.productImage.image = image
-//            self.titleLabel.text = self.productContentDetail.title
-//            self.priceLabel.text = self.productContentDetail.price
-//          }
-//        }
-//        catch {
-//          print("Error Occured!!")
-//        }
 // Data(url) 별도의 데이터를 URL 데이터를 받아오는 작업(통신)
       DispatchQueue.global().async { [weak self] in
         guard let self = self else { return }
@@ -172,7 +161,7 @@ class MessageRoomController: UIViewController {
         }
         catch {
           print("Error Occured!!")
-        }
+      }
     }
   }
   
@@ -243,6 +232,18 @@ class MessageRoomController: UIViewController {
   
   //MARK: Button Actions
   
+  @IBAction func evaluateButtonClicked(_ sender: Any) {
+    guard messageRoom.count > 3 else { // 유저에게 메세지 나눈 횟수가 너무 적어 평가할 수 없다고 알림.
+      return
+    }
+    let evaluateView = UIStoryboard(name: "EvaluateView", bundle: nil)
+    let evaluateController = evaluateView.instantiateViewController(withIdentifier: "evaluateVC")
+    as! EvaluateController
+    evaluateController.modalPresentationStyle = .fullScreen
+    evaluateController.userId = sendMessage.oppositeIndex
+    self.present(evaluateController, animated: true)
+  }
+  
   @IBAction func productButtonClicked(_ sender: Any) {
     let postView = UIStoryboard(name: "PostView", bundle: nil)
     guard let postController = postView.instantiateViewController(withIdentifier: "postVC")
@@ -262,6 +263,7 @@ class MessageRoomController: UIViewController {
                                          receiverId: sendMessage.oppositeIndex))
       .validate()
       .response { response in
+        //로딩을 어떻게 할지
         guard let statusCode = response.response?.statusCode,
               statusCode == 200 else { return }
         print(JSON(response.data ?? ""))
@@ -273,8 +275,6 @@ class MessageRoomController: UIViewController {
         self.view.endEditing(true)
       }
   }
-  
- 
   
   @objc
   private func sendButtonClicked() {
@@ -326,7 +326,6 @@ class MessageRoomController: UIViewController {
   private func customMessageTextView() {
     messageView.layer.cornerRadius = 6.0
     sendButton.layer.cornerRadius = 15.0
-    
   }
   
   @objc func keyboardWillShow(_ notification: Notification) {

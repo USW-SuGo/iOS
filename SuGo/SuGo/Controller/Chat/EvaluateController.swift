@@ -14,6 +14,10 @@ class EvaluateController: UIViewController {
 
   //MARK: IBOutlets
   
+  @IBOutlet weak var userNicknameLabel: UILabel!
+  @IBOutlet weak var userMannerGradeLabel: UILabel!
+  @IBOutlet weak var userTradeCountLabel: UILabel!
+  
   @IBOutlet weak var aPlusLabel: UILabel!
   @IBOutlet weak var bPlusLabel: UILabel!
   @IBOutlet weak var cPlusLabel: UILabel!
@@ -42,6 +46,7 @@ class EvaluateController: UIViewController {
     customButtons()
     customLabels()
     getUserPage(userId: userId)
+    self.navigationItem.title = "유저 평가"
   }
   
   //MARK: Functions
@@ -57,7 +62,23 @@ class EvaluateController: UIViewController {
               statusCode == 200,
               let responseData = response.data else { return }
         self.userPage = UserPage(json: JSON(responseData))
-        print(self.userPage)
+        self.updateUserPage()
+      }
+  }
+  
+  func evaluateUser(userId: Int, grade: Double) {
+    AlamofireManager
+      .shared
+      .session
+      .request(PageRouter.userMannerEvaluate(userId: userId, grade: grade))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200
+        else {
+          self.customAlert(title: "이미 유저 평가를 하셨어요!", message: "유저 평가는 하루에 한번만 가능합니다.")
+          return }
+        self.customAlert(title: "유저 평가가 완료되었어요!", message: "SUGO 거래 문화에 도움을 주셔서 감사합니다!")
       }
   }
   
@@ -106,12 +127,33 @@ class EvaluateController: UIViewController {
     }
     senderTag = sender.tag
   }
+
+  @IBAction func evaluateButtonClicked(_ sender: Any) {
+    guard grade > 0 else { return }
+    evaluateUser(userId: userId, grade: grade)
+  }
   
   @IBAction func backButtonClicked(_ sender: Any) {
-    self.dismiss(animated: true)
+    self.navigationController?.popViewController(animated: true)
   }
   
   //MARK: Design Functions
+  
+  private func customAlert(title: String, message: String) {
+    let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+      self.dismiss(animated: true)
+      self.navigationController?.popViewController(animated: true)
+    }
+    alert.addAction(confirmAction)
+    self.present(alert, animated: true)
+  }
+  
+  private func updateUserPage() {
+    self.userNicknameLabel.text = userPage.userNickname
+    self.userMannerGradeLabel.text = userPage.userMannerGrade
+    self.userTradeCountLabel.text = userPage.userTradeCount
+  }
   
   private func customButtons() {
     evaluateButton.layer.cornerRadius = 6.0

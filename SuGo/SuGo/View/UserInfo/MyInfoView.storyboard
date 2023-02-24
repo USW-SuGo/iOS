@@ -109,13 +109,13 @@
                                 </connections>
                             </tableView>
                             <button hidden="YES" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fm7-2x-4TC">
-                                <rect key="frame" x="20" y="267" width="60" height="20"/>
+                                <rect key="frame" x="20" y="267" width="73" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="35Z-hp-0np"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="내가 쓴 글">
+                                <state key="normal" title="판매 중인 글">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -140,9 +140,9 @@
                                 </constraints>
                             </view>
                             <button hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fy0-MS-Lsd">
-                                <rect key="frame" x="95" y="267" width="86" height="20"/>
+                                <rect key="frame" x="192" y="267" width="86" height="20"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="jBA-LJ-S8f"/>
+                                    <constraint firstAttribute="height" constant="20" id="CCD-g3-XaO"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -167,6 +167,20 @@
                                     <constraint firstAttribute="height" constant="1" id="alY-r6-YVS"/>
                                 </constraints>
                             </view>
+                            <button hidden="YES" opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V1k-UN-YVL">
+                                <rect key="frame" x="108" y="267" width="69" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="9Fh-Qf-h3n"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="판매완료 글">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="soldOutPostButtonClicked:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="cfD-CW-lgi"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -177,8 +191,8 @@
                             <constraint firstItem="aSE-SE-4SM" firstAttribute="leading" secondItem="KhL-iV-x6T" secondAttribute="trailing" constant="100" id="1r8-JC-GZL"/>
                             <constraint firstAttribute="trailing" secondItem="7YL-Xc-CTk" secondAttribute="trailing" id="2tz-kS-qnv"/>
                             <constraint firstAttribute="trailing" secondItem="esg-Sr-XnF" secondAttribute="trailing" id="3va-2V-zTd"/>
+                            <constraint firstItem="Fy0-MS-Lsd" firstAttribute="top" secondItem="esg-Sr-XnF" secondAttribute="bottom" constant="17" id="4Hf-AJ-LUr"/>
                             <constraint firstItem="6Ag-zj-974" firstAttribute="leading" secondItem="OG3-mC-zws" secondAttribute="trailing" constant="100" id="6F1-26-A5c"/>
-                            <constraint firstItem="Fy0-MS-Lsd" firstAttribute="top" secondItem="ogj-td-kBa" secondAttribute="bottom" constant="100" id="6KL-1D-cKn"/>
                             <constraint firstItem="fm7-2x-4TC" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="6r7-jy-4kR"/>
                             <constraint firstItem="6b5-yb-uJl" firstAttribute="leading" secondItem="ogj-td-kBa" secondAttribute="trailing" constant="11" id="8C2-my-GWy"/>
                             <constraint firstItem="OG3-mC-zws" firstAttribute="leading" secondItem="I08-hr-WIl" secondAttribute="trailing" constant="100" id="8Gc-ZM-eRw"/>
@@ -196,6 +210,7 @@
                             <constraint firstItem="ogj-td-kBa" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="UIC-sW-4mC"/>
                             <constraint firstItem="6Ag-zj-974" firstAttribute="top" secondItem="liB-Fk-djT" secondAttribute="bottom" constant="5" id="V6k-J9-aSi"/>
                             <constraint firstItem="I08-hr-WIl" firstAttribute="top" secondItem="KhL-iV-x6T" secondAttribute="bottom" constant="5" id="ZFJ-mC-b5L"/>
+                            <constraint firstItem="V1k-UN-YVL" firstAttribute="top" secondItem="esg-Sr-XnF" secondAttribute="bottom" constant="17" id="ZRO-q1-3uv"/>
                             <constraint firstItem="KhL-iV-x6T" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="90" id="aaV-ca-gZp"/>
                             <constraint firstItem="liB-Fk-djT" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="90" id="d4P-J3-ChW"/>
                             <constraint firstItem="rdn-0q-rww" firstAttribute="top" secondItem="esg-Sr-XnF" secondAttribute="bottom" constant="200" id="dFO-Yh-JlZ"/>
@@ -204,7 +219,8 @@
                             <constraint firstItem="lS2-9N-WR0" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="l8G-2r-P5h"/>
                             <constraint firstItem="aSE-SE-4SM" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="90" id="mTE-Ps-dxP"/>
                             <constraint firstItem="ogj-td-kBa" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="15" id="mbB-q2-8bS"/>
-                            <constraint firstItem="Fy0-MS-Lsd" firstAttribute="leading" secondItem="fm7-2x-4TC" secondAttribute="trailing" constant="15" id="o7S-ek-kES"/>
+                            <constraint firstItem="V1k-UN-YVL" firstAttribute="leading" secondItem="fm7-2x-4TC" secondAttribute="trailing" constant="15" id="p7P-9r-qfj"/>
+                            <constraint firstItem="Fy0-MS-Lsd" firstAttribute="leading" secondItem="V1k-UN-YVL" secondAttribute="trailing" constant="15" id="pLE-Gj-VDN"/>
                             <constraint firstItem="esg-Sr-XnF" firstAttribute="top" secondItem="OG3-mC-zws" secondAttribute="bottom" constant="20" id="r0K-op-daN"/>
                             <constraint firstItem="aSE-SE-4SM" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="rA4-GT-1lG"/>
                             <constraint firstItem="IXN-5g-wux" firstAttribute="top" secondItem="7YL-Xc-CTk" secondAttribute="bottom" id="xtf-mx-Nud"/>
@@ -216,6 +232,8 @@
                         <outlet property="guestLabel" destination="rdn-0q-rww" id="MHc-nT-HNz"/>
                         <outlet property="likePostButton" destination="Fy0-MS-Lsd" id="6ix-Wy-gCw"/>
                         <outlet property="myPostButton" destination="fm7-2x-4TC" id="HuN-7I-57X"/>
+                        <outlet property="seperateLine" destination="7YL-Xc-CTk" id="tJn-8e-S2k"/>
+                        <outlet property="soldOutPostButton" destination="V1k-UN-YVL" id="5iI-ZM-Dau"/>
                         <outlet property="tableView" destination="IXN-5g-wux" id="88H-6e-BaZ"/>
                         <outlet property="userEvaluationCountLabel" destination="6Ag-zj-974" id="NaP-NK-GJM"/>
                         <outlet property="userImage" destination="ogj-td-kBa" id="U4Q-ss-Vop"/>
@@ -226,7 +244,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2018.840579710145" y="-5.3571428571428568"/>
+            <point key="canvasLocation" x="2035" y="8"/>
         </scene>
         <!--내 정보-->
         <scene sceneID="MNy-8h-1zR">

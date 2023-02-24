@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="gJl-85-8NX">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -53,14 +53,14 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4jz-dN-3Rn">
-                                <rect key="frame" x="20" y="244.33333333333334" width="69" height="20.000000000000028"/>
+                                <rect key="frame" x="20" y="244.33333333333334" width="73" height="20.000000000000028"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="gtn-B5-APQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
                                 <color key="tintColor" systemColor="tintColor"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="판매중인 글">
+                                <state key="normal" title="판매 중인 글">
                                     <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -104,7 +104,7 @@
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="graduationcap.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="ru2-gU-veB">
                                 <rect key="frame" x="15" y="120" width="60" height="58.666666666666686"/>
-                                <color key="tintColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.34509803919999998" green="0.63921568630000003" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="4SM-36-9VD"/>
                                     <constraint firstAttribute="height" constant="60" id="a4g-ff-O09"/>
@@ -119,13 +119,13 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mmu-No-zPB">
-                                <rect key="frame" x="104" y="244.33333333333334" width="86" height="20.000000000000028"/>
+                                <rect key="frame" x="108" y="244.33333333333334" width="69" height="20.000000000000028"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="PLc-PS-3Ds"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Pretendard-Medium" family="Pretendard" pointSize="15"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="판매 완료한 글">
+                                <state key="normal" title="판매완료 글">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <connections>
@@ -161,7 +161,6 @@
                             <constraint firstItem="VTB-Ey-qqO" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="6pe-uR-k4U"/>
                             <constraint firstItem="APP-73-8ry" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="AAq-rL-hs1"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="DZq-b5-FPd" secondAttribute="bottom" id="AC4-Wz-trm"/>
-                            <constraint firstItem="VTB-Ey-qqO" firstAttribute="top" secondItem="4jz-dN-3Rn" secondAttribute="bottom" constant="15" id="CEd-7Q-iIe"/>
                             <constraint firstItem="ru2-gU-veB" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="Eck-0s-XJb"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="APP-73-8ry" secondAttribute="trailing" constant="20" id="F6Z-6y-fse"/>
                             <constraint firstItem="DZq-b5-FPd" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Gap-jt-nkl"/>
@@ -180,6 +179,7 @@
                             <constraint firstItem="vOg-aq-wfu" firstAttribute="top" secondItem="9JV-Mt-8KH" secondAttribute="bottom" id="ljA-Gc-Xkb"/>
                             <constraint firstItem="5iv-GT-Tin" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="mCw-Sh-OG3"/>
                             <constraint firstItem="5iv-GT-Tin" firstAttribute="leading" secondItem="ru2-gU-veB" secondAttribute="trailing" constant="10" id="pDL-4j-PY5"/>
+                            <constraint firstItem="VTB-Ey-qqO" firstAttribute="top" secondItem="4jz-dN-3Rn" secondAttribute="bottom" constant="15" id="qFr-5r-DBQ"/>
                             <constraint firstAttribute="trailing" secondItem="VTB-Ey-qqO" secondAttribute="trailing" id="sFk-tq-8uK"/>
                             <constraint firstItem="Rmo-P9-sqf" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="ueJ-AU-Bx0"/>
                             <constraint firstItem="9JV-Mt-8KH" firstAttribute="top" secondItem="Rmo-P9-sqf" secondAttribute="bottom" constant="15" id="x6P-IA-05V"/>
@@ -188,9 +188,10 @@
                             <constraint firstItem="viB-Uw-2qY" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="zCN-K5-oqh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="프로필" id="w2M-ko-Q4D"/>
+                    <navigationItem key="navigationItem" title="프로필" largeTitleDisplayMode="never" id="w2M-ko-Q4D"/>
                     <connections>
                         <outlet property="salePostButton" destination="4jz-dN-3Rn" id="t3z-hn-b8f"/>
+                        <outlet property="seperateLine" destination="VTB-Ey-qqO" id="xoW-KC-zNE"/>
                         <outlet property="soldOutButtonClicked" destination="mmu-No-zPB" id="H9V-w3-knH"/>
                         <outlet property="tableView" destination="DZq-b5-FPd" id="qkO-cM-8Hy"/>
                         <outlet property="userMannerGradeLabel" destination="vOg-aq-wfu" id="V0O-5L-evk"/>
@@ -210,6 +211,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="lKX-03-D9J">
                         <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <navigationBarAppearance key="standardAppearance"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

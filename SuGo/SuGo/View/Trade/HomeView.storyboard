@@ -21,7 +21,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--SUGO-->
+        <!--sugo-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="homeVC" id="BYZ-38-t0r" customClass="HomeController" customModule="SuGo" customModuleProvider="target" sceneMemberID="viewController">
@@ -186,7 +186,7 @@
                             <constraint firstItem="7U1-pV-swm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="sRP-oi-mX9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="SUGO" largeTitleDisplayMode="always" id="sdd-1x-XTa"/>
+                    <navigationItem key="navigationItem" title="sugo" largeTitleDisplayMode="always" id="sdd-1x-XTa"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="categoryButton" destination="Z07-M5-fF5" id="7dH-sG-Alw"/>
@@ -214,22 +214,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <textAttributes key="titleTextAttributes">
-                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <color key="textShadowColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </textAttributes>
                         <textAttributes key="largeTitleTextAttributes">
-                            <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="25"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="25"/>
                             <color key="textColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         </textAttributes>
-                        <navigationBarAppearance key="standardAppearance" backgroundImageContentMode="center">
-                            <textAttributes key="titleTextAttributes">
-                                <fontDescription key="fontDescription" name="Pretendard-Bold" family="Pretendard" pointSize="23"/>
-                                <color key="textColor" red="0.34901961679999999" green="0.63921570780000003" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            </textAttributes>
-                            <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="3"/>
-                            <textAttributes key="largeTitleTextAttributes"/>
-                        </navigationBarAppearance>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

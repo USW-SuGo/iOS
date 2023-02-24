@@ -103,22 +103,18 @@ class PostController: UIViewController {
   }
     
   private func getPostProduct() {
-      AlamofireManager
-          .shared
-          .session
-          .request(PostRouter.getDetailPost(productIndex: productPostId))
-          .validate()
-          .response { response in
-            guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-            self.updatePost(json: JSON(response.data ?? "") )
+    AlamofireManager
+      .shared
+      .session
+      .request(PostRouter.getDetailPost(productIndex: productPostId))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
+        self.updatePost(json: JSON(response.data ?? "") )
     }
   }
     
-//  {"productPostId":190,"writerId":32,"imageLink":"https://diger-usw-sugo-s3.s3.ap-northeast-2.amazonaws.com/post-resources/190/57FBAF52-F84E-4637-8A83-292B5210B49F.jpeg, https://diger-usw-sugo-s3.s3.ap-northeast-2.amazonaws.com/post-resources/190/847D9446-63FC-4100-9D17-2651839FEE64.jpeg, https://diger-usw-sugo-s3.s3.ap-northeast-2.amazonaws.com/post-resources/190/51EA695B-E1F5-4FE5-B696-CF8367EC0750.jpeg","contactPlace":"체대","updatedAt":"2023-02-08T17:40:11","title":"test33333차","content":"제발될제발되라제발되라","price":123131312,"nickname":"정보보호학과-1","category":"서적","status":true,"userLikeStatus":false}
 
-//  {"productPostId":139,"writerId":32,"imageLink":"https://s3.ap-northeast-2.amazonaws.com/diger-usw-sugo-s3/post-resources/139/010101010010","contactPlace":"IT","updatedAt":"2023-02-06T00:15:08","title":"01010101001","content":"ㅂ디ㅏㅂㅈ드ㅏㅣㅂㄷ즤ㅏㅂㅈ듸ㅏㅂ","price":230139201,"nickname":"정보보호학과-1","category":"전자기기","status":true,"userLikeStatus":false}
-//
-  
     private func updatePost(json: JSON) {
       guard json != "" else {
         self.navigationController?.popViewController(animated: true)
@@ -145,26 +141,20 @@ class PostController: UIViewController {
   }
   
   @IBAction func likeButtonClicked(_ sender: Any) {
-    let url = "https://api.sugo-diger.com/like"
-    let parameter = ["productPostId" : productContentsDetail.productIndex]
-    guard let accessToken = KeychainSwift().get("AccessToken") else { return }
-    let header: HTTPHeaders = ["Authorization" : accessToken]
-    
-    AF.request(url,
-               method: .post,
-               parameters: parameter,
-               encoding: JSONEncoding.default,
-               headers: header,
-               interceptor: BaseInterceptor()).validate().response { response in
-      guard let statusCode = response.response?.statusCode, statusCode == 200 else {
-        self.customAlert(title: "자신의 게시물이에요!", message: "자신의 게시물은 좋아요할 수 없어요!")
-        return }
-      guard let responseData = response.data else { return }
-      
-      JSON(responseData)["Like"].boolValue ?
-      self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal) :
-      self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
-    }
+    AlamofireManager
+      .shared
+      .session
+      .request(LikePostRouter.likePost(productIndex: productContentsDetail.productIndex))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+                statusCode == 200,
+              let responseData = response.data
+        else { return }
+        JSON(responseData)["Like"].boolValue ?
+        self.likeButton.setImage(UIImage(systemName: "heart.fill"), for: .normal) :
+        self.likeButton.setImage(UIImage(systemName: "heart"), for: .normal)
+      }
   }
   
   // 서버에서 쪽지방 삭제 기능 구현 이후 테스트 가능
@@ -176,18 +166,17 @@ class PostController: UIViewController {
                                              productIndex: productContentsDetail.productIndex))
       .validate()
       .response { response in
-        
         guard let statusCode = response.response?.statusCode, statusCode == 200 else {
-          print(JSON(response.data))
           return }
         guard let data = response.data else { return }
         print(JSON(data))
         // 수고하기 버튼 클릭 후 바로 쪽지방으로 연결, 쪽지 데이터 없을 경우 공지사항같은거 만들어줘야 함
         let messageRoomView = UIStoryboard(name: "MessageRoomView", bundle: nil)
         guard let messageRoomController = messageRoomView.instantiateViewController(withIdentifier: "messageRoomVC") as? MessageRoomController else { return }
-        self.indexDelegate?.getIndex(roomIndex: JSON(data)["noteId"].intValue,
-                                     myIndex: self.productContentsDetail.myIndex,
-                                     oppositeIndex: self.productContentsDetail.userIndex)
+        messageRoomController.sendMessage = SendMessage(roomIndex: JSON(data)["noteId"].intValue,
+                                                        myIndex: self.productContentsDetail.myIndex,
+                                                        oppositeIndex: self.productContentsDetail.userIndex)
+        messageRoomController.productPostId = self.productContentsDetail.productIndex
         self.navigationController?.pushViewController(messageRoomController, animated: true)
       }
   }

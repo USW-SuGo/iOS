@@ -12,6 +12,7 @@ struct MessageList {
   var myIndex: Int = 0
   var oppositeIndex: Int = 0
   var oppositeNickname: String = ""
+  var productIndex: Int = 0
   var recentMessage: String = ""
   var recentMessageTime: String = ""
   var newMessageCount: Int = 0

@@ -18,6 +18,7 @@ class MessageListControoler: UIViewController {
   
   //MARK: Properties
   
+  
   var messageList: [MessageList] = []
   var page = 0
   private lazy var refresh: UIRefreshControl = {
@@ -28,6 +29,7 @@ class MessageListControoler: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     customBackButton()
     customRightBarButton()
     tableView.refreshControl = refresh
@@ -60,41 +62,25 @@ class MessageListControoler: UIViewController {
   }
   
   private func jsonToTableViewData(json: JSON) {
-
     let messageJson = json[1]
     for i in 0..<messageJson.count {
-      var myIndex = 0
-      var oppositeIndex = 0
-      if json[0]["requestUserId"].intValue == messageJson[i]["opponentUserId"].intValue {
-        myIndex = messageJson[i]["opponentUserId"].intValue
-        oppositeIndex = messageJson[i]["creatingUserId"].intValue
-      } else {
-        myIndex = messageJson[i]["creatingUserId"].intValue
-        oppositeIndex = messageJson[i]["opponentUserId"].intValue
-      }
-      let message = MessageList(roomIndex: messageJson[i]["noteId"].intValue,
-                                myIndex: myIndex,
-                                oppositeIndex: oppositeIndex,
-                                oppositeNickname: messageJson[i]["opponentUserNickname"].stringValue,
-                                recentMessage: messageJson[i]["recentContent"].stringValue,
-                                recentMessageTime: dateToString(localDateTime: messageJson, index: i),
-                                newMessageCount: messageJson[i]["requestUserUnreadCount"].intValue)
-      messageList.append(message)
+      messageList.append(MessageList(json: messageJson[i],
+                                     requestUserId: json[0]["requestUserId"].intValue))
     }
     tableView.reloadData()
   }
   
-  private func dateToString(localDateTime: JSON, index: Int) -> String {
-    let localDateTime = localDateTime[index]["recentChattingDate"].stringValue
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-    let convertLocalToDate = dateFormatter.date(from: localDateTime) ?? Date()
-    dateFormatter.dateFormat = "MM-dd HH:mm"
-    let recentMessageTime = dateFormatter.string(from: convertLocalToDate)
-    print(recentMessageTime)
-    
-    return recentMessageTime
-  }
+//  private func dateToString(localDateTime: JSON, index: Int) -> String {
+//    let localDateTime = localDateTime[index]["recentChattingDate"].stringValue
+//    let dateFormatter = DateFormatter()
+//    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+//    let convertLocalToDate = dateFormatter.date(from: localDateTime) ?? Date()
+//    dateFormatter.dateFormat = "MM-dd HH:mm"
+//    let recentMessageTime = dateFormatter.string(from: convertLocalToDate)
+//    print(recentMessageTime)
+//
+//    return recentMessageTime
+//  }
   
   @objc
   private func closeButtonClicked() {
@@ -130,11 +116,12 @@ extension MessageListControoler: UITableViewDelegate, UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "messageListCell", for: indexPath) as! MessageListCell
-    cell.userNicknameLabel.text = messageList[indexPath.row].oppositeNickname
-    cell.recentMessageLabel.text = messageList[indexPath.row].recentMessage
-    cell.recentMessageTimeLabel.text = messageList[indexPath.row].recentMessageTime
-    cell.layer.borderColor = UIColor.systemGray5.cgColor
-    cell.layer.borderWidth = 1.0
+    if messageList.count > 0 {
+      cell.userNicknameLabel.text = messageList[indexPath.row].oppositeNickname
+      cell.recentMessageLabel.text = messageList[indexPath.row].recentMessage
+      cell.recentMessageTimeLabel.text = messageList[indexPath.row].recentMessageTime
+      cell.selectionStyle = .none
+    }
     return cell
   }
   
@@ -145,6 +132,7 @@ extension MessageListControoler: UITableViewDelegate, UITableViewDataSource {
     messageRoomController.sendMessage.roomIndex = messageList[indexPath.row].roomIndex
     messageRoomController.sendMessage.myIndex = messageList[indexPath.row].myIndex
     messageRoomController.sendMessage.oppositeIndex = messageList[indexPath.row].oppositeIndex
+    messageRoomController.productPostId = messageList[indexPath.row].productIndex
     navigationController?.pushViewController(messageRoomController, animated: true)
   }
   
@@ -156,12 +144,19 @@ class MessageListCell: UITableViewCell {
   @IBOutlet weak var recentMessageLabel: UILabel!
   @IBOutlet weak var recentMessageTimeLabel: UILabel!
   
+  let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
+  
   override func awakeFromNib() {
     super.awakeFromNib()
     // Initialization code
   }
   
   override func layoutSubviews() {
+    super.layoutSubviews()
+    contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 3, left: 10, bottom: 3, right: 10))
+    contentView.layer.borderColor = UIColor.darkGray.cgColor
+    contentView.layer.borderWidth = 0.2
+    contentView.layer.cornerRadius = 8.0
   }
   
 }

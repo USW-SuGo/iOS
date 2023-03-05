@@ -16,12 +16,12 @@ import SwiftyJSON
 
 class PostController: UIViewController {
 
-    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .portrait
-    }
-    
-    //MARK: IBOutlets
-    
+  open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+      return .portrait
+  }
+  
+  //MARK: IBOutlets
+  
   @IBOutlet weak var slideshow: ImageSlideshow!
   @IBOutlet weak var sugoButton: UIButton!
   @IBOutlet weak var titleLabel: UILabel!
@@ -44,7 +44,7 @@ class PostController: UIViewController {
     super.viewDidLoad()
     customBackButton()
     getPostProduct()
-    getMyIndex()
+    
     designButtons()
   }
   
@@ -75,8 +75,7 @@ class PostController: UIViewController {
   @objc func didTap() {
      let fullScreenController = slideshow.presentFullScreenController(from: self)
      // set the activity indicator for full screen controller (skipping the line will show no activity indicator)
-     fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium,
-                                                                                 color: nil)
+     fullScreenController.slideshow.activityIndicator = DefaultActivityIndicator(style: .medium,                            color: nil)
    }
     
   //MARK: API Functions
@@ -85,20 +84,16 @@ class PostController: UIViewController {
   // 현재 유저 자신의 인덱스를 받아올 수 없음.
   
   private func getMyIndex() {
-    let url = API.BASE_URL + "/user/identifier"
-    guard let accessToken = KeychainSwift().get("AccessToken") else { return }
-    let header: HTTPHeaders = ["Authorization" : accessToken]
-    print(accessToken)
-    
-    AF.request(url,
-               method: .get,
-               encoding: URLEncoding.default,
-               headers: header,
-               interceptor: BaseInterceptor()).validate().response { response in
-      guard let statusCode = response.response?.statusCode, statusCode == 200 else { return }
-      guard let data = response.data else { return }
-      self.productContentsDetail.myIndex = JSON(data)["userId"].intValue
-      print(self.productContentsDetail)
+    AlamofireManager.shared
+      .session
+      .request(LoginRouter.getMyIndex)
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode, statusCode == 200,
+              let responseData = response.data
+        else { return }
+        self.productContentsDetail.myIndex = JSON(responseData)["userId"].intValue
+        print(self.productContentsDetail)
     }
   }
     
@@ -115,21 +110,22 @@ class PostController: UIViewController {
   }
     
 
-    private func updatePost(json: JSON) {
-      guard json != "" else {
-        self.navigationController?.popViewController(animated: true)
+  private func updatePost(json: JSON) {
+    guard json != "" else {
+      self.navigationController?.popViewController(animated: true)
+      return }
+    productContentsDetail = ProductContentsDetail(json: json)
+    for i in 0..<productContentsDetail.imageLink.count {
+      let imageLink = productContentsDetail.imageLink[i]
+      guard let image = AlamofireSource(urlString: imageLink) else {
+        print(imageLink)
         return }
-      productContentsDetail = ProductContentsDetail(json: json)
-      for i in 0..<productContentsDetail.imageLink.count {
-        let imageLink = productContentsDetail.imageLink[i]
-        guard let image = AlamofireSource(urlString: imageLink) else {
-          print(imageLink)
-          return }
-        alamofireSource.append(image)
-      }
-      setSlideShow()
-      updateDesign()
+      alamofireSource.append(image)
     }
+    setSlideShow()
+    updateDesign()
+    getMyIndex()
+  }
     
   //MARK: Button Actions
   

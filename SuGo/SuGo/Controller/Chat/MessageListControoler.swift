@@ -18,7 +18,6 @@ class MessageListControoler: UIViewController {
   
   //MARK: Properties
   
-  
   var messageList: [MessageList] = []
   var page = 0
   private lazy var refresh: UIRefreshControl = {
@@ -29,16 +28,19 @@ class MessageListControoler: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     customBackButton()
-    customRightBarButton()
     tableView.refreshControl = refresh
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(true)
+    page = 0
+    messageList.removeAll()
+    tableView.reloadData()
     getMessageList(page: page, size: 10)
   }
 
   //MARK: Functions
-  
-  // refreshControl 추가 필요
   
   @objc
   private func callRefresh() {
@@ -67,24 +69,8 @@ class MessageListControoler: UIViewController {
       messageList.append(MessageList(json: messageJson[i],
                                      requestUserId: json[0]["requestUserId"].intValue))
     }
+    print(messageList)
     tableView.reloadData()
-  }
-  
-//  private func dateToString(localDateTime: JSON, index: Int) -> String {
-//    let localDateTime = localDateTime[index]["recentChattingDate"].stringValue
-//    let dateFormatter = DateFormatter()
-//    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
-//    let convertLocalToDate = dateFormatter.date(from: localDateTime) ?? Date()
-//    dateFormatter.dateFormat = "MM-dd HH:mm"
-//    let recentMessageTime = dateFormatter.string(from: convertLocalToDate)
-//    print(recentMessageTime)
-//
-//    return recentMessageTime
-//  }
-  
-  @objc
-  private func closeButtonClicked() {
-    dismiss(animated: true)
   }
     
   //MARK: Button Actions
@@ -96,20 +82,12 @@ class MessageListControoler: UIViewController {
     backButtonItem.tintColor = .darkGray
     self.navigationItem.backBarButtonItem = backButtonItem
   }
-
-  private func customRightBarButton() {
-    let closeButton = self.navigationItem.makeSFSymbolButton(self,
-                                                             action: #selector(closeButtonClicked),
-                                                             symbolName: "xmark")
-    self.navigationItem.rightBarButtonItem = closeButton
-  }
    
 }
 
 extension MessageListControoler: UITableViewDelegate, UITableViewDataSource {
   
   // 무한 스크롤 추가 필요
-  
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return messageList.count
   }
@@ -120,6 +98,12 @@ extension MessageListControoler: UITableViewDelegate, UITableViewDataSource {
       cell.userNicknameLabel.text = messageList[indexPath.row].oppositeNickname
       cell.recentMessageLabel.text = messageList[indexPath.row].recentMessage
       cell.recentMessageTimeLabel.text = messageList[indexPath.row].recentMessageTime
+      if messageList[indexPath.row].newMessageCount > 0 {
+        cell.newMessageCountLabel.isHidden = false
+        cell.newMessageCountLabel.text = "+\(messageList[indexPath.row].newMessageCount)"
+      } else {
+        cell.newMessageCountLabel.isHidden = true
+      }
       cell.selectionStyle = .none
     }
     return cell
@@ -143,6 +127,7 @@ class MessageListCell: UITableViewCell {
   @IBOutlet weak var userNicknameLabel: UILabel!
   @IBOutlet weak var recentMessageLabel: UILabel!
   @IBOutlet weak var recentMessageTimeLabel: UILabel!
+  @IBOutlet weak var newMessageCountLabel: UILabel!
   
   let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
   

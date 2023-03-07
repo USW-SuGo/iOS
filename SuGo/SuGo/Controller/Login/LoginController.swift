@@ -27,10 +27,10 @@ class LoginController: UIViewController, UITextFieldDelegate {
   
   //MARK: Properties
     
-    let keychain = KeychainSwift()
-    let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
+  let keychain = KeychainSwift()
+  let colorLiteralGreen = #colorLiteral(red: 0.2208407819, green: 0.6479891539, blue: 0.4334517121, alpha: 1)
     
-    //MARK: Fucntions
+  //MARK: Life Cycle
     
   override func viewDidLoad() {
     idTextField.delegate = self
@@ -47,6 +47,8 @@ class LoginController: UIViewController, UITextFieldDelegate {
       self.view.endEditing(true)
   }
   
+  //MARK: Fucntions
+  
   private func textFieldsAddTargets() {
     idTextField.addTarget(self,
                           action: #selector(idBoxClicked),
@@ -61,7 +63,46 @@ class LoginController: UIViewController, UITextFieldDelegate {
                                 action: #selector(passwordBoxClicked),
                                 for: .editingChanged)
   }
+  
+  func setTokens(token: String) {
+    let splitToken = token.components(separatedBy: ",")
+    let refreshStartIndex = splitToken[0].index(splitToken[0].startIndex,
+                                                offsetBy: 14)
+    let refreshToken = String(splitToken[0][refreshStartIndex...])
+    let accessStartIndex = splitToken[1].index(splitToken[1].startIndex,
+                                               offsetBy: 13)
+    var accessToken = String(splitToken[1].dropLast())
+    accessToken = String(accessToken[accessStartIndex...])
 
+    //Keychain Setting
+    print("accessToken - \(accessToken)")
+    print("refreshToken - \(refreshToken)")
+    self.keychain.set(accessToken, forKey: "AccessToken")
+    self.keychain.set(refreshToken, forKey: "RefreshToken")
+    sendFCMToken()
+  }
+
+  private func sendFCMToken() {
+    guard let token = UserDefaults.standard.string(forKey: "FCMToken") else {
+      print("토큰이 없습니다 !")
+      return }
+    
+    AlamofireManager
+      .shared
+      .session
+      .request(FCMRouter.sendFCM(token: token))
+      .validate()
+      .response { response in
+        guard let statusCode = response.response?.statusCode,
+              statusCode == 200 else {
+          print("토큰 전송 실패, 에러 발생 ! ! !")
+          self.dismiss(animated: true)
+          return
+        }
+        print("토큰 전송 완료 !")
+        self.dismiss(animated: true)
+      }
+  }
     
   //MARK: Button Actions
   
@@ -83,55 +124,40 @@ class LoginController: UIViewController, UITextFieldDelegate {
   
   @IBAction func signUpButtonClicked(_ sender: Any) {
         
-      let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
-      guard let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signUpNavigationVC") as? UINavigationController else { return }
-      nextViewController.modalPresentationStyle = .fullScreen
-      self.present(nextViewController, animated: true, completion: nil)
-      
-    }
+    let signUpViewStoryboard = UIStoryboard(name: "SignUpView", bundle: nil)
+    guard let nextViewController = signUpViewStoryboard.instantiateViewController(withIdentifier: "signUpNavigationVC") as? UINavigationController else { return }
+    nextViewController.modalPresentationStyle = .fullScreen
+    self.present(nextViewController, animated: true, completion: nil)
     
-    @IBAction func loginButtonClicked(_ sender: Any) {
-        let id = idTextField.text ?? ""
-        let password = passwordTextField.text ?? ""
-        
-        AlamofireManager
-            .shared
-            .session
-            .request(LoginRouter.login(loginId: id, passsword: password))
-            .response { response in
+  }
+    
+  @IBAction func loginButtonClicked(_ sender: Any) {
+      let id = idTextField.text ?? ""
+      let password = passwordTextField.text ?? ""
+      
+      AlamofireManager
+          .shared
+          .session
+          .request(LoginRouter.login(loginId: id, passsword: password))
+          .response { response in
+              
+              let statusCode = response.response?.statusCode
+              if statusCode == 200 {
                 
-                let statusCode = response.response?.statusCode
-                if statusCode == 200 {
-                  
-                  //Token : Dictionary To String
-                  
-                  let tokens = String((response.response?.headers.dictionary["Authorization"] ?? ""))
-                  print("tokens - \(tokens)")
-                  let splitToken = tokens.components(separatedBy: ",")
-                  print("splitToken - \(splitToken)")
-                  let refreshStartIndex = splitToken[0].index(splitToken[0].startIndex,
-                                                              offsetBy: 14)
-                  let refreshToken = String(splitToken[0][refreshStartIndex...])
-                  let accessStartIndex = splitToken[1].index(splitToken[1].startIndex,
-                                                             offsetBy: 13)
-                  var accessToken = String(splitToken[1].dropLast())
-                  accessToken = String(accessToken[accessStartIndex...])
-
-                  //Keychain Setting
-                  print("accessToken - \(accessToken)")
-                  print("refreshToken - \(refreshToken)")
-                  self.keychain.set(accessToken, forKey: "AccessToken")
-                  self.keychain.set(refreshToken, forKey: "RefreshToken")
-                  self.dismiss(animated: true)
+                //Token : Dictionary To String
+                guard let token = response.response?.headers.dictionary["Authorization"]
+                else { return }
+                self.setTokens(token: token)
                 
-                // 로그인 실패한 경우 에러 메세지 출력
-              } else {
-                  self.failToLogin()
-            }
+              
+              // 로그인 실패한 경우 에러 메세지 출력
+            } else {
+                self.failToLogin()
           }
         }
-    
-    //MARK: Design Functions
+      }
+  
+  //MARK: Design Functions
   
   func keyboardTopToolBar() {
     let toolbar = UIToolbar()

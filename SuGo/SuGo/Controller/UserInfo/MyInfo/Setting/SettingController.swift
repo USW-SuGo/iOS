@@ -35,7 +35,14 @@ class SettingController: UIViewController {
   
   private func customAlert(title: String, message: String) {
     let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "확인", style: .default))
+    alert.addAction(UIAlertAction(title: "확인", style: .destructive, handler: { UIAlertAction in
+      KeychainSwift().clear()
+      self.navigationController?.popViewController(animated: true)
+      if let tabBarController = self.tabBarController {
+        tabBarController.selectedIndex = 0
+      }
+    }))
+    alert.addAction(UIAlertAction(title: "취소", style: .cancel))
     self.present(alert, animated: true, completion: nil)
   }
   
@@ -56,17 +63,15 @@ extension SettingController: UITableViewDelegate {
       self.navigationController?.pushViewController(changePasswordController, animated: true)
     case [1, 2]: // 로그아웃
       customAlert(title: "로그아웃 하시겠어요?", message: "로그아웃을 하시려면 확인 버튼을 눌러주세요!")
-//      KeychainSwift().clear()
-//      self.navigationController?.popViewController(animated: true)
-//      if let tabBarController = self.tabBarController {
-//        tabBarController.selectedIndex = 0
-//      }
+      
     default:
       return
     }
   }
   
 }
+
+// menuCategories, loginMenus
 
 extension SettingController: UITableViewDataSource {
 

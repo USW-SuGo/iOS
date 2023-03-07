@@ -16,6 +16,9 @@
         <array key="Pretendard-Regular.otf">
             <string>Pretendard-Regular</string>
         </array>
+        <array key="Pretendard-SemiBold.otf">
+            <string>Pretendard-SemiBold</string>
+        </array>
     </customFonts>
     <scenes>
         <!--쪽지함-->
@@ -47,7 +50,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="비싸서 안사도록 하겠습니다." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Us-9h-AZ0">
-                                                    <rect key="frame" x="10" y="28" width="364" height="18"/>
+                                                    <rect key="frame" x="10" y="28" width="355" height="18"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="18" id="bdO-MR-AG1"/>
                                                     </constraints>
@@ -64,6 +67,16 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+1" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LNc-fE-4pF">
+                                                    <rect key="frame" x="375" y="27" width="29" height="19"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="19" id="jQi-Jh-zUH"/>
+                                                        <constraint firstAttribute="width" constant="29" id="oeT-rc-ZNp"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="Pretendard-SemiBold" family="Pretendard" pointSize="15"/>
+                                                    <color key="textColor" red="0.211942941" green="0.6481892467" blue="0.42747128010000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
@@ -71,12 +84,15 @@
                                                 <constraint firstItem="0Us-9h-AZ0" firstAttribute="top" secondItem="0eP-oQ-YDW" secondAttribute="bottom" constant="3" id="Fh5-Vu-AYX"/>
                                                 <constraint firstItem="0eP-oQ-YDW" firstAttribute="top" secondItem="FR7-Yn-6rd" secondAttribute="top" constant="5" id="GAM-5j-yks"/>
                                                 <constraint firstAttribute="trailing" secondItem="tfq-5Y-hNf" secondAttribute="trailing" constant="10" id="NfU-j8-zMF"/>
-                                                <constraint firstAttribute="trailing" secondItem="0Us-9h-AZ0" secondAttribute="trailing" constant="40" id="OJU-4o-Rkv"/>
+                                                <constraint firstItem="LNc-fE-4pF" firstAttribute="top" secondItem="FR7-Yn-6rd" secondAttribute="top" constant="27" id="XqG-RQ-s6S"/>
                                                 <constraint firstItem="0eP-oQ-YDW" firstAttribute="leading" secondItem="FR7-Yn-6rd" secondAttribute="leading" constant="10" id="hwB-Kh-Y9u"/>
                                                 <constraint firstItem="0Us-9h-AZ0" firstAttribute="leading" secondItem="FR7-Yn-6rd" secondAttribute="leading" constant="10" id="mel-23-hyK"/>
+                                                <constraint firstAttribute="trailing" secondItem="LNc-fE-4pF" secondAttribute="trailing" constant="10" id="mqY-Hr-dMF"/>
+                                                <constraint firstItem="LNc-fE-4pF" firstAttribute="leading" secondItem="0Us-9h-AZ0" secondAttribute="trailing" constant="10" id="uRi-gh-luR"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="newMessageCountLabel" destination="LNc-fE-4pF" id="htD-pv-OYy"/>
                                             <outlet property="recentMessageLabel" destination="0Us-9h-AZ0" id="c2E-nl-PgN"/>
                                             <outlet property="recentMessageTimeLabel" destination="tfq-5Y-hNf" id="08O-zf-LVa"/>
                                             <outlet property="userNicknameLabel" destination="0eP-oQ-YDW" id="t6d-sr-jKk"/>

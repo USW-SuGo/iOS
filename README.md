@@ -1,4 +1,4 @@
-# SUGO(2022.09 ~ 2022.12 - 중단)
+# SUGO(2022.09 ~ 2022.12)
 <br>
 
 ![수고_소개](https://user-images.githubusercontent.com/49385546/204080556-74a0299b-6c49-4d05-96de-c876414a70b6.png)
